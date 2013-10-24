@@ -1,0 +1,16 @@
+
+RewriteEngine On
+RewriteRule ^doap$ /resources/doap.rdf
+RewriteRule ^news$ http://sourceforge.net/export/rss2_projnews.php?group_id=217900 [R=301]
+RewriteRule ^bugs/([0-9]+)$ https://sourceforge.net/tracker/?func=detail&aid=$1&group_id=217900&atid=1041487 [R=301]
+RewriteRule ^bugs$ https://sourceforge.net/tracker/?group_id=217900&atid=1041487 [R=301]
+RewriteRule ^freq/([0-9]+)$ https://sourceforge.net/support/tracker.php?aid=$1 [R=301]
+
+AddType application/xhtml+xml .html
+AddType application/rdf+xml .rdf
+
+RewriteCond %{HTTP_ACCEPT} !application/xhtml\+xml
+RewriteCond %{HTTP_ACCEPT} (text/html|\*/\*)
+RewriteCond %{REQUEST_FILENAME} .*\.html
+RewriteRule ^.*$ - "[T=text/html,L]"
+

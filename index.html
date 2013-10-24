@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
+<html	xmlns="http://www.w3.org/1999/xhtml" 
+		xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+		xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" 
+		xmlns:doap="http://usefulinc.com/ns/doap#" 
+		xmlns:foaf="http://xmlns.com/foaf/0.1/" 
+		xml:lang="en"
+>
+
+  <head>
+    <title>SPARQL Endpoint interface to Python</title>
+    <meta http-equiv="content-type" content="text/xhtml+xml; charset=UTF-8" />
+    <link rel="transformation" href="http://www-sop.inria.fr/acacia/soft/RDFa2RDFXML.xsl"/>
+    <link rel="stylesheet" type="text/css" href="resources/style.css" />
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="/news" />
+    <link rel="alternate" type="application/rdf+xml" title="DOAP" href="doap#sparql-wrapper" />
+    <link rel="meta" type="application/rdf+xml" title="DOAP" href="doap" />
+    <link rel="meta" type="application/rdf+xml" title="FOAF" href="http://www.ivan-herman.net/foaf.rdf" />
+    <link rel="meta" type="application/rdf+xml" title="FOAF" href="http://www.wikier.org/foaf.rdf" />
+    <link rel="meta" type="application/rdf+xml" title="FOAF" href="http://www.dayures.net/foaf.rdf" />
+  </head>
+
+  <body typeof="doap:Project" about="http://sparql-wrapper.sourceforge.net/doap#sparql-wrapper">
+
+    <h1>
+      <a href="http://sparql-wrapper.sourceforge.net/" rel="doap:homepage" property="doap:name">
+        SPARQL Endpoint interface to Python
+      </a>
+      (1.5.2)
+    </h1>
+
+    <p property="doap:description">
+      This is a wrapper around a SPARQL service. It helps in creating the query URI and, possibly, 
+      convert the result into a more manageable format. The package is licensed under 
+      <a href="http://www.w3.org/Consortium/Legal/copyright-software">W3C license</a>,
+      and it can be downloaded in <code>.zip</code> and  <code>.tar.gz</code> formats
+      <a href="https://sourceforge.net/projects/sparql-wrapper/">from SourceForge</a>
+      (also <a href="http://pypi.python.org/pypi/SPARQLWrapper">from PyPi</a> or
+	  <a href="http://packages.debian.org/python-sparqlwrapper">from Debian</a>).
+    </p>
+
+    <p>
+      <a href="http://sourceforge.net/projects/sparql-wrapper/files" rel="doap:download-page">
+        <img src="resources/images/download.png" width="264" height="79" alt="Download SPARQL Endpoint interface to Python" id="download" />
+      </a>
+      The following packages are used:
+    </p>
+
+    <ul>
+      <li>
+        for JSON, the <a href="http://cheeseshop.python.org/pypi/simplejson">simplejson</a> package (for Python &lt; 2.6)
+      </li>
+      <li>
+        for RDF, the <a href="http://rdflib.net">RDFLib</a> package
+      </li>
+    </ul>
+
+    <p>
+      These packages are imported in a lazy fashion, ie, only when needed. 
+      Ie, if the user never intends to use the JSON format, the 
+      <code>simplejson</code> package is not imported and the user does not 
+      have to install it. By the way, you can choose the json module to use
+      using jsonlayer module.
+    </p>
+
+    <p id="people">Developers involved:</p>
+    <ul>
+      <li>
+        <a href="http://www.ivan-herman.net/">Ivan Herman</a>
+        (<a href="http://www.w3.org/">W3C</a>),
+        <a href="http://www.ivan-herman.net/foaf#me" rel="doap:maintainer"><img src="resources/images/foaf.gif" width="26" height="14" alt="foaf" /></a>
+      </li>
+      <li>
+        <a href="http://www.wikier.org/">Sergio Fernández</a>
+        (<a href="http://www.salzburgresearch.at/">Salzburg Research</a>, formerly <a href="http://www.fundacionctic.org/">Fundación CTIC</a>),
+        <a href="http://www.wikier.org/foaf#wikier" rel="doap:developer"><img src="resources/images/foaf.gif" width="26" height="14" alt="foaf" /></a>
+      </li>
+      <li>
+        <a href="http://www.dayures.net/">Carlos Tejo</a>
+        (<a href="http://www.fundacionctic.org/">Fundación CTIC</a>),
+        <a href="http://www.dayures.net/foaf.rdf#me" rel="doap:developer"><img src="resources/images/foaf.gif" width="26" height="14" alt="foaf" /></a>
+      </li>
+    </ul>
+
+    <p>
+      Here you have an example of how to use the library in your python program:
+    </p>
+
+    <pre><code><strong>from</strong> SPARQLWrapper <strong>import</strong> SPARQLWrapper, JSON
+
+sparql = SPARQLWrapper("<em>http://dbpedia.org/sparql</em>")
+sparql.setQuery("""<em>
+    PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
+    SELECT ?label
+    WHERE { &lt;http://dbpedia.org/resource/Asturias&gt; rdfs:label ?label }
+</em>""")
+sparql.setReturnFormat(JSON)
+results = sparql.query().convert()
+
+<strong>for</strong> result <strong>in</strong> results["<em>results</em>"]["<em>bindings</em>"]:
+    <strong>print</strong>(result["<em>label</em>"]["<em>value</em>"])
+</code></pre>
+
+    <p>
+      You can also read <a href="http://sparql-wrapper.sourceforge.net/resources/doc/">online documentation</a>
+      for more information, or contact us in the
+      <a href="http://lists.sourceforge.net/lists/listinfo/sparql-wrapper-devel" rel="doap:mailing-list">development mailing list</a> 
+      (<a href="http://sourceforge.net/mailarchive/forum.php?forum_name=sparql-wrapper-devel">archives</a> are public).
+    </p>
+
+    <p><a href="http://www.w3.org/2001/sw/DataAccess/"><img src="resources/images/sw-sparql-magenta.png" width="80" height="15" alt="SPARQL" id="sparql" /></a></p>
+
+  </body>
+
+</html>
+

@@ -1,0 +1,61 @@
+
+body {
+  background-color: #ffffff;
+  margin: 3em;
+  font-family: sans-serif;
+}
+
+img {
+  border: 0;
+}
+
+img#sparql {
+  display: block;
+  margin: 3em 4em 3em auto;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #520c3c;
+  font-size: 0.9em;
+}
+
+h1 a, h1 a:active, h1 a:hover, h1 a:visited {
+  text-decoration: none;
+  font-size: 2em;
+}
+
+h2 {
+  margin-top: 2em;
+}
+
+p {
+  margin-top: 1.8em;
+}
+
+a, a:active, a:visited {
+  color: #520c3c;
+}
+
+a:hover {
+  color: #965280;
+}
+
+img#download {
+  float: right;
+  padding-right: 4em;
+}
+
+pre {
+  width: auto;
+  margin: 1em 20em 1em 5em;
+  padding: 1em;
+  background-color: #eeeeee;
+}
+
+p.warning {
+  border: 2px dotted #aa0000;
+  background-color: #fffbd2;
+  font-family: monospace;
+  padding: 1em;
+}
+

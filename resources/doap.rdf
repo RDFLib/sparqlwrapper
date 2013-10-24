@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+         xmlns:owl="http://www.w3.org/2002/07/owl#"
+         xmlns:doap="http://usefulinc.com/ns/doap#" 
+         xmlns:foaf="http://xmlns.com/foaf/0.1/" 
+         xmlns:admin="http://webns.net/mvcb/"
+         xml:base="http://sparql-wrapper.sourceforge.net/doap"
+         xml:lang="en"
+>
+
+  <foaf:Document rdf:about="">
+    <rdfs:label>SPARQL Python Wrapper's DOAP document</rdfs:label>
+    <foaf:primaryTopic rdf:resource="http://sparql-wrapper.sourceforge.net/doap#sparql-wrapper"/>
+    <owl:sameAs rdf:resource="http://sparql-wrapper.sourceforge.net/resources/doap.rdf" />
+  </foaf:Document>
+
+  <doap:Project rdf:about="#sparql-wrapper">
+
+    <doap:name>SPARQL Endpoint interface to Python</doap:name>
+    <doap:homepage rdf:resource="http://sparql-wrapper.sourceforge.net/"/>
+    <doap:created>2008-02-14</doap:created>
+
+    <owl:sameAs rdf:resource="http://pypi.python.org/pypi?:action=doap&amp;name=SPARQL" />
+
+    <doap:description xml:lang="en">
+      This is a wrapper around a SPARQL service. It helps in creating the query URI and, possibly, 
+      convert the result into a more manageable format.
+    </doap:description>
+
+    <doap:programming-language>python</doap:programming-language>
+    <doap:license rdf:resource="http://usefulinc.com/doap/licenses/w3c"/>
+
+    <doap:category rdf:resource="http://rdflib.net/projects#using_rdflib" />
+
+    <doap:maintainer>
+      <foaf:Person rdf:about="http://www.ivan-herman.net/me">
+        <foaf:name>Ivan Herman</foaf:name>
+        <foaf:mbox_sha1sum>5ac8032d5f6012aa1775ea2f63e1676bafd5e80b</foaf:mbox_sha1sum>
+        <foaf:homepage rdf:resource="http://www.ivan-herman.net/"/>
+        <rdfs:seeAlso rdf:resource="http://www.ivan-herman.net/foaf.rdf"/>
+      </foaf:Person>
+    </doap:maintainer>
+
+    <doap:developer>
+      <foaf:Person rdf:about="http://www.wikier.org/foaf#wikier">
+        <foaf:name>Sergio Fernández</foaf:name>
+        <foaf:nick>Wikier</foaf:nick>
+        <foaf:mbox_sha1sum>d0fd987214f56f70b4c47fb96795f348691f93ab</foaf:mbox_sha1sum>
+        <foaf:homepage rdf:resource="http://www.wikier.org/" />
+        <rdfs:seeAlso rdf:resource="http://www.wikier.org/foaf.rdf"/>
+      </foaf:Person>
+    </doap:developer>
+
+    <doap:developer>
+      <foaf:Person rdf:about="http://www.dayures.net/foaf.rdf#me">
+        <foaf:name>Carlos Tejo</foaf:name>
+        <foaf:nick>dayures</foaf:nick>
+        <foaf:homepage rdf:resource="http://www.dayures.net/" />
+        <rdfs:seeAlso rdf:resource="http://www.dayures.net/foaf.rdf" />
+      </foaf:Person>
+    </doap:developer>
+
+    <doap:repository>
+      <doap:SVNRepository>
+        <doap:module>sparql-wrapper</doap:module>
+        <doap:repository rdf:resource="https://sparql-wrapper.svn.sourceforge.net/svnroot/sparql-wrapper/trunk"/>
+        <doap:browse rdf:resource="http://sparql-wrapper.svn.sourceforge.net/viewvc/sparql-wrapper"/>
+      </doap:SVNRepository>
+    </doap:repository>
+
+  </doap:Project>
+
+</rdf:RDF>
+
