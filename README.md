@@ -9,6 +9,4 @@ The distribution contains:
 * `test`: some unit tests
   
 * `script`: some scripts to run the library against some SPARQL end-points.
-  
-* `scripts/sparql.py`: to run a SPARQL SELECT query stored in an external file. The URIs for the SPARQL services have to be updated for local use.
 
