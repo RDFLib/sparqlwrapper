@@ -5,13 +5,12 @@
          xmlns:doap="http://usefulinc.com/ns/doap#" 
          xmlns:foaf="http://xmlns.com/foaf/0.1/" 
          xmlns:admin="http://webns.net/mvcb/"
-         xml:base="http://sparql-wrapper.sourceforge.net/doap"
          xml:lang="en"
 >
 
   <foaf:Document rdf:about="">
     <rdfs:label>SPARQL Python Wrapper's DOAP document</rdfs:label>
-    <foaf:primaryTopic rdf:resource="http://sparql-wrapper.sourceforge.net/doap#sparql-wrapper"/>
+    <foaf:primaryTopic rdf:resource="http://rdflib.github.io/sparqlwrapper/resources/doap.rdf#sparql-wrapper"/>
     <owl:sameAs rdf:resource="http://sparql-wrapper.sourceforge.net/resources/doap.rdf" />
   </foaf:Document>
 
@@ -22,6 +21,7 @@
     <doap:created>2008-02-14</doap:created>
 
     <owl:sameAs rdf:resource="http://pypi.python.org/pypi?:action=doap&amp;name=SPARQL" />
+    <owl:sameAs rdf:resource="http://sparql-wrapper.sourceforge.net/doap#sparql-wrapper" />
 
     <doap:description xml:lang="en">
       This is a wrapper around a SPARQL service. It helps in creating the query URI and, possibly, 
@@ -62,11 +62,11 @@
     </doap:developer>
 
     <doap:repository>
-      <doap:SVNRepository>
+      <doap:GitRepository>
         <doap:module>sparql-wrapper</doap:module>
-        <doap:repository rdf:resource="https://sparql-wrapper.svn.sourceforge.net/svnroot/sparql-wrapper/trunk"/>
-        <doap:browse rdf:resource="http://sparql-wrapper.svn.sourceforge.net/viewvc/sparql-wrapper"/>
-      </doap:SVNRepository>
+        <doap:repository rdf:resource="git@github.com:RDFLib/sparqlwrapper.git"/>
+        <doap:browse rdf:resource="http://github.com/rdflib/sparqlwrapper"/>
+      </doap:GitRepository>
     </doap:repository>
 
   </doap:Project>
