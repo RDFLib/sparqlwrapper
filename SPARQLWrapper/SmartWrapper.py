@@ -236,7 +236,7 @@ class Bindings(object):
 class SPARQLWrapper2(SPARQLWrapper.SPARQLWrapper):
     """Subclass of L{Wrapper<SPARQLWrapper.SPARQLWrapper>} that works with a JSON SELECT return result only. The query result 
     is automatically set to a L{Bindings} instance. Makes the average query processing a bit simpler..."""
-    def __init__(self,baseURI,defaultGraph=None) :
+    def __init__(self, baseURI, defaultGraph=None):
         """
         Class encapsulating a full SPARQL call. In contrast to the L{SPARQLWrapper<SPARQLWrapper.SPARQLWrapper>} superclass, the return format
         cannot be set (it is defaulted to L{JSON<Wrapper.JSON>}).
@@ -245,9 +245,9 @@ class SPARQLWrapper2(SPARQLWrapper.SPARQLWrapper):
         @keyword defaultGraph: URI for the default graph. Default is None, can be set via an explicit call, too
         @type defaultGraph: string
         """
-        SPARQLWrapper.SPARQLWrapper.__init__(self,baseURI,returnFormat=JSON,defaultGraph=defaultGraph)
+        super(SPARQLWrapper2, self).__init__(baseURI, returnFormat=JSON, defaultGraph=defaultGraph)
 
-    def setReturnFormat(self,format) :
+    def setReturnFormat(self, format):
         """Set the return format (overriding the L{inherited method<SPARQLWrapper.SPARQLWrapper.setReturnFormat>}).
         This method does nothing; this class instance should work with JSON only. The method is defined
         just to avoid possible errors by erronously setting the return format.
@@ -256,7 +256,7 @@ class SPARQLWrapper2(SPARQLWrapper.SPARQLWrapper):
         """
         pass
 
-    def query(self) :
+    def query(self):
         """
             Execute the query and do an automatic conversion.
 
@@ -269,13 +269,14 @@ class SPARQLWrapper2(SPARQLWrapper.SPARQLWrapper):
             @return: query result
             @rtype: L{Bindings} instance
         """
-        res = SPARQLWrapper.SPARQLWrapper.query(self)
-        if self.queryType == SELECT :
+        res = super(SPARQLWrapper2, self).query()
+
+        if self.queryType == SELECT:
             return Bindings(res)
-        else :
+        else:
             return res
 
-    def queryAndConvert(self) :
+    def queryAndConvert(self):
         """This is here to override the inherited method; it is equivalent to L{query}.
 
         If the query type is I{not} SELECT, the method falls back to the
@@ -283,7 +284,7 @@ class SPARQLWrapper2(SPARQLWrapper.SPARQLWrapper):
 
         @return: the converted query result.
         """
-        if self.queryType == SELECT :
+        if self.queryType == SELECT:
             return self.query()
-        else :
-            return SPARQLWrapper.SPARQLWrapper.queryAndConvert(self)
+        else:
+            return super(SPARQLWrapper2, self).queryAndConvert()

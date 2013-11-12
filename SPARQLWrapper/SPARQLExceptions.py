@@ -10,6 +10,7 @@ SPARQL Wrapper exceptions
 
 """
 
+
 class SPARQLWrapperException(Exception):
     """
     Base class for SPARQL Wrapper exceptions
@@ -18,10 +19,12 @@ class SPARQLWrapperException(Exception):
     msg = "an exception has occured"
     
     def __init__(self, response=None):
-        if (response):
-            Exception.__init__(self, "%s: %s. \n\nResponse:\n%s" % (self.__class__.__name__, self.msg, response))
+        if response:
+            formatted_msg = "%s: %s. \n\nResponse:\n%s" % (self.__class__.__name__, self.msg, response)
         else:
-            Exception.__init__(self, "%s: %s." % (self.__class__.__name__, self.msg))
+            formatted_msg = "%s: %s." % (self.__class__.__name__, self.msg)
+
+        super(SPARQLWrapperException, self).__init__(formatted_msg)
 
 class EndPointInternalError(SPARQLWrapperException):
     """
@@ -30,6 +33,7 @@ class EndPointInternalError(SPARQLWrapperException):
 
     msg = "endpoint returned code 500 and response"
 
+
 class QueryBadFormed(SPARQLWrapperException):
     """
     Query Bad Formed exceptions
@@ -37,10 +41,10 @@ class QueryBadFormed(SPARQLWrapperException):
 
     msg = "a bad request has been sent to the endpoint, probably the sparql query is bad formed"
 
+
 class EndPointNotFound(SPARQLWrapperException):
     """
     End Point Not Found exceptions
     """
 
     msg = "it was impossible to connect with the endpoint in that address, check if it is correct"
-
