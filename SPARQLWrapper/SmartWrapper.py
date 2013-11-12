@@ -16,7 +16,7 @@ from types import *
 
 ######################################################################################
 
-class Value :
+class Value(object):
     """
     Class encapsulating a single binding for a variable.
 
@@ -63,7 +63,8 @@ class Value :
 
 ######################################################################################
 
-class Bindings :
+
+class Bindings(object):
     """
     Class encapsulating one query result, based on the JSON return format. It decodes the
     return values to make it a bit more usable for a standard usage. The class consumes the
@@ -231,7 +232,8 @@ class Bindings :
 
 ##############################################################################################################
 
-class SPARQLWrapper2(SPARQLWrapper.SPARQLWrapper) :
+
+class SPARQLWrapper2(SPARQLWrapper.SPARQLWrapper):
     """Subclass of L{Wrapper<SPARQLWrapper.SPARQLWrapper>} that works with a JSON SELECT return result only. The query result 
     is automatically set to a L{Bindings} instance. Makes the average query processing a bit simpler..."""
     def __init__(self,baseURI,defaultGraph=None) :
@@ -285,4 +287,3 @@ class SPARQLWrapper2(SPARQLWrapper.SPARQLWrapper) :
             return self.query()
         else :
             return SPARQLWrapper.SPARQLWrapper.queryAndConvert(self)
-
