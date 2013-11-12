@@ -366,8 +366,7 @@ class SPARQLWrapper :
                 raise EndPointInternalError(e.read())
             else:
                 raise e
-            return (None, self.returnFormat)
-    
+
     def query(self) :
         """
             Execute the query.
