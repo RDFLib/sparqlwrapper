@@ -6,6 +6,7 @@ YYYY-MM-DD  1.6.0   - Returing raw response in case of unknow content type retur
                     - setQuery() doesn't imply resetQuery() anymore
                     - Deprecated addCustomParameter(), addParameter() and clearParameter() come to provide all required functionality
                     - SPARQLWrapper, QueryResult, Value, Bindings (and classes inherited from them) are new-style classes now
+                    - POST queries are accompanied by full set of parameters now
 
 2012-08-28  1.5.2   - Implemented update operation according the latest SPARQL 1.1 Protocol drafts (i.e., switching to 'update' parameter)
 
