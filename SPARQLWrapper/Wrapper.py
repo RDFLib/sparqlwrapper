@@ -352,11 +352,7 @@ class SPARQLWrapper(object):
 
         return flat
 
-    def _createRequest(self):
-        """Internal method to create request according a HTTP method. Returns a
-        C{urllib2.Request} object of the urllib2 Python library
-        @return: request
-        """
+    def _getAcceptHeader(self):
         if self.queryType in [SELECT, ASK]:
             if self.returnFormat == XML:
                 acceptHeader = ",".join(_SPARQL_XML)
@@ -373,7 +369,13 @@ class SPARQLWrapper(object):
                 acceptHeader = ",".join(_RDF_XML)
             else:
                 acceptHeader = ",".join(_ALL)
+        return acceptHeader
 
+    def _createRequest(self):
+        """Internal method to create request according a HTTP method. Returns a
+        C{urllib2.Request} object of the urllib2 Python library
+        @return: request
+        """
         if self.isSparqlUpdateRequest():
             uri = self.updateEndpoint
         else:
@@ -394,7 +396,7 @@ class SPARQLWrapper(object):
             request = urllib2.Request(uri + "?" + encodedParameters)
 
         request.add_header("User-Agent", self.agent)
-        request.add_header("Accept", acceptHeader)
+        request.add_header("Accept", self._getAcceptHeader())
         if self.user and self.passwd:
             request.add_header("Authorization", "Basic " + base64.encodestring("%s:%s" % (self.user, self.passwd)))
 
