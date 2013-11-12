@@ -163,7 +163,7 @@ The package was greatly inspired by U{Lee Feigenbaum's similar package for Javas
 @requires: U{RDFLib<http://rdflib.net>} package.
 """
 
-__version__ = "1.5.3"
+__version__ = "1.6.0"
 """The version of SPARQLWrapper"""
 
 __authors__  = u"Ivan Herman, Sergio Fernández, Carlos Tejo Alonso"
