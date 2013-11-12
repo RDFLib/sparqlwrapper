@@ -309,32 +309,33 @@ class SPARQLWrapper(object):
         except ImportError:
             warnings.warn("urlgrabber not installed in the system. The execution of this method has no effect.")
 
-    def _getURI(self) :
+    def _getURI(self):
         """Return the URI as sent (or to be sent) to the SPARQL endpoint. The URI is constructed
         with the base URI given at initialization, plus all the other parameters set.
         @return: URI
         @rtype: string
         """
-        finalQueryParameters = self.parameters.copy()
+        queryParameters = self.parameters.copy()
         if self.queryType in [INSERT, DELETE, MODIFY]:
             uri = self.updateEndpoint
-            finalQueryParameters["update"] = [self.queryString]
+            queryParameters["update"] = [self.queryString]
         else:
             uri = self.endpoint
-            finalQueryParameters["query"] = [self.queryString]
+            queryParameters["query"] = [self.queryString]
 
         # This is very ugly. The fact is that the key for the choice of the output format is not defined. 
         # Virtuoso uses 'format',sparqler uses 'output'
         # However, these processors are (hopefully) oblivious to the parameters they do not understand. 
         # So: just repeat all possibilities in the final URI. UGLY!!!!!!!
-        for f in _returnFormatSetting: finalQueryParameters[f] = [self.returnFormat]
+        for f in _returnFormatSetting:
+            queryParameters[f] = [self.returnFormat]
 
-        return uri + "?" + urllib.urlencode(self._flat_parameters(finalQueryParameters))
+        return uri + "?" + urllib.urlencode(self._flat_parameters(queryParameters))
 
     def _flat_parameters(self, params):
         """Internal method to flat the request parameters (issue #1 has 
-        transformed the internal estructure for single value paramters
-        into amulti-valued parameters)
+        transformed the internal structure for single value parameters
+        into multi-valued parameters)
         @return: list of tuples with parameters' values
         @rtype: list
         """        
@@ -344,7 +345,7 @@ class SPARQLWrapper(object):
                 flat.append((k, v.encode("utf-8")))
         return flat
 
-    def _createRequest(self) :
+    def _createRequest(self):
         """Internal method to create request according a HTTP method. Returns a
         C{urllib2.Request} object of the urllib2 Python library
         @return: request
@@ -354,26 +355,26 @@ class SPARQLWrapper(object):
                 acceptHeader = ",".join(_SPARQL_XML)
             elif self.returnFormat == JSON:
                 acceptHeader = ",".join(_SPARQL_JSON)
-            else :
+            else:
                 acceptHeader = ",".join(_ALL)
         elif self.queryType in [INSERT, DELETE, MODIFY]:
             acceptHeader = "*/*"
         else:
-            if self.returnFormat == N3 or self.returnFormat == TURTLE :
+            if self.returnFormat == N3 or self.returnFormat == TURTLE:
                 acceptHeader = ",".join(_RDF_N3)
-            elif self.returnFormat == XML :
+            elif self.returnFormat == XML:
                 acceptHeader = ",".join(_RDF_XML)
-            else :
+            else:
                 acceptHeader = ",".join(_ALL)
 
-        if self.method == POST :
+        if self.method == POST:
             # by POST
             if self.queryType in [INSERT, DELETE, MODIFY]:
                 uri = self.updateEndpoint
-                values = { "update" : self.queryString }
+                values = {"update": self.queryString}
             else:
                 uri = self.endpoint
-                values = { "query" : self.queryString }
+                values = {"query": self.queryString}
             request = urllib2.Request(uri)
             request.add_header("Content-Type", "application/x-www-form-urlencoded")
             data = urllib.urlencode(values)
@@ -388,8 +389,9 @@ class SPARQLWrapper(object):
 
         request.add_header("User-Agent", self.agent)
         request.add_header("Accept", acceptHeader)
-        if (self.user and self.passwd):
-            request.add_header("Authorization", "Basic " + base64.encodestring("%s:%s" % (self.user,self.passwd)))
+        if self.user and self.passwd:
+            request.add_header("Authorization", "Basic " + base64.encodestring("%s:%s" % (self.user, self.passwd)))
+
         return request
 
     def _query(self):
@@ -401,7 +403,7 @@ class SPARQLWrapper(object):
         request = self._createRequest()
         try:
             response = urllib2.urlopen(request)
-            return (response, self.returnFormat)
+            return response, self.returnFormat
         except urllib2.HTTPError, e:
             if e.code == 400:
                 raise QueryBadFormed(e.read())
@@ -412,7 +414,7 @@ class SPARQLWrapper(object):
             else:
                 raise e
 
-    def query(self) :
+    def query(self):
         """
             Execute the query.
             Exceptions can be raised if either the URI is wrong or the HTTP sends back an error (this is also the
@@ -432,7 +434,7 @@ class SPARQLWrapper(object):
         """
         return QueryResult(self._query())
 
-    def queryAndConvert(self) :
+    def queryAndConvert(self):
         """Macro like method: issue a query and return the converted results.
         @return: the converted query result. See the conversion methods for more details.
         """
