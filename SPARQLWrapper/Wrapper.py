@@ -85,7 +85,8 @@ _returnFormatSetting = ["format","output","results"]
 
 #######################################################################################################
 
-class SPARQLWrapper :
+
+class SPARQLWrapper:
     """
     Wrapper around an online access to a SPARQL Web entry point.
 
@@ -102,7 +103,8 @@ class SPARQLWrapper :
                 (?P<prefixes>(\s*PREFIX\s+.+:\s*<.*?>)\s*)*
                 (?P<queryType>(CONSTRUCT|SELECT|ASK|DESCRIBE|INSERT|DELETE|MODIFY))
     """, re.VERBOSE | re.IGNORECASE)
-    def __init__(self,endpoint,updateEndpoint=None,returnFormat=XML,defaultGraph=None,agent=__agent__) :
+
+    def __init__(self, endpoint, updateEndpoint=None, returnFormat=XML, defaultGraph=None, agent=__agent__):
         """
         Class encapsulating a full SPARQL call.
         @param endpoint: string of the SPARQL endpoint's URI
@@ -128,25 +130,23 @@ class SPARQLWrapper :
         self.agent = agent
         self.user = None
         self.passwd = None
-        self.customParameters = {}
         self._defaultGraph = defaultGraph
-        if defaultGraph : self.customParameters["default-graph-uri"] = defaultGraph
-        if returnFormat in _allowedFormats :
-            self.returnFormat = returnFormat
-        else :
-            self.returnFormat = XML
-        self._defaultReturnFormat = self.returnFormat
-        self.queryString = """SELECT * WHERE{ ?s ?p ?o }"""
-        self.method    = GET
-        self.queryType = SELECT
 
-    def resetQuery(self) :
+        if returnFormat in _allowedFormats:
+            self._defaultReturnFormat = returnFormat
+        else:
+            self._defaultReturnFormat = XML
+
+        self.resetQuery()
+
+    def resetQuery(self):
         """Reset the query, ie, return format, query, default or named graph settings, etc,
         are reset to their default values."""
         self.customParameters = {}
-        if self._defaultGraph : self.customParameters["default-graph-uri"] = self._defaultGraph
+        if self._defaultGraph:
+            self.customParameters["default-graph-uri"] = self._defaultGraph
         self.returnFormat = self._defaultReturnFormat
-        self.method    = GET
+        self.method = GET
         self.queryType = SELECT
         self.queryString = """SELECT * WHERE{ ?s ?p ?o }"""
 
@@ -366,8 +366,7 @@ class SPARQLWrapper :
                 raise EndPointInternalError(e.read())
             else:
                 raise e
-            return (None, self.returnFormat)
-    
+
     def query(self) :
         """
             Execute the query.
