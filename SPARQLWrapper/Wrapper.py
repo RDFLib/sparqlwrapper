@@ -130,21 +130,14 @@ class SPARQLWrapper:
         self.agent = agent
         self.user = None
         self.passwd = None
-        self.customParameters = {}
         self._defaultGraph = defaultGraph
 
-        if defaultGraph:
-            self.customParameters["default-graph-uri"] = defaultGraph
-
         if returnFormat in _allowedFormats:
-            self.returnFormat = returnFormat
+            self._defaultReturnFormat = returnFormat
         else:
-            self.returnFormat = XML
+            self._defaultReturnFormat = XML
 
-        self._defaultReturnFormat = self.returnFormat
-        self.queryString = """SELECT * WHERE{ ?s ?p ?o }"""
-        self.method = GET
-        self.queryType = SELECT
+        self.resetQuery()
 
     def resetQuery(self):
         """Reset the query, ie, return format, query, default or named graph settings, etc,
