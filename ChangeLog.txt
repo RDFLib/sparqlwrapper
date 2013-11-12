@@ -3,6 +3,7 @@ SPARQLWrapper's changelog:
 
 YYYY-MM-DD  1.5.3   - Returing raw response in case of unknow content type returned
                     - Fixed some issues with the last version of the SPARQL 1.1 Update Protocol
+                    - setQuery() doesn't imply resetQuery() anymore
 
 2012-08-28  1.5.2   - Implemented update operation according the latest SPARQL 1.1 Protocol drafts (i.e., switching to 'update' parameter)
 

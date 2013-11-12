@@ -221,7 +221,7 @@ class SPARQLWrapper:
         self.user = user
         self.passwd = passwd
 
-    def setQuery(self,query) :
+    def setQuery(self, query):
         """
             Set the SPARQL query text. Note: no check is done on the validity of the query 
             (syntax or otherwise) by this module, except for testing the query type (SELECT, 
@@ -230,7 +230,6 @@ class SPARQLWrapper:
             @type query: string
             @bug: #2320024
         """
-        self.resetQuery()
         self.queryString = query
         self.queryType   = self._parseQueryType(query)
 
