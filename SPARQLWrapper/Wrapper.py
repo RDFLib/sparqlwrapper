@@ -321,40 +321,35 @@ class SPARQLWrapper(object):
         """
         return not self.isSparqlUpdateRequest()
 
-    def _getURI(self):
-        """Return the URI as sent (or to be sent) to the SPARQL endpoint. The URI is constructed
-        with the base URI given at initialization, plus all the other parameters set.
-        @return: URI
-        @rtype: string
-        """
+    def _getRequestParameters(self):
         queryParameters = self.parameters.copy()
+
         if self.isSparqlUpdateRequest():
-            uri = self.updateEndpoint
             queryParameters["update"] = [self.queryString]
         else:
-            uri = self.endpoint
             queryParameters["query"] = [self.queryString]
 
-        # This is very ugly. The fact is that the key for the choice of the output format is not defined. 
+        # This is very ugly. The fact is that the key for the choice of the output format is not defined.
         # Virtuoso uses 'format',sparqler uses 'output'
-        # However, these processors are (hopefully) oblivious to the parameters they do not understand. 
+        # However, these processors are (hopefully) oblivious to the parameters they do not understand.
         # So: just repeat all possibilities in the final URI. UGLY!!!!!!!
         for f in _returnFormatSetting:
             queryParameters[f] = [self.returnFormat]
 
-        return uri + "?" + urllib.urlencode(self._flat_parameters(queryParameters))
+        return queryParameters
 
     def _flat_parameters(self, params):
-        """Internal method to flat the request parameters (issue #1 has 
+        """Internal method to flat the request parameters (issue #1 has
         transformed the internal structure for single value parameters
         into multi-valued parameters)
         @return: list of tuples with parameters' values
         @rtype: list
-        """        
+        """
         flat = []
         for k, l in params.items():
             for v in l:
                 flat.append((k, v.encode("utf-8")))
+
         return flat
 
     def _createRequest(self):
@@ -379,25 +374,24 @@ class SPARQLWrapper(object):
             else:
                 acceptHeader = ",".join(_ALL)
 
+        if self.isSparqlUpdateRequest():
+            uri = self.updateEndpoint
+        else:
+            uri = self.endpoint
+
+        requestParameters = self._getRequestParameters()
+
         if self.method == POST:
-            # by POST
-            if self.isSparqlUpdateRequest():
-                uri = self.updateEndpoint
-                values = {"update": self.queryString}
-            else:
-                uri = self.endpoint
-                values = {"query": self.queryString}
             request = urllib2.Request(uri)
             request.add_header("Content-Type", "application/x-www-form-urlencoded")
-            data = urllib.urlencode(values)
-            if isinstance(data, unicode):
-                data = data.encode("utf-8")
-            request.add_data(data)
-        else:
-            # by GET
-            # Some versions of Joseki do not work well if no Accept header is given.
-            # Although it is probably o.k. in newer versions, it does not harm to have that set once and for all...
-            request = urllib2.Request(self._getURI())
+
+            encodedParameters = urllib.urlencode(requestParameters)
+            if isinstance(encodedParameters, unicode):
+                encodedParameters = encodedParameters.encode("utf-8")
+            request.add_data(encodedParameters)
+        else:  # GET
+            encodedParameters = urllib.urlencode(self._flat_parameters(self._getRequestParameters))
+            request = urllib2.Request(uri + "?" + encodedParameters)
 
         request.add_header("User-Agent", self.agent)
         request.add_header("Accept", acceptHeader)
