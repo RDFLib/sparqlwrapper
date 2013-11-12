@@ -309,6 +309,18 @@ class SPARQLWrapper(object):
         except ImportError:
             warnings.warn("urlgrabber not installed in the system. The execution of this method has no effect.")
 
+    def isSparqlUpdateRequest(self):
+        """ Returns TRUE if SPARQLWrapper is configured for executing SPARQL Update request
+        @return: bool
+        """
+        return self.queryType in [INSERT, DELETE, MODIFY]
+
+    def isSparqlQueryRequest(self):
+        """ Returns TRUE if SPARQLWrapper is configured for executing SPARQL Query request
+        @return: bool
+        """
+        return not self.isSparqlUpdateRequest()
+
     def _getURI(self):
         """Return the URI as sent (or to be sent) to the SPARQL endpoint. The URI is constructed
         with the base URI given at initialization, plus all the other parameters set.
@@ -316,7 +328,7 @@ class SPARQLWrapper(object):
         @rtype: string
         """
         queryParameters = self.parameters.copy()
-        if self.queryType in [INSERT, DELETE, MODIFY]:
+        if self.isSparqlUpdateRequest():
             uri = self.updateEndpoint
             queryParameters["update"] = [self.queryString]
         else:
@@ -369,7 +381,7 @@ class SPARQLWrapper(object):
 
         if self.method == POST:
             # by POST
-            if self.queryType in [INSERT, DELETE, MODIFY]:
+            if self.isSparqlUpdateRequest():
                 uri = self.updateEndpoint
                 values = {"update": self.queryString}
             else:
