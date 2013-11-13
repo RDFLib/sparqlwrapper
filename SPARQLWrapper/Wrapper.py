@@ -142,9 +142,9 @@ class SPARQLWrapper:
     def resetQuery(self):
         """Reset the query, ie, return format, query, default or named graph settings, etc,
         are reset to their default values."""
-        self.customParameters = {}
+        self.parameters = {}
         if self._defaultGraph:
-            self.customParameters["default-graph-uri"] = self._defaultGraph
+            self.addParameters("default-graph-uri", self._defaultGraph)
         self.returnFormat = self._defaultReturnFormat
         self.method = GET
         self.queryType = SELECT
@@ -165,9 +165,9 @@ class SPARQLWrapper:
             Add a default graph URI.
             @param uri: URI of the graph
             @type uri: string
-            @deprecated: use addCustomParameter("default-graph-uri", uri) instead of this method
+            @deprecated: use addParameter("default-graph-uri", uri) instead of this method
         """
-        self.addCustomParameter("default-graph-uri",uri)
+        self.addParameter("default-graph-uri",uri)
 
     @deprecated
     def addNamedGraph(self,uri) :
@@ -175,9 +175,9 @@ class SPARQLWrapper:
             Add a named graph URI.
             @param uri: URI of the graph
             @type uri: string
-            @deprecated: use addCustomParameter("named-graph-uri", uri) instead of this method
+            @deprecated: use addParameter("named-graph-uri", uri) instead of this method
         """
-        self.addCustomParameter("named-graph-uri",uri)
+        self.addParameter("named-graph-uri",uri)
 
     @deprecated
     def addExtraURITag(self,key,value) :
@@ -189,11 +189,26 @@ class SPARQLWrapper:
             @type key: string
             @param value: value of the query part
             @type value: string
-            @deprecated: use addCustomParameter(key, value) instead of this method
+            @deprecated: use addParameter(key, value) instead of this method
         """
-        self.addCustomParameter(key,value)
+        self.addParameter(key, value)
 
+    @deprecated
     def addCustomParameter(self,name,value):
+        """
+            Some SPARQL endpoints allow extra key value pairs.
+            E.g., in virtuoso, one would add C{should-sponge=soft} to the query forcing 
+            virtuoso to retrieve graphs that are not stored in its local database.
+            @param name: name 
+            @type name: string
+            @param value: value
+            @type value: string
+            @rtype: bool
+            @deprecated: use addParameter(name, value) instead of this method
+        """
+        return self.addParameter(name, value)
+
+    def addParameter(self,name,value):
         """
             Some SPARQL endpoints allow extra key value pairs.
             E.g., in virtuoso, one would add C{should-sponge=soft} to the query forcing 
@@ -207,8 +222,26 @@ class SPARQLWrapper:
         if (name in _SPARQL_PARAMS):
             return False;
         else:
-            self.customParameters[name] = value
+            if name not in self.parameters:
+                self.parameters[name] = []
+            self.parameters[name].append(value)
             return True
+
+    def clearParameter(self, name):
+        """
+            Clear the values ofd a concrete parameter.
+            @param name: name 
+            @type name: string
+            @rtype: bool
+        """
+        if (name in _SPARQL_PARAMS):
+            return False;
+        else:
+            try:
+                del self.parameters[name]
+                return True
+            except KeyError:
+                return False
 
     def setCredentials(self,user,passwd) :
         """
@@ -282,21 +315,34 @@ class SPARQLWrapper:
         @return: URI
         @rtype: string
         """
-        finalQueryParameters = self.customParameters.copy()
+        finalQueryParameters = self.parameters.copy()
         if self.queryType in [INSERT, DELETE, MODIFY]:
             uri = self.updateEndpoint
-            finalQueryParameters["update"] = self.queryString
+            finalQueryParameters["update"] = [self.queryString]
         else:
             uri = self.endpoint
-            finalQueryParameters["query"] = self.queryString
+            finalQueryParameters["query"] = [self.queryString]
 
         # This is very ugly. The fact is that the key for the choice of the output format is not defined. 
         # Virtuoso uses 'format',sparqler uses 'output'
         # However, these processors are (hopefully) oblivious to the parameters they do not understand. 
         # So: just repeat all possibilities in the final URI. UGLY!!!!!!!
-        for f in _returnFormatSetting: finalQueryParameters[f] = self.returnFormat
+        for f in _returnFormatSetting: finalQueryParameters[f] = [self.returnFormat]
 
-        return uri + "?" + urllib.urlencode(dict([k, v.encode("utf-8")] for k, v in finalQueryParameters.items()))
+        return uri + "?" + urllib.urlencode(self._flat_parameters(finalQueryParameters))
+
+    def _flat_parameters(self, params):
+        """Internal method to flat the request parameters (issue #1 has 
+        transformed the internal estructure for single value paramters
+        into amulti-valued parameters)
+        @return: list of tuples with parameters' values
+        @rtype: list
+        """        
+        flat = []
+        for k, l in params.items():
+            for v in l:
+                flat.append((k, v.encode("utf-8")))
+        return flat
 
     def _createRequest(self) :
         """Internal method to create request according a HTTP method. Returns a
