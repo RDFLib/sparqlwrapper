@@ -23,24 +23,26 @@
 @requires: U{RDFLib<http://rdflib.net>} package.
 """
 
-import sys
-import urllib, urllib2
+import urllib
+import urllib2
 import base64
 import re
-import jsonlayer
 import warnings
-from SPARQLWrapper import __agent__
+
+import jsonlayer
+from KeyCaseInsensitiveDict import KeyCaseInsensitiveDict
 from SPARQLExceptions import QueryBadFormed, EndPointNotFound, EndPointInternalError
 from SPARQLUtils import deprecated
-from KeyCaseInsensitiveDict import KeyCaseInsensitiveDict
+from SPARQLWrapper import __agent__
 
 #  Possible output format keys...
 JSON   = "json"
+JSONLD = "json-ld"
 XML    = "xml"
 TURTLE = "n3"
 N3     = "n3"
 RDF    = "rdf"
-_allowedFormats = [JSON, XML, TURTLE, N3, RDF]
+_allowedFormats = [JSON, JSONLD, XML, TURTLE, N3, RDF]
 
 # Possible HTTP methods
 POST = "POST"
@@ -69,9 +71,10 @@ _SPARQL_DEFAULT  = ["application/sparql-results+xml", "application/rdf+xml", "*/
 _SPARQL_XML      = ["application/sparql-results+xml"]
 _SPARQL_JSON     = ["application/sparql-results+json", "text/javascript", "application/json"]
 _RDF_XML         = ["application/rdf+xml"]
-_RDF_N3          = ["text/rdf+n3","application/n-triples","application/turtle","application/n3","text/n3","text/turtle"]
+_RDF_N3          = ["text/rdf+n3", "application/n-triples", "application/turtle", "application/n3", "text/n3", "text/turtle"]
+_RDF_JSONLD      = ["application/x-json+ld", "application/ld+json"]
 _ALL             = ["*/*"]
-_RDF_POSSIBLE    = _RDF_XML + _RDF_N3
+_RDF_POSSIBLE    = _RDF_XML + _RDF_N3 + _RDF_JSONLD
 _SPARQL_POSSIBLE = _SPARQL_XML + _SPARQL_JSON + _RDF_XML + _RDF_N3
 _SPARQL_PARAMS   = ["query"]
 
@@ -81,7 +84,7 @@ _SPARQL_PARAMS   = ["query"]
 # info about the others yet, ie, for the time being I keep the general mechanism. Hopefully, in a 
 # future release, I can get rid of that. However, these processors are (hopefully) oblivious to the 
 # parameters they do not understand. So: just repeat all possibilities in the final URI. UGLY!!!!!!!
-_returnFormatSetting = ["format","output","results"]
+_returnFormatSetting = ["format", "output", "results"]
 
 #######################################################################################################
 
@@ -365,6 +368,8 @@ class SPARQLWrapper(object):
                 acceptHeader = ",".join(_RDF_N3)
             elif self.returnFormat == XML:
                 acceptHeader = ",".join(_RDF_XML)
+            elif self.returnFormat == JSONLD:
+                acceptHeader = ",".join(_RDF_JSONLD)
             else:
                 acceptHeader = ",".join(_ALL)
         return acceptHeader
