@@ -42,7 +42,7 @@ XML    = "xml"
 TURTLE = "n3"
 N3     = "n3"
 RDF    = "rdf"
-_allowedFormats = [JSON, JSONLD, XML, TURTLE, N3, RDF]
+_allowedFormats = [JSON, XML, TURTLE, N3, RDF]
 
 # Possible HTTP methods
 POST = "POST"
@@ -74,9 +74,17 @@ _RDF_XML         = ["application/rdf+xml"]
 _RDF_N3          = ["text/rdf+n3", "application/n-triples", "application/turtle", "application/n3", "text/n3", "text/turtle"]
 _RDF_JSONLD      = ["application/x-json+ld", "application/ld+json"]
 _ALL             = ["*/*"]
-_RDF_POSSIBLE    = _RDF_XML + _RDF_N3 + _RDF_JSONLD
+_RDF_POSSIBLE    = _RDF_XML + _RDF_N3
 _SPARQL_POSSIBLE = _SPARQL_XML + _SPARQL_JSON + _RDF_XML + _RDF_N3
 _SPARQL_PARAMS   = ["query"]
+
+
+try:
+    import rdflib_jsonld
+    _allowedFormats.append(JSONLD)
+    _RDF_POSSIBLE = _RDF_POSSIBLE + _RDF_JSONLD
+except ImportError:
+    warnings.warn("JSON-LD disabled because no suitable support has been found", RuntimeWarning)
 
 # This is very ugly. The fact is that the key for the choice of the output format is not defined. 
 # Virtuoso uses 'format', joseki uses 'output', rasqual seems to use "results", etc. Lee Feigenbaum 
@@ -368,7 +376,7 @@ class SPARQLWrapper(object):
                 acceptHeader = ",".join(_RDF_N3)
             elif self.returnFormat == XML:
                 acceptHeader = ",".join(_RDF_XML)
-            elif self.returnFormat == JSONLD:
+            elif self.returnFormat == JSONLD and JSONLS in _allowedFormats:
                 acceptHeader = ",".join(_RDF_JSONLD)
             else:
                 acceptHeader = ",".join(_ALL)
