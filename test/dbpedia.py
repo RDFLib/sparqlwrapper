@@ -136,14 +136,6 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), bytes)
 
-    def testSelectByPOSTinN3(self):
-        result = self.__generic(selectQuery, N3, POST)
-        ct = result.info()["content-type"]
-        assert True in [one in ct for one in _SPARQL_XML], ct
-        assert True in [one in ct for one in _SPARQL_POSSIBLE], ct
-        results = result.convert()
-        results.toxml()
-
     def testSelectByGETinJSON(self):
         result = self.__generic(selectQuery, JSON, GET)
         ct = result.info()["content-type"]
@@ -206,7 +198,8 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
-    def testConstructByPOSTinJSON(self):
+    # awaiting to solve issue #3 (and pull request #10)
+    def _testConstructByPOSTinJSON(self):
         result = self.__generic(constructQuery, JSON, POST)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_POSSIBLE], ct
