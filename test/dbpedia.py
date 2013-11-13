@@ -21,6 +21,9 @@ try:
 except NameError:
     bytes = str
 
+import logging
+logging.basicConfig()
+
 endpoint = "http://dbpedia.org/sparql"
 
 prefixes = """
