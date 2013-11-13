@@ -144,7 +144,7 @@ class SPARQLWrapper(object):
         are reset to their default values."""
         self.parameters = {}
         if self._defaultGraph:
-            self.addParameters("default-graph-uri", self._defaultGraph)
+            self.addParameter("default-graph-uri", self._defaultGraph)
         self.returnFormat = self._defaultReturnFormat
         self.method = GET
         self.queryType = SELECT
@@ -160,27 +160,27 @@ class SPARQLWrapper(object):
             self.returnFormat = format
 
     @deprecated
-    def addDefaultGraph(self,uri) :
+    def addDefaultGraph(self, uri):
         """
             Add a default graph URI.
             @param uri: URI of the graph
             @type uri: string
             @deprecated: use addParameter("default-graph-uri", uri) instead of this method
         """
-        self.addParameter("default-graph-uri",uri)
+        self.addParameter("default-graph-uri", uri)
 
     @deprecated
-    def addNamedGraph(self,uri) :
+    def addNamedGraph(self, uri):
         """
             Add a named graph URI.
             @param uri: URI of the graph
             @type uri: string
             @deprecated: use addParameter("named-graph-uri", uri) instead of this method
         """
-        self.addParameter("named-graph-uri",uri)
+        self.addParameter("named-graph-uri", uri)
 
     @deprecated
-    def addExtraURITag(self,key,value) :
+    def addExtraURITag(self, key, value):
         """
             Some SPARQL endpoints require extra key value pairs.
             E.g., in virtuoso, one would add C{should-sponge=soft} to the query forcing 
@@ -194,11 +194,9 @@ class SPARQLWrapper(object):
         self.addParameter(key, value)
 
     @deprecated
-    def addCustomParameter(self,name,value):
+    def addCustomParameter(self, name, value):
         """
-            Some SPARQL endpoints allow extra key value pairs.
-            E.g., in virtuoso, one would add C{should-sponge=soft} to the query forcing 
-            virtuoso to retrieve graphs that are not stored in its local database.
+            Method is kept for backwards compatibility. Historically, it "replaces" parameters instead of adding
             @param name: name 
             @type name: string
             @param value: value
@@ -206,9 +204,10 @@ class SPARQLWrapper(object):
             @rtype: bool
             @deprecated: use addParameter(name, value) instead of this method
         """
+        self.clearParameter(name)
         return self.addParameter(name, value)
 
-    def addParameter(self,name,value):
+    def addParameter(self, name, value):
         """
             Some SPARQL endpoints allow extra key value pairs.
             E.g., in virtuoso, one would add C{should-sponge=soft} to the query forcing 
@@ -219,8 +218,8 @@ class SPARQLWrapper(object):
             @type value: string
             @rtype: bool
         """
-        if (name in _SPARQL_PARAMS):
-            return False;
+        if name in _SPARQL_PARAMS:
+            return False
         else:
             if name not in self.parameters:
                 self.parameters[name] = []
@@ -234,8 +233,8 @@ class SPARQLWrapper(object):
             @type name: string
             @rtype: bool
         """
-        if (name in _SPARQL_PARAMS):
-            return False;
+        if name in _SPARQL_PARAMS:
+            return False
         else:
             try:
                 del self.parameters[name]
