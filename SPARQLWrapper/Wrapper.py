@@ -336,21 +336,20 @@ class SPARQLWrapper(object):
         for f in _returnFormatSetting:
             queryParameters[f] = [self.returnFormat]
 
-        return queryParameters
+        utfQueryParameters = {}
 
-    def _flat_parameters(self, params):
-        """Internal method to flat the request parameters (issue #1 has
-        transformed the internal structure for single value parameters
-        into multi-valued parameters)
-        @return: list of tuples with parameters' values
-        @rtype: list
-        """
-        flat = []
-        for k, l in params.items():
-            for v in l:
-                flat.append((k, v.encode("utf-8")))
+        for k, vs in queryParameters.items():
+            encodedValues = []
 
-        return flat
+            for v in vs:
+                if isinstance(v, unicode):
+                    encodedValues.append(v.encode('utf-8'))
+                else:
+                    encodedValues.append(v)
+
+            utfQueryParameters[k] = encodedValues
+
+        return utfQueryParameters
 
     def _getAcceptHeader(self):
         if self.queryType in [SELECT, ASK]:
@@ -381,18 +380,13 @@ class SPARQLWrapper(object):
         else:
             uri = self.endpoint
 
-        requestParameters = self._getRequestParameters()
+        encodedParameters = urllib.urlencode(self._getRequestParameters(), True)
 
         if self.method == POST:
             request = urllib2.Request(uri)
             request.add_header("Content-Type", "application/x-www-form-urlencoded")
-
-            encodedParameters = urllib.urlencode(requestParameters)
-            if isinstance(encodedParameters, unicode):
-                encodedParameters = encodedParameters.encode("utf-8")
             request.add_data(encodedParameters)
         else:  # GET
-            encodedParameters = urllib.urlencode(self._flat_parameters(self._getRequestParameters))
             request = urllib2.Request(uri + "?" + encodedParameters)
 
         request.add_header("User-Agent", self.agent)
