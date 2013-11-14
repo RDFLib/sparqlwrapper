@@ -1,7 +1,20 @@
 # -*- coding: utf8 -*-
 #!/usr/bin/python
 
+import inspect
+import os
 import sys
+
+# prefer local copy to the one which is installed
+# hack from http://stackoverflow.com/a/6098238/280539
+_top_level_path = os.path.realpath(os.path.abspath(os.path.join(
+    os.path.split(inspect.getfile(inspect.currentframe()))[0],
+    ".."
+)))
+if _top_level_path not in sys.path:
+    sys.path.insert(0, _top_level_path)
+# end of hack
+
 import unittest
 try:
     from rdflib.graph import ConjunctiveGraph
