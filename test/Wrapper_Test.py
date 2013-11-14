@@ -3,6 +3,8 @@ import inspect
 import os
 import sys
 from unittest import TestCase
+from urlparse import urlparse
+from cgi import parse_qs
 
 # prefer local copy to the one which is installed
 # hack from http://stackoverflow.com/a/6098238/280539
@@ -67,6 +69,38 @@ class SPARQLWrapper_Test(TestCase):
 
         self.wrapper.setReturnFormat(JSON)
         self.assertEqual(JSON, self.wrapper.query().requestedFormat)
+
+    def testAddParameter(self):
+        self.assertFalse(self.wrapper.addParameter('query', 'dummy'))
+        self.assertTrue(self.wrapper.addParameter('param1', 'value1'))
+        self.assertTrue(self.wrapper.addParameter('param1', 'value2'))
+        self.assertTrue(self.wrapper.addParameter('param2', 'value2'))
+
+        request = self.wrapper.query().response  # possible due to mock above
+        pieces_str = urlparse(request.get_full_url()).query
+        pieces = parse_qs(pieces_str)
+
+        self.assertTrue('param1' in pieces)
+        self.assertEqual(['value1', 'value2'], pieces['param1'])
+        self.assertTrue('param2' in pieces)
+        self.assertEqual(['value2'], pieces['param2'])
+        self.assertNotEqual(['dummy'], 'query')
+
+    def testClearParameter(self):
+        self.wrapper.addParameter('param1', 'value1')
+        self.wrapper.addParameter('param1', 'value2')
+        self.wrapper.addParameter('param2', 'value2')
+
+        self.assertFalse(self.wrapper.clearParameter('query'))
+        self.assertTrue(self.wrapper.clearParameter('param1'))
+
+        request = self.wrapper.query().response  # possible due to mock above
+        pieces_str = urlparse(request.get_full_url()).query
+        pieces = parse_qs(pieces_str)
+
+        self.assertFalse('param1' in pieces)
+        self.assertTrue('param2' in pieces)
+        self.assertEqual(['value2'], pieces['param2'])
 
     def testSetMethod(self):
         self.wrapper.setMethod(POST)
