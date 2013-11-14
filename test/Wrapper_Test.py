@@ -62,17 +62,12 @@ class SPARQLWrapper_Test(TestCase):
         self.assertEqual({}, self.wrapper.parameters)
 
     def testSetMethod(self):
-        self.wrapper = SPARQLWrapper(endpoint='http://example.org/sparql/')
         self.wrapper.setMethod(POST)
-
-        qr = self.wrapper.query()
-        request = qr.response
+        request = self.wrapper.query().response  # possible due to mock above
 
         self.assertEqual("POST", request.get_method())
 
         self.wrapper.setMethod(GET)
-
-        qr = self.wrapper.query()
-        request = qr.response
+        request = self.wrapper.query().response  # possible due to mock above
 
         self.assertEqual("GET", request.get_method())
