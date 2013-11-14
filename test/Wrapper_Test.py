@@ -61,6 +61,13 @@ class SPARQLWrapper_Test(TestCase):
         self.assertEqual(XML, self.wrapper.returnFormat)
         self.assertEqual({}, self.wrapper.parameters)
 
+    def testSetReturnFormat(self):
+        self.wrapper.setReturnFormat('nonexistent format')
+        self.assertEqual(XML, self.wrapper.query().requestedFormat)
+
+        self.wrapper.setReturnFormat(JSON)
+        self.assertEqual(JSON, self.wrapper.query().requestedFormat)
+
     def testSetMethod(self):
         self.wrapper.setMethod(POST)
         request = self.wrapper.query().response  # possible due to mock above
