@@ -29,6 +29,9 @@ _victim.urllib2.urlopen = urlopener
 
 
 class SPARQLWrapper_Test(TestCase):
+    def setUp(self):
+        self.wrapper = SPARQLWrapper(endpoint='http://example.org/sparql/')
+
     def testConstructor(self):
         try:
             SPARQLWrapper()
@@ -45,33 +48,31 @@ class SPARQLWrapper_Test(TestCase):
         )
 
     def testReset(self):
-        wrapper = SPARQLWrapper(endpoint='http://example.org/sparql/')
+        self.wrapper.setMethod(POST)
+        self.wrapper.setQuery('CONSTRUCT WHERE {?a ?b ?c}')
+        self.wrapper.setReturnFormat(JSON)
+        self.wrapper.addParameter('a', 'b')
 
-        wrapper.setMethod(POST)
-        wrapper.setQuery('CONSTRUCT WHERE {?a ?b ?c}')
-        wrapper.setReturnFormat(JSON)
-        wrapper.addParameter('a', 'b')
+        self.wrapper.resetQuery()
 
-        wrapper.resetQuery()
-
-        self.assertEqual(GET, wrapper.method)
-        self.assertEqual('SELECT * WHERE{ ?s ?p ?o }', wrapper.queryString)
-        self.assertEqual(SELECT, wrapper.queryType)
-        self.assertEqual(XML, wrapper.returnFormat)
-        self.assertEqual({}, wrapper.parameters)
+        self.assertEqual(GET, self.wrapper.method)
+        self.assertEqual('SELECT * WHERE{ ?s ?p ?o }', self.wrapper.queryString)
+        self.assertEqual(SELECT, self.wrapper.queryType)
+        self.assertEqual(XML, self.wrapper.returnFormat)
+        self.assertEqual({}, self.wrapper.parameters)
 
     def testSetMethod(self):
-        wrapper = SPARQLWrapper(endpoint='http://example.org/sparql/')
-        wrapper.setMethod(POST)
+        self.wrapper = SPARQLWrapper(endpoint='http://example.org/sparql/')
+        self.wrapper.setMethod(POST)
 
-        qr = wrapper.query()
+        qr = self.wrapper.query()
         request = qr.response
 
         self.assertEqual("POST", request.get_method())
 
-        wrapper.setMethod(GET)
+        self.wrapper.setMethod(GET)
 
-        qr = wrapper.query()
+        qr = self.wrapper.query()
         request = qr.response
 
         self.assertEqual("GET", request.get_method())
