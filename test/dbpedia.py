@@ -7,8 +7,8 @@ try:
     from rdflib.graph import ConjunctiveGraph
 except ImportError:
     from rdflib import ConjunctiveGraph
-from SPARQLWrapper import SPARQLWrapper, XML, N3, JSON, POST, GET, SELECT, CONSTRUCT, ASK, DESCRIBE
-from SPARQLWrapper.Wrapper import _SPARQL_DEFAULT, _SPARQL_XML, _SPARQL_JSON, _SPARQL_POSSIBLE, _RDF_XML, _RDF_N3, _RDF_POSSIBLE
+from SPARQLWrapper import SPARQLWrapper, XML, N3, JSONLD, JSON, POST, GET, SELECT, CONSTRUCT, ASK, DESCRIBE
+from SPARQLWrapper.Wrapper import _SPARQL_DEFAULT, _SPARQL_XML, _SPARQL_JSON, _SPARQL_POSSIBLE, _RDF_XML, _RDF_N3, _RDF_JSONLD, _RDF_POSSIBLE
 from SPARQLWrapper.SPARQLExceptions import QueryBadFormed
 
 try:
@@ -198,9 +198,8 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
-    # awaiting to solve issue #3 (and pull request #10)
     def _testConstructByPOSTinJSON(self):
-        result = self.__generic(constructQuery, JSON, POST)
+        result = self.__generic(constructQuery, _RDF_JSONLD, POST)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_POSSIBLE], ct
         results = result.convert()
