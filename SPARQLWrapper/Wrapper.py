@@ -161,7 +161,7 @@ class SPARQLWrapper(object):
         self.queryType = SELECT
         self.queryString = """SELECT * WHERE{ ?s ?p ?o }"""
 
-    def setReturnFormat(self,format) :
+    def setReturnFormat(self,format):
         """Set the return format. If not an allowed value, the setting is ignored.
 
         @param format: Possible values: are L{JSON}, L{XML}, L{TURTLE}, L{N3}, L{RDF} (constants in this module). All other cases are ignored.
@@ -253,7 +253,7 @@ class SPARQLWrapper(object):
             except KeyError:
                 return False
 
-    def setCredentials(self,user,passwd) :
+    def setCredentials(self,user,passwd):
         """
             Set the credentials for querying the current endpoint
             @param user: username
@@ -276,7 +276,7 @@ class SPARQLWrapper(object):
         self.queryString = query
         self.queryType   = self._parseQueryType(query)
 
-    def _parseQueryType(self,query) :
+    def _parseQueryType(self,query):
         """
             Parse the SPARQL query and return its type (ie, L{SELECT}, L{ASK}, etc).
 
@@ -301,7 +301,7 @@ class SPARQLWrapper(object):
             warnings.warn("unknown query type", RuntimeWarning)
             return SELECT
 
-    def setMethod(self,method) :
+    def setMethod(self,method):
         """Set the invocation method. By default, this is L{GET}, but can be set to L{POST}.
         @param method: should be either L{GET} or L{POST}. Other cases are ignored.
         """
@@ -478,7 +478,7 @@ class QueryResult(object):
 
     @ivar response: the direct HTTP response; a file-like object, as return by the C{urllib2.urlopen} library call.
     """
-    def __init__(self,result) :
+    def __init__(self,result):
         """
         @param result: HTTP response stemming from a L{SPARQLWrapper.query} call, or a tuple with the expected format: (response,format)
         """
@@ -489,31 +489,31 @@ class QueryResult(object):
             self.response = result
         """Direct response, see class comments for details"""
 
-    def geturl(self) :
+    def geturl(self):
         """Return the URI of the original call.
         @return: URI
         @rtype: string
         """
         return self.response.geturl()
 
-    def info(self) :
+    def info(self):
         """Return the meta-information of the HTTP result.
         @return: meta information
         @rtype: dictionary
         """
         return KeyCaseInsensitiveDict(self.response.info())
 
-    def __iter__(self) :
+    def __iter__(self):
         """Return an iterator object. This method is expected for the inclusion
         of the object in a standard C{for} loop.
         """
         return self.response.__iter__()
 
-    def next(self) :
+    def next(self):
         """Method for the standard iterator."""
         return self.response.next()
 
-    def setJSONModule(self,module) :
+    def setJSONModule(self,module):
         """Set the Python module for encoding JSON data. If not an allowed value, the setting is ignored.
            JSON modules supported:
              - ``simplejson``: http://code.google.com/p/simplejson/
@@ -526,7 +526,7 @@ class QueryResult(object):
         """
         jsonlayer.use(module)
 
-    def _convertJSON(self) :
+    def _convertJSON(self):
         """
         Convert a JSON result into a Python dict. This method can be overwritten in a subclass
         for a different conversion method.
@@ -542,7 +542,7 @@ class QueryResult(object):
         #    import json
         #return json.load(self.response)
 
-    def _convertXML(self) :
+    def _convertXML(self):
         """
         Convert an XML result into a Python dom tree. This method can be overwritten in a
         subclass for a different conversion method.
@@ -552,7 +552,7 @@ class QueryResult(object):
         from xml.dom.minidom import parse
         return parse(self.response)
 
-    def _convertRDF(self) :
+    def _convertRDF(self):
         """
         Convert a RDF/XML result into an RDFLib triple store. This method can be overwritten
         in a subclass for a different conversion method.
@@ -569,7 +569,7 @@ class QueryResult(object):
         retval.load(self.response, publicID=' ')
         return retval
 
-    def _convertN3(self) :
+    def _convertN3(self):
         """
         Convert a RDF Turtle/N3 result into a string. This method can be overwritten in a subclass
         for a different conversion method.
@@ -578,7 +578,7 @@ class QueryResult(object):
         """
         return self.response.read()
 
-    def _convertJSONLD(self) :
+    def _convertJSONLD(self):
         """
         Convert a RDF JSON-LDresult into an RDFLib triple store. This method can be overwritten
         in a subclass for a different conversion method.
@@ -591,7 +591,7 @@ class QueryResult(object):
         return retval
 
 
-    def convert(self) :
+    def convert(self):
         """
         Encode the return value depending on the return format:
             - in the case of XML, a DOM top element is returned;
