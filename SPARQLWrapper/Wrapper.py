@@ -554,7 +554,7 @@ class QueryResult(object):
 
     def _convertRDF(self) :
         """
-        Convert an RDF/XML result into an RDFLib triple store. This method can be overwritten
+        Convert a RDF/XML result into an RDFLib triple store. This method can be overwritten
         in a subclass for a different conversion method.
         @return: converted result
         @rtype: RDFLib Graph
@@ -566,17 +566,30 @@ class QueryResult(object):
         retval = ConjunctiveGraph()
         # this is a strange hack. If the publicID is not set, rdflib (or the underlying xml parser) makes a funny
         #(and, as far as I could see, meaningless) error message...
-        retval.load(self.response,publicID=' ')
+        retval.load(self.response, publicID=' ')
         return retval
 
     def _convertN3(self) :
         """
-        Convert an RDF Turtle/N3 result into a string. This method can be overwritten in a subclass
+        Convert a RDF Turtle/N3 result into a string. This method can be overwritten in a subclass
         for a different conversion method.
         @return: converted result
         @rtype: string
         """
         return self.response.read()
+
+    def _convertJSONLD(self) :
+        """
+        Convert a RDF JSON-LDresult into an RDFLib triple store. This method can be overwritten
+        in a subclass for a different conversion method.
+        @return: converted result
+        @rtype: RDFLib Graph
+        """
+        from rdflib import ConjunctiveGraph
+        retval = ConjunctiveGraph()
+        retval.load(self.response, format='json-ld', publicID=' ')
+        return retval
+
 
     def convert(self) :
         """
@@ -606,6 +619,10 @@ class QueryResult(object):
                 if (self.requestedFormat != N3 and self.requestedFormat != TURTLE):
                     warnings.warn("Format requested was %s, but N3 (%s) has been returned by the endpoint" % (self.requestedFormat.upper(), ct), RuntimeWarning)
                 return self._convertN3()
+            elif True in [ct.find(q) != -1 for q in _RDF_JSONLD] :
+                if (self.requestedFormat != JSONLD and self.requestedFormat != JSON):
+                    warnings.warn("Format requested was %s, but JSON(-LD) (%s) has been returned by the endpoint" % (self.requestedFormat.upper(), ct), RuntimeWarning)
+                return self._convertJSONLD()
             else :
                 warnings.warn("unknown response content type, returning raw response...", RuntimeWarning)
                 return self.response.read()
