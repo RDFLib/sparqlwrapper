@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import inspect
 import os
 import sys
@@ -13,7 +14,18 @@ if _top_level_path not in sys.path:
     sys.path.insert(0, _top_level_path)
 # end of hack
 
-from SPARQLWrapper import SPARQLWrapper, XML
+from SPARQLWrapper import SPARQLWrapper, XML, GET, POST, JSON, SELECT
+
+
+# we don't want to let Wrapper do real web-requests. so, we are…
+# constructing a simple Mock!
+import SPARQLWrapper.Wrapper as _victim
+
+
+def urlopener(request):
+    return request
+_victim.urllib2.urlopen = urlopener
+# DONE
 
 
 class SPARQLWrapper_Test(TestCase):
@@ -31,3 +43,35 @@ class SPARQLWrapper_Test(TestCase):
             wrapper.agent.startswith('sparqlwrapper'),
             'default user-agent should start with "sparqlwrapper"'
         )
+
+    def testReset(self):
+        wrapper = SPARQLWrapper(endpoint='http://example.org/sparql/')
+
+        wrapper.setMethod(POST)
+        wrapper.setQuery('CONSTRUCT WHERE {?a ?b ?c}')
+        wrapper.setReturnFormat(JSON)
+        wrapper.addParameter('a', 'b')
+
+        wrapper.resetQuery()
+
+        self.assertEqual(GET, wrapper.method)
+        self.assertEqual('SELECT * WHERE{ ?s ?p ?o }', wrapper.queryString)
+        self.assertEqual(SELECT, wrapper.queryType)
+        self.assertEqual(XML, wrapper.returnFormat)
+        self.assertEqual({}, wrapper.parameters)
+
+    def testSetMethod(self):
+        wrapper = SPARQLWrapper(endpoint='http://example.org/sparql/')
+        wrapper.setMethod(POST)
+
+        qr = wrapper.query()
+        request = qr.response
+
+        self.assertEqual("POST", request.get_method())
+
+        wrapper.setMethod(GET)
+
+        qr = wrapper.query()
+        request = qr.response
+
+        self.assertEqual("GET", request.get_method())
