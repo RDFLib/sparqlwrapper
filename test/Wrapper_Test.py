@@ -29,14 +29,13 @@ class FakeResult(object):
 
 def urlopener(request):
     return FakeResult(request)
-
-_victim.urllib2.urlopen = urlopener
 # DONE
 
 
 class SPARQLWrapper_Test(TestCase):
     def setUp(self):
         self.wrapper = SPARQLWrapper(endpoint='http://example.org/sparql/')
+        _victim.urllib2.urlopen = urlopener
 
     def testConstructor(self):
         try:
