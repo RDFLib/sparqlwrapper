@@ -17,7 +17,7 @@ if _top_level_path not in sys.path:
     sys.path.insert(0, _top_level_path)
 # end of hack
 
-from SPARQLWrapper import SPARQLWrapper, XML, GET, POST, JSON, SELECT
+from SPARQLWrapper import SPARQLWrapper, XML, GET, POST, JSON, N3, SELECT
 from SPARQLWrapper.Wrapper import QueryResult, QueryBadFormed, EndPointNotFound, EndPointInternalError
 
 
@@ -48,10 +48,24 @@ def urlopener_error_generator(code):
 
 class SPARQLWrapper_Test(TestCase):
     @staticmethod
-    def _get_request_parameters(wrapper):
+    def _get_request(wrapper):
         request = wrapper.query().response.request  # possible due to mock above
-        pieces_str = urlparse(request.get_full_url()).query
+        return request
+
+    @staticmethod
+    def _get_parameters_from_request(request):
+        if request.get_method() == 'GET':
+            pieces_str = urlparse(request.get_full_url()).query
+        else:
+            pieces_str = request.get_data()
         return parse_qs(pieces_str)
+
+    @staticmethod
+    def _get_request_parameters(wrapper):
+        request = SPARQLWrapper_Test._get_request(wrapper)
+        parameters = SPARQLWrapper_Test._get_parameters_from_request(request)
+
+        return parameters
 
     def setUp(self):
         self.wrapper = SPARQLWrapper(endpoint='http://example.org/sparql/')
@@ -76,25 +90,37 @@ class SPARQLWrapper_Test(TestCase):
         self.assertEqual(XML, wrapper.returnFormat, 'default return format is XML')
 
         wrapper = SPARQLWrapper(endpoint='http://example.org/sparql/', defaultGraph='http://example.org/default')
+        parameters = self._get_request_parameters(wrapper)
         self.assertEqual(
             ['http://example.org/default'],
-            wrapper.parameters.get('default-graph-uri'),
+            parameters.get('default-graph-uri'),
             'default graph is set'
         )
 
     def testReset(self):
         self.wrapper.setMethod(POST)
         self.wrapper.setQuery('CONSTRUCT WHERE {?a ?b ?c}')
-        self.wrapper.setReturnFormat(JSON)
+        self.wrapper.setReturnFormat(N3)
         self.wrapper.addParameter('a', 'b')
+
+        request = self._get_request(self.wrapper)
+        parameters = self._get_parameters_from_request(request)
+
+        self.assertEqual('POST', request.get_method())
+        self.assertTrue(parameters['query'][0].startswith('CONSTRUCT'))
+        self.assertTrue('rdf+n3' in request.get_header('Accept'))
+        self.assertTrue('a' in parameters)
 
         self.wrapper.resetQuery()
 
-        self.assertEqual(GET, self.wrapper.method)
-        self.assertEqual('SELECT * WHERE{ ?s ?p ?o }', self.wrapper.queryString)
-        self.assertEqual(SELECT, self.wrapper.queryType)
-        self.assertEqual(XML, self.wrapper.returnFormat)
-        self.assertEqual({}, self.wrapper.parameters)
+        request = self._get_request(self.wrapper)
+        parameters = self._get_parameters_from_request(request)
+
+        self.assertEqual('GET', request.get_method())
+        self.assertTrue(parameters['query'][0].startswith('SELECT'))
+        self.assertFalse('rdf+n3' in request.get_header('Accept'))
+        self.assertTrue('sparql-results+xml' in request.get_header('Accept'))
+        self.assertFalse('a' in parameters)
 
     def testSetReturnFormat(self):
         self.wrapper.setReturnFormat('nonexistent format')
