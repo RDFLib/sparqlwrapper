@@ -4,6 +4,7 @@ import os
 import sys
 from unittest import TestCase
 from urlparse import urlparse
+from urllib2 import Request
 from cgi import parse_qs
 
 # prefer local copy to the one which is installed
@@ -17,6 +18,7 @@ if _top_level_path not in sys.path:
 # end of hack
 
 from SPARQLWrapper import SPARQLWrapper, XML, GET, POST, JSON, SELECT
+from SPARQLWrapper.Wrapper import QueryResult
 
 
 # we don't want to let Wrapper do real web-requests. so, we are…
@@ -137,3 +139,10 @@ class SPARQLWrapper_Test(TestCase):
         ASK WHERE {?s ?p ?o}
         """)
         self.assertTrue(self.wrapper.isSparqlQueryRequest())
+
+    def testQuery(self):
+        qr = self.wrapper.query()
+        self.assertTrue(isinstance(qr, QueryResult))
+
+        request = qr.response.request  # possible due to mock above
+        self.assertTrue(isinstance(request, Request))
