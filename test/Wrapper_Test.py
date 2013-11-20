@@ -47,6 +47,12 @@ def urlopener_error_generator(code):
 
 
 class SPARQLWrapper_Test(TestCase):
+    @staticmethod
+    def _get_request_parameters(wrapper):
+        request = wrapper.query().response.request  # possible due to mock above
+        pieces_str = urlparse(request.get_full_url()).query
+        return parse_qs(pieces_str)
+
     def setUp(self):
         self.wrapper = SPARQLWrapper(endpoint='http://example.org/sparql/')
         _victim.urllib2.urlopen = urlopener
@@ -103,9 +109,7 @@ class SPARQLWrapper_Test(TestCase):
         self.assertTrue(self.wrapper.addParameter('param1', 'value2'))
         self.assertTrue(self.wrapper.addParameter('param2', 'value2'))
 
-        request = self.wrapper.query().response.request  # possible due to mock above
-        pieces_str = urlparse(request.get_full_url()).query
-        pieces = parse_qs(pieces_str)
+        pieces = self._get_request_parameters(self.wrapper)
 
         self.assertTrue('param1' in pieces)
         self.assertEqual(['value1', 'value2'], pieces['param1'])
@@ -132,9 +136,7 @@ class SPARQLWrapper_Test(TestCase):
         self.assertFalse(self.wrapper.clearParameter('query'))
         self.assertTrue(self.wrapper.clearParameter('param1'))
 
-        request = self.wrapper.query().response.request  # possible due to mock above
-        pieces_str = urlparse(request.get_full_url()).query
-        pieces = parse_qs(pieces_str)
+        pieces = self._get_request_parameters(self.wrapper)
 
         self.assertFalse('param1' in pieces)
         self.assertTrue('param2' in pieces)
