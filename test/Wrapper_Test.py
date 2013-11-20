@@ -188,3 +188,20 @@ class SPARQLWrapper_Test(TestCase):
             pass
         except:
             self.fail('got wrong exception')
+
+    def testQueryAndConvert(self):
+        _oldQueryResult = _victim.QueryResult
+
+        class FakeQueryResult(object):
+            def __init__(self, result):
+                pass
+
+            def convert(self):
+                return True
+
+        try:
+            _victim.QueryResult = FakeQueryResult
+            result = self.wrapper.queryAndConvert()
+            self.assertEqual(True, result)
+        finally:
+            _victim.QueryResult = _oldQueryResult
