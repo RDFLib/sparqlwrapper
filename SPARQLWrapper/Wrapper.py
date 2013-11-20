@@ -512,7 +512,8 @@ class QueryResult(object):
         """Method for the standard iterator."""
         return self.response.next()
 
-    def setJSONModule(self,module):
+    @staticmethod
+    def setJSONModule(module):
         """Set the Python module for encoding JSON data. If not an allowed value, the setting is ignored.
            JSON modules supported:
              - ``simplejson``: http://code.google.com/p/simplejson/
