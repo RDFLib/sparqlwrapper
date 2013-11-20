@@ -534,13 +534,6 @@ class QueryResult(object):
         @rtype: Python dictionary
         """
         return jsonlayer.decode(self.response.read().decode("utf-8"))
-        # patch to solve bug #2781984
-        # later updated with a trick from http://bob.pythonmac.org/archives/2008/10/02/python-26-released-now-with-json/
-        #try:
-        #    import simplejson as json
-        #except ImportError:
-        #    import json
-        #return json.load(self.response)
 
     def _convertXML(self):
         """
