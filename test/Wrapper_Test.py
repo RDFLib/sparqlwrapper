@@ -23,9 +23,13 @@ from SPARQLWrapper import SPARQLWrapper, XML, GET, POST, JSON, SELECT
 # constructing a simple Mock!
 import SPARQLWrapper.Wrapper as _victim
 
+class FakeResult(object):
+    def __init__(self, request):
+        self.request = request
 
 def urlopener(request):
-    return request
+    return FakeResult(request)
+
 _victim.urllib2.urlopen = urlopener
 # DONE
 
@@ -76,7 +80,7 @@ class SPARQLWrapper_Test(TestCase):
         self.assertTrue(self.wrapper.addParameter('param1', 'value2'))
         self.assertTrue(self.wrapper.addParameter('param2', 'value2'))
 
-        request = self.wrapper.query().response  # possible due to mock above
+        request = self.wrapper.query().response.request  # possible due to mock above
         pieces_str = urlparse(request.get_full_url()).query
         pieces = parse_qs(pieces_str)
 
@@ -94,7 +98,7 @@ class SPARQLWrapper_Test(TestCase):
         self.assertFalse(self.wrapper.clearParameter('query'))
         self.assertTrue(self.wrapper.clearParameter('param1'))
 
-        request = self.wrapper.query().response  # possible due to mock above
+        request = self.wrapper.query().response.request  # possible due to mock above
         pieces_str = urlparse(request.get_full_url()).query
         pieces = parse_qs(pieces_str)
 
@@ -104,12 +108,12 @@ class SPARQLWrapper_Test(TestCase):
 
     def testSetMethod(self):
         self.wrapper.setMethod(POST)
-        request = self.wrapper.query().response  # possible due to mock above
+        request = self.wrapper.query().response.request  # possible due to mock above
 
         self.assertEqual("POST", request.get_method())
 
         self.wrapper.setMethod(GET)
-        request = self.wrapper.query().response  # possible due to mock above
+        request = self.wrapper.query().response.request  # possible due to mock above
 
         self.assertEqual("GET", request.get_method())
 
