@@ -18,11 +18,14 @@ if _top_level_path not in sys.path:
 # end of hack
 
 from SPARQLWrapper import SPARQLWrapper, XML, GET, POST, JSON, SELECT
-from SPARQLWrapper.Wrapper import QueryResult
+from SPARQLWrapper.Wrapper import QueryResult, QueryBadFormed, EndPointNotFound, EndPointInternalError
 
 
 # we don't want to let Wrapper do real web-requests. so, we are…
 # constructing a simple Mock!
+from urllib2 import HTTPError
+from StringIO import StringIO
+
 import SPARQLWrapper.Wrapper as _victim
 
 
@@ -33,6 +36,13 @@ class FakeResult(object):
 
 def urlopener(request):
     return FakeResult(request)
+
+
+def urlopener_error_generator(code):
+    def urlopener_error(request):
+        raise HTTPError(request.get_full_url, code, '', {}, StringIO(''))
+
+    return urlopener_error
 # DONE
 
 
@@ -148,3 +158,33 @@ class SPARQLWrapper_Test(TestCase):
 
         request = qr.response.request  # possible due to mock above
         self.assertTrue(isinstance(request, Request))
+
+        _victim.urllib2.urlopen = urlopener_error_generator(400)
+        try:
+            self.wrapper.query()
+            self.fail('should have raised exception')
+        except QueryBadFormed, e:
+            #  TODO: check exception-format
+            pass
+        except:
+            self.fail('got wrong exception')
+
+        _victim.urllib2.urlopen = urlopener_error_generator(404)
+        try:
+            self.wrapper.query()
+            self.fail('should have raised exception')
+        except EndPointNotFound, e:
+            #  TODO: check exception-format
+            pass
+        except:
+            self.fail('got wrong exception')
+
+        _victim.urllib2.urlopen = urlopener_error_generator(500)
+        try:
+            self.wrapper.query()
+            self.fail('should have raised exception')
+        except EndPointInternalError, e:
+            #  TODO: check exception-format
+            pass
+        except:
+            self.fail('got wrong exception')
