@@ -66,6 +66,16 @@ class SPARQLWrapper_Test(TestCase):
             'default user-agent should start with "sparqlwrapper"'
         )
 
+        wrapper = SPARQLWrapper(endpoint='http://example.org/sparql/', returnFormat='wrongformat')
+        self.assertEqual(XML, wrapper.returnFormat, 'default return format is XML')
+
+        wrapper = SPARQLWrapper(endpoint='http://example.org/sparql/', defaultGraph='http://example.org/default')
+        self.assertEqual(
+            ['http://example.org/default'],
+            wrapper.parameters.get('default-graph-uri'),
+            'default graph is set'
+        )
+
     def testReset(self):
         self.wrapper.setMethod(POST)
         self.wrapper.setQuery('CONSTRUCT WHERE {?a ?b ?c}')
