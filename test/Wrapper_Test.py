@@ -103,6 +103,17 @@ class SPARQLWrapper_Test(TestCase):
         self.assertEqual(['value2'], pieces['param2'])
         self.assertNotEqual(['dummy'], 'query')
 
+    def testSetCredentials(self):
+        request = self.wrapper.query().response.request  # possible due to mock above
+
+        self.assertFalse(request.has_header('Authorization'))
+
+        self.wrapper.setCredentials('login', 'password')
+        request = self.wrapper.query().response.request  # possible due to mock above
+
+        self.assertTrue(request.has_header('Authorization'))
+        # TODO: test for header-value using some external decoder implementation
+
     def testClearParameter(self):
         self.wrapper.addParameter('param1', 'value1')
         self.wrapper.addParameter('param1', 'value2')
