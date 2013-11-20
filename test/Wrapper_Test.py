@@ -216,3 +216,54 @@ class SPARQLWrapper_Test(TestCase):
             self.assertEqual(True, result)
         finally:
             _victim.QueryResult = _oldQueryResult
+
+
+class QueryResult_Test(TestCase):
+    def testConstructor(self):
+        qr = QueryResult('result')
+        self.assertEqual('result', qr.response)
+        try:
+            format = qr.requestedFormat
+            self.fail('format is not supposed to be set')
+        except:
+            pass
+
+        qr = QueryResult(('result', 'format'))
+        self.assertEqual('result', qr.response)
+        self.assertEqual('format', qr.requestedFormat)
+
+    def testProxyingToResponse(self):
+        class FakeResponse(object):
+            def __init__(self):
+                self.geturl_called = False
+                self.info_called = False
+                self.iter_called = False
+                self.next_called = False
+
+            def geturl(self):
+                self.geturl_called = True
+
+            def info(self):
+                self.info_called = True
+                return {"key": "value"}
+
+            def __iter__(self):
+                self.iter_called = True
+
+            def next(self):
+                self.next_called = True
+
+        result = FakeResponse()
+
+        qr = QueryResult(result)
+        qr.geturl()
+        qr.__iter__()
+        qr.next()
+
+        self.assertTrue(result.geturl_called)
+        self.assertTrue(result.iter_called)
+        self.assertTrue(result.next_called)
+
+        info = qr.info()
+        self.assertTrue(result.info_called)
+        self.assertEqual('value', info.__getitem__('KEY'), 'keys should be case-insensitive')
