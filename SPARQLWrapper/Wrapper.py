@@ -110,8 +110,7 @@ class SPARQLWrapper(object):
     @ivar baseURI: the URI of the SPARQL service
     """
     pattern = re.compile(r"""
-                (?P<base>(\s*BASE\s*<.*?>)\s*)*
-                (?P<prefixes>(\s*PREFIX\s+.+:\s*<.*?>)\s*)*
+                ((?P<base>(\s*BASE\s*<.*?>)\s*)|(?P<prefixes>(\s*PREFIX\s+.+:\s*<.*?>)\s*))*
                 (?P<queryType>(CONSTRUCT|SELECT|ASK|DESCRIBE|INSERT|DELETE|MODIFY))
     """, re.VERBOSE | re.IGNORECASE)
 

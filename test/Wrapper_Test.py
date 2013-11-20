@@ -112,3 +112,25 @@ class SPARQLWrapper_Test(TestCase):
         request = self.wrapper.query().response  # possible due to mock above
 
         self.assertEqual("GET", request.get_method())
+
+    def testIsSparqlUpdateRequest(self):
+        self.wrapper.setQuery('DELETE WHERE {?s ?p ?o}')
+        self.assertTrue(self.wrapper.isSparqlUpdateRequest())
+
+        self.wrapper.setQuery("""
+        PREFIX example: <http://example.org/SELECT/>
+        BASE <http://example.org/SELECT>
+        DELETE WHERE {?s ?p ?o}
+        """)
+        self.assertTrue(self.wrapper.isSparqlUpdateRequest())
+
+    def testIsSparqlQueryRequest(self):
+        self.wrapper.setQuery('SELECT * WHERE {?s ?p ?o}')
+        self.assertTrue(self.wrapper.isSparqlQueryRequest())
+
+        self.wrapper.setQuery("""
+        PREFIX example: <http://example.org/DELETE/>
+        BASE <http://example.org/MODIFY>
+        ASK WHERE {?s ?p ?o}
+        """)
+        self.assertTrue(self.wrapper.isSparqlQueryRequest())
