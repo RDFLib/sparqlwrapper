@@ -144,13 +144,11 @@ class SPARQLWrapper_Test(TestCase):
         self.assertNotEqual(['dummy'], 'query')
 
     def testSetCredentials(self):
-        request = self.wrapper.query().response.request  # possible due to mock above
-
+        request = self._get_request(self.wrapper)
         self.assertFalse(request.has_header('Authorization'))
 
         self.wrapper.setCredentials('login', 'password')
-        request = self.wrapper.query().response.request  # possible due to mock above
-
+        request = self._get_request(self.wrapper)
         self.assertTrue(request.has_header('Authorization'))
         # TODO: test for header-value using some external decoder implementation
 
@@ -170,12 +168,12 @@ class SPARQLWrapper_Test(TestCase):
 
     def testSetMethod(self):
         self.wrapper.setMethod(POST)
-        request = self.wrapper.query().response.request  # possible due to mock above
+        request = self._get_request(self.wrapper)
 
         self.assertEqual("POST", request.get_method())
 
         self.wrapper.setMethod(GET)
-        request = self.wrapper.query().response.request  # possible due to mock above
+        request = self._get_request(self.wrapper)
 
         self.assertEqual("GET", request.get_method())
 
