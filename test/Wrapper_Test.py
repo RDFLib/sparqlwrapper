@@ -25,9 +25,11 @@ from SPARQLWrapper.Wrapper import QueryResult
 # constructing a simple Mock!
 import SPARQLWrapper.Wrapper as _victim
 
+
 class FakeResult(object):
     def __init__(self, request):
         self.request = request
+
 
 def urlopener(request):
     return FakeResult(request)
