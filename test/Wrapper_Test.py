@@ -17,7 +17,7 @@ if _top_level_path not in sys.path:
     sys.path.insert(0, _top_level_path)
 # end of hack
 
-from SPARQLWrapper import SPARQLWrapper, XML, GET, POST, JSON, N3, SELECT
+from SPARQLWrapper import SPARQLWrapper, XML, GET, POST, JSON, JSONLD, N3, TURTLE, RDF
 from SPARQLWrapper.Wrapper import QueryResult, QueryBadFormed, EndPointNotFound, EndPointInternalError
 
 
@@ -25,6 +25,7 @@ from SPARQLWrapper.Wrapper import QueryResult, QueryBadFormed, EndPointNotFound,
 # constructing a simple Mock!
 from urllib2 import HTTPError
 from StringIO import StringIO
+import warnings
 
 import SPARQLWrapper.Wrapper as _victim
 
@@ -303,3 +304,50 @@ class QueryResult_Test(TestCase):
         info = qr.info()
         self.assertTrue(result.info_called)
         self.assertEqual('value', info.__getitem__('KEY'), 'keys should be case-insensitive')
+
+    def testConvert(self):
+        class FakeResponse(object):
+            def __init__(self, content_type):
+                self.content_type = content_type
+
+            def info(self):
+                return {"Content-type": self.content_type}
+
+            def read(self, len):
+                return ''
+
+        def _mime_vs_type(mime, requested_type):
+            """
+            @param mime:
+            @param requested_type:
+            @return: number of warnings produced by combo
+            """
+            with warnings.catch_warnings(record=True) as w:
+                qr = QueryResult((FakeResponse(mime), requested_type))
+
+                try:
+                    qr.convert()
+                except:
+                    pass
+
+                return len(w)
+
+        self.assertEqual(0, _mime_vs_type("application/sparql-results+xml", XML))
+        self.assertEqual(0, _mime_vs_type("application/sparql-results+json", JSON))
+        self.assertEqual(0, _mime_vs_type("text/n3", N3))
+        self.assertEqual(0, _mime_vs_type("text/turtle", TURTLE))
+        self.assertEqual(0, _mime_vs_type("application/ld+json", JSON))
+        self.assertEqual(0, _mime_vs_type("application/ld+json", JSONLD))
+        self.assertEqual(0, _mime_vs_type("application/rdf+xml", XML))
+        self.assertEqual(0, _mime_vs_type("application/rdf+xml", RDF))
+
+        self.assertEqual(1, _mime_vs_type("application/x-foo-bar", XML), "invalid mime")
+
+        self.assertEqual(1, _mime_vs_type("application/sparql-results+xml", N3))
+        self.assertEqual(1, _mime_vs_type("application/sparql-results+json", XML))
+        self.assertEqual(1, _mime_vs_type("text/n3", JSON))
+        self.assertEqual(1, _mime_vs_type("text/turtle", XML))
+        self.assertEqual(1, _mime_vs_type("application/ld+json", XML))
+        self.assertEqual(1, _mime_vs_type("application/ld+json", N3))
+        self.assertEqual(1, _mime_vs_type("application/rdf+xml", JSON))
+        self.assertEqual(1, _mime_vs_type("application/rdf+xml", N3))
