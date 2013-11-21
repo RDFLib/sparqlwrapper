@@ -583,7 +583,6 @@ class QueryResult(object):
         retval.load(self.response, format='json-ld', publicID=' ')
         return retval
 
-
     def convert(self):
         """
         Encode the return value depending on the return format:
@@ -594,34 +593,35 @@ class QueryResult(object):
 
         @return: the converted query result. See the conversion methods for more details.
         """
-        if ("content-type" in self.info()):
+        def _content_type_in_list(real, expected):
+            return True in [real.find(mime) != -1 for mime in expected]
+
+        def _validate_format(format_name, allowed, mime, requested):
+            if requested not in allowed:
+                message = "Format requested was %s, but %s (%s) has been returned by the endpoint"
+                warnings.warn(message % (requested.upper(), format_name, mime), RuntimeWarning)
+
+        if "content-type" in self.info():
             ct = self.info()["content-type"]
-            if True in [ct.find(q) != -1 for q in _SPARQL_XML] :
-                if (self.requestedFormat != XML):
-                    warnings.warn("Format requested was %s, but XML (%s) has been returned by the endpoint" % (self.requestedFormat.upper(), ct), RuntimeWarning)
+
+            if _content_type_in_list(ct, _SPARQL_XML):
+                _validate_format("XML", [XML], ct, self.requestedFormat)
                 return self._convertXML()
-            elif True in [ct.find(q) != -1 for q in _SPARQL_JSON]  :
-                if (self.requestedFormat != JSON):
-                    warnings.warn("Format requested was %s, but JSON (%s) has been returned by the endpoint" % (self.requestedFormat.upper(), ct), RuntimeWarning)
+            elif _content_type_in_list(ct, _SPARQL_JSON):
+                _validate_format("JSON", [JSON], ct, self.requestedFormat)
                 return self._convertJSON()
-            elif True in [ct.find(q) != -1 for q in _RDF_XML] :
-                if (self.requestedFormat != RDF and self.requestedFormat != XML):
-                    warnings.warn("Format requested was %s, but RDF/XML (%s) has been returned by the endpoint" % (self.requestedFormat.upper(), ct), RuntimeWarning)
+            elif _content_type_in_list(ct, _RDF_XML):
+                _validate_format("RDF/XML", [RDF, XML], ct, self.requestedFormat)
                 return self._convertRDF()
-            elif True in [ct.find(q) != -1 for q in _RDF_N3] :
-                if (self.requestedFormat != N3 and self.requestedFormat != TURTLE):
-                    warnings.warn("Format requested was %s, but N3 (%s) has been returned by the endpoint" % (self.requestedFormat.upper(), ct), RuntimeWarning)
+            elif _content_type_in_list(ct, _RDF_N3):
+                _validate_format("N3", [N3, TURTLE], ct, self.requestedFormat)
                 return self._convertN3()
-            elif True in [ct.find(q) != -1 for q in _RDF_JSONLD] :
-                if (self.requestedFormat != JSONLD and self.requestedFormat != JSON):
-                    warnings.warn("Format requested was %s, but JSON(-LD) (%s) has been returned by the endpoint" % (self.requestedFormat.upper(), ct), RuntimeWarning)
+            elif _content_type_in_list(ct, _RDF_JSONLD):
+                _validate_format("JSON(-LD)", [JSONLD, JSON], ct, self.requestedFormat)
                 return self._convertJSONLD()
-            else :
-                warnings.warn("unknown response content type, returning raw response...", RuntimeWarning)
-                return self.response.read()
-        else :
-            warnings.warn("unknown response content type, returning raw response...", RuntimeWarning)
-            return self.response.read()
+
+        warnings.warn("unknown response content type, returning raw response...", RuntimeWarning)
+        return self.response.read()
 
     def print_results(self, minWidth=None):
         results = self._convertJSON()
