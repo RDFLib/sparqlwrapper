@@ -17,7 +17,7 @@ if _top_level_path not in sys.path:
     sys.path.insert(0, _top_level_path)
 # end of hack
 
-from SPARQLWrapper import SPARQLWrapper, XML, GET, POST, JSON, JSONLD, N3, TURTLE, RDF
+from SPARQLWrapper import SPARQLWrapper, XML, GET, POST, JSON, JSONLD, N3, TURTLE, RDF, SELECT, INSERT
 from SPARQLWrapper.Wrapper import QueryResult, QueryBadFormed, EndPointNotFound, EndPointInternalError
 
 
@@ -153,6 +153,16 @@ class SPARQLWrapper_Test(TestCase):
         self.assertTrue(request.has_header('Authorization'))
         # TODO: test for header-value using some external decoder implementation
 
+    def testSetQuery(self):
+        self.wrapper.setQuery('PREFIX example: <http://example.org/INSERT/> SELECT * WHERE {?s ?p ?v}')
+        self.assertEqual(SELECT, self.wrapper.queryType)
+
+        self.wrapper.setQuery('PREFIX e: <http://example.org/> INSERT {e:a e:b e:c}')
+        self.assertEqual(INSERT, self.wrapper.queryType)
+
+        self.wrapper.setQuery('UNKNOWN {e:a e:b e:c}')
+        self.assertEqual(SELECT, self.wrapper.queryType, 'unknown queries result in SELECT')
+
     def testClearParameter(self):
         self.wrapper.addParameter('param1', 'value1')
         self.wrapper.addParameter('param1', 'value2')
@@ -166,6 +176,8 @@ class SPARQLWrapper_Test(TestCase):
         self.assertFalse('param1' in pieces)
         self.assertTrue('param2' in pieces)
         self.assertEqual(['value2'], pieces['param2'])
+
+        self.assertFalse(self.wrapper.clearParameter('param1'), 'already cleaned')
 
     def testSetMethod(self):
         self.wrapper.setMethod(POST)
@@ -206,6 +218,15 @@ class SPARQLWrapper_Test(TestCase):
 
         request = qr.response.request  # possible due to mock above
         self.assertTrue(isinstance(request, Request))
+
+        parameters = self._get_parameters_from_request(request)
+        self.assertTrue('query' in parameters)
+        self.assertTrue('update' not in parameters)
+
+        self.wrapper.setQuery('PREFIX e: <http://example.org/> INSERT {e:a e:b e:c}')
+        parameters = self._get_request_parameters(self.wrapper)
+        self.assertTrue('update' in parameters)
+        self.assertTrue('query' not in parameters)
 
         _victim.urllib2.urlopen = urlopener_error_generator(400)
         try:
