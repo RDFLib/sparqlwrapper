@@ -258,6 +258,16 @@ class SPARQLWrapper_Test(TestCase):
         except:
             self.fail('got wrong exception')
 
+        _victim.urllib2.urlopen = urlopener_error_generator(999)
+        try:
+            self.wrapper.query()
+            self.fail('should have raised exception')
+        except HTTPError, e:
+            #  TODO: check exception-format
+            pass
+        except:
+            self.fail('got wrong exception')
+
     def testQueryAndConvert(self):
         _oldQueryResult = _victim.QueryResult
 
