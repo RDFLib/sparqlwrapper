@@ -53,11 +53,11 @@
     </doap:developer>
 
     <doap:developer>
-      <foaf:Person rdf:about="http://www.dayures.net/foaf.rdf#me">
+      <foaf:Person rdf:about="http://dayures.net/foaf#me">
         <foaf:name>Carlos Tejo</foaf:name>
         <foaf:nick>dayures</foaf:nick>
-        <foaf:homepage rdf:resource="http://www.dayures.net/" />
-        <rdfs:seeAlso rdf:resource="http://www.dayures.net/foaf.rdf" />
+        <foaf:homepage rdf:resource="http://dayures.net/" />
+        <rdfs:seeAlso rdf:resource="http://dayures.net/foaf.rdf" />
       </foaf:Person>
     </doap:developer>
 
