@@ -3,6 +3,9 @@ import inspect
 import os
 import sys
 
+import logging
+logging.basicConfig()
+
 import unittest
 from urlparse import urlparse
 from urllib2 import Request
