@@ -2,7 +2,8 @@
 import inspect
 import os
 import sys
-from unittest import TestCase
+
+import unittest
 from urlparse import urlparse
 from urllib2 import Request
 from cgi import parse_qs
@@ -47,7 +48,7 @@ def urlopener_error_generator(code):
 # DONE
 
 
-class SPARQLWrapper_Test(TestCase):
+class SPARQLWrapper_Test(unittest.TestCase):
     @staticmethod
     def _get_request(wrapper):
         request = wrapper.query().response.request  # possible due to mock above
@@ -286,7 +287,7 @@ class SPARQLWrapper_Test(TestCase):
             _victim.QueryResult = _oldQueryResult
 
 
-class QueryResult_Test(TestCase):
+class QueryResult_Test(unittest.TestCase):
     def testConstructor(self):
         qr = QueryResult('result')
         self.assertEqual('result', qr.response)
@@ -382,3 +383,7 @@ class QueryResult_Test(TestCase):
         self.assertEqual(1, _mime_vs_type("application/ld+json", N3))
         self.assertEqual(1, _mime_vs_type("application/rdf+xml", JSON))
         self.assertEqual(1, _mime_vs_type("application/rdf+xml", N3))
+
+if __name__ == "__main__":
+    unittest.main()
+
