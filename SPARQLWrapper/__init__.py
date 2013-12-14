@@ -184,6 +184,7 @@ __date__    = "2012-08-28"
 __agent__   = "sparqlwrapper %s (http://sparql-wrapper.sourceforge.net/)" % __version__
 
 
-from Wrapper      import SPARQLWrapper, XML, JSON, TURTLE, N3, JSONLD, RDF, GET, POST, SELECT, CONSTRUCT, ASK, DESCRIBE
+from Wrapper import SPARQLWrapper, XML, JSON, TURTLE, N3, JSONLD, RDF, GET, POST, SELECT, CONSTRUCT, ASK, DESCRIBE
+from Wrapper import INSERT, DELETE, MODIFY
 from SmartWrapper import SPARQLWrapper2
 
