@@ -301,13 +301,14 @@ class SPARQLWrapper(object):
         try:
             r_queryType = self.pattern.search(query).group("queryType").upper()
         except AttributeError:
+            warnings.warn("not detected query type for query '%s'" % query.replace("\n", " "), RuntimeWarning)
             r_queryType = None
     
         if r_queryType in _allowedQueryTypes :
             return r_queryType
         else :
             #raise Exception("Illegal SPARQL Query; must be one of SELECT, ASK, DESCRIBE, or CONSTRUCT")
-            warnings.warn("unknown query type", RuntimeWarning)
+            warnings.warn("unknown query type '%s'" % r_queryType, RuntimeWarning)
             return SELECT
 
     def setMethod(self,method):
