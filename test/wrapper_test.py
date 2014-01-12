@@ -167,6 +167,13 @@ class SPARQLWrapper_Test(unittest.TestCase):
         self.wrapper.setQuery('UNKNOWN {e:a e:b e:c}')
         self.assertEqual(SELECT, self.wrapper.queryType, 'unknown queries result in SELECT')
 
+    def testSetTimeout(self):
+        self.wrapper.setTimeout(10)
+        self.assertEqual(10, self.wrapper.timeout)
+
+        self.wrapper.resetQuery()
+        self.assertEqual(None, self.wrapper.timeout)
+
     def testClearParameter(self):
         self.wrapper.addParameter('param1', 'value1')
         self.wrapper.addParameter('param1', 'value2')
