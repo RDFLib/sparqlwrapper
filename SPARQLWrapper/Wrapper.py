@@ -25,6 +25,7 @@
 
 import urllib
 import urllib2
+import socket
 import base64
 import re
 import warnings
@@ -159,8 +160,9 @@ class SPARQLWrapper(object):
         self.method = GET
         self.queryType = SELECT
         self.queryString = """SELECT * WHERE{ ?s ?p ?o }"""
+        self.timeout = None
 
-    def setReturnFormat(self,format):
+    def setReturnFormat(self, format):
         """Set the return format. If not an allowed value, the setting is ignored.
 
         @param format: Possible values: are L{JSON}, L{XML}, L{TURTLE}, L{N3}, L{RDF} (constants in this module). All other cases are ignored.
@@ -168,6 +170,14 @@ class SPARQLWrapper(object):
         """
         if format in _allowedFormats :
             self.returnFormat = format
+
+    def setTimeout(self, timeout):
+        """Set the timeout (in seconds) to use for querying the endpoint.
+
+        @param timeout: Timeout in seconds.
+        @type timeout: int
+        """
+        self.timeout = int(timeout)
 
     @deprecated
     def addDefaultGraph(self, uri):
@@ -413,6 +423,7 @@ class SPARQLWrapper(object):
 
         @return: tuples with the raw request plus the expected format
         """
+        if (self.timeout): socket.setdefaulttimeout(self.timeout)
         request = self._createRequest()
         try:
             response = urllib2.urlopen(request)
