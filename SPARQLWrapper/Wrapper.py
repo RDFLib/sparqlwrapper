@@ -386,7 +386,7 @@ class SPARQLWrapper(object):
                 acceptHeader = ",".join(_RDF_N3)
             elif self.returnFormat == XML:
                 acceptHeader = ",".join(_RDF_XML)
-            elif self.returnFormat == JSONLD and JSONLS in _allowedFormats:
+            elif self.returnFormat == JSONLD and JSONLD in _allowedFormats:
                 acceptHeader = ",".join(_RDF_JSONLD)
             else:
                 acceptHeader = ",".join(_ALL)
