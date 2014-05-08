@@ -196,7 +196,7 @@ class Bindings(object):
         # The arguments should be reduced to arrays of variables, ie, unicode strings
         yes_keys = []
         no_keys  = []
-        if type(key) is SliceType :
+        if type(key) is slice :
             # Note: None for start or stop is all right
             if key.start :
                 yes_keys = _nonSliceCase(key.start)
