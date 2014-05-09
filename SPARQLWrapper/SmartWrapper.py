@@ -141,7 +141,7 @@ class Bindings(object):
         @rtype: Boolean
         """
         if len(self.bindings) == 0 : return False
-        if type(key) is ListType or type(key) is TupleType :
+        if type(key) is list or type(key) is tuple:
             # check first whether they are all really variables
             if False in [ k in self.variables for k in key ]: return False
             for b in self.bindings :
@@ -181,14 +181,14 @@ class Bindings(object):
         def _checkKeys(keys) :
             if len(keys) == 0 : return False
             for k in keys :
-                if not isinstance(k,StringTypes) or not k in self.variables: return False
+                if not isinstance(k, basestring) or not k in self.variables: return False
             return True
 
         def _nonSliceCase(key) :
-            if isinstance(key,StringTypes) and key != "" and key in self.variables :
+            if isinstance(key, basestring) and key != "" and key in self.variables :
                 # unicode or string:
                 return [key]
-            elif type(key) is ListType or type(key) is TupleType :
+            elif type(key) is list or type(key) is tuple:
                 if _checkKeys(key) :
                     return key
             return False
@@ -196,7 +196,7 @@ class Bindings(object):
         # The arguments should be reduced to arrays of variables, ie, unicode strings
         yes_keys = []
         no_keys  = []
-        if type(key) is SliceType :
+        if type(key) is slice :
             # Note: None for start or stop is all right
             if key.start :
                 yes_keys = _nonSliceCase(key.start)

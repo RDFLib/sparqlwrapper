@@ -9,6 +9,7 @@ YYYY-MM-DD  1.6.0   - Returning raw response in case of unknown content type ret
                     - POST queries are accompanied by full set of parameters now
                     - Added rudimentary support for JSON-LD
                     - Added proper unit tests without dependencies of external endpoints
+                    - Fixed Python 3 compatibility issues in SmartWrapper module
 
 2012-08-28  1.5.2   - Implemented update operation according the latest SPARQL 1.1 Protocol drafts (i.e., switching to 'update' parameter)
 
