@@ -1,7 +1,9 @@
 SPARQLWrapper's changelog:
 -------------------------
 
-YYYY-MM-DD  1.6.0   - Returning raw response in case of unknown content type returned
+YYYY-MM-DD  1.6.1   - ...
+
+2014-05-09  1.6.0   - Returning raw response in case of unknown content type returned
                     - Fixed some issues with the last version of the SPARQL 1.1 Update Protocol
                     - setQuery() doesn't imply resetQuery() anymore
                     - Deprecated addCustomParameter(), addParameter() and clearParameter() come to provide all required functionality
