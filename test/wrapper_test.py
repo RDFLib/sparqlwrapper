@@ -205,11 +205,38 @@ class SPARQLWrapper_Test(unittest.TestCase):
         self.wrapper.setQuery('DELETE WHERE {?s ?p ?o}')
         self.assertTrue(self.wrapper.isSparqlUpdateRequest())
 
+        self.wrapper.setQuery('DELETE DATA { <urn:john> <urn:likes> <urn:surfing> }')
+        self.assertTrue(self.wrapper.isSparqlUpdateRequest())
+
         self.wrapper.setQuery("""
         PREFIX example: <http://example.org/SELECT/>
         BASE <http://example.org/SELECT>
         DELETE WHERE {?s ?p ?o}
         """)
+        self.assertTrue(self.wrapper.isSparqlUpdateRequest())
+
+        self.wrapper.setQuery('INSERT DATA { <urn:john> <urn:likes> <urn:surfing> }')
+        self.assertTrue(self.wrapper.isSparqlUpdateRequest())
+
+        self.wrapper.setQuery('CREATE GRAPH <urn:graph>')
+        self.assertTrue(self.wrapper.isSparqlUpdateRequest())
+
+        self.wrapper.setQuery('CLEAR GRAPH <urn:graph>')
+        self.assertTrue(self.wrapper.isSparqlUpdateRequest())
+
+        self.wrapper.setQuery('DROP GRAPH <urn:graph>')
+        self.assertTrue(self.wrapper.isSparqlUpdateRequest())
+
+        self.wrapper.setQuery('MOVE GRAPH <urn:graph1> TO GRAPH <urn:graph2>')
+        self.assertTrue(self.wrapper.isSparqlUpdateRequest())
+
+        self.wrapper.setQuery('LOAD <http://localhost/file.rdf> INTO GRAPH <urn:graph>')
+        self.assertTrue(self.wrapper.isSparqlUpdateRequest())
+
+        self.wrapper.setQuery('COPY <urn:graph1> TO GRAPH <urn:graph2>')
+        self.assertTrue(self.wrapper.isSparqlUpdateRequest())
+
+        self.wrapper.setQuery('ADD <urn:graph1> TO GRAPH <urn:graph2>')
         self.assertTrue(self.wrapper.isSparqlUpdateRequest())
 
     def testIsSparqlQueryRequest(self):
@@ -222,6 +249,7 @@ class SPARQLWrapper_Test(unittest.TestCase):
         ASK WHERE {?s ?p ?o}
         """)
         self.assertTrue(self.wrapper.isSparqlQueryRequest())
+        self.assertFalse(self.wrapper.isSparqlUpdateRequest())
 
     def testQuery(self):
         qr = self.wrapper.query()

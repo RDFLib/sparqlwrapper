@@ -58,7 +58,16 @@ DESCRIBE   = "DESCRIBE"
 INSERT     = "INSERT"
 DELETE     = "DELETE"
 MODIFY     = "MODIFY"
-_allowedQueryTypes = [SELECT, CONSTRUCT, ASK, DESCRIBE, INSERT, DELETE, MODIFY]
+CREATE     = "CREATE"
+CLEAR      = "CLEAR"
+DROP       = "DROP"
+LOAD       = "LOAD"
+COPY       = "COPY"
+MOVE       = "MOVE"
+ADD        = "ADD"
+
+_allowedQueryTypes = [SELECT, CONSTRUCT, ASK, DESCRIBE, INSERT, DELETE, MODIFY, CREATE, CLEAR, DROP,
+                      LOAD, COPY, MOVE, ADD]
 
 # Possible output format (mime types) that can be converted by the local script. Unfortunately,
 # it does not work by simply setting the return format, because there is still a certain level of confusion
@@ -111,8 +120,8 @@ class SPARQLWrapper(object):
     @ivar baseURI: the URI of the SPARQL service
     """
     pattern = re.compile(r"""
-                ((?P<base>(\s*BASE\s*<.*?>)\s*)|(?P<prefixes>(\s*PREFIX\s+.+:\s*<.*?>)\s*))*
-                (?P<queryType>(CONSTRUCT|SELECT|ASK|DESCRIBE|INSERT|DELETE|MODIFY))
+        ((?P<base>(\s*BASE\s*<.*?>)\s*)|(?P<prefixes>(\s*PREFIX\s+.+:\s*<.*?>)\s*))*
+        (?P<queryType>(CONSTRUCT|SELECT|ASK|DESCRIBE|INSERT|DELETE|MODIFY|CREATE|CLEAR|DROP|LOAD|COPY|MOVE|ADD))
     """, re.VERBOSE | re.IGNORECASE)
 
     def __init__(self, endpoint, updateEndpoint=None, returnFormat=XML, defaultGraph=None, agent=__agent__):
@@ -333,7 +342,7 @@ class SPARQLWrapper(object):
         """ Returns TRUE if SPARQLWrapper is configured for executing SPARQL Update request
         @return: bool
         """
-        return self.queryType in [INSERT, DELETE, MODIFY]
+        return self.queryType in [INSERT, DELETE, MODIFY, CREATE, CLEAR, DROP, LOAD, COPY, MOVE, ADD]
 
     def isSparqlQueryRequest(self):
         """ Returns TRUE if SPARQLWrapper is configured for executing SPARQL Query request
