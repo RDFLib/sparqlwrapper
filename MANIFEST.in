@@ -1,2 +1,4 @@
-include *.txt
+include *.md
 exclude Makefile
+include test/*.py
+include scripts/*.py
