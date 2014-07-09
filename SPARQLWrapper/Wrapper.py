@@ -65,9 +65,13 @@ LOAD       = "LOAD"
 COPY       = "COPY"
 MOVE       = "MOVE"
 ADD        = "ADD"
-
 _allowedQueryTypes = [SELECT, CONSTRUCT, ASK, DESCRIBE, INSERT, DELETE, MODIFY, CREATE, CLEAR, DROP,
                       LOAD, COPY, MOVE, ADD]
+
+# Possible methods to perform update operations
+URLENCODED = "urlencoded"
+POSTDIRECTLY = "postdirectly"
+_UPDATE_METHODS  = [URLENCODED, POSTDIRECTLY]
 
 # Possible output format (mime types) that can be converted by the local script. Unfortunately,
 # it does not work by simply setting the return format, because there is still a certain level of confusion
@@ -170,6 +174,7 @@ class SPARQLWrapper(object):
         self.queryType = SELECT
         self.queryString = """SELECT * WHERE{ ?s ?p ?o }"""
         self.timeout = None
+        self.updateMethod = URLENCODED
 
     def setReturnFormat(self, format):
         """Set the return format. If not an allowed value, the setting is ignored.
@@ -187,6 +192,20 @@ class SPARQLWrapper(object):
         @type timeout: int
         """
         self.timeout = int(timeout)
+
+    def setUpdateMethod(self, method):
+        """Set the internal method to use to perform update operations,
+        either URL-encoded (C{SPARQLWrapper.URLENCODED}) or 
+        POST directly (C{SPARQLWrapper.POSTDIRECTLY}).
+        Further details at U{http://www.w3.org/TR/sparql11-protocol/#update-operation}.
+
+        @param method: update method
+        @type method: str
+        """
+        if method in _UPDATE_METHODS:
+            self.updateMethod = method
+        else:
+            warnings.warn("invalid update method '%s'" % method, RuntimeWarning)
 
     @deprecated
     def addDefaultGraph(self, uri):
@@ -271,7 +290,7 @@ class SPARQLWrapper(object):
             except KeyError:
                 return False
 
-    def setCredentials(self,user,passwd):
+    def setCredentials(self, user, passwd):
         """
             Set the credentials for querying the current endpoint
             @param user: username
@@ -406,19 +425,26 @@ class SPARQLWrapper(object):
         C{urllib2.Request} object of the urllib2 Python library
         @return: request
         """
-        if self.isSparqlUpdateRequest():
-            uri = self.updateEndpoint
-        else:
-            uri = self.endpoint
-
         encodedParameters = urllib.urlencode(self._getRequestParameters(), True)
 
-        if self.method == POST:
+        if self.isSparqlUpdateRequest():
+            uri = self.updateEndpoint
+            if self.method != POST: warnings.warn("update operations MUST be done by POST")
             request = urllib2.Request(uri)
-            request.add_header("Content-Type", "application/x-www-form-urlencoded")
-            request.add_data(encodedParameters)
-        else:  # GET
-            request = urllib2.Request(uri + "?" + encodedParameters)
+            if self.updateMethod == POSTDIRECTLY:
+                request.add_header("Content-Type", "application/sparql-update")
+                request.add_data(self.queryString)          
+            else: # URL-encoded                
+                request.add_header("Content-Type", "application/x-www-form-urlencoded")
+                request.add_data(encodedParameters)
+        else:
+            uri = self.endpoint
+            if self.method == POST:
+                request = urllib2.Request(uri)
+                request.add_header("Content-Type", "application/x-www-form-urlencoded")
+                request.add_data(encodedParameters)
+            else:  # GET
+                request = urllib2.Request(uri + "?" + encodedParameters)
 
         request.add_header("User-Agent", self.agent)
         request.add_header("Accept", self._getAcceptHeader())
