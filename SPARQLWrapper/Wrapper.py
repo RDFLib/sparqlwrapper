@@ -425,9 +425,11 @@ class SPARQLWrapper(object):
         C{urllib2.Request} object of the urllib2 Python library
         @return: request
         """
+        request = None
         encodedParameters = urllib.urlencode(self._getRequestParameters(), True)
 
         if self.isSparqlUpdateRequest():
+            #protocol details at http://www.w3.org/TR/sparql11-protocol/#update-operation
             uri = self.updateEndpoint
             if self.method != POST: warnings.warn("update operations MUST be done by POST")
             request = urllib2.Request(uri)
@@ -438,11 +440,16 @@ class SPARQLWrapper(object):
                 request.add_header("Content-Type", "application/x-www-form-urlencoded")
                 request.add_data(encodedParameters)
         else:
+            #protocol details at http://www.w3.org/TR/sparql11-protocol/#query-operation
             uri = self.endpoint
             if self.method == POST:
                 request = urllib2.Request(uri)
-                request.add_header("Content-Type", "application/x-www-form-urlencoded")
-                request.add_data(encodedParameters)
+                if self.updateMethod == POSTDIRECTLY:
+                    request.add_header("Content-Type", "application/sparql-query")
+                    request.add_data(self.queryString)          
+                else: # URL-encoded                
+                    request.add_header("Content-Type", "application/x-www-form-urlencoded")
+                    request.add_data(encodedParameters)
             else:  # GET
                 request = urllib2.Request(uri + "?" + encodedParameters)
 
