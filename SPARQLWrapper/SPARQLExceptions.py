@@ -36,7 +36,7 @@ class EndPointInternalError(SPARQLWrapperException):
 
 class QueryBadFormed(SPARQLWrapperException):
     """
-    Query Bad Formed exceptions
+    Query Bad Formed exception
     """
 
     msg = "a bad request has been sent to the endpoint, probably the sparql query is bad formed"
@@ -44,7 +44,7 @@ class QueryBadFormed(SPARQLWrapperException):
 
 class EndPointNotFound(SPARQLWrapperException):
     """
-    End Point Not Found exceptions
+    End Point Not Found exception
     """
 
     msg = "it was impossible to connect with the endpoint in that address, check if it is correct"
