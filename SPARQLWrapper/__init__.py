@@ -163,7 +163,7 @@ The package was greatly inspired by U{Lee Feigenbaum's similar package for Javas
 @requires: U{RDFLib<http://rdflib.net>} package.
 """
 
-__version__ = "1.6.0"
+__version__ = "1.6.1"
 """The version of SPARQLWrapper"""
 
 __authors__  = u"Ivan Herman, Sergio Fernández, Carlos Tejo Alonso"
@@ -172,19 +172,23 @@ __authors__  = u"Ivan Herman, Sergio Fernández, Carlos Tejo Alonso"
 __license__ = u'W3C® SOFTWARE NOTICE AND LICENSE, http://www.w3.org/Consortium/Legal/copyright-software'
 """The license governing the use and distribution of SPARQLWrapper"""
 
-__url__ = 'http://sparql-wrapper.sourceforge.net/'
+__url__ = 'rdflib.github.io/sparqlwrapper'
 """The URL for SPARQLWrapper's homepage"""
 
-__contact__ = 'sparql-wrapper-devel@lists.sourceforge.net'
-"""Mail list to contact to other people SPARQLWrappers folks and the developers"""
+__contact__ = 'rdflib-dev@googlegroups.com'
+"""Mail list to contact to other people RDFLib and SPARQLWrappers folks and developers"""
 
-__date__    = "2012-08-28"
+__date__    = "2014-05-12"
 """Last update"""
 
-__agent__   = "sparqlwrapper %s (http://sparql-wrapper.sourceforge.net/)" % __version__
+__agent__   = "sparqlwrapper %s (rdflib.github.io/sparqlwrapper)" % __version__
 
 
-from Wrapper import SPARQLWrapper, XML, JSON, TURTLE, N3, JSONLD, RDF, GET, POST, SELECT, CONSTRUCT, ASK, DESCRIBE
-from Wrapper import INSERT, DELETE, MODIFY
-from SmartWrapper import SPARQLWrapper2
+from Wrapper import SPARQLWrapper
+from Wrapper import XML, JSON, TURTLE, N3, JSONLD, RDF
+from Wrapper import GET, POST, 
+from Wrapper import SELECT, CONSTRUCT, ASK, DESCRIBE, INSERT, DELETE, MODIFY
+from Wrapper import URLENCODED, POSTDIRECTLY
+
+#from SmartWrapper import SPARQLWrapper2
 
