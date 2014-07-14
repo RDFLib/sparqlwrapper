@@ -11,7 +11,7 @@ import sys
 _requires = []
 _install_requires = []
 
-# rdflib 
+# rdflib
 _requires.append('rdflib')
 _install_requires.append('rdflib >= 2.4.2')
 

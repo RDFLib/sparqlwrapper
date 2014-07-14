@@ -7,16 +7,8 @@ import logging
 logging.basicConfig()
 
 import unittest
-
-try:
-    from urllib.parse import urlparse
-except ImportError:
-    from urlparse import urlparse
-
-try:
-    from urllib.request import Request
-except ImportError:
-    from urllib2 import Request
+from urlparse import urlparse
+from urllib2 import Request
 
 from cgi import parse_qs
 
@@ -36,10 +28,7 @@ from SPARQLWrapper.Wrapper import QueryResult, QueryBadFormed, EndPointNotFound,
 
 # we don't want to let Wrapper do real web-requests. so, we are…
 # constructing a simple Mock!
-try:
-    from urllib.error import HTTPError
-except ImportError:
-    from urllib2 import HTTPError
+from urllib2 import HTTPError
 
 from io import StringIO
 import warnings

@@ -172,7 +172,7 @@ __authors__  = u"Ivan Herman, Sergio Fernández, Carlos Tejo Alonso"
 __license__ = u'W3C® SOFTWARE NOTICE AND LICENSE, http://www.w3.org/Consortium/Legal/copyright-software'
 """The license governing the use and distribution of SPARQLWrapper"""
 
-__url__ = 'rdflib.github.io/sparqlwrapper'
+__url__ = 'http://rdflib.github.io/sparqlwrapper'
 """The URL for SPARQLWrapper's homepage"""
 
 __contact__ = 'rdflib-dev@googlegroups.com'
