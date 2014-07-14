@@ -54,6 +54,7 @@ def urlopener_error_generator(code):
 
 
 class SPARQLWrapper_Test(unittest.TestCase):
+
     @staticmethod
     def _get_request(wrapper):
         request = wrapper.query().response.request  # possible due to mock above
