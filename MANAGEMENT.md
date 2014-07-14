@@ -5,7 +5,7 @@ The project keeps a very low-profile on managing, so we try to keep it simple.
 ## Contributions
 
 Every contributor (patchs, pull requests, new features, etc) gets part of 
-ownership by be mentioned as contributor to the project (`AUTHORS.txt`).
+ownership by be mentioned as contributor to the project (`AUTHORS.md`).
 
 ## Release
 
