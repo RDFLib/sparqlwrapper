@@ -7,8 +7,17 @@ import logging
 logging.basicConfig()
 
 import unittest
-from urlparse import urlparse
-from urllib2 import Request
+
+try:
+    from urllib.parse import urlparse
+except ImportError:
+    from urlparse import urlparse
+
+try:
+    from urllib.request import Request
+except ImportError:
+    from urllib2 import Request
+
 from cgi import parse_qs
 
 # prefer local copy to the one which is installed
@@ -27,8 +36,12 @@ from SPARQLWrapper.Wrapper import QueryResult, QueryBadFormed, EndPointNotFound,
 
 # we don't want to let Wrapper do real web-requests. so, we are…
 # constructing a simple Mock!
-from urllib2 import HTTPError
-from StringIO import StringIO
+try:
+    from urllib.error import HTTPError
+except ImportError:
+    from urllib2 import HTTPError
+
+from io import StringIO
 import warnings
 
 import SPARQLWrapper.Wrapper as _victim
@@ -45,7 +58,7 @@ def urlopener(request):
 
 def urlopener_error_generator(code):
     def urlopener_error(request):
-        raise HTTPError(request.get_full_url, code, '', {}, StringIO(''))
+        raise HTTPError(request.get_full_url, code, '', {}, StringIO(u''))
 
     return urlopener_error
 # DONE
@@ -271,7 +284,7 @@ class SPARQLWrapper_Test(unittest.TestCase):
         try:
             self.wrapper.query()
             self.fail('should have raised exception')
-        except QueryBadFormed, e:
+        except QueryBadFormed as e:
             #  TODO: check exception-format
             pass
         except:
@@ -281,7 +294,7 @@ class SPARQLWrapper_Test(unittest.TestCase):
         try:
             self.wrapper.query()
             self.fail('should have raised exception')
-        except EndPointNotFound, e:
+        except EndPointNotFound as e:
             #  TODO: check exception-format
             pass
         except:
@@ -291,7 +304,7 @@ class SPARQLWrapper_Test(unittest.TestCase):
         try:
             self.wrapper.query()
             self.fail('should have raised exception')
-        except EndPointInternalError, e:
+        except EndPointInternalError as e:
             #  TODO: check exception-format
             pass
         except:
@@ -301,7 +314,7 @@ class SPARQLWrapper_Test(unittest.TestCase):
         try:
             self.wrapper.query()
             self.fail('should have raised exception')
-        except HTTPError, e:
+        except HTTPError as e:
             #  TODO: check exception-format
             pass
         except:
@@ -357,15 +370,19 @@ class QueryResult_Test(unittest.TestCase):
             def __iter__(self):
                 self.iter_called = True
 
-            def next(self):
+            def __next__(self):
                 self.next_called = True
+
+            def next(self):
+                #to simulate the built-in function next in py2
+                self.__next__()
 
         result = FakeResponse()
 
         qr = QueryResult(result)
         qr.geturl()
         qr.__iter__()
-        qr.next()
+        next(qr)
 
         self.assertTrue(result.geturl_called)
         self.assertTrue(result.iter_called)
