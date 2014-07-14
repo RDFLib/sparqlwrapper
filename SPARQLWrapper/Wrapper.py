@@ -435,7 +435,7 @@ class SPARQLWrapper(object):
             request = urllib2.Request(uri)
             if self.updateMethod == POSTDIRECTLY:
                 request.add_header("Content-Type", "application/sparql-update")
-                request.add_data(self.queryString)          
+                request.add_data(self.queryString.encode('UTF-8'))          
             else: # URL-encoded                
                 request.add_header("Content-Type", "application/x-www-form-urlencoded")
                 request.add_data(encodedParameters)
@@ -446,7 +446,7 @@ class SPARQLWrapper(object):
                 request = urllib2.Request(uri)
                 if self.updateMethod == POSTDIRECTLY:
                     request.add_header("Content-Type", "application/sparql-query")
-                    request.add_data(self.queryString)          
+                    request.add_data(self.queryString.encode('UTF-8'))          
                 else: # URL-encoded                
                     request.add_header("Content-Type", "application/x-www-form-urlencoded")
                     request.add_data(encodedParameters)
