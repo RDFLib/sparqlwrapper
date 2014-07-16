@@ -434,13 +434,13 @@ class SPARQLWrapper(object):
             if self.updateMethod == POSTDIRECTLY:
                 request = urllib2.Request(uri + "?" + urllib.urlencode(parameters, True))
                 request.add_header("Content-Type", "application/sparql-update")
-                request.add_data(self.queryString.encode('UTF-8'))
+                request.data = self.queryString.encode('UTF-8')
             else:  # URL-encoded
                 parameters["update"] = [self.queryString]
 
                 request = urllib2.Request(uri)
                 request.add_header("Content-Type", "application/x-www-form-urlencoded")
-                request.add_data(urllib.urlencode(parameters, True))
+                request.data = urllib.urlencode(parameters, True)
         else:
             #protocol details at http://www.w3.org/TR/sparql11-protocol/#query-operation
             uri = self.endpoint
@@ -449,13 +449,13 @@ class SPARQLWrapper(object):
                 if self.updateMethod == POSTDIRECTLY:
                     request = urllib2.Request(uri + "?" + urllib.urlencode(parameters, True))
                     request.add_header("Content-Type", "application/sparql-query")
-                    request.add_data(self.queryString.encode('UTF-8'))
+                    request.data = self.queryString.encode('UTF-8')
                 else:  # URL-encoded
                     parameters["query"] = [self.queryString]
 
                     request = urllib2.Request(uri)
                     request.add_header("Content-Type", "application/x-www-form-urlencoded")
-                    request.add_data(urllib.urlencode(parameters, True))
+                    request.data = urllib.urlencode(parameters, True)
             else:  # GET
                 parameters["query"] = [self.queryString]
                 request = urllib2.Request(uri + "?" + urllib.urlencode(parameters, True))
