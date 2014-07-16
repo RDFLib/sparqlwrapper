@@ -463,7 +463,8 @@ class SPARQLWrapper(object):
         request.add_header("User-Agent", self.agent)
         request.add_header("Accept", self._getAcceptHeader())
         if self.user and self.passwd:
-            request.add_header("Authorization", "Basic " + base64.encodestring("%s:%s" % (self.user, self.passwd)))
+            credentials = "%s:%s" % (self.user, self.passwd)
+            request.add_header("Authorization", "Basic %s" % base64.encodestring(credentials.encode('utf-8')))
 
         return request
 
