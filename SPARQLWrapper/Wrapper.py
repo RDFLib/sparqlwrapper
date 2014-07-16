@@ -372,11 +372,6 @@ class SPARQLWrapper(object):
     def _getRequestParameters(self):
         queryParameters = self.parameters.copy()
 
-        if self.isSparqlUpdateRequest():
-            queryParameters["update"] = [self.queryString]
-        else:
-            queryParameters["query"] = [self.queryString]
-
         # This is very ugly. The fact is that the key for the choice of the output format is not defined.
         # Virtuoso uses 'format',sparqler uses 'output'
         # However, these processors are (hopefully) oblivious to the parameters they do not understand.
@@ -426,7 +421,7 @@ class SPARQLWrapper(object):
         @return: request
         """
         request = None
-        encodedParameters = urllib.urlencode(self._getRequestParameters(), True)
+        parameters = self._getRequestParameters()
 
         if self.isSparqlUpdateRequest():
             #protocol details at http://www.w3.org/TR/sparql11-protocol/#update-operation
@@ -435,10 +430,12 @@ class SPARQLWrapper(object):
             request = urllib2.Request(uri)
             if self.updateMethod == POSTDIRECTLY:
                 request.add_header("Content-Type", "application/sparql-update")
-                request.add_data(self.queryString.encode('UTF-8'))          
+                request.add_data(self.queryString.encode('UTF-8'))
+                request.add_data(urllib.urlencode(parameters, True))
             else: # URL-encoded                
                 request.add_header("Content-Type", "application/x-www-form-urlencoded")
-                request.add_data(encodedParameters)
+                parameters["update"] = [self.queryString]
+                request.add_data(urllib.urlencode(parameters, True))
         else:
             #protocol details at http://www.w3.org/TR/sparql11-protocol/#query-operation
             uri = self.endpoint
@@ -446,12 +443,15 @@ class SPARQLWrapper(object):
                 request = urllib2.Request(uri)
                 if self.updateMethod == POSTDIRECTLY:
                     request.add_header("Content-Type", "application/sparql-query")
-                    request.add_data(self.queryString.encode('UTF-8'))          
+                    request.add_data(self.queryString.encode('UTF-8'))
+                    request.add_data(urllib.urlencode(parameters, True))
                 else: # URL-encoded                
                     request.add_header("Content-Type", "application/x-www-form-urlencoded")
-                    request.add_data(encodedParameters)
+                    parameters["query"] = [self.queryString]
+                    request.add_data(urllib.urlencode(parameters, True))
             else:  # GET
-                request = urllib2.Request(uri + "?" + encodedParameters)
+                parameters["query"] = [self.queryString]
+                request = urllib2.Request(uri + "?" + urllib.urlencode(parameters, True))
 
         request.add_header("User-Agent", self.agent)
         request.add_header("Accept", self._getAcceptHeader())
