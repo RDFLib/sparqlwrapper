@@ -360,19 +360,15 @@ class QueryResult_Test(unittest.TestCase):
             def __iter__(self):
                 self.iter_called = True
 
-            def __next__(self):
-                self.next_called = True
-
             def next(self):
-                #to simulate the built-in function next in py2
-                self.__next__()
+                self.next_called = True
 
         result = FakeResponse()
 
         qr = QueryResult(result)
         qr.geturl()
         qr.__iter__()
-        next(qr)
+        qr.next()
 
         self.assertTrue(result.geturl_called)
         self.assertTrue(result.iter_called)
