@@ -25,6 +25,7 @@
 
 import urllib
 import urllib2
+from urllib2 import urlopen as urlopener  # don't change the name: tests override it
 import socket
 import base64
 import re
@@ -475,7 +476,7 @@ class SPARQLWrapper(object):
         if (self.timeout): socket.setdefaulttimeout(self.timeout)
         request = self._createRequest()
         try:
-            response = urllib2.urlopen(request)
+            response = urlopener(request)
             return response, self.returnFormat
         except urllib2.HTTPError, e:
             if e.code == 400:

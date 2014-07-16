@@ -77,7 +77,7 @@ class SPARQLWrapper_Test(unittest.TestCase):
 
     def setUp(self):
         self.wrapper = SPARQLWrapper(endpoint='http://example.org/sparql/')
-        _victim.urllib2.urlopen = urlopener
+        _victim.urlopener = urlopener
 
     def testConstructor(self):
         try:
@@ -270,7 +270,7 @@ class SPARQLWrapper_Test(unittest.TestCase):
         self.assertTrue('update' in parameters)
         self.assertTrue('query' not in parameters)
 
-        _victim.urllib2.urlopen = urlopener_error_generator(400)
+        _victim.urlopener = urlopener_error_generator(400)
         try:
             self.wrapper.query()
             self.fail('should have raised exception')
@@ -280,7 +280,7 @@ class SPARQLWrapper_Test(unittest.TestCase):
         except:
             self.fail('got wrong exception')
 
-        _victim.urllib2.urlopen = urlopener_error_generator(404)
+        _victim.urlopener = urlopener_error_generator(404)
         try:
             self.wrapper.query()
             self.fail('should have raised exception')
@@ -290,7 +290,7 @@ class SPARQLWrapper_Test(unittest.TestCase):
         except:
             self.fail('got wrong exception')
 
-        _victim.urllib2.urlopen = urlopener_error_generator(500)
+        _victim.urlopener = urlopener_error_generator(500)
         try:
             self.wrapper.query()
             self.fail('should have raised exception')
@@ -300,7 +300,7 @@ class SPARQLWrapper_Test(unittest.TestCase):
         except:
             self.fail('got wrong exception')
 
-        _victim.urllib2.urlopen = urlopener_error_generator(999)
+        _victim.urlopener = urlopener_error_generator(999)
         try:
             self.wrapper.query()
             self.fail('should have raised exception')
