@@ -1,5 +1,7 @@
 #!/bin/sh
 
+PYTHON_VERSION=`python3 -c "import sys;t='{v[0]}.{v[1]}'.format(v=list(sys.version_info[:2]));sys.stdout.write(t)";`
+
 python3 setup.py build
 
 if [ -d build/py3_testing ]; then
@@ -13,9 +15,9 @@ cp -r build/lib/SPARQLWrapper build/py3_testing/
 
 cd build/py3_testing
 
-2to3 -wn --no-diffs test
+2to3-$PYTHON_VERSION -wn --no-diffs test
 
-nosetests3
+nosetests-$PYTHON_VERSION
 
 cd ../..
 
