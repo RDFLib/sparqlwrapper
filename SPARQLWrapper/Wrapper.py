@@ -25,6 +25,7 @@
 
 import urllib
 import urllib2
+from urllib2 import urlopen as urlopener  # don't change the name: tests override it
 import socket
 import base64
 import re
@@ -426,29 +427,35 @@ class SPARQLWrapper(object):
         if self.isSparqlUpdateRequest():
             #protocol details at http://www.w3.org/TR/sparql11-protocol/#update-operation
             uri = self.updateEndpoint
-            if self.method != POST: warnings.warn("update operations MUST be done by POST")
-            request = urllib2.Request(uri)
+
+            if self.method != POST:
+                warnings.warn("update operations MUST be done by POST")
+
             if self.updateMethod == POSTDIRECTLY:
+                request = urllib2.Request(uri + "?" + urllib.urlencode(parameters, True))
                 request.add_header("Content-Type", "application/sparql-update")
-                request.add_data(self.queryString.encode('UTF-8'))
-                request.add_data(urllib.urlencode(parameters, True))
-            else: # URL-encoded                
-                request.add_header("Content-Type", "application/x-www-form-urlencoded")
+                request.data = self.queryString.encode('UTF-8')
+            else:  # URL-encoded
                 parameters["update"] = [self.queryString]
-                request.add_data(urllib.urlencode(parameters, True))
+
+                request = urllib2.Request(uri)
+                request.add_header("Content-Type", "application/x-www-form-urlencoded")
+                request.data = urllib.urlencode(parameters, True)
         else:
             #protocol details at http://www.w3.org/TR/sparql11-protocol/#query-operation
             uri = self.endpoint
+
             if self.method == POST:
-                request = urllib2.Request(uri)
                 if self.updateMethod == POSTDIRECTLY:
+                    request = urllib2.Request(uri + "?" + urllib.urlencode(parameters, True))
                     request.add_header("Content-Type", "application/sparql-query")
-                    request.add_data(self.queryString.encode('UTF-8'))
-                    request.add_data(urllib.urlencode(parameters, True))
-                else: # URL-encoded                
-                    request.add_header("Content-Type", "application/x-www-form-urlencoded")
+                    request.data = self.queryString.encode('UTF-8')
+                else:  # URL-encoded
                     parameters["query"] = [self.queryString]
-                    request.add_data(urllib.urlencode(parameters, True))
+
+                    request = urllib2.Request(uri)
+                    request.add_header("Content-Type", "application/x-www-form-urlencoded")
+                    request.data = urllib.urlencode(parameters, True)
             else:  # GET
                 parameters["query"] = [self.queryString]
                 request = urllib2.Request(uri + "?" + urllib.urlencode(parameters, True))
@@ -456,7 +463,8 @@ class SPARQLWrapper(object):
         request.add_header("User-Agent", self.agent)
         request.add_header("Accept", self._getAcceptHeader())
         if self.user and self.passwd:
-            request.add_header("Authorization", "Basic " + base64.encodestring("%s:%s" % (self.user, self.passwd)))
+            credentials = "%s:%s" % (self.user, self.passwd)
+            request.add_header("Authorization", "Basic %s" % base64.encodestring(credentials.encode('utf-8')))
 
         return request
 
@@ -469,7 +477,7 @@ class SPARQLWrapper(object):
         if (self.timeout): socket.setdefaulttimeout(self.timeout)
         request = self._createRequest()
         try:
-            response = urllib2.urlopen(request)
+            response = urlopener(request)
             return response, self.returnFormat
         except urllib2.HTTPError, e:
             if e.code == 400:

@@ -65,7 +65,7 @@ class SPARQLWrapper_Test(unittest.TestCase):
         if request.get_method() == 'GET':
             pieces_str = urlparse(request.get_full_url()).query
         else:
-            pieces_str = request.get_data()
+            pieces_str = request.data
         return parse_qs(pieces_str)
 
     @staticmethod
@@ -77,7 +77,7 @@ class SPARQLWrapper_Test(unittest.TestCase):
 
     def setUp(self):
         self.wrapper = SPARQLWrapper(endpoint='http://example.org/sparql/')
-        _victim.urllib2.urlopen = urlopener
+        _victim.urlopener = urlopener
 
     def testConstructor(self):
         try:
@@ -270,7 +270,7 @@ class SPARQLWrapper_Test(unittest.TestCase):
         self.assertTrue('update' in parameters)
         self.assertTrue('query' not in parameters)
 
-        _victim.urllib2.urlopen = urlopener_error_generator(400)
+        _victim.urlopener = urlopener_error_generator(400)
         try:
             self.wrapper.query()
             self.fail('should have raised exception')
@@ -280,7 +280,7 @@ class SPARQLWrapper_Test(unittest.TestCase):
         except:
             self.fail('got wrong exception')
 
-        _victim.urllib2.urlopen = urlopener_error_generator(404)
+        _victim.urlopener = urlopener_error_generator(404)
         try:
             self.wrapper.query()
             self.fail('should have raised exception')
@@ -290,7 +290,7 @@ class SPARQLWrapper_Test(unittest.TestCase):
         except:
             self.fail('got wrong exception')
 
-        _victim.urllib2.urlopen = urlopener_error_generator(500)
+        _victim.urlopener = urlopener_error_generator(500)
         try:
             self.wrapper.query()
             self.fail('should have raised exception')
@@ -300,7 +300,7 @@ class SPARQLWrapper_Test(unittest.TestCase):
         except:
             self.fail('got wrong exception')
 
-        _victim.urllib2.urlopen = urlopener_error_generator(999)
+        _victim.urlopener = urlopener_error_generator(999)
         try:
             self.wrapper.query()
             self.fail('should have raised exception')
@@ -360,19 +360,15 @@ class QueryResult_Test(unittest.TestCase):
             def __iter__(self):
                 self.iter_called = True
 
-            def __next__(self):
-                self.next_called = True
-
             def next(self):
-                #to simulate the built-in function next in py2
-                self.__next__()
+                self.next_called = True
 
         result = FakeResponse()
 
         qr = QueryResult(result)
         qr.geturl()
         qr.__iter__()
-        next(qr)
+        qr.next()
 
         self.assertTrue(result.geturl_called)
         self.assertTrue(result.iter_called)
