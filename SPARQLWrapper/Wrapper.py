@@ -58,7 +58,6 @@ ASK        = "ASK"
 DESCRIBE   = "DESCRIBE"
 INSERT     = "INSERT"
 DELETE     = "DELETE"
-MODIFY     = "MODIFY"
 CREATE     = "CREATE"
 CLEAR      = "CLEAR"
 DROP       = "DROP"
@@ -66,7 +65,7 @@ LOAD       = "LOAD"
 COPY       = "COPY"
 MOVE       = "MOVE"
 ADD        = "ADD"
-_allowedQueryTypes = [SELECT, CONSTRUCT, ASK, DESCRIBE, INSERT, DELETE, MODIFY, CREATE, CLEAR, DROP,
+_allowedQueryTypes = [SELECT, CONSTRUCT, ASK, DESCRIBE, INSERT, DELETE, CREATE, CLEAR, DROP,
                       LOAD, COPY, MOVE, ADD]
 
 # Possible methods to perform update operations
