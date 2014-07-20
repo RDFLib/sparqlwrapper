@@ -76,7 +76,7 @@ class SPARQLWrapper_Test(unittest.TestCase):
         return parameters
 
     def setUp(self):
-        self.wrapper = SPARQLWrapper(endpoint='http://example.org/sparql/')
+        self.wrapper = SPARQLWrapper(endpoint='http://example.org/sparql')
         _victim.urlopener = urlopener
 
     def testConstructor(self):
@@ -218,7 +218,13 @@ class SPARQLWrapper_Test(unittest.TestCase):
         """)
         self.assertTrue(self.wrapper.isSparqlUpdateRequest())
 
+        self.wrapper.setQuery('WITH <urn:graph> DELETE DATA { <urn:john> <urn:likes> <urn:surfing> }')
+        self.assertTrue(self.wrapper.isSparqlUpdateRequest())
+
         self.wrapper.setQuery('INSERT DATA { <urn:john> <urn:likes> <urn:surfing> }')
+        self.assertTrue(self.wrapper.isSparqlUpdateRequest())
+
+        self.wrapper.setQuery('WITH <urn:graph> INSERT DATA { <urn:john> <urn:likes> <urn:surfing> }')
         self.assertTrue(self.wrapper.isSparqlUpdateRequest())
 
         self.wrapper.setQuery('CREATE GRAPH <urn:graph>')
