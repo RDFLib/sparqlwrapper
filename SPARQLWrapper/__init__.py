@@ -187,7 +187,7 @@ __agent__   = "sparqlwrapper %s (rdflib.github.io/sparqlwrapper)" % __version__
 from Wrapper import SPARQLWrapper
 from Wrapper import XML, JSON, TURTLE, N3, JSONLD, RDF
 from Wrapper import GET, POST
-from Wrapper import SELECT, CONSTRUCT, ASK, DESCRIBE, INSERT, DELETE, MODIFY
+from Wrapper import SELECT, CONSTRUCT, ASK, DESCRIBE, INSERT, DELETE
 from Wrapper import URLENCODED, POSTDIRECTLY
 
 #from SmartWrapper import SPARQLWrapper2
