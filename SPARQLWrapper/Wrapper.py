@@ -361,7 +361,7 @@ class SPARQLWrapper(object):
         """ Returns TRUE if SPARQLWrapper is configured for executing SPARQL Update request
         @return: bool
         """
-        return self.queryType in [INSERT, DELETE, MODIFY, CREATE, CLEAR, DROP, LOAD, COPY, MOVE, ADD]
+        return self.queryType in [INSERT, DELETE, CREATE, CLEAR, DROP, LOAD, COPY, MOVE, ADD]
 
     def isSparqlQueryRequest(self):
         """ Returns TRUE if SPARQLWrapper is configured for executing SPARQL Query request
@@ -402,7 +402,7 @@ class SPARQLWrapper(object):
                 acceptHeader = ",".join(_SPARQL_JSON)
             else:
                 acceptHeader = ",".join(_ALL)
-        elif self.queryType in [INSERT, DELETE, MODIFY]:
+        elif self.queryType in [INSERT, DELETE]:
             acceptHeader = "*/*"
         else:
             if self.returnFormat == N3 or self.returnFormat == TURTLE:
