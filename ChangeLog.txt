@@ -1,6 +1,8 @@
 SPARQLWrapper's changelog:
 -------------------------
 
+YYYY-MM-DD  1.6.2   - ...
+
 2014-07-21  1.6.1   - Added missing query types
                     - Added a new method to the API to select the request method to be fully SPARQL 1.1 Protocol compliant                   
                     - Improved the test suite coverage, including support to run the tests under Python 3.x

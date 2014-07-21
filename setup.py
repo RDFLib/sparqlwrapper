@@ -22,7 +22,7 @@ if sys.version_info[0:2] < (2, 6):
 
 setup(
       name = 'SPARQLWrapper',
-      version = '1.6.1',
+      version = '1.6.2',
       description = 'SPARQL Endpoint interface to Python',
       long_description = 'This is a wrapper around a SPARQL service. It helps in creating the query URI and, possibly, convert the result into a more manageable format.',
       license = 'W3C SOFTWARE NOTICE AND LICENSE', #Should be removed by PEP  314
