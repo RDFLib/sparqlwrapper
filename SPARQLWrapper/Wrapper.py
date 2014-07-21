@@ -68,10 +68,10 @@ ADD        = "ADD"
 _allowedQueryTypes = [SELECT, CONSTRUCT, ASK, DESCRIBE, INSERT, DELETE, CREATE, CLEAR, DROP,
                       LOAD, COPY, MOVE, ADD]
 
-# Possible methods to perform update operations
+# Possible methods to perform requests
 URLENCODED = "urlencoded"
 POSTDIRECTLY = "postdirectly"
-_UPDATE_METHODS  = [URLENCODED, POSTDIRECTLY]
+_REQUEST_METHODS  = [URLENCODED, POSTDIRECTLY]
 
 # Possible output format (mime types) that can be converted by the local script. Unfortunately,
 # it does not work by simply setting the return format, because there is still a certain level of confusion
@@ -91,7 +91,6 @@ _ALL             = ["*/*"]
 _RDF_POSSIBLE    = _RDF_XML + _RDF_N3
 _SPARQL_POSSIBLE = _SPARQL_XML + _SPARQL_JSON + _RDF_XML + _RDF_N3
 _SPARQL_PARAMS   = ["query"]
-
 
 try:
     import rdflib_jsonld
@@ -174,7 +173,7 @@ class SPARQLWrapper(object):
         self.queryType = SELECT
         self.queryString = """SELECT * WHERE{ ?s ?p ?o }"""
         self.timeout = None
-        self.updateMethod = URLENCODED
+        self.requestMethod = URLENCODED
 
     def setReturnFormat(self, format):
         """Set the return format. If not an allowed value, the setting is ignored.
@@ -193,19 +192,25 @@ class SPARQLWrapper(object):
         """
         self.timeout = int(timeout)
 
-    def setUpdateMethod(self, method):
-        """Set the internal method to use to perform update operations,
-        either URL-encoded (C{SPARQLWrapper.URLENCODED}) or 
+    def setRequestMethod(self, method):
+        """Set the internal method to use to perform the request for query or
+        update operations, either URL-encoded (C{SPARQLWrapper.URLENCODED}) or 
         POST directly (C{SPARQLWrapper.POSTDIRECTLY}).
-        Further details at U{http://www.w3.org/TR/sparql11-protocol/#update-operation}.
+        Further details at U{http://www.w3.org/TR/sparql11-protocol/#query-operation}
+        and U{http://www.w3.org/TR/sparql11-protocol/#update-operation}.
 
-        @param method: update method
+        @param method: method
         @type method: str
         """
-        if method in _UPDATE_METHODS:
-            self.updateMethod = method
+        if method in _REQUEST_METHODS:
+            self.requestMethod = method
         else:
             warnings.warn("invalid update method '%s'" % method, RuntimeWarning)
+
+    @deprecated
+    def setUpdateMethod(self, method):
+        warnings.warn("deprecated method, use setRequestMethod() instead", RuntimeWarning)
+        setRequestMethod(method)
 
     @deprecated
     def addDefaultGraph(self, uri):
@@ -430,7 +435,7 @@ class SPARQLWrapper(object):
             if self.method != POST:
                 warnings.warn("update operations MUST be done by POST")
 
-            if self.updateMethod == POSTDIRECTLY:
+            if self.requestMethod == POSTDIRECTLY:
                 request = urllib2.Request(uri + "?" + urllib.urlencode(parameters, True))
                 request.add_header("Content-Type", "application/sparql-update")
                 request.data = self.queryString.encode('UTF-8')
@@ -445,7 +450,7 @@ class SPARQLWrapper(object):
             uri = self.endpoint
 
             if self.method == POST:
-                if self.updateMethod == POSTDIRECTLY:
+                if self.requestMethod == POSTDIRECTLY:
                     request = urllib2.Request(uri + "?" + urllib.urlencode(parameters, True))
                     request.add_header("Content-Type", "application/sparql-query")
                     request.data = self.queryString.encode('UTF-8')
