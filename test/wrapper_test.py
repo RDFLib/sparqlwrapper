@@ -167,8 +167,9 @@ class SPARQLWrapper_Test(unittest.TestCase):
         self.wrapper.setQuery('PREFIX e: <http://example.org/> INSERT {e:a e:b e:c}')
         self.assertEqual(INSERT, self.wrapper.queryType)
 
-        self.wrapper.setQuery('UNKNOWN {e:a e:b e:c}')
-        self.assertEqual(SELECT, self.wrapper.queryType, 'unknown queries result in SELECT')
+        with warnings.catch_warnings(record=True) as w:
+            self.wrapper.setQuery('UNKNOWN {e:a e:b e:c}')
+            self.assertEqual(SELECT, self.wrapper.queryType, 'unknown queries result in SELECT')
 
     def testSetTimeout(self):
         self.wrapper.setTimeout(10)
@@ -271,6 +272,7 @@ class SPARQLWrapper_Test(unittest.TestCase):
         self.assertTrue('query' in parameters)
         self.assertTrue('update' not in parameters)
 
+        self.wrapper.setMethod(POST)
         self.wrapper.setQuery('PREFIX e: <http://example.org/> INSERT {e:a e:b e:c}')
         parameters = self._get_request_parameters(self.wrapper)
         self.assertTrue('update' in parameters)
