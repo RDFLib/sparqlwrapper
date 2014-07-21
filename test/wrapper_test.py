@@ -22,7 +22,9 @@ if _top_level_path not in sys.path:
     sys.path.insert(0, _top_level_path)
 # end of hack
 
-from SPARQLWrapper import SPARQLWrapper, XML, GET, POST, JSON, JSONLD, N3, TURTLE, RDF, SELECT, INSERT
+from SPARQLWrapper import SPARQLWrapper
+from SPARQLWrapper import XML, GET, POST, JSON, JSONLD, N3, TURTLE, RDF, SELECT, INSERT
+from SPARQLWrapper import URLENCODED, POSTDIRECTLY
 from SPARQLWrapper.Wrapper import QueryResult, QueryBadFormed, EndPointNotFound, EndPointInternalError
 
 
@@ -204,6 +206,12 @@ class SPARQLWrapper_Test(unittest.TestCase):
         request = self._get_request(self.wrapper)
 
         self.assertEqual("GET", request.get_method())
+
+    def testSetRequestMethod(self):
+        self.assertEqual(URLENCODED, self.wrapper.requestMethod)
+
+        self.wrapper.setRequestMethod(POSTDIRECTLY)
+        self.assertEqual(POSTDIRECTLY, self.wrapper.requestMethod)
 
     def testIsSparqlUpdateRequest(self):
         self.wrapper.setQuery('DELETE WHERE {?s ?p ?o}')
