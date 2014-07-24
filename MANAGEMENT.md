@@ -9,6 +9,8 @@ ownership by be mentioned as contributor to the project (`AUTHORS.md`).
 
 ## Release
 
+### Software
+
 The release process is quite simple, just few things have to be done:
 
 First, do not forget to update the changelog (`ChangeLog.txt` file).
@@ -25,4 +27,15 @@ And then upload the release to pypi:
 
 Don't forget to increment to the next version in the corresponding files
 (`setup.py` and `SPARQLWrapper/__init__.py`).
+
+### Documentation
+In order to provide online documentation, some steps need to be accomplished.
+
+First, generate the documentation using [epydoc](http://epydoc.sourceforge.net/) using the makefile
+	make doc
+
+And then upload the documentation generated (`doc folder`) to GitHub (`gh-pages` branch).
+
+After that, the online version of the documentation would be available on [SPARQL Wrapper GitHub](http://rdflib.github.io/sparqlwrapper/resources/doc/)
+
 
