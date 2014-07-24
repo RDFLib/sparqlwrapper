@@ -168,6 +168,11 @@ class SPARQLWrapper_Test(unittest.TestCase):
 
         self.wrapper.setQuery('PREFIX e: <http://example.org/> INSERT {e:a e:b e:c}')
         self.assertEqual(INSERT, self.wrapper.queryType)
+        
+        self.wrapper.setQuery("""#CONSTRUCT {?s ?p ?o} 
+                                   SELECT ?s ?p ?o
+                                   WHERE {?s ?p ?o}""")
+        self.assertEqual(SELECT, self.wrapper.queryType)        
 
         with warnings.catch_warnings(record=True) as w:
             self.wrapper.setQuery('UNKNOWN {e:a e:b e:c}')
