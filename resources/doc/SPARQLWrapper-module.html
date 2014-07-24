@@ -246,6 +246,8 @@ except:
     <p>Note that some combination may not work yet with all SPARQL 
     processors (eg, there are implementations where POST+JSON return does 
     not work). Hopefully, this problem will eventually disappear.</p>
+    <p>Note that SPARQLWrapper only supports nowadays query using POST via 
+    URL-encoded.</p>
   <h1 class="heading">Acknowledgement</h1>
     <p>The package was greatly inspired by <a 
     href="http://thefigtrees.net/lee/blog/2006/04/sparql_calendar_demo_a_sparql.html"
@@ -285,13 +287,13 @@ except:
         </li>
       </ul>
       <p><strong>Version:</strong>
-        1.5.2
+        1.6.1
       </p>
       <p><strong>Date:</strong>
-        2012-08-28
+        2014-05-12
       </p>
       <p><strong>Contact:</strong>
-        sparql-wrapper-devel@lists.sourceforge.net
+        rdflib-dev@googlegroups.com
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -344,7 +346,7 @@ except:
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="__version__"></a><span class="summary-name">__version__</span> = <code title="'1.5.2'"><code class="variable-quote">'</code><code class="variable-string">1.5.2</code><code class="variable-quote">'</code></code><br />
+        <a name="__version__"></a><span class="summary-name">__version__</span> = <code title="'1.6.1'"><code class="variable-quote">'</code><code class="variable-string">1.6.1</code><code class="variable-quote">'</code></code><br />
       The version of SPARQLWrapper
     </td>
   </tr>
@@ -369,7 +371,7 @@ except:
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="__url__"></a><span class="summary-name">__url__</span> = <code title="'http://sparql-wrapper.sourceforge.net/'"><code class="variable-quote">'</code><code class="variable-string">http://sparql-wrapper.sourceforge.net/</code><code class="variable-quote">'</code></code><br />
+        <a name="__url__"></a><span class="summary-name">__url__</span> = <code title="'http://rdflib.github.io/sparqlwrapper'"><code class="variable-quote">'</code><code class="variable-string">http://rdflib.github.io/sparqlwrapper</code><code class="variable-quote">'</code></code><br />
       The URL for SPARQLWrapper's homepage
     </td>
   </tr>
@@ -377,16 +379,16 @@ except:
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="__contact__"></a><span class="summary-name">__contact__</span> = <code title="'sparql-wrapper-devel@lists.sourceforge.net'"><code class="variable-quote">'</code><code class="variable-string">sparql-wrapper-devel@lists.sourceforge.net</code><code class="variable-quote">'</code></code><br />
-      Mail list to contact to other people SPARQLWrappers folks and the 
-      developers
+        <a name="__contact__"></a><span class="summary-name">__contact__</span> = <code title="'rdflib-dev@googlegroups.com'"><code class="variable-quote">'</code><code class="variable-string">rdflib-dev@googlegroups.com</code><code class="variable-quote">'</code></code><br />
+      Mail list to contact to other people RDFLib and SPARQLWrappers folks 
+      and developers
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="__date__"></a><span class="summary-name">__date__</span> = <code title="'2012-08-28'"><code class="variable-quote">'</code><code class="variable-string">2012-08-28</code><code class="variable-quote">'</code></code><br />
+        <a name="__date__"></a><span class="summary-name">__date__</span> = <code title="'2014-05-12'"><code class="variable-quote">'</code><code class="variable-string">2014-05-12</code><code class="variable-quote">'</code></code><br />
       Last update
     </td>
   </tr>
@@ -394,7 +396,7 @@ except:
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="SPARQLWrapper-module.html#__agent__" class="summary-name">__agent__</a> = <code title="'sparqlwrapper 1.5.2 (http://sparql-wrapper.sourceforge.net/)'"><code class="variable-quote">'</code><code class="variable-string">sparqlwrapper 1.5.2 (http://sparql-wrapper.source</code><code class="variable-ellipsis">...</code></code>
+        <a href="SPARQLWrapper-module.html#__agent__" class="summary-name">__agent__</a> = <code title="'sparqlwrapper 1.6.1 (rdflib.github.io/sparqlwrapper)'"><code class="variable-quote">'</code><code class="variable-string">sparqlwrapper 1.6.1 (rdflib.github.io/sparqlwrapp</code><code class="variable-ellipsis">...</code></code>
     </td>
   </tr>
 <tr>
@@ -472,7 +474,7 @@ except:
   <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
-<code class="variable-quote">'</code><code class="variable-string">sparqlwrapper 1.5.2 (http://sparql-wrapper.sourceforge.net/)</code><code class="variable-quote">'</code>
+<code class="variable-quote">'</code><code class="variable-string">sparqlwrapper 1.6.1 (rdflib.github.io/sparqlwrapper)</code><code class="variable-quote">'</code>
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -510,7 +512,7 @@ except:
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Aug 28 12:43:28 2012
+    Generated by Epydoc 3.0.1 on Thu Jul 24 14:18:35 2014
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

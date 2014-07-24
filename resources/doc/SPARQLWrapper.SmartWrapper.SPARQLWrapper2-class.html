@@ -63,6 +63,8 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class SPARQLWrapper2</h1><p class="nomargin-top"><span class="codelink"><a href="SPARQLWrapper.SmartWrapper-pysrc.html#SPARQLWrapper2">source&nbsp;code</a></span></p>
 <pre class="base-tree">
+           object --+    
+                    |    
 <a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html">Wrapper.SPARQLWrapper</a> --+
                         |
                        <strong class="uidshort">SPARQLWrapper2</strong>
@@ -176,18 +178,40 @@
       <code><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#addDefaultGraph">addDefaultGraph</a></code>,
       <code><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#addExtraURITag">addExtraURITag</a></code>,
       <code><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#addNamedGraph">addNamedGraph</a></code>,
+      <code><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#addParameter">addParameter</a></code>,
+      <code><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#clearParameter">clearParameter</a></code>,
+      <code><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#isSparqlQueryRequest">isSparqlQueryRequest</a></code>,
+      <code><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#isSparqlUpdateRequest">isSparqlUpdateRequest</a></code>,
       <code><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#resetQuery">resetQuery</a></code>,
       <code><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#setCredentials">setCredentials</a></code>,
       <code><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#setMethod">setMethod</a></code>,
       <code><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#setQuery">setQuery</a></code>,
+      <code><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#setRequestMethod">setRequestMethod</a></code>,
+      <code><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#setTimeout">setTimeout</a></code>,
+      <code><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#setUpdateMethod">setUpdateMethod</a></code>,
       <code><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#setUseKeepAlive">setUseKeepAlive</a></code>
       </p>
     <div class="private">    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html">Wrapper.SPARQLWrapper</a></code></b> (private):
       <code><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#_createRequest" onclick="show_private();">_createRequest</a></code>,
-      <code><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#_getURI" onclick="show_private();">_getURI</a></code>,
+      <code><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#_getAcceptHeader" onclick="show_private();">_getAcceptHeader</a></code>,
+      <code><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#_getRequestParameters" onclick="show_private();">_getRequestParameters</a></code>,
       <code><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#_parseQueryType" onclick="show_private();">_parseQueryType</a></code>,
       <code><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#_query" onclick="show_private();">_query</a></code>
       </p></div>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__delattr__</code>,
+      <code>__format__</code>,
+      <code>__getattribute__</code>,
+      <code>__hash__</code>,
+      <code>__new__</code>,
+      <code>__reduce__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__repr__</code>,
+      <code>__setattr__</code>,
+      <code>__sizeof__</code>,
+      <code>__str__</code>,
+      <code>__subclasshook__</code>
+      </p>
     </td>
   </tr>
 </table>
@@ -241,6 +265,31 @@
     </td>
   </tr>
 </table>
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Properties</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Properties"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__class__</code>
+      </p>
+    </td>
+  </tr>
+</table>
 <!-- ==================== METHOD DETAILS ==================== -->
 <a name="section-MethodDetails"></a>
 <table class="details" border="1" cellpadding="3"
@@ -289,7 +338,7 @@
           explicit call, too</li>
     </ul></dd>
     <dt>Overrides:
-        <a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#__init__">Wrapper.SPARQLWrapper.__init__</a>
+        object.__init__
     </dt>
   </dl>
 </td></tr></table>
@@ -418,7 +467,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Aug 28 12:43:29 2012
+    Generated by Epydoc 3.0.1 on Thu Jul 24 14:18:35 2014
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
