@@ -1,6 +1,8 @@
 SPARQLWrapper's changelog:
 -------------------------
 
+YYYY-MM-DD  1.6.3   - ...
+
 2014-07-24  1.6.2   - Fixed query type detection with comments (issue #32)
 
 2014-07-21  1.6.1   - Added missing query types (issue #17)
