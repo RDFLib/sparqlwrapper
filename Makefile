@@ -1,10 +1,9 @@
 # SPARQLWrapper Makefile
 
 NAME=SPARQLWrapper
-VERSION=1.6.3 # remind to check version before run!
+VERSION=`python -c "import SPARQLWrapper,sys;sys.stdout.write(SPARQLWrapper.__version__)";`
 DESTDIR =
 DOCDIR=doc
-PYTHON=python
 
 doc:	clean
 	mkdir -p $(DOCDIR)
