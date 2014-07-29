@@ -185,12 +185,14 @@ class SPARQLWrapper_Test(unittest.TestCase):
         self.wrapper.setMethod(POST)
         self.wrapper.setRequestMethod(POSTDIRECTLY)
         self.wrapper.setQuery(query)
-        request =  self.wrapper._createRequest()
+        request = self._get_request(self.wrapper)
+        self.assertEqual(POST, request.get_method())
 
         self.wrapper.setMethod(POST)
         self.wrapper.setRequestMethod(URLENCODED)
         self.wrapper.setQuery(query)
-        request =  self.wrapper._createRequest()
+        request = self._get_request(self.wrapper)
+        self.assertEqual(POST, request.get_method())
 
     def testSetTimeout(self):
         self.wrapper.setTimeout(10)

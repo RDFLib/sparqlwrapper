@@ -375,8 +375,11 @@ class SPARQLWrapper(object):
         """
         return not self.isSparqlUpdateRequest()
 
-    def _getRequestParameters(self):
+    def _getRequestEncodedParameters(self, query=None):
         queryParameters = self.parameters.copy()
+
+        if query:
+            queryParameters[query[0]] = [query[1]] #tuple (name, value)
 
         # This is very ugly. The fact is that the key for the choice of the output format is not defined.
         # Virtuoso uses 'format',sparqler uses 'output'
@@ -385,20 +388,9 @@ class SPARQLWrapper(object):
         for f in _returnFormatSetting:
             queryParameters[f] = [self.returnFormat]
 
-        utfQueryParameters = {}
-
-        for k, vs in queryParameters.items():
-            encodedValues = []
-
-            for v in vs:
-                if isinstance(v, unicode):
-                    encodedValues.append(v.encode('utf8'))
-                else:
-                    encodedValues.append(v.decode('utf8'))
-
-            utfQueryParameters[k] = encodedValues
-
-        return utfQueryParameters
+        return '&'.join(
+                (urllib.quote_plus(param.encode('utf8'), safe='/') + '=' + urllib.quote_plus(value.encode('utf8'), safe='/')
+                    for param,values in queryParameters.items() for value in values))
 
     def _getAcceptHeader(self):
         if self.queryType in [SELECT, ASK]:
@@ -427,7 +419,6 @@ class SPARQLWrapper(object):
         @return: request
         """
         request = None
-        parameters = self._getRequestParameters()
 
         if self.isSparqlUpdateRequest():
             #protocol details at http://www.w3.org/TR/sparql11-protocol/#update-operation
@@ -437,31 +428,28 @@ class SPARQLWrapper(object):
                 warnings.warn("update operations MUST be done by POST")
 
             if self.requestMethod == POSTDIRECTLY:
-                request = urllib2.Request(uri + "?" + urllib.urlencode(parameters, True))
+                request = urllib2.Request(uri + "?" + self._getRequestEncodedParameters())
                 request.add_header("Content-Type", "application/sparql-update")
                 request.data = self.queryString.encode('UTF-8')
             else:  # URL-encoded
-                parameters["update"] = [self.queryString]
                 request = urllib2.Request(uri)
                 request.add_header("Content-Type", "application/x-www-form-urlencoded")
-                request.data = urllib.urlencode(parameters, True)
+                request.data = self._getRequestEncodedParameters(("update", self.queryString))
         else:
             #protocol details at http://www.w3.org/TR/sparql11-protocol/#query-operation
             uri = self.endpoint
 
             if self.method == POST:
                 if self.requestMethod == POSTDIRECTLY:
-                    request = urllib2.Request(uri + "?" + urllib.urlencode(parameters, True))
+                    request = urllib2.Request(uri + "?" + self._getRequestEncodedParameters())
                     request.add_header("Content-Type", "application/sparql-query")
                     request.data = self.queryString.encode('UTF-8')
                 else:  # URL-encoded
-                    parameters["query"] = [self.queryString]
                     request = urllib2.Request(uri)
                     request.add_header("Content-Type", "application/x-www-form-urlencoded")
-                    request.data = urllib.urlencode(parameters, True)
+                    request.data = self._getRequestEncodedParameters(("query", self.queryString))
             else:  # GET
-                parameters["query"] = [self.queryString]
-                request = urllib2.Request(uri + "?" + urllib.urlencode(parameters, True))
+                request = urllib2.Request(uri + "?" + self._getRequestEncodedParameters(("query", self.queryString)))
 
         request.add_header("User-Agent", self.agent)
         request.add_header("Accept", self._getAcceptHeader())
