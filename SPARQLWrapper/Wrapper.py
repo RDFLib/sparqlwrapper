@@ -378,8 +378,9 @@ class SPARQLWrapper(object):
     def _getRequestEncodedParameters(self, query=None):
         queryParameters = self.parameters.copy()
 
-        if query:
-            queryParameters[query[0]] = [query[1]] #tuple (name, value)
+        if query and type(query) == tuple and len(query) == 2:
+            #tuple ("query"/"update", queryString)
+            queryParameters[query[0]] = [query[1]] 
 
         # This is very ugly. The fact is that the key for the choice of the output format is not defined.
         # Virtuoso uses 'format',sparqler uses 'output'
