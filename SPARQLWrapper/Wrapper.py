@@ -392,9 +392,9 @@ class SPARQLWrapper(object):
 
             for v in vs:
                 if isinstance(v, unicode):
-                    encodedValues.append(v.encode('utf-8'))
+                    encodedValues.append(v.encode('utf8'))
                 else:
-                    encodedValues.append(v)
+                    encodedValues.append(v.decode('utf8'))
 
             utfQueryParameters[k] = encodedValues
 
@@ -442,7 +442,6 @@ class SPARQLWrapper(object):
                 request.data = self.queryString.encode('UTF-8')
             else:  # URL-encoded
                 parameters["update"] = [self.queryString]
-
                 request = urllib2.Request(uri)
                 request.add_header("Content-Type", "application/x-www-form-urlencoded")
                 request.data = urllib.urlencode(parameters, True)
@@ -457,7 +456,6 @@ class SPARQLWrapper(object):
                     request.data = self.queryString.encode('UTF-8')
                 else:  # URL-encoded
                     parameters["query"] = [self.queryString]
-
                     request = urllib2.Request(uri)
                     request.add_header("Content-Type", "application/x-www-form-urlencoded")
                     request.data = urllib.urlencode(parameters, True)
