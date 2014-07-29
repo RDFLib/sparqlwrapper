@@ -178,6 +178,21 @@ class SPARQLWrapper_Test(unittest.TestCase):
             self.wrapper.setQuery('UNKNOWN {e:a e:b e:c}')
             self.assertEqual(SELECT, self.wrapper.queryType, 'unknown queries result in SELECT')
 
+    def testSetQueryEncodingIssues(self):
+        #further details from issue #35
+        uquery = u'INSERT DATA { <urn:michel> <urn:says> "é" }'
+        query = uquery.encode('UTF-8')
+
+        self.wrapper.setMethod(POST)
+        self.wrapper.setRequestMethod(POSTDIRECTLY)
+        self.wrapper.setQuery(query)
+        request =  self.wrapper._createRequest()
+
+        self.wrapper.setMethod(POST)
+        self.wrapper.setRequestMethod(URLENCODED)
+        self.wrapper.setQuery(query)
+        request =  self.wrapper._createRequest()
+
     def testSetTimeout(self):
         self.wrapper.setTimeout(10)
         self.assertEqual(10, self.wrapper.timeout)
