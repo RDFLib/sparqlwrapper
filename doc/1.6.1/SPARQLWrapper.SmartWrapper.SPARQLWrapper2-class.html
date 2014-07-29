@@ -1,0 +1,489 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>SPARQLWrapper.SmartWrapper.SPARQLWrapper2</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="SPARQLWrapper-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            >SPARQLWrapper 1.6.1</th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="SPARQLWrapper-module.html">Package&nbsp;SPARQLWrapper</a> ::
+        <a href="SPARQLWrapper.SmartWrapper-module.html">Module&nbsp;SmartWrapper</a> ::
+        Class&nbsp;SPARQLWrapper2
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="SPARQLWrapper.SmartWrapper.SPARQLWrapper2-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class SPARQLWrapper2</h1><p class="nomargin-top"><span class="codelink"><a href="SPARQLWrapper.SmartWrapper-pysrc.html#SPARQLWrapper2">source&nbsp;code</a></span></p>
+<pre class="base-tree">
+           object --+    
+                    |    
+<a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html">Wrapper.SPARQLWrapper</a> --+
+                        |
+                       <strong class="uidshort">SPARQLWrapper2</strong>
+</pre>
+
+<hr />
+<p>Subclass of <a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html" 
+  class="link">Wrapper</a> that works with a JSON SELECT return result 
+  only. The query result is automatically set to a <a 
+  href="SPARQLWrapper.SmartWrapper.Bindings-class.html" 
+  class="link">Bindings</a> instance. Makes the average query processing a 
+  bit simpler...</p>
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Instance Methods</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-InstanceMethods"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="SPARQLWrapper.SmartWrapper.SPARQLWrapper2-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">baseURI</span>,
+        <span class="summary-sig-arg">defaultGraph</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Class encapsulating a full SPARQL call.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="SPARQLWrapper.SmartWrapper-pysrc.html#SPARQLWrapper2.__init__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="SPARQLWrapper.SmartWrapper.SPARQLWrapper2-class.html#setReturnFormat" class="summary-sig-name">setReturnFormat</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">format</span>)</span><br />
+      Set the return format (overriding the <a 
+      href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#setReturnFormat"
+      class="link">inherited method</a>).</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="SPARQLWrapper.SmartWrapper-pysrc.html#SPARQLWrapper2.setReturnFormat">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type"><a href="SPARQLWrapper.SmartWrapper.Bindings-class.html" 
+      class="link">Bindings</a> instance</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="SPARQLWrapper.SmartWrapper.SPARQLWrapper2-class.html#query" class="summary-sig-name">query</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Execute the query and do an automatic conversion.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="SPARQLWrapper.SmartWrapper-pysrc.html#SPARQLWrapper2.query">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="SPARQLWrapper.SmartWrapper.SPARQLWrapper2-class.html#queryAndConvert" class="summary-sig-name">queryAndConvert</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      This is here to override the inherited method; it is equivalent to <a
+      href="SPARQLWrapper.SmartWrapper.SPARQLWrapper2-class.html#query" 
+      class="link">query</a>.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="SPARQLWrapper.SmartWrapper-pysrc.html#SPARQLWrapper2.queryAndConvert">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html">Wrapper.SPARQLWrapper</a></code></b>:
+      <code><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#addCustomParameter">addCustomParameter</a></code>,
+      <code><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#addDefaultGraph">addDefaultGraph</a></code>,
+      <code><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#addExtraURITag">addExtraURITag</a></code>,
+      <code><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#addNamedGraph">addNamedGraph</a></code>,
+      <code><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#addParameter">addParameter</a></code>,
+      <code><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#clearParameter">clearParameter</a></code>,
+      <code><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#isSparqlQueryRequest">isSparqlQueryRequest</a></code>,
+      <code><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#isSparqlUpdateRequest">isSparqlUpdateRequest</a></code>,
+      <code><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#resetQuery">resetQuery</a></code>,
+      <code><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#setCredentials">setCredentials</a></code>,
+      <code><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#setMethod">setMethod</a></code>,
+      <code><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#setQuery">setQuery</a></code>,
+      <code><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#setRequestMethod">setRequestMethod</a></code>,
+      <code><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#setTimeout">setTimeout</a></code>,
+      <code><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#setUpdateMethod">setUpdateMethod</a></code>,
+      <code><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#setUseKeepAlive">setUseKeepAlive</a></code>
+      </p>
+    <div class="private">    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html">Wrapper.SPARQLWrapper</a></code></b> (private):
+      <code><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#_createRequest" onclick="show_private();">_createRequest</a></code>,
+      <code><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#_getAcceptHeader" onclick="show_private();">_getAcceptHeader</a></code>,
+      <code><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#_getRequestParameters" onclick="show_private();">_getRequestParameters</a></code>,
+      <code><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#_parseQueryType" onclick="show_private();">_parseQueryType</a></code>,
+      <code><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#_query" onclick="show_private();">_query</a></code>
+      </p></div>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__delattr__</code>,
+      <code>__format__</code>,
+      <code>__getattribute__</code>,
+      <code>__hash__</code>,
+      <code>__new__</code>,
+      <code>__reduce__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__repr__</code>,
+      <code>__setattr__</code>,
+      <code>__sizeof__</code>,
+      <code>__str__</code>,
+      <code>__subclasshook__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS VARIABLES ==================== -->
+<a name="section-ClassVariables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Class Variables</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-ClassVariables"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html">Wrapper.SPARQLWrapper</a></code></b>:
+      <code><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#pattern">pattern</a></code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== INSTANCE VARIABLES ==================== -->
+<a name="section-InstanceVariables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Instance Variables</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-InstanceVariables"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html">Wrapper.SPARQLWrapper</a></code></b>:
+      <code><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#baseURI">baseURI</a></code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Properties</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Properties"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__class__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Method Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-MethodDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="__init__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">baseURI</span>,
+        <span class="sig-arg">defaultGraph</span>=<span class="sig-default">None</span>)</span>
+    <br /><em class="fname">(Constructor)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="SPARQLWrapper.SmartWrapper-pysrc.html#SPARQLWrapper2.__init__">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Class encapsulating a full SPARQL call. In contrast to the <a 
+  href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html" 
+  class="link">SPARQLWrapper</a> superclass, the return format cannot be 
+  set (it is defaulted to <a href="SPARQLWrapper.Wrapper-module.html#JSON" 
+  class="link">JSON</a>).</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>baseURI</code></strong> (string) - string of the SPARQL endpoint's URI</li>
+        <li><strong class="pname"><code>defaultGraph</code></strong> (string) - URI for the default graph. Default is None, can be set via an 
+          explicit call, too</li>
+    </ul></dd>
+    <dt>Overrides:
+        object.__init__
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="setReturnFormat"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">setReturnFormat</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">format</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="SPARQLWrapper.SmartWrapper-pysrc.html#SPARQLWrapper2.setReturnFormat">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set the return format (overriding the <a 
+  href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#setReturnFormat" 
+  class="link">inherited method</a>). This method does nothing; this class 
+  instance should work with JSON only. The method is defined just to avoid 
+  possible errors by erronously setting the return format. When using this 
+  class, the user can safely ignore this call.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>format</code></strong> - return format</li>
+    </ul></dd>
+    <dt>Overrides:
+        <a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#setReturnFormat">Wrapper.SPARQLWrapper.setReturnFormat</a>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="query"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">query</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="SPARQLWrapper.SmartWrapper-pysrc.html#SPARQLWrapper2.query">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Execute the query and do an automatic conversion.</p>
+  <p>Exceptions can be raised if either the URI is wrong or the HTTP sends 
+  back an error. The usual urllib2 exceptions are raised, which cover 
+  possible SPARQL errors, too.</p>
+  <p>If the query type is <i>not</i> SELECT, the method falls back to the 
+  <a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#query" 
+  class="link">corresponding method in the superclass</a>.</p>
+  <dl class="fields">
+    <dt>Returns: <a href="SPARQLWrapper.SmartWrapper.Bindings-class.html" 
+      class="link">Bindings</a> instance</dt>
+        <dd>query result</dd>
+    <dt>Overrides:
+        <a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#query">Wrapper.SPARQLWrapper.query</a>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="queryAndConvert"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">queryAndConvert</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="SPARQLWrapper.SmartWrapper-pysrc.html#SPARQLWrapper2.queryAndConvert">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>This is here to override the inherited method; it is equivalent to <a 
+  href="SPARQLWrapper.SmartWrapper.SPARQLWrapper2-class.html#query" 
+  class="link">query</a>.</p>
+  <p>If the query type is <i>not</i> SELECT, the method falls back to the 
+  <a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#queryAndConvert" 
+  class="link">corresponding method in the superclass</a>.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>the converted query result.</dd>
+    <dt>Overrides:
+        <a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#queryAndConvert">Wrapper.SPARQLWrapper.queryAndConvert</a>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="SPARQLWrapper-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            >SPARQLWrapper 1.6.1</th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Tue Jul 29 21:01:29 2014
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>
