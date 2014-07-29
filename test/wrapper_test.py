@@ -180,8 +180,7 @@ class SPARQLWrapper_Test(unittest.TestCase):
 
     def testSetQueryEncodingIssues(self):
         #further details from issue #35
-        uquery = u'INSERT DATA { <urn:michel> <urn:says> "é" }'
-        query = uquery.encode('UTF-8')
+        query = u'INSERT DATA { <urn:michel> <urn:says> "é" }'
 
         self.wrapper.setMethod(POST)
         self.wrapper.setRequestMethod(POSTDIRECTLY)
