@@ -439,7 +439,7 @@ class SPARQLWrapper(object):
             if self.requestMethod == POSTDIRECTLY:
                 request = urllib2.Request(uri + "?" + urllib.urlencode(parameters, True))
                 request.add_header("Content-Type", "application/sparql-update")
-                request.data = self.queryString.encode('UTF-8') if type(self.queryString) == str else self.queryString.decode().encode('UTF-8')
+                request.data = self.queryString.encode('UTF-8') if type(self.queryString) == str else self.queryString.decode('UTF-8').encode('UTF-8')
             else:  # URL-encoded
                 parameters["update"] = [self.queryString]
 
@@ -454,7 +454,7 @@ class SPARQLWrapper(object):
                 if self.requestMethod == POSTDIRECTLY:
                     request = urllib2.Request(uri + "?" + urllib.urlencode(parameters, True))
                     request.add_header("Content-Type", "application/sparql-query")
-                    request.data = self.queryString.encode('UTF-8') if type(self.queryString) == str else self.queryString.decode().encode('UTF-8')
+                    request.data = self.queryString.encode('UTF-8') if type(self.queryString) == str else self.queryString.decode('UTF-8').encode('UTF-8')
                 else:  # URL-encoded
                     parameters["query"] = [self.queryString]
 
