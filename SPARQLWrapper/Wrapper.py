@@ -332,7 +332,8 @@ class SPARQLWrapper(object):
             @rtype: string
         """
         try:
-            query = re.sub(re.compile("#.*?\n" ), "" , str(query)) # remove all occurance singleline comments (issue #32)
+            query = query if type(query)==str else query.decode()
+            query = re.sub(re.compile("#.*?\n" ), "" , query) # remove all occurance singleline comments (issue #32)
             r_queryType = self.pattern.search(query).group("queryType").upper()
         except AttributeError:
             warnings.warn("not detected query type for query '%s'" % query.replace("\n", " "), RuntimeWarning)
