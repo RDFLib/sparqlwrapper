@@ -1,19 +1,19 @@
 # Authors
 
-* Ivan Herman <ivan@w3.org>   
-* Sergio Fernández <sergio.fernandez@salzburgresearch.at>
-* Carlos Tejo <carlos.tejo@fundacionctic.org>
-* Alexey Zakhlestin <indeyets@gmail.com>
+* Ivan Herman ([@iherman](http://github.com/iherman))  
+* Sergio Fernández ([@wikier](http://github.com/wikier))
+* Carlos Tejo ([@dayures](http://github.com/dayures))
+* Alexey Zakhlestin ([@indeyets](http://github.com/indeyets))
 
 # Contributors
 
-* Obey Arthur Liu <arthur@milliways.fr>, different patches
-* Christopher Lenz <cmlenz@gmx.de>, feature to allow developers to choose the json module
-* Pēteris Caune <cuu508@gmail.com>, great feedback and patches
-* Bogdan Benea <bugdone@users.sourceforge.net>, patch for the query regular expresion
-* William Waites <ww@styx.org>, patches for RDFLib3 
-* Christoph Burgmer <cburgmer@users.sourceforge.net>, patches for RDFLib3
-* Thomas Kluyver <takowl@gmail.com>, patches for Python 3.x
-* Diego Berrueta <diego.berrueta@fundacionctic.org>, new function for printing results as table
-* Olivier Berger <olivier.berger@telecom-sudparis.eu>, patch regarding raw response for unknown formats
-* Urs Holzer <urs@andonyar.com>, features, patches and test
+* Obey Arthur Liu ([@ArthurLiu](http://github.com/ArthurLiu)): different patches
+* Christopher Lenz ([@cmlenz](http://github.com/cmlenz)): feature to allow developers to choose the json module
+* Pēteris Caune ([@cuu508](http://github.com/cuu508)): great feedback and patches
+* Bogdan Benea ([bugdone@users.sourceforge.net](mailto:bugdone@users.sourceforge.net)), patch for the query regular expresion
+* William Waites ([@wwaites](http://github.com/wwaites)): patches for RDFLib3 
+* Christoph Burgmer ([@cburgmer](http://github.com/cburgmer)): patches for RDFLib3
+* Thomas Kluyver ([@takluyver](http://github.com/takluyver)): patches for Python 3.x
+* Diego Berrueta ([@berrueta](http://github.com/berrueta)): new function for printing results as table
+* Olivier Berger ([@olberger](http://github.com/olberger)): patch regarding raw response for unknown formats
+* Urs Holzer ([@uholzer](http://github.com/uholzer)): features, patches and testing
