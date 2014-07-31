@@ -95,20 +95,7 @@
       Here you have an example of how to use the library in your python program:
     </p>
 
-    <pre><code><strong>from</strong> SPARQLWrapper <strong>import</strong> SPARQLWrapper, JSON
-
-sparql = SPARQLWrapper("<em>http://dbpedia.org/sparql</em>")
-sparql.setQuery("""<em>
-    PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
-    SELECT ?label
-    WHERE { &lt;http://dbpedia.org/resource/Asturias&gt; rdfs:label ?label }
-</em>""")
-sparql.setReturnFormat(JSON)
-results = sparql.query().convert()
-
-<strong>for</strong> result <strong>in</strong> results["<em>results</em>"]["<em>bindings</em>"]:
-    <strong>print</strong>(result["<em>label</em>"]["<em>value</em>"])
-</code></pre>
+    <script src="https://gist.github.com/wikier/857f88534c3d3a910b87.js"></script>
 
     <p>
       You can also read <a href="doc/latest/">online documentation</a>
