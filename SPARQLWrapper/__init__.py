@@ -190,5 +190,5 @@ from Wrapper import GET, POST
 from Wrapper import SELECT, CONSTRUCT, ASK, DESCRIBE, INSERT, DELETE
 from Wrapper import URLENCODED, POSTDIRECTLY
 
-#from SmartWrapper import SPARQLWrapper2
+from SmartWrapper import SPARQLWrapper2
 
