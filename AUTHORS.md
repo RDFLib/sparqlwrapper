@@ -3,6 +3,7 @@
 * Ivan Herman <ivan@w3.org>   
 * Sergio Fernández <sergio.fernandez@salzburgresearch.at>
 * Carlos Tejo <carlos.tejo@fundacionctic.org>
+* Alexey Zakhlestin <indeyets@gmail.com>
 
 # Contributors
 
@@ -15,5 +16,4 @@
 * Thomas Kluyver <takowl@gmail.com>, patches for Python 3.x
 * Diego Berrueta <diego.berrueta@fundacionctic.org>, new function for printing results as table
 * Olivier Berger <olivier.berger@telecom-sudparis.eu>, patch regarding raw response for unknown formats
-* Alexey Zakhlestin <indeyets@gmail.com>, several patches
 * Urs Holzer <urs@andonyar.com>, features, patches and test
