@@ -16,4 +16,5 @@
 * Thomas Kluyver ([@takluyver](http://github.com/takluyver)): patches for Python 3.x
 * Diego Berrueta ([@berrueta](http://github.com/berrueta)): new function for printing results as table
 * Olivier Berger ([@olberger](http://github.com/olberger)): patch regarding raw response for unknown formats
+* Benjamin Cogrel ([@bcogrel](http://github.com/bcogrel)): standard query types
 * Urs Holzer ([@uholzer](http://github.com/uholzer)): features, patches and testing
