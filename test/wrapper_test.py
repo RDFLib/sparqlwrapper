@@ -77,6 +77,16 @@ class SPARQLWrapper_Test(unittest.TestCase):
 
         return parameters
 
+    @staticmethod
+    def _get_request_parameters_as_bytes(wrapper):
+        request = SPARQLWrapper_Test._get_request(wrapper)
+        parameters = SPARQLWrapper_Test._get_parameters_from_request(request)
+
+        if sys.version < '3':
+            return parameters
+        else:
+            return {k: [v.encode('utf-8') for v in vs] for k,vs in parameters.iteritems()}
+
     def setUp(self):
         self.wrapper = SPARQLWrapper(endpoint='http://example.org/sparql')
         _victim.urlopener = urlopener
@@ -180,19 +190,29 @@ class SPARQLWrapper_Test(unittest.TestCase):
 
     def testSetQueryEncodingIssues(self):
         #further details from issue #35
-        query = u'INSERT DATA { <urn:michel> <urn:says> "é" }'
+        query = u'INSERT DATA { <urn:michel> <urn:says> "これはテストです" }'
+        query_bytes = query.encode('utf-8')
 
         self.wrapper.setMethod(POST)
         self.wrapper.setRequestMethod(POSTDIRECTLY)
-        self.wrapper.setQuery(query)
-        request = self._get_request(self.wrapper)
-        self.assertEqual(POST, request.get_method())
 
-        self.wrapper.setMethod(POST)
-        self.wrapper.setRequestMethod(URLENCODED)
         self.wrapper.setQuery(query)
         request = self._get_request(self.wrapper)
-        self.assertEqual(POST, request.get_method())
+        self.assertEquals(query_bytes, request.data)
+
+        self.wrapper.setQuery(query_bytes)
+        request = self._get_request(self.wrapper)
+        self.assertEquals(query_bytes, request.data)
+
+        self.wrapper.setRequestMethod(URLENCODED)
+
+        self.wrapper.setQuery(query)
+        parameters = self._get_request_parameters_as_bytes(self.wrapper)
+        self.assertEquals(query_bytes, parameters['update'][0])
+
+        self.wrapper.setQuery(query_bytes)
+        parameters = self._get_request_parameters_as_bytes(self.wrapper)
+        self.assertEquals(query_bytes, parameters['update'][0])
 
     def testSetTimeout(self):
         self.wrapper.setTimeout(10)

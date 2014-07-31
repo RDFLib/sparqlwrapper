@@ -29,6 +29,7 @@ from urllib2 import urlopen as urlopener  # don't change the name: tests overrid
 import socket
 import base64
 import re
+import sys
 import warnings
 
 import jsonlayer
@@ -170,8 +171,7 @@ class SPARQLWrapper(object):
             self.addParameter("default-graph-uri", self._defaultGraph)
         self.returnFormat = self._defaultReturnFormat
         self.method = GET
-        self.queryType = SELECT
-        self.queryString = """SELECT * WHERE{ ?s ?p ?o }"""
+        self.setQuery("""SELECT * WHERE{ ?s ?p ?o }""")
         self.timeout = None
         self.requestMethod = URLENCODED
 
@@ -315,6 +315,21 @@ class SPARQLWrapper(object):
             @type query: string
             @bug: #2320024
         """
+        if sys.version < '3':  # have to write it like this, for 2to3 compatibility
+            if isinstance(query, unicode):
+                pass
+            elif isinstance(query, str):
+                query = query.decode('utf-8')
+            else:
+                raise TypeError('setQuery takes either unicode-strings or utf-8 encoded byte-strings')
+        else:
+            if isinstance(query, str):
+                pass
+            elif isinstance(query, bytes):
+                query = query.decode('utf-8')
+            else:
+                raise TypeError('setQuery takes either unicode-strings or utf-8 encoded byte-strings')
+
         self.queryString = query
         self.queryType   = self._parseQueryType(query)
 
