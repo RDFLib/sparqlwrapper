@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import SPARQLWrapper
-
 try:
     from ez_setup import use_setuptools
     use_setuptools()
@@ -23,15 +21,17 @@ if sys.version_info[0:2] < (2, 6):
     _requires.append('simplejson')
     _install_requires.append('simplejson == 2.0.9')
 
+import SPARQLWrapper
+
 setup(
       name = 'SPARQLWrapper',
       version = SPARQLWrapper.__version__,
       description = 'SPARQL Endpoint interface to Python',
       long_description = 'This is a wrapper around a SPARQL service. It helps in creating the query URI and, possibly, convert the result into a more manageable format.',
       license = 'W3C SOFTWARE NOTICE AND LICENSE', # should be removed by PEP 314
-      author = "Ivan Herman, Sergio Fernandez, Carlos Tejo Alonso",
-      author_email = "ivan at ivan-herman net, sergio.fernandez at salzburgresearch.at, carlos.tejo at fundacionctic org",
-      url = 'http://rdflib.github.io/sparqlwrapper',
+      author = SPARQLWrapper__authors__,
+      author_email = "ivan at ivan-herman net, sergio at wikier org, carlos.tejo at gmail com, indeyets at gmail com",
+      url = SPARQLWrapper.__url__,
       download_url = 'https://github.com/RDFLib/sparqlwrapper/releases',
       platforms = ['any'], # should be removed by PEP 314
       packages = ['SPARQLWrapper'],
@@ -50,4 +50,3 @@ setup(
       #requires_python = '>=2.5', # Future in PEP 345
       #scripts = ['ez_setup.py']
 )
-

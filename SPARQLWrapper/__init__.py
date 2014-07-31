@@ -166,7 +166,7 @@ The package was greatly inspired by U{Lee Feigenbaum's similar package for Javas
 __version__ = "1.6.3"
 """The version of SPARQLWrapper"""
 
-__authors__  = u"Ivan Herman, Sergio Fernández, Carlos Tejo Alonso"
+__authors__  = u"Ivan Herman, Sergio Fernández, Carlos Tejo Alonso, Alexey Zakhlestin"
 """The primary authors of SPARQLWrapper"""
 
 __license__ = u'W3C® SOFTWARE NOTICE AND LICENSE, http://www.w3.org/Consortium/Legal/copyright-software'
