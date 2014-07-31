@@ -85,7 +85,10 @@ class SPARQLWrapper_Test(unittest.TestCase):
         if sys.version < '3':
             return parameters
         else:
-            return {k: [v.encode('utf-8') for v in vs] for k,vs in parameters.iteritems()}
+            result = {}
+            for k,vs in parameters.iteritems():
+                result[k] = [v.encode('utf-8') for v in vs]
+            return result
 
     def setUp(self):
         self.wrapper = SPARQLWrapper(endpoint='http://example.org/sparql')
