@@ -214,6 +214,18 @@ class SPARQLWrapper_Test(unittest.TestCase):
         parameters = self._get_request_parameters_as_bytes(self.wrapper)
         self.assertEquals(query_bytes, parameters['update'][0])
 
+        try:
+            self.wrapper.setQuery(query.encode('sjis'))
+            self.fail()
+        except UnicodeDecodeError:
+            self.assertTrue(True)
+
+        try:
+            self.wrapper.setQuery({'foo': 'bar'})
+            self.fail()
+        except TypeError:
+            self.assertTrue(True)
+
     def testSetTimeout(self):
         self.wrapper.setTimeout(10)
         self.assertEqual(10, self.wrapper.timeout)
