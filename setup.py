@@ -29,7 +29,7 @@ setup(
       description = 'SPARQL Endpoint interface to Python',
       long_description = 'This is a wrapper around a SPARQL service. It helps in creating the query URI and, possibly, convert the result into a more manageable format.',
       license = 'W3C SOFTWARE NOTICE AND LICENSE', # should be removed by PEP 314
-      author = SPARQLWrapper__authors__,
+      author = SPARQLWrapper.__authors__,
       author_email = "ivan at ivan-herman net, sergio at wikier org, carlos.tejo at gmail com, indeyets at gmail com",
       url = SPARQLWrapper.__url__,
       download_url = 'https://github.com/RDFLib/sparqlwrapper/releases',
