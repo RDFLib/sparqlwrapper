@@ -98,7 +98,8 @@ try:
     _allowedFormats.append(JSONLD)
     _RDF_POSSIBLE = _RDF_POSSIBLE + _RDF_JSONLD
 except ImportError:
-    warnings.warn("JSON-LD disabled because no suitable support has been found", RuntimeWarning)
+    #warnings.warn("JSON-LD disabled because no suitable support has been found", RuntimeWarning)
+    pass
 
 # This is very ugly. The fact is that the key for the choice of the output format is not defined. 
 # Virtuoso uses 'format', joseki uses 'output', rasqual seems to use "results", etc. Lee Feigenbaum 
@@ -183,6 +184,8 @@ class SPARQLWrapper(object):
         """
         if format in _allowedFormats :
             self.returnFormat = format
+        else:
+            raise ValueError("Invalid format '%s'; current instance supports: %s", (format, ", ".join(_allowedFormats)))
 
     def setTimeout(self, timeout):
         """Set the timeout (in seconds) to use for querying the endpoint.
