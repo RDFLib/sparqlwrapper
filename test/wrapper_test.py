@@ -159,6 +159,21 @@ class SPARQLWrapper_Test(unittest.TestCase):
         except ImportError:
             self.assertRaises(ValueError, self.wrapper.setReturnFormat, JSONLD)
 
+    def testsSupportsReturnFormat(self):
+        self.assertTrue(self.wrapper.supportsReturnFormat(XML))
+        self.assertTrue(self.wrapper.supportsReturnFormat(JSON))
+        self.assertTrue(self.wrapper.supportsReturnFormat(TURTLE))
+        self.assertTrue(self.wrapper.supportsReturnFormat(N3))
+        self.assertTrue(self.wrapper.supportsReturnFormat(RDF))
+        self.assertFalse(self.wrapper.supportsReturnFormat('nonexistent format'))
+
+        try:
+            import rdflib_jsonld
+            self.assertTrue(self.wrapper.supportsReturnFormat(JSONLD))
+        except ImportError:
+            self.assertFalse(self.wrapper.supportsReturnFormat(JSONLD))
+
+
     def testAddParameter(self):
         self.assertFalse(self.wrapper.addParameter('query', 'dummy'))
         self.assertTrue(self.wrapper.addParameter('param1', 'value1'))
