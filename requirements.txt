@@ -1,1 +1,2 @@
-rdflib rdflib_jsonld
+rdflib
+rdflib_jsonld
