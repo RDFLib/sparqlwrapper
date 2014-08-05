@@ -211,11 +211,6 @@ class SPARQLWrapper(object):
             warnings.warn("invalid update method '%s'" % method, RuntimeWarning)
 
     @deprecated
-    def setUpdateMethod(self, method):
-        warnings.warn("deprecated method, use setRequestMethod() instead", RuntimeWarning)
-        setRequestMethod(method)
-
-    @deprecated
     def addDefaultGraph(self, uri):
         """
             Add a default graph URI.
