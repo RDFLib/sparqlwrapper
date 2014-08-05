@@ -184,8 +184,10 @@ class SPARQLWrapper(object):
         """
         if format in _allowedFormats :
             self.returnFormat = format
+        elif format == JSONLD:
+            raise ValueError("Current instance does not support JSON-LD; you might want to install the rdflib-json package.")
         else:
-            raise ValueError("Invalid format '%s'; current instance supports: %s", (format, ", ".join(_allowedFormats)))
+            raise ValueError("Invalid format '%s'; current instance supports: %s.", (format, ", ".join(_allowedFormats)))
 
     def supportsReturnFormat(self, format):
         """Check if a return format is supported.
