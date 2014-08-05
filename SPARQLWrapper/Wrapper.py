@@ -180,12 +180,20 @@ class SPARQLWrapper(object):
         """Set the return format. If not an allowed value, the setting is ignored.
 
         @param format: Possible values: are L{JSON}, L{XML}, L{TURTLE}, L{N3}, L{RDF} (constants in this module). All other cases are ignored.
-        @type format: string
+        @type format: str
         """
         if format in _allowedFormats :
             self.returnFormat = format
         else:
             raise ValueError("Invalid format '%s'; current instance supports: %s", (format, ", ".join(_allowedFormats)))
+
+    def supportsReturnFormat(self, format):
+        """Check if a return format is supported.
+
+        @param format: Possible values: are L{JSON}, L{XML}, L{TURTLE}, L{N3}, L{RDF} (constants in this module). All other cases are ignored.
+        @type format: bool
+        """
+        return (format in _allowedFormats)
 
     def setTimeout(self, timeout):
         """Set the timeout (in seconds) to use for querying the endpoint.
