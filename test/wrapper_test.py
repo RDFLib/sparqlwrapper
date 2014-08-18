@@ -76,7 +76,11 @@ class SPARQLWrapper_Test(unittest.TestCase):
         if request.get_method() == 'GET':
             pieces_str = urlparse(request.get_full_url()).query
         else:
-            pieces_str = request.data
+            if sys.version < '3':
+                pieces_str = request.data
+            else:
+                pieces_str = request.data.decode('ascii')
+
         return parse_qs(pieces_str)
 
     @staticmethod

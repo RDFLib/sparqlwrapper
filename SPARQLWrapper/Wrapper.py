@@ -465,7 +465,7 @@ class SPARQLWrapper(object):
             else:  # URL-encoded
                 request = urllib2.Request(uri)
                 request.add_header("Content-Type", "application/x-www-form-urlencoded")
-                request.data = self._getRequestEncodedParameters(("update", self.queryString))
+                request.data = self._getRequestEncodedParameters(("update", self.queryString)).encode('ascii')
         else:
             #protocol details at http://www.w3.org/TR/sparql11-protocol/#query-operation
             uri = self.endpoint
@@ -478,7 +478,7 @@ class SPARQLWrapper(object):
                 else:  # URL-encoded
                     request = urllib2.Request(uri)
                     request.add_header("Content-Type", "application/x-www-form-urlencoded")
-                    request.data = self._getRequestEncodedParameters(("query", self.queryString))
+                    request.data = self._getRequestEncodedParameters(("query", self.queryString)).encode('ascii')
             else:  # GET
                 request = urllib2.Request(uri + "?" + self._getRequestEncodedParameters(("query", self.queryString)))
 
