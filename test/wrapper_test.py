@@ -52,6 +52,15 @@ def urlopener_error_generator(code):
         raise HTTPError(request.get_full_url, code, '', {}, StringIO(u''))
 
     return urlopener_error
+
+
+def urlopener_check_data_encoding(request):
+    if sys.version < '3':  # have to write it like this, for 2to3 compatibility
+        if isinstance(request.data, unicode):
+            raise TypeError
+    else:
+        if isinstance(request.data, str):
+            raise TypeError
 # DONE
 
 
@@ -403,6 +412,17 @@ class SPARQLWrapper_Test(unittest.TestCase):
             pass
         except:
             self.fail('got wrong exception')
+
+    def testQueryEncoding(self):
+        query = 'INSERT DATA { <urn:michel> <urn:says> "é" }'
+
+        wrapper = SPARQLWrapper('http://example.com:3030/example')
+        wrapper.setMethod(POST)
+        wrapper.setRequestMethod(URLENCODED)
+        wrapper.setQuery(query)
+
+        _victim.urlopener = urlopener_check_data_encoding
+        wrapper.query()
 
     def testQueryAndConvert(self):
         _oldQueryResult = _victim.QueryResult
