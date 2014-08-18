@@ -400,22 +400,22 @@ class SPARQLWrapper(object):
         return not self.isSparqlUpdateRequest()
 
     def _getRequestEncodedParameters(self, query=None):
-        queryParameters = self.parameters.copy()
+        query_parameters = self.parameters.copy()
 
         if query and type(query) == tuple and len(query) == 2:
             #tuple ("query"/"update", queryString)
-            queryParameters[query[0]] = [query[1]] 
+            query_parameters[query[0]] = [query[1]]
 
         # This is very ugly. The fact is that the key for the choice of the output format is not defined.
         # Virtuoso uses 'format',sparqler uses 'output'
         # However, these processors are (hopefully) oblivious to the parameters they do not understand.
         # So: just repeat all possibilities in the final URI. UGLY!!!!!!!
         for f in _returnFormatSetting:
-            queryParameters[f] = [self.returnFormat]
+            query_parameters[f] = [self.returnFormat]
 
         return '&'.join(
-                (urllib.quote_plus(param.encode('utf8'), safe='/') + '=' + urllib.quote_plus(value.encode('utf8'), safe='/')
-                    for param,values in queryParameters.items() for value in values))
+            (urllib.quote_plus(param.encode('utf8'), safe='/') + '=' + urllib.quote_plus(value.encode('utf8'), safe='/')
+             for param, values in query_parameters.items() for value in values))
 
     def _getAcceptHeader(self):
         if self.queryType in [SELECT, ASK]:
