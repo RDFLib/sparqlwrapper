@@ -490,8 +490,11 @@ class SPARQLWrapper(object):
 
         @return: tuples with the raw request plus the expected format
         """
-        if (self.timeout): socket.setdefaulttimeout(self.timeout)
+        if self.timeout:
+            socket.setdefaulttimeout(self.timeout)
+
         request = self._createRequest()
+
         try:
             response = urlopener(request)
             return response, self.returnFormat
