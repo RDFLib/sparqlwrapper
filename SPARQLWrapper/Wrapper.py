@@ -413,9 +413,15 @@ class SPARQLWrapper(object):
         for f in _returnFormatSetting:
             query_parameters[f] = [self.returnFormat]
 
-        return '&'.join(
-            (urllib.quote_plus(param.encode('utf8'), safe='/') + '=' + urllib.quote_plus(value.encode('utf8'), safe='/')
-             for param, values in query_parameters.items() for value in values))
+        pairs = (
+            "%s=%s" % (
+                urllib.quote_plus(param.encode('UTF-8'), safe='/'),
+                urllib.quote_plus(value.encode('UTF-8'), safe='/')
+            )
+            for param, values in query_parameters.items() for value in values
+        )
+
+        return '&'.join(pairs)
 
     def _getAcceptHeader(self):
         if self.queryType in [SELECT, ASK]:
