@@ -1,6 +1,8 @@
 SPARQLWrapper's changelog:
 -------------------------
 
+YYYY-MM-DD  1.6.4   - ...
+
 2014-08-26  1.6.3   - Fixed unicode problems with urllib in Python 3 (issue #35)
                     - Restored SPARQLWrapper2 class (issue #36)
                     - Enhanced warning for missing rdflib-jsonld (issue #38)
