@@ -35,7 +35,7 @@ if py3:
     _version_re = re.compile(r'__version__\s*=\s*"(.*)"')
     _authors_re = re.compile(r'__authors__\s*=\s*"(.*)"')
     _url_re = re.compile(r'__url__\s*=\s*"(.*)"')
-    for line in open('SPARQLWrapper/__init__.py'):
+    for line in open('SPARQLWrapper/__init__.py', encoding='utf-8'):
         version_match = _version_re.match(line)
         if version_match:
             version = version_match.group(1)

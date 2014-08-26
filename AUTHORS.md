@@ -18,3 +18,4 @@
 * Olivier Berger ([@olberger](http://github.com/olberger)): patch regarding raw response for unknown formats
 * Benjamin Cogrel ([@bcogrel](http://github.com/bcogrel)): standard query types
 * Urs Holzer ([@uholzer](http://github.com/uholzer)): features, patches and testing
+* Alf Lervåg ([@alf](http://github.com/alf)): setup patch
