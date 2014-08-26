@@ -156,7 +156,7 @@ The package was greatly inspired by U{Lee Feigenbaum's similar package for Javas
 
 @summary: Python interface to SPARQL services
 @see: U{SPARQL Specification<http://www.w3.org/TR/rdf-sparql-query/>}
-@authors: U{Ivan Herman<http://www.ivan-herman.net>}, U{Sergio Fernández<http://www.wikier.org>}, U{Carlos Tejo Alonso<http://www.dayures.net>}
+@authors: U{Ivan Herman<http://www.ivan-herman.net>}, U{Sergio Fernandez<http://www.wikier.org>}, U{Carlos Tejo Alonso<http://www.dayures.net>}
 @organization: U{World Wide Web Consortium<http://www.w3.org>}, U{Salzburg Research<http://www.salzburgresearch.at>} and U{Foundation CTIC<http://www.fundacionctic.org/>}.
 @license: U{W3C® SOFTWARE NOTICE AND LICENSE<href="http://www.w3.org/Consortium/Legal/copyright-software">}
 @requires: U{simplejson<http://cheeseshop.python.org/pypi/simplejson>} package.
@@ -166,10 +166,10 @@ The package was greatly inspired by U{Lee Feigenbaum's similar package for Javas
 __version__ = "1.6.4"
 """The version of SPARQLWrapper"""
 
-__authors__  = u"Ivan Herman, Sergio Fernández, Carlos Tejo Alonso, Alexey Zakhlestin"
+__authors__  = "Ivan Herman, Sergio Fernandez, Carlos Tejo Alonso, Alexey Zakhlestin"
 """The primary authors of SPARQLWrapper"""
 
-__license__ = u"W3C® SOFTWARE NOTICE AND LICENSE, http://www.w3.org/Consortium/Legal/copyright-software"
+__license__ = "W3C SOFTWARE NOTICE AND LICENSE, http://www.w3.org/Consortium/Legal/copyright-software"
 """The license governing the use and distribution of SPARQLWrapper"""
 
 __url__ = "http://rdflib.github.io/sparqlwrapper"
