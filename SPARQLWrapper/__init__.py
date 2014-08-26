@@ -166,10 +166,10 @@ The package was greatly inspired by U{Lee Feigenbaum's similar package for Javas
 __version__ = "1.6.4"
 """The version of SPARQLWrapper"""
 
-__authors__  = "Ivan Herman, Sergio Fernández, Carlos Tejo Alonso, Alexey Zakhlestin"
+__authors__  = u"Ivan Herman, Sergio Fernández, Carlos Tejo Alonso, Alexey Zakhlestin"
 """The primary authors of SPARQLWrapper"""
 
-__license__ = "W3C® SOFTWARE NOTICE AND LICENSE, http://www.w3.org/Consortium/Legal/copyright-software"
+__license__ = u"W3C® SOFTWARE NOTICE AND LICENSE, http://www.w3.org/Consortium/Legal/copyright-software"
 """The license governing the use and distribution of SPARQLWrapper"""
 
 __url__ = "http://rdflib.github.io/sparqlwrapper"
