@@ -1,6 +1,6 @@
 # -*- coding: utf8 -*-
 
-"""
+u"""
 
 This is a wrapper around a SPARQL service. It helps in creating the query URI and,
 possibly, convert the result into a more managable format.
