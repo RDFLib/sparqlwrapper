@@ -55,6 +55,7 @@ _allowedRequests = [POST, GET]
 # Possible HTTP Authentication methods
 BASIC = "BASIC"
 DIGEST = "DIGEST"
+_allowedAuth = [BASIC, DIGEST]
 
 # Possible SPARQL/SPARUL query type
 SELECT     = "SELECT"
@@ -325,8 +326,14 @@ class SPARQLWrapper(object):
            @param auth: auth type
            @type auth: string
         """
-        self.http_auth = auth
-
+        if not isinstance(auth, str):
+            raise TypeError('setHTTPAuth takes a string')
+        elif auth.upper() in _allowedAuth:
+            self.http_auth = auth.upper()
+        else:
+            valid_types = ", ".join(_allowedAuth)
+            raise ValueError("Value should be one of {0}".format(valid_types) 
+                    
     def setQuery(self, query):
         """
             Set the SPARQL query text. Note: no check is done on the validity of the query 
