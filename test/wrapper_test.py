@@ -228,6 +228,9 @@ class SPARQLWrapper_Test(unittest.TestCase):
 
         self.assertRaises(ValueError, self.wrapper.setHTTPAuth, 'OAuth')
 
+        self.wrapper.http_auth = "OAuth"
+        self.assertRaises(NotImplementedError, self._get_request, self.wrapper)
+
     def testSetQuery(self):
         self.wrapper.setQuery('PREFIX example: <http://example.org/INSERT/> SELECT * WHERE {?s ?p ?v}')
         self.assertEqual(SELECT, self.wrapper.queryType)
