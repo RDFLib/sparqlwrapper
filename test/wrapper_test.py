@@ -64,8 +64,28 @@ def urlopener_check_data_encoding(request):
             raise TypeError
 # DONE
 
+class TestCase(unittest.TestCase):
 
-class SPARQLWrapper_Test(unittest.TestCase):
+    def assertIsInstance(self, obj, cls, msg=None, *args, **kwargs):
+        """Python < v2.7 compatibility.  Assert 'obj' is instance of 'cls'"""
+        try:
+            f = super(TestCase, self).assertIsInstance
+        except AttributeError:
+            self.assertTrue(isinstance(obj, cls), *args, **kwargs)
+        else:
+            f(obj, cls, *args, **kwargs)
+
+    def assertIsNone(self, obj, msg=None, *args, **kwargs):
+        """Python < v2.7 compatibility.  Assert 'obj' is None"""
+        try:
+            f = super(TestCase, self).assertIsNone
+        except AttributeError:
+            self.assertEqual(obj, None, *args, **kwargs)
+        else:
+            f(obj, *args, **kwargs)
+
+
+class SPARQLWrapper_Test(TestCase):
 
     @staticmethod
     def _get_request(wrapper):
