@@ -515,6 +515,10 @@ class SPARQLWrapper(object):
                 opener = urllib2.build_opener()
                 opener.add_handler(urllib2.HTTPDigestAuthHandler(pwd_mgr))
                 urllib2.install_opener(opener)
+            else:
+                valid_types = ", ".join(_allowedAuth)
+                raise NotImplementedError("Expecting one of: {0}, but received: {1}".format(valid_types,
+                                                                                            self.http_auth))
 
         return request
 
