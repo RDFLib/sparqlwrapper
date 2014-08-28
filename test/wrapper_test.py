@@ -7,6 +7,7 @@ import logging
 logging.basicConfig()
 
 import unittest
+import urllib2
 from urlparse import urlparse
 from urllib2 import Request
 
@@ -209,6 +210,23 @@ class SPARQLWrapper_Test(unittest.TestCase):
         request = self._get_request(self.wrapper)
         self.assertTrue(request.has_header('Authorization'))
         # TODO: test for header-value using some external decoder implementation
+
+    def testSetHTTPAuth(self):
+        self.assertRaises(TypeError, self.wrapper.setHTTPAuth, 123)
+
+        self.wrapper.setCredentials('login', 'password')
+        request = self._get_request(self.wrapper)
+        self.assertTrue(request.has_header('Authorization'))
+        self.assertIsNone(urllib2._opener)
+
+        self.wrapper.setHTTPAuth('DIGEST')
+        self.assertIsNone(urllib2._opener)
+        request = self._get_request(self.wrapper)
+        self.assertFalse(request.has_header('Authorization'))
+        self.assertEqual(self.wrapper.http_auth, 'DIGEST')
+        self.assertIsInstance(urllib2._opener, urllib2.OpenerDirector)
+
+        self.assertRaises(ValueError, self.wrapper.setHTTPAuth, 'OAuth')
 
     def testSetQuery(self):
         self.wrapper.setQuery('PREFIX example: <http://example.org/INSERT/> SELECT * WHERE {?s ?p ?v}')
