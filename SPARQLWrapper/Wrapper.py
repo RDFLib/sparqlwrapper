@@ -52,6 +52,10 @@ POST = "POST"
 GET  = "GET"
 _allowedRequests = [POST, GET]
 
+# Possible HTTP Authentication methods
+BASIC = "BASIC"
+DIGEST = "DIGEST"
+
 # Possible SPARQL/SPARUL query type
 SELECT     = "SELECT"
 CONSTRUCT  = "CONSTRUCT"
@@ -155,6 +159,7 @@ class SPARQLWrapper(object):
         self.agent = agent
         self.user = None
         self.passwd = None
+        self.http_auth = None
         self._defaultGraph = defaultGraph
 
         if returnFormat in _allowedFormats:
@@ -313,6 +318,14 @@ class SPARQLWrapper(object):
         """
         self.user = user
         self.passwd = passwd
+
+    def setHTTPAuth(self, auth):
+        """
+           Set the HTTP Authentication type (Basic or Digest)
+           @param auth: auth type
+           @type auth: string
+        """
+        self.http_auth = auth
 
     def setQuery(self, query):
         """
