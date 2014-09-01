@@ -19,3 +19,4 @@
 * Benjamin Cogrel ([@bcogrel](http://github.com/bcogrel)): standard query types
 * Urs Holzer ([@uholzer](http://github.com/uholzer)): features, patches and testing
 * Alf Lervåg ([@alf](http://github.com/alf)): setup patch
+* Nolan Nichols ([@nicholsn](http://github.com/nicholsn)): http disgest auth support
