@@ -7,6 +7,7 @@ import logging
 logging.basicConfig()
 
 import unittest
+import urllib2
 from urlparse import urlparse
 from urllib2 import Request
 
@@ -63,8 +64,28 @@ def urlopener_check_data_encoding(request):
             raise TypeError
 # DONE
 
+class TestCase(unittest.TestCase):
 
-class SPARQLWrapper_Test(unittest.TestCase):
+    def assertIsInstance(self, obj, cls, msg=None, *args, **kwargs):
+        """Python < v2.7 compatibility.  Assert 'obj' is instance of 'cls'"""
+        try:
+            f = super(TestCase, self).assertIsInstance
+        except AttributeError:
+            self.assertTrue(isinstance(obj, cls), *args, **kwargs)
+        else:
+            f(obj, cls, *args, **kwargs)
+
+    def assertIsNone(self, obj, msg=None, *args, **kwargs):
+        """Python < v2.7 compatibility.  Assert 'obj' is None"""
+        try:
+            f = super(TestCase, self).assertIsNone
+        except AttributeError:
+            self.assertEqual(obj, None, *args, **kwargs)
+        else:
+            f(obj, *args, **kwargs)
+
+
+class SPARQLWrapper_Test(TestCase):
 
     @staticmethod
     def _get_request(wrapper):
@@ -209,6 +230,26 @@ class SPARQLWrapper_Test(unittest.TestCase):
         request = self._get_request(self.wrapper)
         self.assertTrue(request.has_header('Authorization'))
         # TODO: test for header-value using some external decoder implementation
+
+    def testSetHTTPAuth(self):
+        self.assertRaises(TypeError, self.wrapper.setHTTPAuth, 123)
+
+        self.wrapper.setCredentials('login', 'password')
+        request = self._get_request(self.wrapper)
+        self.assertTrue(request.has_header('Authorization'))
+        self.assertIsNone(urllib2._opener)
+
+        self.wrapper.setHTTPAuth('DIGEST')
+        self.assertIsNone(urllib2._opener)
+        request = self._get_request(self.wrapper)
+        self.assertFalse(request.has_header('Authorization'))
+        self.assertEqual(self.wrapper.http_auth, 'DIGEST')
+        self.assertIsInstance(urllib2._opener, urllib2.OpenerDirector)
+
+        self.assertRaises(ValueError, self.wrapper.setHTTPAuth, 'OAuth')
+
+        self.wrapper.http_auth = "OAuth"
+        self.assertRaises(NotImplementedError, self._get_request, self.wrapper)
 
     def testSetQuery(self):
         self.wrapper.setQuery('PREFIX example: <http://example.org/INSERT/> SELECT * WHERE {?s ?p ?v}')

@@ -52,6 +52,11 @@ POST = "POST"
 GET  = "GET"
 _allowedRequests = [POST, GET]
 
+# Possible HTTP Authentication methods
+BASIC = "BASIC"
+DIGEST = "DIGEST"
+_allowedAuth = [BASIC, DIGEST]
+
 # Possible SPARQL/SPARUL query type
 SELECT     = "SELECT"
 CONSTRUCT  = "CONSTRUCT"
@@ -155,6 +160,7 @@ class SPARQLWrapper(object):
         self.agent = agent
         self.user = None
         self.passwd = None
+        self.http_auth = BASIC
         self._defaultGraph = defaultGraph
 
         if returnFormat in _allowedFormats:
@@ -314,6 +320,20 @@ class SPARQLWrapper(object):
         self.user = user
         self.passwd = passwd
 
+    def setHTTPAuth(self, auth):
+        """
+           Set the HTTP Authentication type (Basic or Digest)
+           @param auth: auth type
+           @type auth: string
+        """
+        if not isinstance(auth, str):
+            raise TypeError('setHTTPAuth takes a string')
+        elif auth.upper() in _allowedAuth:
+            self.http_auth = auth.upper()
+        else:
+            valid_types = ", ".join(_allowedAuth)
+            raise ValueError("Value should be one of {0}".format(valid_types))
+                    
     def setQuery(self, query):
         """
             Set the SPARQL query text. Note: no check is done on the validity of the query 
@@ -485,8 +505,20 @@ class SPARQLWrapper(object):
         request.add_header("User-Agent", self.agent)
         request.add_header("Accept", self._getAcceptHeader())
         if self.user and self.passwd:
-            credentials = "%s:%s" % (self.user, self.passwd)
-            request.add_header("Authorization", "Basic %s" % base64.encodestring(credentials.encode('utf-8')))
+            if self.http_auth == BASIC:
+                credentials = "%s:%s" % (self.user, self.passwd)
+                request.add_header("Authorization", "Basic %s" % base64.encodestring(credentials.encode('utf-8')))
+            elif self.http_auth == DIGEST:
+                realm = "SPARQL"
+                pwd_mgr = urllib2.HTTPPasswordMgr()
+                pwd_mgr.add_password(realm, uri, self.user, self.passwd)
+                opener = urllib2.build_opener()
+                opener.add_handler(urllib2.HTTPDigestAuthHandler(pwd_mgr))
+                urllib2.install_opener(opener)
+            else:
+                valid_types = ", ".join(_allowedAuth)
+                raise NotImplementedError("Expecting one of: {0}, but received: {1}".format(valid_types,
+                                                                                            self.http_auth))
 
         return request
 
