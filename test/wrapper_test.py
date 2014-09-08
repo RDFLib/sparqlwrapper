@@ -26,6 +26,7 @@ if _top_level_path not in sys.path:
 from SPARQLWrapper import SPARQLWrapper
 from SPARQLWrapper import XML, GET, POST, JSON, JSONLD, N3, TURTLE, RDF, SELECT, INSERT
 from SPARQLWrapper import URLENCODED, POSTDIRECTLY
+from SPARQLWrapper import BASIC, DIGEST
 from SPARQLWrapper.Wrapper import QueryResult, QueryBadFormed, EndPointNotFound, EndPointInternalError
 
 
@@ -239,11 +240,11 @@ class SPARQLWrapper_Test(TestCase):
         self.assertTrue(request.has_header('Authorization'))
         self.assertIsNone(urllib2._opener)
 
-        self.wrapper.setHTTPAuth('DIGEST')
+        self.wrapper.setHTTPAuth(DIGEST)
         self.assertIsNone(urllib2._opener)
         request = self._get_request(self.wrapper)
         self.assertFalse(request.has_header('Authorization'))
-        self.assertEqual(self.wrapper.http_auth, 'DIGEST')
+        self.assertEqual(self.wrapper.http_auth, DIGEST)
         self.assertIsInstance(urllib2._opener, urllib2.OpenerDirector)
 
         self.assertRaises(ValueError, self.wrapper.setHTTPAuth, 'OAuth')
