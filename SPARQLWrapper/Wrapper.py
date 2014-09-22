@@ -757,7 +757,8 @@ class QueryResult(object):
         for result in results["results"]["bindings"] :
             index = 0
             for var in results["head"]["vars"] :
-                print result[var]["value"].ljust(width[index]),"|",
+                result = self.__get_prettyprint_string_sparql_var_result(result[var])
+                print result.ljust(width[index]),"|",
                 index += 1
             print
 
@@ -768,6 +769,17 @@ class QueryResult(object):
         for result in results["results"]["bindings"] :
             index = 0
             for var in results["head"]["vars"] :
-                width[index] = max(width[index], len(result[var]["value"]))
+                result = self.__get_prettyprint_string_sparql_var_result(result[var])
+                width[index] = max(width[index], len(result))
                 index =+ 1
         return width
+
+    def __get_prettyprint_string_sparql_var_result(self, result):
+        value = result["value"]
+        lang = result.get("xml:lang", None)
+        datatype = result.get("datatype",None)
+        if lang is not None:
+            value+="@"+lang
+        if datatype is not None:
+            value+=" ["+datatype+"]"
+        return value
