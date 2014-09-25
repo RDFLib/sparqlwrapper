@@ -10,5 +10,5 @@ The distribution contains:
 
 * `test`: some unit tests
   
-* `script`: some scripts to run the library against some SPARQL end-points.
+* `script`: some scripts to run the library against some SPARQL endpoints.
 
