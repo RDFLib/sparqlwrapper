@@ -24,6 +24,10 @@ _install_requires = []
 _requires.append('rdflib')
 _install_requires.append('rdflib >= 2.4.2')
 
+# urlgrabber
+_requires.append('urlgrabber')
+_install_requires.append('urlgrabber <= 3.9.0')
+
 # simplejson
 if sys.version_info[0:2] < (2, 6):
     _requires.append('simplejson')
