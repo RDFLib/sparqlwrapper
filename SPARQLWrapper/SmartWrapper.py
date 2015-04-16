@@ -61,6 +61,10 @@ class Value(object):
         except :
             pass
 
+    def __repr__(self):
+        cls = self.__class__.__name__
+        return "%s(%s:%r)" % (cls, self.type, self.value)
+
 ######################################################################################
 
 
