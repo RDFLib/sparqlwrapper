@@ -1,2 +1,3 @@
-rdflib
+rdflib >= 4.0
 rdflib_jsonld
+urlgrabber <= 3.9.0

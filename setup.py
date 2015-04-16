@@ -22,7 +22,7 @@ _install_requires = []
 
 # rdflib
 _requires.append('rdflib')
-_install_requires.append('rdflib >= 2.4.2')
+_install_requires.append('rdflib >= 4.0')
 
 # urlgrabber
 _requires.append('urlgrabber')
