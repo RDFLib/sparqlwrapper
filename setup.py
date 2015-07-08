@@ -14,7 +14,7 @@ try:
     import six
     py3 = six.PY3
 except:
-    py3 = sys.version_info[0] >= 3    
+    py3 = sys.version_info[0] >= 3
 
 # grouping requires
 _requires = []
