@@ -20,5 +20,5 @@
 * Urs Holzer ([@uholzer](http://github.com/uholzer)): features, patches and testing
 * Alf Lervåg ([@alf](http://github.com/alf)): setup patch
 * Nolan Nichols ([@nicholsn](http://github.com/nicholsn)): http disgest auth support
-* Kevin Turner ([@keturn](https://github.com/keturn): `SmartWrapper.Value.__repr__()` implementation 
+* Kevin Turner ([@keturn](https://github.com/keturn)): `SmartWrapper.Value.__repr__()` implementation 
 * Marcelo Jorge Vieira ([@marcelometal](https://github.com/marcelometal)): typos
