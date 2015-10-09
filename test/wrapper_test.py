@@ -230,7 +230,9 @@ class SPARQLWrapper_Test(TestCase):
         self.wrapper.setCredentials('login', 'password')
         request = self._get_request(self.wrapper)
         self.assertTrue(request.has_header('Authorization'))
-        # TODO: test for header-value using some external decoder implementation
+        
+        # expected header for admin:password
+        self.assertEqual("Basic bG9naW46cGFzc3dvcmQ=", request.get_header('Authorization'))
 
     def testSetHTTPAuth(self):
         self.assertRaises(TypeError, self.wrapper.setHTTPAuth, 123)
