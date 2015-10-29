@@ -42,7 +42,7 @@ from SPARQLWrapper import __agent__
 JSON   = "json"
 JSONLD = "json-ld"
 XML    = "xml"
-TURTLE = "n3"
+TURTLE = "turtle"
 N3     = "n3"
 RDF    = "rdf"
 _allowedFormats = [JSON, XML, TURTLE, N3, RDF]
