@@ -1,7 +1,10 @@
 SPARQLWrapper's changelog:
 -------------------------
 
-YYYY-MM-DD  1.6.5   - ...
+2015-10-29  1.7.1   - Fixed build in Python 3.x (issue #57)
+
+2015-10-29  1.7.0   - Added support to HTTP Digest Auth Support (issue #45)
+                    - Improved print_results showing language tag (xml:lang) and datatype
 
 2014-08-26  1.6.4   - Fixed unicode problems on setup (issue #42)
 
