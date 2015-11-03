@@ -1,6 +1,8 @@
 SPARQLWrapper's changelog:
 -------------------------
 
+2015-11-03  1.7.2   - Moved to the new keepalive package (issues #53 and #61)
+
 2015-10-29  1.7.1   - Fixed build in Python 3.x (issue #57)
 
 2015-10-29  1.7.0   - Added support to HTTP Digest Auth Support (issue #45)
