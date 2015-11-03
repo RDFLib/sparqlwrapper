@@ -400,7 +400,7 @@ class SPARQLWrapper(object):
         @raise ImportError: when could not be imported urlgrabber.keepalive.HTTPHandler
         """
         try:
-            from urlgrabber.keepalive import HTTPHandler
+            from keepalive import HTTPHandler
             keepalive_handler = HTTPHandler()
             opener = urllib2.build_opener(keepalive_handler)
             urllib2.install_opener(opener)

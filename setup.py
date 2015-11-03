@@ -24,9 +24,9 @@ _install_requires = []
 _requires.append('rdflib')
 _install_requires.append('rdflib >= 4.0')
 
-# 7.19.5.1
-_requires.append('pycurl')
-_install_requires.append('pycurl >= 7.19.5.1')
+# keepalive
+_requires.append('keepalive')
+_install_requires.append('keepalive >= 0.1')
 
 # simplejson
 if sys.version_info[0:2] < (2, 6):
