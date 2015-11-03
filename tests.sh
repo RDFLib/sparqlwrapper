@@ -8,6 +8,6 @@ if  [[ $PYTHON_VERSION == 3.* ]] ;
 then
     . run_tests_py3.sh
 else
-    nosetests-$PYTHON_VERSION
+    nosetests
 fi
 

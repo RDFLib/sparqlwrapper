@@ -26,7 +26,7 @@ cd build/py3_testing
 
 2to3-$PYTHON_VERSION -wn --no-diffs test
 
-nosetests-$PYTHON_VERSION
+nosetests3
 
 cd ../..
 
