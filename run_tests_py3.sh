@@ -26,7 +26,11 @@ cd build/py3_testing
 
 2to3-$PYTHON_VERSION -wn --no-diffs test
 
-nosetests3
+if hash nosetests3 2>/dev/null; then
+    nosetests3
+else
+    nosetests
+fi
 
 cd ../..
 
