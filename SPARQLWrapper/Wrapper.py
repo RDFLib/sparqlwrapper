@@ -400,12 +400,18 @@ class SPARQLWrapper(object):
         @raise ImportError: when could not be imported urlgrabber.keepalive.HTTPHandler
         """
         try:
-            from keepalive import HTTPHandler
+            from urlgrabber.keepalive import HTTPHandler
+        except ImportError:
+            try:
+                from keepalive import HTTPHandler
+            except ImportError:
+                pass
+        if HTTPHandler:
             keepalive_handler = HTTPHandler()
             opener = urllib2.build_opener(keepalive_handler)
             urllib2.install_opener(opener)
-        except ImportError:
-            warnings.warn("urlgrabber not installed in the system. The execution of this method has no effect.")
+        else:
+            warnings.warn("keepalive support not available, so the execution of this method has no effect")
 
     def isSparqlUpdateRequest(self):
         """ Returns TRUE if SPARQLWrapper is configured for executing SPARQL Update request

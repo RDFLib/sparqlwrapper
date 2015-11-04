@@ -24,16 +24,8 @@ _install_requires = []
 _requires.append('rdflib')
 _install_requires.append('rdflib >= 4.0')
 
-# keepalive
-_requires.append('keepalive')
-_install_requires.append('keepalive >= 0.1.1')
 
-# simplejson
-if sys.version_info[0:2] < (2, 6):
-    _requires.append('simplejson')
-    _install_requires.append('simplejson == 2.0.9')
-
-# metainformation
+# metainformation and dependencies
 if py3:
     import re
     _version_re = re.compile(r'__version__\s*=\s*"(.*)"')
@@ -49,27 +41,39 @@ if py3:
         url_match = _url_re.match(line)
         if url_match:
             url = url_match.group(1)
+    # keepalive
+    _requires.append('keepalive')
+    _install_requires.append('keepalive >= 0.1.1')
+
 else:
     import SPARQLWrapper
     version = SPARQLWrapper.__version__
     authors = SPARQLWrapper.__authors__
     url = SPARQLWrapper.__url__
 
-# actual setup configuration
+    # keepalive
+    _requires.append('urlgrabber')
+    _install_requires.append('urlgrabber <= 3.9.0')
+
+    # simplejson
+    _requires.append('simplejson')
+    _install_requires.append('simplejson == 2.0.9')
+
+
 setup(
       name = 'SPARQLWrapper',
       version = version,
       description = 'SPARQL Endpoint interface to Python',
       long_description = 'This is a wrapper around a SPARQL service. It helps in creating the query URI and, possibly, convert the result into a more manageable format.',
-      license = 'W3C SOFTWARE NOTICE AND LICENSE', # should be removed by PEP 314
+      license = 'W3C SOFTWARE NOTICE AND LICENSE',
       author = authors,
       author_email = "ivan at ivan-herman net, sergio at wikier org, carlos.tejo at gmail com, indeyets at gmail com",
       url = url,
       download_url = 'https://github.com/RDFLib/sparqlwrapper/releases',
-      platforms = ['any'], # should be removed by PEP 314
+      platforms = ['any'],
       packages = ['SPARQLWrapper'],
-      requires = _requires, # used by distutils to create metadata PKG-INFO
-      install_requires = _install_requires, # used by setuptools to install the dependencies
+      requires = _requires,
+      install_requires = _install_requires,
       classifiers =  [
         'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
@@ -78,8 +82,6 @@ setup(
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 3',
       ],
-      keywords = 'python SPARQL',
-      use_2to3 = True,
-      #requires_python = '>=2.5', # Future in PEP 345
-      #scripts = ['ez_setup.py']
+      keywords = 'python sparql',
+      use_2to3 = True
 )
