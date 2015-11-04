@@ -26,7 +26,7 @@ _install_requires.append('rdflib >= 4.0')
 
 # keepalive
 _requires.append('keepalive')
-_install_requires.append('keepalive >= 0.1')
+_install_requires.append('keepalive >= 0.1.1')
 
 # simplejson
 if sys.version_info[0:2] < (2, 6):
