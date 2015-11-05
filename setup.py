@@ -8,7 +8,7 @@ try:
 except:
     pass
 
-from setuptools import setup, find_packages
+from setuptools import setup
 
 try:
     import six
@@ -38,17 +38,14 @@ else:
     authors = SPARQLWrapper.__authors__
     url = SPARQLWrapper.__url__
 
-# grouping requires
-_requires = []
-_install_requires = []
 
-# rdflib
-_requires.append('rdflib')
-_install_requires.append('rdflib >= 4.0')
+# requirements
+from pip.req import parse_requirements
+from pip.download import PipSession
+requirements = list(parse_requirements('requirements.txt', session=PipSession()))
+_requires = [str(r.req.project_name) for r in requirements]
+_install_requires = [str(r.req) for r in requirements]
 
-# keepalive
-_requires.append('keepalive')
-_install_requires.append('keepalive >= 0.3')
 
 setup(
       name = 'SPARQLWrapper',

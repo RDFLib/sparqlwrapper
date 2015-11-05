@@ -1,0 +1,2 @@
+rdflib>=4.0
+keepalive>=0.3
