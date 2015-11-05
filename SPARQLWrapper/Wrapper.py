@@ -32,7 +32,7 @@ import re
 import sys
 import warnings
 
-import jsonlayer
+import json
 from KeyCaseInsensitiveDict import KeyCaseInsensitiveDict
 from SPARQLExceptions import QueryBadFormed, EndPointNotFound, EndPointInternalError
 from SPARQLUtils import deprecated
@@ -637,20 +637,6 @@ class QueryResult(object):
         """Method for the standard iterator."""
         return self.response.next()
 
-    @staticmethod
-    def setJSONModule(module):
-        """Set the Python module for encoding JSON data. If not an allowed value, the setting is ignored.
-           JSON modules supported:
-             - ``simplejson``: http://code.google.com/p/simplejson/
-             - ``cjson``: http://pypi.python.org/pypi/python-cjson
-             - ``json``: This is the version of ``simplejson`` that is bundled with the
-               Python standard library since version 2.6
-               (see http://docs.python.org/library/json.html)
-        @param module: Possible values: are L{simplejson}, L{cjson}, L{json}. All other cases raise a ValueError exception.
-        @type module: string
-        """
-        jsonlayer.use(module)
-
     def _convertJSON(self):
         """
         Convert a JSON result into a Python dict. This method can be overwritten in a subclass
@@ -658,7 +644,7 @@ class QueryResult(object):
         @return: converted result
         @rtype: Python dictionary
         """
-        return jsonlayer.decode(self.response.read().decode("utf-8"))
+        return json.loads(self.response.read().decode("utf-8"))
 
     def _convertXML(self):
         """

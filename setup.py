@@ -41,6 +41,7 @@ if py3:
         url_match = _url_re.match(line)
         if url_match:
             url = url_match.group(1)
+
     # keepalive
     _requires.append('keepalive')
     _install_requires.append('keepalive >= 0.1.1')
@@ -53,11 +54,7 @@ else:
 
     # keepalive
     _requires.append('urlgrabber')
-    _install_requires.append('urlgrabber <= 3.9.0')
-
-    # simplejson
-    _requires.append('simplejson')
-    _install_requires.append('simplejson == 2.0.9')
+    _install_requires.append('urlgrabber == 3.1.0')
 
 
 setup(
@@ -82,6 +79,6 @@ setup(
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 3',
       ],
-      keywords = 'python sparql',
+      keywords = 'python sparql rdf rdflib',
       use_2to3 = True
 )
