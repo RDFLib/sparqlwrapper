@@ -406,11 +406,12 @@ class SPARQLWrapper(object):
                 from keepalive import HTTPHandler
             except ImportError:
                 pass
-        if HTTPHandler:
+        try:
+            bool(HTTPHandler)
             keepalive_handler = HTTPHandler()
             opener = urllib2.build_opener(keepalive_handler)
             urllib2.install_opener(opener)
-        else:
+        except NameError:
             warnings.warn("keepalive support not available, so the execution of this method has no effect")
 
     def isSparqlUpdateRequest(self):
