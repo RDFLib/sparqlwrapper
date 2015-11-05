@@ -1,5 +1,7 @@
 # http://travis-ci.org/RDFLib/sparqlwrapper
 
+sudo: false
+
 branches:
     only:
         - master
