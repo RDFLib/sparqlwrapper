@@ -178,7 +178,7 @@ __url__ = "http://rdflib.github.io/sparqlwrapper"
 __contact__ = "rdflib-dev@googlegroups.com"
 """Mail list to contact to other people RDFLib and SPARQLWrappers folks and developers"""
 
-__date__    = "2014-10-01"
+__date__    = "2015-11-05"
 """Last update"""
 
 __agent__   = "sparqlwrapper %s (rdflib.github.io/sparqlwrapper)" % __version__
