@@ -16,16 +16,7 @@ try:
 except:
     py3 = sys.version_info[0] >= 3
 
-# grouping requires
-_requires = []
-_install_requires = []
-
-# rdflib
-_requires.append('rdflib')
-_install_requires.append('rdflib >= 4.0')
-
-
-# metainformation and dependencies
+# metadata
 if py3:
     import re
     _version_re = re.compile(r'__version__\s*=\s*"(.*)"')
@@ -41,21 +32,23 @@ if py3:
         url_match = _url_re.match(line)
         if url_match:
             url = url_match.group(1)
-
-    # keepalive
-    _requires.append('keepalive')
-    _install_requires.append('keepalive >= 0.1.1')
-
 else:
     import SPARQLWrapper
     version = SPARQLWrapper.__version__
     authors = SPARQLWrapper.__authors__
     url = SPARQLWrapper.__url__
 
-    # keepalive
-    _requires.append('urlgrabber')
-    _install_requires.append('urlgrabber == 3.1.0')
+# grouping requires
+_requires = []
+_install_requires = []
 
+# rdflib
+_requires.append('rdflib')
+_install_requires.append('rdflib >= 4.0')
+
+# keepalive
+_requires.append('keepalive')
+_install_requires.append('keepalive >= 0.3')
 
 setup(
       name = 'SPARQLWrapper',

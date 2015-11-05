@@ -397,21 +397,14 @@ class SPARQLWrapper(object):
 
     def setUseKeepAlive(self):
         """Make urllib2 use keep-alive.
-        @raise ImportError: when could not be imported urlgrabber.keepalive.HTTPHandler
+        @raise ImportError: when could not be imported keepalive.HTTPHandler
         """
         try:
-            from urlgrabber.keepalive import HTTPHandler
-        except ImportError:
-            try:
-                from keepalive import HTTPHandler
-            except ImportError:
-                pass
-        try:
-            bool(HTTPHandler)
+            from keepalive import HTTPHandler
             keepalive_handler = HTTPHandler()
             opener = urllib2.build_opener(keepalive_handler)
             urllib2.install_opener(opener)
-        except NameError:
+        except ImportError:
             warnings.warn("keepalive support not available, so the execution of this method has no effect")
 
     def isSparqlUpdateRequest(self):
