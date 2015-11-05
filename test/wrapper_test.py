@@ -497,6 +497,7 @@ class SPARQLWrapper_Test(TestCase):
 
 
 class QueryResult_Test(unittest.TestCase):
+
     def testConstructor(self):
         qr = QueryResult('result')
         self.assertEqual('result', qr.response)
@@ -593,6 +594,6 @@ class QueryResult_Test(unittest.TestCase):
         self.assertEqual(1, _mime_vs_type("application/rdf+xml", JSON))
         self.assertEqual(1, _mime_vs_type("application/rdf+xml", N3))
 
+
 if __name__ == "__main__":
     unittest.main()
-

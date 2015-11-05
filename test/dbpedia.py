@@ -44,14 +44,14 @@ prefixes = """
     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 """
 
-selectQuery =  """
+selectQuery = """
     SELECT ?label
     WHERE {
     <http://dbpedia.org/resource/Asturias> rdfs:label ?label .
     }
 """
 
-constructQuery =  """
+constructQuery = """
     CONSTRUCT {
         _:v rdfs:label ?label .
         _:v rdfs:comment "this is only a mock node to test library"
@@ -237,6 +237,16 @@ class SPARQLWrapperTests(unittest.TestCase):
 
 #    def testQueryManyPrefixes(self):        
 #        result = self.__generic(queryManyPrefixes, XML, GET)
+
+    def testKeepAlive(self):
+        sparql = SPARQLWrapper(endpoint)
+        sparql.setQuery('SELECT * WHERE {?s ?p ?o} LIMIT 10')
+        sparql.setReturnFormat(JSON)
+        sparql.setMethod(GET)
+        sparql.setUseKeepAlive()
+
+        sparql.query()
+        sparql.query()
 
 
 if __name__ == "__main__":
