@@ -1,6 +1,8 @@
 SPARQLWrapper's changelog:
 -------------------------
 
+2015-11-05  1.7.4   - Fixed packaging (issue #66)
+
 2015-11-05  1.7.3   - Finally fixed the keepalive issue in all Pyhon versions  (issue #65)
                     - Removed old JSON layer in favor of the native json module
 
