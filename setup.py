@@ -38,15 +38,6 @@ else:
     authors = SPARQLWrapper.__authors__
     url = SPARQLWrapper.__url__
 
-
-# requirements
-from pip.req import parse_requirements
-from pip.download import PipSession
-requirements = list(parse_requirements('requirements.txt', session=PipSession()))
-_requires = [str(r.req.project_name) for r in requirements]
-_install_requires = [str(r.req) for r in requirements]
-
-
 setup(
       name = 'SPARQLWrapper',
       version = version,
@@ -59,8 +50,10 @@ setup(
       download_url = 'https://github.com/RDFLib/sparqlwrapper/releases',
       platforms = ['any'],
       packages = ['SPARQLWrapper'],
-      requires = _requires,
-      install_requires = _install_requires,
+      install_requires = [
+          'rdflib>=4.0',
+          'keepalive>=0.4.1'
+      ],
       classifiers =  [
         'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
