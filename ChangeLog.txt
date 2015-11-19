@@ -1,6 +1,8 @@
 SPARQLWrapper's changelog:
 -------------------------
 
+2015-11-19  1.7.5   - Removed pip dependency on setup (issue #69)
+
 2015-11-05  1.7.4   - Fixed packaging (issue #66)
 
 2015-11-05  1.7.3   - Finally fixed the keepalive issue in all Pyhon versions  (issue #65)
