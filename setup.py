@@ -40,11 +40,8 @@ else:
 
 
 # requirements
-from pip.req import parse_requirements
-from pip.download import PipSession
-requirements = list(parse_requirements('requirements.txt', session=PipSession()))
-_requires = [str(r.req.project_name) for r in requirements]
-_install_requires = [str(r.req) for r in requirements]
+with open('requirements.txt', 'r') as f:
+    _install_requires = [line.rstrip('\n') for line in f]
 
 
 setup(
@@ -59,7 +56,6 @@ setup(
       download_url = 'https://github.com/RDFLib/sparqlwrapper/releases',
       platforms = ['any'],
       packages = ['SPARQLWrapper'],
-      requires = _requires,
       install_requires = _install_requires,
       classifiers =  [
         'Development Status :: 5 - Production/Stable',
