@@ -47,8 +47,7 @@ try:
     _install_requires = [str(r.req) for r in requirements]
 except:
     with open('requirements.txt', 'r') as f:
-        for line in f:
-            _install_requires = [line.rstrip('\n') for line in f]
+        _install_requires = [line.rstrip('\n') for line in f]
 
 
 setup(
