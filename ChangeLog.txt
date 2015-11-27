@@ -1,6 +1,8 @@
 SPARQLWrapper's changelog:
 -------------------------
 
+YYYY-MM-DD  1.8.x   - Removed wrong response encoding (issue #70)
+
 2015-11-19  1.7.5   - Removed pip dependency on setup (issue #69)
 
 2015-11-05  1.7.4   - Fixed packaging (issue #66)
