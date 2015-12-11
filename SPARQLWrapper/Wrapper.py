@@ -507,7 +507,7 @@ class SPARQLWrapper(object):
         if self.user and self.passwd:
             if self.http_auth == BASIC:
                 credentials = "%s:%s" % (self.user, self.passwd)
-                request.add_header("Authorization", "Basic %s" % base64.b64encode(credentials.encode('utf-8')))
+                request.add_header("Authorization", "Basic %s" % base64.b64encode(credentials.encode('utf-8')).decode('utf-8'))
             elif self.http_auth == DIGEST:
                 realm = "SPARQL"
                 pwd_mgr = urllib2.HTTPPasswordMgr()
