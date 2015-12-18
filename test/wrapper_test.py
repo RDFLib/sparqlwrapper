@@ -231,14 +231,8 @@ class SPARQLWrapper_Test(TestCase):
         self.assertTrue(request.has_header('Authorization'))
         
         # expected header for login:password
-        #self.assertEqual("Basic bG9naW46cGFzc3dvcmQ=", request.get_header('Authorization'))
-        auth = request.get_header('Authorization').split(" ")
-        self.assertEqual(2, len(auth))
-        self.assertEqual("Basic", auth[0])
-        if auth[1].startswith("b'"): #sequence of octets
-            self.assertEqual("bG9naW46cGFzc3dvcmQ=", auth[1][2:-1])
-        else:
-            self.assertEqual("bG9naW46cGFzc3dvcmQ=", auth[1])
+        # should succeed for python 3 since pull request #72
+        self.assertEqual("Basic bG9naW46cGFzc3dvcmQ=", request.get_header('Authorization'))
 
     def testSetHTTPAuth(self):
         self.assertRaises(TypeError, self.wrapper.setHTTPAuth, 123)
