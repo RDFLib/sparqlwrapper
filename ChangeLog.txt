@@ -1,7 +1,8 @@
 SPARQLWrapper's changelog:
 -------------------------
 
-YYYY-MM-DD  1.8.x   - Removed wrong response encoding (issue #70)
+2015-12-18  1.7.6   - Removed wrong response encoding (issue #70)
+                    - Authorization header bug when using Python 3 (issue #71)
 
 2015-11-19  1.7.5   - Removed pip dependency on setup (issue #69)
 
