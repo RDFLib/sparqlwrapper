@@ -22,3 +22,5 @@
 * Nolan Nichols ([@nicholsn](http://github.com/nicholsn)): http disgest auth support
 * Kevin Turner ([@keturn](https://github.com/keturn)): `SmartWrapper.Value.__repr__()` implementation 
 * Marcelo Jorge Vieira ([@marcelometal](https://github.com/marcelometal)): typos
+* Trevor Andersen ([@trevorandersen](https://github.com/trevorandersen): patches for Python 3.x
+
