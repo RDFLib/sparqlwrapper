@@ -163,7 +163,7 @@ The package was greatly inspired by U{Lee Feigenbaum's similar package for Javas
 @requires: U{RDFLib<http://rdflib.net>} package.
 """
 
-__version__ = "1.8.0.dev0"
+__version__ = "1.7.6.dev0"
 """The version of SPARQLWrapper"""
 
 __authors__  = "Ivan Herman, Sergio Fernández, Carlos Tejo Alonso, Alexey Zakhlestin"
@@ -178,7 +178,7 @@ __url__ = "http://rdflib.github.io/sparqlwrapper"
 __contact__ = "rdflib-dev@googlegroups.com"
 """Mail list to contact to other people RDFLib and SPARQLWrappers folks and developers"""
 
-__date__    = "2015-11-05"
+__date__    = "2015-12-18"
 """Last update"""
 
 __agent__   = "sparqlwrapper %s (rdflib.github.io/sparqlwrapper)" % __version__
