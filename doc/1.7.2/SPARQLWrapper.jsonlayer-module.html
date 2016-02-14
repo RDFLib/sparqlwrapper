@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>SPARQLWrapper.jsonlayer</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="SPARQLWrapper-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            >SPARQLWrapper 1.7.2</th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="SPARQLWrapper-module.html">Package&nbsp;SPARQLWrapper</a> ::
+        Module&nbsp;jsonlayer
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="SPARQLWrapper.jsonlayer-module.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== MODULE DESCRIPTION ==================== -->
+<h1 class="epydoc">Module jsonlayer</h1><p class="nomargin-top"><span class="codelink"><a href="SPARQLWrapper.jsonlayer-pysrc.html">source&nbsp;code</a></span></p>
+<p>Thin abstraction layer over the different available modules for 
+  decoding and encoding JSON data.</p>
+  <p>This module currently supports the following JSON modules:</p>
+  <ul>
+    <li>
+      ``simplejson``: http://code.google.com/p/simplejson/
+    </li>
+    <li>
+      ``cjson``: http://pypi.python.org/pypi/python-cjson
+    </li>
+    <li>
+      ``json``: This is the version of ``simplejson`` that is bundled with 
+      the Python standard library since version 2.6 (see 
+      http://docs.python.org/library/json.html)
+    </li>
+  </ul>
+  <p>The default behavior is to use ``simplejson`` if installed, and 
+  otherwise fallback to the standard library module. To explicitly tell 
+  SPARQLWrapper which module to use, invoke the `use()` function with the 
+  module name:</p>
+<pre class="literalblock">
+   import jsonlayer
+   jsonlayer.use('cjson')
+</pre>
+  <p>In addition to choosing one of the above modules, you can also 
+  configure SPARQLWrapper to use custom decoding and encoding 
+  functions:</p>
+<pre class="literalblock">
+   import jsonlayer
+   jsonlayer.use(decode=my_decode, encode=my_encode)
+</pre>
+
+<!-- ==================== FUNCTIONS ==================== -->
+<a name="section-Functions"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Functions</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Functions"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="SPARQLWrapper.jsonlayer-module.html#decode" class="summary-sig-name">decode</a>(<span class="summary-sig-arg">string</span>)</span><br />
+      Decode the given JSON string.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="SPARQLWrapper.jsonlayer-pysrc.html#decode">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="SPARQLWrapper.jsonlayer-module.html#encode" class="summary-sig-name">encode</a>(<span class="summary-sig-arg">obj</span>)</span><br />
+      Encode the given object as a JSON string.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="SPARQLWrapper.jsonlayer-pysrc.html#encode">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="SPARQLWrapper.jsonlayer-module.html#use" class="summary-sig-name">use</a>(<span class="summary-sig-arg">module</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">decode</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">encode</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Set the JSON library that should be used, either by specifying a 
+      known module name, or by providing a decode and encode function.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="SPARQLWrapper.jsonlayer-pysrc.html#use">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="_initialize"></a><span class="summary-sig-name">_initialize</span>()</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="SPARQLWrapper.jsonlayer-pysrc.html#_initialize">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
+<!-- ==================== VARIABLES ==================== -->
+<a name="section-Variables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Variables</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Variables"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="_initialized"></a><span class="summary-name">_initialized</span> = <code title="False">False</code>
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="_using"></a><span class="summary-name">_using</span> = <code title="None">None</code><br />
+      hash(x)
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="_decode"></a><span class="summary-name">_decode</span> = <code title="None">None</code><br />
+      hash(x)
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="_encode"></a><span class="summary-name">_encode</span> = <code title="None">None</code><br />
+      hash(x)
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="__package__"></a><span class="summary-name">__package__</span> = <code title="None">None</code><br />
+      hash(x)
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTION DETAILS ==================== -->
+<a name="section-FunctionDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Function Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-FunctionDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="decode"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">decode</span>(<span class="sig-arg">string</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="SPARQLWrapper.jsonlayer-pysrc.html#decode">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Decode the given JSON string.</p>
+  <p>:param string: the JSON string to decode :type string: basestring 
+  :return: the corresponding Python data structure :rtype: object</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="encode"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">encode</span>(<span class="sig-arg">obj</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="SPARQLWrapper.jsonlayer-pysrc.html#encode">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Encode the given object as a JSON string.</p>
+  <p>:param obj: the Python data structure to encode :type obj: object 
+  :return: the corresponding JSON string :rtype: basestring</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="use"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">use</span>(<span class="sig-arg">module</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">decode</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">encode</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="SPARQLWrapper.jsonlayer-pysrc.html#use">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set the JSON library that should be used, either by specifying a known
+  module name, or by providing a decode and encode function.</p>
+  <p>The modules &quot;simplejson&quot;, &quot;cjson&quot;, and 
+  &quot;json&quot; are currently supported for the ``module`` 
+  parameter.</p>
+  <p>If provided, the ``decode`` parameter must be a callable that accepts 
+  a JSON string and returns a corresponding Python data structure. The 
+  ``encode`` callable must accept a Python data structure and return the 
+  corresponding JSON string. Exceptions raised by decoding and encoding 
+  should be propagated up unaltered.</p>
+  <p>:param module: the name of the JSON library module to use, or the 
+  module object itself :type module: str or module :param decode: a 
+  function for decoding JSON strings :type decode: callable :param encode: 
+  a function for encoding objects as JSON strings :type encode: 
+  callable</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="SPARQLWrapper-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            >SPARQLWrapper 1.7.2</th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1
+    on Sun Feb 14 12:28:50 2016
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

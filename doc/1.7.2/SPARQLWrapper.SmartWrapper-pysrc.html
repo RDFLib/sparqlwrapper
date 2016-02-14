@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>SPARQLWrapper.SmartWrapper</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="SPARQLWrapper-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            >SPARQLWrapper 1.7.2</th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="SPARQLWrapper-module.html">Package&nbsp;SPARQLWrapper</a> ::
+        Module&nbsp;SmartWrapper
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="SPARQLWrapper.SmartWrapper-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="SPARQLWrapper.SmartWrapper-module.html">Module SPARQLWrapper.SmartWrapper</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno">  1</tt>  <tt class="py-line"><tt class="py-comment"># -*- coding: utf-8 -*-</tt> </tt>
+<a name="L2"></a><tt class="py-lineno">  2</tt>  <tt class="py-line"> </tt>
+<a name="L3"></a><tt class="py-lineno">  3</tt>  <tt class="py-line"><tt class="py-docstring">"""</tt> </tt>
+<a name="L4"></a><tt class="py-lineno">  4</tt>  <tt class="py-line"><tt class="py-docstring">@see: U{SPARQL Specification&lt;http://www.w3.org/TR/rdf-sparql-query/&gt;}</tt> </tt>
+<a name="L5"></a><tt class="py-lineno">  5</tt>  <tt class="py-line"><tt class="py-docstring">@authors: U{Ivan Herman&lt;http://www.ivan-herman.net&gt;}, U{Sergio Fern&#225;ndez&lt;http://www.wikier.org&gt;}, U{Carlos Tejo Alonso&lt;http://www.dayures.net&gt;}</tt> </tt>
+<a name="L6"></a><tt class="py-lineno">  6</tt>  <tt class="py-line"><tt class="py-docstring">@organization: U{World Wide Web Consortium&lt;http://www.w3.org&gt;} and U{Foundation CTIC&lt;http://www.fundacionctic.org/&gt;}.</tt> </tt>
+<a name="L7"></a><tt class="py-lineno">  7</tt>  <tt class="py-line"><tt class="py-docstring">@license: U{W3C&#174; SOFTWARE NOTICE AND LICENSE&lt;href="http://www.w3.org/Consortium/Legal/copyright-software"&gt;}</tt> </tt>
+<a name="L8"></a><tt class="py-lineno">  8</tt>  <tt class="py-line"><tt class="py-docstring">@requires: U{RDFLib&lt;http://rdflib.net&gt;} package.</tt> </tt>
+<a name="L9"></a><tt class="py-lineno">  9</tt>  <tt class="py-line"><tt class="py-docstring">"""</tt> </tt>
+<a name="L10"></a><tt class="py-lineno"> 10</tt>  <tt class="py-line"> </tt>
+<a name="L11"></a><tt class="py-lineno"> 11</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt id="link-0" class="py-name" targets="Package SPARQLWrapper=SPARQLWrapper-module.html,Class SPARQLWrapper.Wrapper.SPARQLWrapper=SPARQLWrapper.Wrapper.SPARQLWrapper-class.html"><a title="SPARQLWrapper
+SPARQLWrapper.Wrapper.SPARQLWrapper" class="py-name" href="#" onclick="return doclink('link-0', 'SPARQLWrapper', 'link-0');">SPARQLWrapper</a></tt> </tt>
+<a name="L12"></a><tt class="py-lineno"> 12</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-1" class="py-name"><a title="SPARQLWrapper
+SPARQLWrapper.Wrapper.SPARQLWrapper" class="py-name" href="#" onclick="return doclink('link-1', 'SPARQLWrapper', 'link-0');">SPARQLWrapper</a></tt><tt class="py-op">.</tt><tt id="link-2" class="py-name" targets="Module SPARQLWrapper.Wrapper=SPARQLWrapper.Wrapper-module.html"><a title="SPARQLWrapper.Wrapper" class="py-name" href="#" onclick="return doclink('link-2', 'Wrapper', 'link-2');">Wrapper</a></tt> <tt class="py-keyword">import</tt> <tt id="link-3" class="py-name" targets="Variable SPARQLWrapper.Wrapper.JSON=SPARQLWrapper.Wrapper-module.html#JSON"><a title="SPARQLWrapper.Wrapper.JSON" class="py-name" href="#" onclick="return doclink('link-3', 'JSON', 'link-3');">JSON</a></tt><tt class="py-op">,</tt> <tt id="link-4" class="py-name" targets="Variable SPARQLWrapper.Wrapper.SELECT=SPARQLWrapper.Wrapper-module.html#SELECT"><a title="SPARQLWrapper.Wrapper.SELECT" class="py-name" href="#" onclick="return doclink('link-4', 'SELECT', 'link-4');">SELECT</a></tt> </tt>
+<a name="L13"></a><tt class="py-lineno"> 13</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">urllib2</tt> </tt>
+<a name="L14"></a><tt class="py-lineno"> 14</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">types</tt> <tt class="py-keyword">import</tt> <tt class="py-op">*</tt> </tt>
+<a name="L15"></a><tt class="py-lineno"> 15</tt>  <tt class="py-line"> </tt>
+<a name="L16"></a><tt class="py-lineno"> 16</tt>  <tt class="py-line"> </tt>
+<a name="L17"></a><tt class="py-lineno"> 17</tt>  <tt class="py-line"><tt class="py-comment">######################################################################################</tt> </tt>
+<a name="L18"></a><tt class="py-lineno"> 18</tt>  <tt class="py-line"> </tt>
+<a name="Value"></a><div id="Value-def"><a name="L19"></a><tt class="py-lineno"> 19</tt> <a class="py-toggle" href="#" id="Value-toggle" onclick="return toggle('Value');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="SPARQLWrapper.SmartWrapper.Value-class.html">Value</a><tt class="py-op">(</tt><tt class="py-base-class">object</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Value-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="Value-expanded"><a name="L20"></a><tt class="py-lineno"> 20</tt>  <tt class="py-line">    <tt class="py-docstring">"""</tt> </tt>
+<a name="L21"></a><tt class="py-lineno"> 21</tt>  <tt class="py-line"><tt class="py-docstring">    Class encapsulating a single binding for a variable.</tt> </tt>
+<a name="L22"></a><tt class="py-lineno"> 22</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L23"></a><tt class="py-lineno"> 23</tt>  <tt class="py-line"><tt class="py-docstring">    @cvar URI: the string denoting a URI variable</tt> </tt>
+<a name="L24"></a><tt class="py-lineno"> 24</tt>  <tt class="py-line"><tt class="py-docstring">    @cvar Literal: the string denoting a Literal variable</tt> </tt>
+<a name="L25"></a><tt class="py-lineno"> 25</tt>  <tt class="py-line"><tt class="py-docstring">    @cvar TypedLiteral: the string denoting a typed literal variable</tt> </tt>
+<a name="L26"></a><tt class="py-lineno"> 26</tt>  <tt class="py-line"><tt class="py-docstring">    @cvar BNODE: the string denoting a blank node variable</tt> </tt>
+<a name="L27"></a><tt class="py-lineno"> 27</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L28"></a><tt class="py-lineno"> 28</tt>  <tt class="py-line"><tt class="py-docstring">    @ivar variable: The original variable, stored for an easier reference</tt> </tt>
+<a name="L29"></a><tt class="py-lineno"> 29</tt>  <tt class="py-line"><tt class="py-docstring">    @type variable: string</tt> </tt>
+<a name="L30"></a><tt class="py-lineno"> 30</tt>  <tt class="py-line"><tt class="py-docstring">    @ivar value: Value of the binding</tt> </tt>
+<a name="L31"></a><tt class="py-lineno"> 31</tt>  <tt class="py-line"><tt class="py-docstring">    @type value: string</tt> </tt>
+<a name="L32"></a><tt class="py-lineno"> 32</tt>  <tt class="py-line"><tt class="py-docstring">    @ivar type: Type of the binding</tt> </tt>
+<a name="L33"></a><tt class="py-lineno"> 33</tt>  <tt class="py-line"><tt class="py-docstring">    @type type: string; one of  L{Value.URI}, L{Value.Literal}, L{Value.TypedLiteral}, or L{Value.BNODE}</tt> </tt>
+<a name="L34"></a><tt class="py-lineno"> 34</tt>  <tt class="py-line"><tt class="py-docstring">    @ivar lang: Language tag of the binding, or C{None} if not set</tt> </tt>
+<a name="L35"></a><tt class="py-lineno"> 35</tt>  <tt class="py-line"><tt class="py-docstring">    @type lang: string</tt> </tt>
+<a name="L36"></a><tt class="py-lineno"> 36</tt>  <tt class="py-line"><tt class="py-docstring">    @ivar datatype: Datatype of the binding, or C{None} if not set</tt> </tt>
+<a name="L37"></a><tt class="py-lineno"> 37</tt>  <tt class="py-line"><tt class="py-docstring">    @type datatype: string (URI)</tt> </tt>
+<a name="L38"></a><tt class="py-lineno"> 38</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt> </tt>
+<a name="L39"></a><tt class="py-lineno"> 39</tt>  <tt class="py-line">    <tt id="link-5" class="py-name" targets="Variable SPARQLWrapper.SmartWrapper.Value.URI=SPARQLWrapper.SmartWrapper.Value-class.html#URI"><a title="SPARQLWrapper.SmartWrapper.Value.URI" class="py-name" href="#" onclick="return doclink('link-5', 'URI', 'link-5');">URI</a></tt>          <tt class="py-op">=</tt> <tt class="py-string">"uri"</tt> </tt>
+<a name="L40"></a><tt class="py-lineno"> 40</tt>  <tt class="py-line">    <tt id="link-6" class="py-name" targets="Variable SPARQLWrapper.SmartWrapper.Value.Literal=SPARQLWrapper.SmartWrapper.Value-class.html#Literal"><a title="SPARQLWrapper.SmartWrapper.Value.Literal" class="py-name" href="#" onclick="return doclink('link-6', 'Literal', 'link-6');">Literal</a></tt>      <tt class="py-op">=</tt> <tt class="py-string">"literal"</tt> </tt>
+<a name="L41"></a><tt class="py-lineno"> 41</tt>  <tt class="py-line">    <tt id="link-7" class="py-name" targets="Variable SPARQLWrapper.SmartWrapper.Value.TypedLiteral=SPARQLWrapper.SmartWrapper.Value-class.html#TypedLiteral"><a title="SPARQLWrapper.SmartWrapper.Value.TypedLiteral" class="py-name" href="#" onclick="return doclink('link-7', 'TypedLiteral', 'link-7');">TypedLiteral</a></tt> <tt class="py-op">=</tt> <tt class="py-string">"typed-literal"</tt> </tt>
+<a name="L42"></a><tt class="py-lineno"> 42</tt>  <tt class="py-line">    <tt id="link-8" class="py-name" targets="Variable SPARQLWrapper.SmartWrapper.Value.BNODE=SPARQLWrapper.SmartWrapper.Value-class.html#BNODE"><a title="SPARQLWrapper.SmartWrapper.Value.BNODE" class="py-name" href="#" onclick="return doclink('link-8', 'BNODE', 'link-8');">BNODE</a></tt>        <tt class="py-op">=</tt> <tt class="py-string">"bnode"</tt> </tt>
+<a name="L43"></a><tt class="py-lineno"> 43</tt>  <tt class="py-line"> </tt>
+<a name="Value.__init__"></a><div id="Value.__init__-def"><a name="L44"></a><tt class="py-lineno"> 44</tt> <a class="py-toggle" href="#" id="Value.__init__-toggle" onclick="return toggle('Value.__init__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="SPARQLWrapper.SmartWrapper.Value-class.html#__init__">__init__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt><tt class="py-param">variable</tt><tt class="py-op">,</tt><tt class="py-param">binding</tt><tt class="py-op">)</tt> <tt class="py-op">:</tt> </tt>
+</div><div id="Value.__init__-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Value.__init__-expanded"><a name="L45"></a><tt class="py-lineno"> 45</tt>  <tt class="py-line">        <tt class="py-docstring">"""</tt> </tt>
+<a name="L46"></a><tt class="py-lineno"> 46</tt>  <tt class="py-line"><tt class="py-docstring">        @param variable: the variable for that binding. Stored for an easier reference</tt> </tt>
+<a name="L47"></a><tt class="py-lineno"> 47</tt>  <tt class="py-line"><tt class="py-docstring">        @param binding: the binding dictionary part of the return result for a specific binding</tt> </tt>
+<a name="L48"></a><tt class="py-lineno"> 48</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L49"></a><tt class="py-lineno"> 49</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">variable</tt>  <tt class="py-op">=</tt> <tt class="py-name">variable</tt> </tt>
+<a name="L50"></a><tt class="py-lineno"> 50</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">value</tt>     <tt class="py-op">=</tt> <tt class="py-name">binding</tt><tt class="py-op">[</tt><tt class="py-string">'value'</tt><tt class="py-op">]</tt> </tt>
+<a name="L51"></a><tt class="py-lineno"> 51</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">type</tt>      <tt class="py-op">=</tt> <tt class="py-name">binding</tt><tt class="py-op">[</tt><tt class="py-string">'type'</tt><tt class="py-op">]</tt> </tt>
+<a name="L52"></a><tt class="py-lineno"> 52</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">lang</tt>      <tt class="py-op">=</tt> <tt class="py-name">None</tt> </tt>
+<a name="L53"></a><tt class="py-lineno"> 53</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">datatype</tt>  <tt class="py-op">=</tt> <tt class="py-name">None</tt> </tt>
+<a name="L54"></a><tt class="py-lineno"> 54</tt>  <tt class="py-line">        <tt class="py-keyword">try</tt> <tt class="py-op">:</tt> </tt>
+<a name="L55"></a><tt class="py-lineno"> 55</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">lang</tt> <tt class="py-op">=</tt> <tt class="py-name">binding</tt><tt class="py-op">[</tt><tt class="py-string">'xml:lang'</tt><tt class="py-op">]</tt> </tt>
+<a name="L56"></a><tt class="py-lineno"> 56</tt>  <tt class="py-line">        <tt class="py-keyword">except</tt> <tt class="py-op">:</tt> </tt>
+<a name="L57"></a><tt class="py-lineno"> 57</tt>  <tt class="py-line">            <tt class="py-comment"># no lang is set</tt> </tt>
+<a name="L58"></a><tt class="py-lineno"> 58</tt>  <tt class="py-line">            <tt class="py-keyword">pass</tt> </tt>
+<a name="L59"></a><tt class="py-lineno"> 59</tt>  <tt class="py-line">        <tt class="py-keyword">try</tt> <tt class="py-op">:</tt> </tt>
+<a name="L60"></a><tt class="py-lineno"> 60</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">datatype</tt> <tt class="py-op">=</tt> <tt class="py-name">binding</tt><tt class="py-op">[</tt><tt class="py-string">'datatype'</tt><tt class="py-op">]</tt> </tt>
+<a name="L61"></a><tt class="py-lineno"> 61</tt>  <tt class="py-line">        <tt class="py-keyword">except</tt> <tt class="py-op">:</tt> </tt>
+<a name="L62"></a><tt class="py-lineno"> 62</tt>  <tt class="py-line">            <tt class="py-keyword">pass</tt> </tt>
+</div><a name="L63"></a><tt class="py-lineno"> 63</tt>  <tt class="py-line"> </tt>
+<a name="Value.__repr__"></a><div id="Value.__repr__-def"><a name="L64"></a><tt class="py-lineno"> 64</tt> <a class="py-toggle" href="#" id="Value.__repr__-toggle" onclick="return toggle('Value.__repr__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="SPARQLWrapper.SmartWrapper.Value-class.html#__repr__">__repr__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Value.__repr__-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Value.__repr__-expanded"><a name="L65"></a><tt class="py-lineno"> 65</tt>  <tt class="py-line">        <tt class="py-name">cls</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__class__</tt><tt class="py-op">.</tt><tt class="py-name">__name__</tt> </tt>
+<a name="L66"></a><tt class="py-lineno"> 66</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-string">"%s(%s:%r)"</tt> <tt class="py-op">%</tt> <tt class="py-op">(</tt><tt class="py-name">cls</tt><tt class="py-op">,</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">type</tt><tt class="py-op">,</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">value</tt><tt class="py-op">)</tt> </tt>
+</div></div><a name="L67"></a><tt class="py-lineno"> 67</tt>  <tt class="py-line"> </tt>
+<a name="L68"></a><tt class="py-lineno"> 68</tt>  <tt class="py-line"><tt class="py-comment">######################################################################################</tt> </tt>
+<a name="L69"></a><tt class="py-lineno"> 69</tt>  <tt class="py-line"> </tt>
+<a name="L70"></a><tt class="py-lineno"> 70</tt>  <tt class="py-line"> </tt>
+<a name="Bindings"></a><div id="Bindings-def"><a name="L71"></a><tt class="py-lineno"> 71</tt> <a class="py-toggle" href="#" id="Bindings-toggle" onclick="return toggle('Bindings');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="SPARQLWrapper.SmartWrapper.Bindings-class.html">Bindings</a><tt class="py-op">(</tt><tt class="py-base-class">object</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Bindings-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="Bindings-expanded"><a name="L72"></a><tt class="py-lineno"> 72</tt>  <tt class="py-line">    <tt class="py-docstring">"""</tt> </tt>
+<a name="L73"></a><tt class="py-lineno"> 73</tt>  <tt class="py-line"><tt class="py-docstring">    Class encapsulating one query result, based on the JSON return format. It decodes the</tt> </tt>
+<a name="L74"></a><tt class="py-lineno"> 74</tt>  <tt class="py-line"><tt class="py-docstring">    return values to make it a bit more usable for a standard usage. The class consumes the</tt> </tt>
+<a name="L75"></a><tt class="py-lineno"> 75</tt>  <tt class="py-line"><tt class="py-docstring">    return value and instantiates a number of attributes that can be consulted directly. See</tt> </tt>
+<a name="L76"></a><tt class="py-lineno"> 76</tt>  <tt class="py-line"><tt class="py-docstring">    the list of variables.</tt> </tt>
+<a name="L77"></a><tt class="py-lineno"> 77</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L78"></a><tt class="py-lineno"> 78</tt>  <tt class="py-line"><tt class="py-docstring">    The U{Serializing SPARQL Query Results in JSON&lt;http://www.w3.org/TR/rdf-sparql-json-res/&gt;} explains the details of the</tt> </tt>
+<a name="L79"></a><tt class="py-lineno"> 79</tt>  <tt class="py-line"><tt class="py-docstring">    JSON return structures. Very succintly: the return data has "bindings", which means a list of dictionaries. Each</tt> </tt>
+<a name="L80"></a><tt class="py-lineno"> 80</tt>  <tt class="py-line"><tt class="py-docstring">    dictionary is a possible binding of the SELECT variables to L{Value} instances. This structure is made a bit</tt> </tt>
+<a name="L81"></a><tt class="py-lineno"> 81</tt>  <tt class="py-line"><tt class="py-docstring">    more usable by this class.</tt> </tt>
+<a name="L82"></a><tt class="py-lineno"> 82</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L83"></a><tt class="py-lineno"> 83</tt>  <tt class="py-line"><tt class="py-docstring">    @ivar fullResult: The original dictionary of the results, stored for an easier reference</tt> </tt>
+<a name="L84"></a><tt class="py-lineno"> 84</tt>  <tt class="py-line"><tt class="py-docstring">    @ivar head: Header part of the return, see the JSON return format document for details</tt> </tt>
+<a name="L85"></a><tt class="py-lineno"> 85</tt>  <tt class="py-line"><tt class="py-docstring">    @ivar variables: List of unbounds (variables) of the original query. It is an array of strings. None in the case of an ASK query</tt> </tt>
+<a name="L86"></a><tt class="py-lineno"> 86</tt>  <tt class="py-line"><tt class="py-docstring">    @ivar bindings: The final bindings: array of dictionaries, mapping variables to L{Value} instances.</tt> </tt>
+<a name="L87"></a><tt class="py-lineno"> 87</tt>  <tt class="py-line"><tt class="py-docstring">    (If unbound, then no value is set in the dictionary; that can be easily checked with</tt> </tt>
+<a name="L88"></a><tt class="py-lineno"> 88</tt>  <tt class="py-line"><tt class="py-docstring">    C{var in res.bindings[..]}, for example.)</tt> </tt>
+<a name="L89"></a><tt class="py-lineno"> 89</tt>  <tt class="py-line"><tt class="py-docstring">    @ivar askResult: by default, set to False; in case of an ASK query, the result of the query</tt> </tt>
+<a name="L90"></a><tt class="py-lineno"> 90</tt>  <tt class="py-line"><tt class="py-docstring">    @type askResult: Boolean</tt> </tt>
+<a name="L91"></a><tt class="py-lineno"> 91</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt> </tt>
+<a name="Bindings.__init__"></a><div id="Bindings.__init__-def"><a name="L92"></a><tt class="py-lineno"> 92</tt> <a class="py-toggle" href="#" id="Bindings.__init__-toggle" onclick="return toggle('Bindings.__init__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="SPARQLWrapper.SmartWrapper.Bindings-class.html#__init__">__init__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt><tt class="py-param">retval</tt><tt class="py-op">)</tt> <tt class="py-op">:</tt> </tt>
+</div><div id="Bindings.__init__-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Bindings.__init__-expanded"><a name="L93"></a><tt class="py-lineno"> 93</tt>  <tt class="py-line">        <tt class="py-docstring">"""</tt> </tt>
+<a name="L94"></a><tt class="py-lineno"> 94</tt>  <tt class="py-line"><tt class="py-docstring">        @param retval: the query result, instance of a L{Wrapper.QueryResult}</tt> </tt>
+<a name="L95"></a><tt class="py-lineno"> 95</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L96"></a><tt class="py-lineno"> 96</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">fullResult</tt>  <tt class="py-op">=</tt> <tt class="py-name">retval</tt><tt class="py-op">.</tt><tt id="link-9" class="py-name" targets="Method SPARQLWrapper.Wrapper.QueryResult._convertJSON()=SPARQLWrapper.Wrapper.QueryResult-class.html#_convertJSON"><a title="SPARQLWrapper.Wrapper.QueryResult._convertJSON" class="py-name" href="#" onclick="return doclink('link-9', '_convertJSON', 'link-9');">_convertJSON</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L97"></a><tt class="py-lineno"> 97</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">head</tt>        <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">fullResult</tt><tt class="py-op">[</tt><tt class="py-string">'head'</tt><tt class="py-op">]</tt> </tt>
+<a name="L98"></a><tt class="py-lineno"> 98</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">variables</tt>   <tt class="py-op">=</tt> <tt class="py-name">None</tt> </tt>
+<a name="L99"></a><tt class="py-lineno"> 99</tt>  <tt class="py-line">        <tt class="py-keyword">try</tt> <tt class="py-op">:</tt> </tt>
+<a name="L100"></a><tt class="py-lineno">100</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">variables</tt>   <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">fullResult</tt><tt class="py-op">[</tt><tt class="py-string">'head'</tt><tt class="py-op">]</tt><tt class="py-op">[</tt><tt class="py-string">'vars'</tt><tt class="py-op">]</tt> </tt>
+<a name="L101"></a><tt class="py-lineno">101</tt>  <tt class="py-line">        <tt class="py-keyword">except</tt> <tt class="py-op">:</tt> </tt>
+<a name="L102"></a><tt class="py-lineno">102</tt>  <tt class="py-line">            <tt class="py-keyword">pass</tt> </tt>
+<a name="L103"></a><tt class="py-lineno">103</tt>  <tt class="py-line"> </tt>
+<a name="L104"></a><tt class="py-lineno">104</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">bindings</tt>    <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">]</tt> </tt>
+<a name="L105"></a><tt class="py-lineno">105</tt>  <tt class="py-line">        <tt class="py-keyword">try</tt> <tt class="py-op">:</tt> </tt>
+<a name="L106"></a><tt class="py-lineno">106</tt>  <tt class="py-line">            <tt class="py-keyword">for</tt> <tt class="py-name">b</tt> <tt class="py-keyword">in</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">fullResult</tt><tt class="py-op">[</tt><tt class="py-string">'results'</tt><tt class="py-op">]</tt><tt class="py-op">[</tt><tt class="py-string">'bindings'</tt><tt class="py-op">]</tt> <tt class="py-op">:</tt> </tt>
+<a name="L107"></a><tt class="py-lineno">107</tt>  <tt class="py-line">                <tt class="py-comment">#  this is a single binding.  It is a dictionary per variable; each value is a dictionary again that has to be</tt> </tt>
+<a name="L108"></a><tt class="py-lineno">108</tt>  <tt class="py-line">                <tt class="py-comment"># converted into a Value instance</tt> </tt>
+<a name="L109"></a><tt class="py-lineno">109</tt>  <tt class="py-line">                <tt class="py-name">newBind</tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt><tt class="py-op">}</tt> </tt>
+<a name="L110"></a><tt class="py-lineno">110</tt>  <tt class="py-line">                <tt class="py-keyword">for</tt> <tt class="py-name">key</tt> <tt class="py-keyword">in</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">variables</tt> <tt class="py-op">:</tt> </tt>
+<a name="L111"></a><tt class="py-lineno">111</tt>  <tt class="py-line">                    <tt class="py-keyword">if</tt> <tt class="py-name">key</tt> <tt class="py-keyword">in</tt> <tt class="py-name">b</tt> <tt class="py-op">:</tt> </tt>
+<a name="L112"></a><tt class="py-lineno">112</tt>  <tt class="py-line">                        <tt class="py-comment"># there is a real binding for this key</tt> </tt>
+<a name="L113"></a><tt class="py-lineno">113</tt>  <tt class="py-line">                        <tt class="py-name">newBind</tt><tt class="py-op">[</tt><tt class="py-name">key</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt id="link-10" class="py-name" targets="Class SPARQLWrapper.SmartWrapper.Value=SPARQLWrapper.SmartWrapper.Value-class.html"><a title="SPARQLWrapper.SmartWrapper.Value" class="py-name" href="#" onclick="return doclink('link-10', 'Value', 'link-10');">Value</a></tt><tt class="py-op">(</tt><tt class="py-name">key</tt><tt class="py-op">,</tt><tt class="py-name">b</tt><tt class="py-op">[</tt><tt class="py-name">key</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L114"></a><tt class="py-lineno">114</tt>  <tt class="py-line">                <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">bindings</tt><tt class="py-op">.</tt><tt class="py-name">append</tt><tt class="py-op">(</tt><tt class="py-name">newBind</tt><tt class="py-op">)</tt> </tt>
+<a name="L115"></a><tt class="py-lineno">115</tt>  <tt class="py-line">        <tt class="py-keyword">except</tt> <tt class="py-op">:</tt> </tt>
+<a name="L116"></a><tt class="py-lineno">116</tt>  <tt class="py-line">            <tt class="py-keyword">pass</tt> </tt>
+<a name="L117"></a><tt class="py-lineno">117</tt>  <tt class="py-line"> </tt>
+<a name="L118"></a><tt class="py-lineno">118</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">askResult</tt> <tt class="py-op">=</tt> <tt class="py-name">False</tt> </tt>
+<a name="L119"></a><tt class="py-lineno">119</tt>  <tt class="py-line">        <tt class="py-keyword">try</tt> <tt class="py-op">:</tt> </tt>
+<a name="L120"></a><tt class="py-lineno">120</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">askResult</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">fullResult</tt><tt class="py-op">[</tt><tt class="py-string">"boolean"</tt><tt class="py-op">]</tt> </tt>
+<a name="L121"></a><tt class="py-lineno">121</tt>  <tt class="py-line">        <tt class="py-keyword">except</tt> <tt class="py-op">:</tt> </tt>
+<a name="L122"></a><tt class="py-lineno">122</tt>  <tt class="py-line">            <tt class="py-keyword">pass</tt> </tt>
+</div><a name="L123"></a><tt class="py-lineno">123</tt>  <tt class="py-line"> </tt>
+<a name="Bindings.getValues"></a><div id="Bindings.getValues-def"><a name="L124"></a><tt class="py-lineno">124</tt> <a class="py-toggle" href="#" id="Bindings.getValues-toggle" onclick="return toggle('Bindings.getValues');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="SPARQLWrapper.SmartWrapper.Bindings-class.html#getValues">getValues</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt><tt class="py-param">key</tt><tt class="py-op">)</tt> <tt class="py-op">:</tt> </tt>
+</div><div id="Bindings.getValues-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Bindings.getValues-expanded"><a name="L125"></a><tt class="py-lineno">125</tt>  <tt class="py-line">        <tt class="py-docstring">"""A shorthand for the retrieval of all bindings for a single key. It is</tt> </tt>
+<a name="L126"></a><tt class="py-lineno">126</tt>  <tt class="py-line"><tt class="py-docstring">        equivalent to "C{[b[key] for b in self[key]]}"</tt> </tt>
+<a name="L127"></a><tt class="py-lineno">127</tt>  <tt class="py-line"><tt class="py-docstring">        @param key: possible variable</tt> </tt>
+<a name="L128"></a><tt class="py-lineno">128</tt>  <tt class="py-line"><tt class="py-docstring">        @return: list of L{Value} instances</tt> </tt>
+<a name="L129"></a><tt class="py-lineno">129</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L130"></a><tt class="py-lineno">130</tt>  <tt class="py-line">        <tt class="py-keyword">try</tt> <tt class="py-op">:</tt> </tt>
+<a name="L131"></a><tt class="py-lineno">131</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-op">[</tt><tt class="py-name">b</tt><tt class="py-op">[</tt><tt class="py-name">key</tt><tt class="py-op">]</tt> <tt class="py-keyword">for</tt> <tt class="py-name">b</tt> <tt class="py-keyword">in</tt> <tt class="py-name">self</tt><tt class="py-op">[</tt><tt class="py-name">key</tt><tt class="py-op">]</tt><tt class="py-op">]</tt> </tt>
+<a name="L132"></a><tt class="py-lineno">132</tt>  <tt class="py-line">        <tt class="py-keyword">except</tt> <tt class="py-op">:</tt> </tt>
+<a name="L133"></a><tt class="py-lineno">133</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-op">[</tt><tt class="py-op">]</tt> </tt>
+</div><a name="L134"></a><tt class="py-lineno">134</tt>  <tt class="py-line"> </tt>
+<a name="Bindings.__contains__"></a><div id="Bindings.__contains__-def"><a name="L135"></a><tt class="py-lineno">135</tt> <a class="py-toggle" href="#" id="Bindings.__contains__-toggle" onclick="return toggle('Bindings.__contains__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="SPARQLWrapper.SmartWrapper.Bindings-class.html#__contains__">__contains__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt><tt class="py-param">key</tt><tt class="py-op">)</tt> <tt class="py-op">:</tt> </tt>
+</div><div id="Bindings.__contains__-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Bindings.__contains__-expanded"><a name="L136"></a><tt class="py-lineno">136</tt>  <tt class="py-line">        <tt class="py-docstring">"""Emulation of the "C{key in obj}" operator. Key can be a string for a variable or an array/tuple</tt> </tt>
+<a name="L137"></a><tt class="py-lineno">137</tt>  <tt class="py-line"><tt class="py-docstring">        of strings.</tt> </tt>
+<a name="L138"></a><tt class="py-lineno">138</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L139"></a><tt class="py-lineno">139</tt>  <tt class="py-line"><tt class="py-docstring">        If C{key} is a variable, the return value is C{True} if there is at least one binding where C{key} is</tt> </tt>
+<a name="L140"></a><tt class="py-lineno">140</tt>  <tt class="py-line"><tt class="py-docstring">        bound. If C{key} is an array or tuple, the return value is C{True} if there is at least one binding</tt> </tt>
+<a name="L141"></a><tt class="py-lineno">141</tt>  <tt class="py-line"><tt class="py-docstring">        where I{all} variables in C{key} are bound.</tt> </tt>
+<a name="L142"></a><tt class="py-lineno">142</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L143"></a><tt class="py-lineno">143</tt>  <tt class="py-line"><tt class="py-docstring">        @param key: possible variable, or array/tuple of variables</tt> </tt>
+<a name="L144"></a><tt class="py-lineno">144</tt>  <tt class="py-line"><tt class="py-docstring">        @return: whether there is a binding of the variable in the return</tt> </tt>
+<a name="L145"></a><tt class="py-lineno">145</tt>  <tt class="py-line"><tt class="py-docstring">        @rtype: Boolean</tt> </tt>
+<a name="L146"></a><tt class="py-lineno">146</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L147"></a><tt class="py-lineno">147</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">bindings</tt><tt class="py-op">)</tt> <tt class="py-op">==</tt> <tt class="py-number">0</tt> <tt class="py-op">:</tt> <tt class="py-keyword">return</tt> <tt class="py-name">False</tt> </tt>
+<a name="L148"></a><tt class="py-lineno">148</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">type</tt><tt class="py-op">(</tt><tt class="py-name">key</tt><tt class="py-op">)</tt> <tt class="py-keyword">is</tt> <tt class="py-name">list</tt> <tt class="py-keyword">or</tt> <tt class="py-name">type</tt><tt class="py-op">(</tt><tt class="py-name">key</tt><tt class="py-op">)</tt> <tt class="py-keyword">is</tt> <tt class="py-name">tuple</tt><tt class="py-op">:</tt> </tt>
+<a name="L149"></a><tt class="py-lineno">149</tt>  <tt class="py-line">            <tt class="py-comment"># check first whether they are all really variables</tt> </tt>
+<a name="L150"></a><tt class="py-lineno">150</tt>  <tt class="py-line">            <tt class="py-keyword">if</tt> <tt class="py-name">False</tt> <tt class="py-keyword">in</tt> <tt class="py-op">[</tt> <tt class="py-name">k</tt> <tt class="py-keyword">in</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">variables</tt> <tt class="py-keyword">for</tt> <tt class="py-name">k</tt> <tt class="py-keyword">in</tt> <tt class="py-name">key</tt> <tt class="py-op">]</tt><tt class="py-op">:</tt> <tt class="py-keyword">return</tt> <tt class="py-name">False</tt> </tt>
+<a name="L151"></a><tt class="py-lineno">151</tt>  <tt class="py-line">            <tt class="py-keyword">for</tt> <tt class="py-name">b</tt> <tt class="py-keyword">in</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">bindings</tt> <tt class="py-op">:</tt> </tt>
+<a name="L152"></a><tt class="py-lineno">152</tt>  <tt class="py-line">                <tt class="py-comment"># try to find a binding where all key elements are present</tt> </tt>
+<a name="L153"></a><tt class="py-lineno">153</tt>  <tt class="py-line">                <tt class="py-keyword">if</tt> <tt class="py-name">False</tt> <tt class="py-keyword">in</tt> <tt class="py-op">[</tt> <tt class="py-name">k</tt> <tt class="py-keyword">in</tt> <tt class="py-name">b</tt> <tt class="py-keyword">for</tt> <tt class="py-name">k</tt> <tt class="py-keyword">in</tt> <tt class="py-name">key</tt> <tt class="py-op">]</tt> <tt class="py-op">:</tt> </tt>
+<a name="L154"></a><tt class="py-lineno">154</tt>  <tt class="py-line">                    <tt class="py-comment"># this is not a binding for the key combination, move on...</tt> </tt>
+<a name="L155"></a><tt class="py-lineno">155</tt>  <tt class="py-line">                    <tt class="py-keyword">continue</tt> </tt>
+<a name="L156"></a><tt class="py-lineno">156</tt>  <tt class="py-line">                <tt class="py-keyword">else</tt> <tt class="py-op">:</tt> </tt>
+<a name="L157"></a><tt class="py-lineno">157</tt>  <tt class="py-line">                    <tt class="py-comment"># yep, this one is good!</tt> </tt>
+<a name="L158"></a><tt class="py-lineno">158</tt>  <tt class="py-line">                    <tt class="py-keyword">return</tt> <tt class="py-name">True</tt> </tt>
+<a name="L159"></a><tt class="py-lineno">159</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-name">False</tt> </tt>
+<a name="L160"></a><tt class="py-lineno">160</tt>  <tt class="py-line">        <tt class="py-keyword">else</tt> <tt class="py-op">:</tt> </tt>
+<a name="L161"></a><tt class="py-lineno">161</tt>  <tt class="py-line">            <tt class="py-keyword">if</tt> <tt class="py-name">key</tt> <tt class="py-keyword">not</tt> <tt class="py-keyword">in</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">variables</tt> <tt class="py-op">:</tt> <tt class="py-keyword">return</tt> <tt class="py-name">False</tt> </tt>
+<a name="L162"></a><tt class="py-lineno">162</tt>  <tt class="py-line">            <tt class="py-keyword">for</tt> <tt class="py-name">b</tt> <tt class="py-keyword">in</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">bindings</tt> <tt class="py-op">:</tt> </tt>
+<a name="L163"></a><tt class="py-lineno">163</tt>  <tt class="py-line">                <tt class="py-keyword">if</tt> <tt class="py-name">key</tt> <tt class="py-keyword">in</tt> <tt class="py-name">b</tt> <tt class="py-op">:</tt> <tt class="py-keyword">return</tt> <tt class="py-name">True</tt> </tt>
+<a name="L164"></a><tt class="py-lineno">164</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-name">False</tt> </tt>
+</div><a name="L165"></a><tt class="py-lineno">165</tt>  <tt class="py-line"> </tt>
+<a name="Bindings.__getitem__"></a><div id="Bindings.__getitem__-def"><a name="L166"></a><tt class="py-lineno">166</tt> <a class="py-toggle" href="#" id="Bindings.__getitem__-toggle" onclick="return toggle('Bindings.__getitem__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="SPARQLWrapper.SmartWrapper.Bindings-class.html#__getitem__">__getitem__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt><tt class="py-param">key</tt><tt class="py-op">)</tt> <tt class="py-op">:</tt> </tt>
+</div><div id="Bindings.__getitem__-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Bindings.__getitem__-expanded"><a name="L167"></a><tt class="py-lineno">167</tt>  <tt class="py-line">        <tt class="py-docstring">"""Emulation of the C{obj[key]} operator.  Slice notation is also available.</tt> </tt>
+<a name="L168"></a><tt class="py-lineno">168</tt>  <tt class="py-line"><tt class="py-docstring">        The goal is to choose the right bindings among the available ones. The return values are always</tt> </tt>
+<a name="L169"></a><tt class="py-lineno">169</tt>  <tt class="py-line"><tt class="py-docstring">        arrays  of bindings, ie, arrays of dictionaries mapping variable keys to L{Value} instances.</tt> </tt>
+<a name="L170"></a><tt class="py-lineno">170</tt>  <tt class="py-line"><tt class="py-docstring">        The different value settings mean the followings:</tt> </tt>
+<a name="L171"></a><tt class="py-lineno">171</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L172"></a><tt class="py-lineno">172</tt>  <tt class="py-line"><tt class="py-docstring">         - C{obj[key]} returns the bindings where C{key} has a valid value</tt> </tt>
+<a name="L173"></a><tt class="py-lineno">173</tt>  <tt class="py-line"><tt class="py-docstring">         - C{obj[key1,key2,...]} returns the bindings where I{all} C{key1,key2,...} have valid values</tt> </tt>
+<a name="L174"></a><tt class="py-lineno">174</tt>  <tt class="py-line"><tt class="py-docstring">         - C{obj[(key1,key2,...):(nkey1,nkey2,...)]} returns the bindings where all C{key1,key2,...} have</tt> </tt>
+<a name="L175"></a><tt class="py-lineno">175</tt>  <tt class="py-line"><tt class="py-docstring">         valid values and I{none} of the C{nkey1,nkey2,...} have valid values</tt> </tt>
+<a name="L176"></a><tt class="py-lineno">176</tt>  <tt class="py-line"><tt class="py-docstring">         - C{obj[:(nkey1,nkey2,...)]} returns the bindings where I{none} of the C{nkey1,nkey2,...} have valid values</tt> </tt>
+<a name="L177"></a><tt class="py-lineno">177</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L178"></a><tt class="py-lineno">178</tt>  <tt class="py-line"><tt class="py-docstring">        In all cases complete bindings are returned, ie, the values for other variables, not present among</tt> </tt>
+<a name="L179"></a><tt class="py-lineno">179</tt>  <tt class="py-line"><tt class="py-docstring">        the keys in the call, may or may not be present depending on the query results.</tt> </tt>
+<a name="L180"></a><tt class="py-lineno">180</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L181"></a><tt class="py-lineno">181</tt>  <tt class="py-line"><tt class="py-docstring">        @param key: possible variable or array/tuple of keys with possible slice notation</tt> </tt>
+<a name="L182"></a><tt class="py-lineno">182</tt>  <tt class="py-line"><tt class="py-docstring">        @return: list of bindings</tt> </tt>
+<a name="L183"></a><tt class="py-lineno">183</tt>  <tt class="py-line"><tt class="py-docstring">        @rtype: array of variable -&gt; L{Value}  dictionaries</tt> </tt>
+<a name="L184"></a><tt class="py-lineno">184</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L185"></a><tt class="py-lineno">185</tt>  <tt class="py-line">        <tt class="py-keyword">def</tt> <tt class="py-def-name">_checkKeys</tt><tt class="py-op">(</tt><tt class="py-param">keys</tt><tt class="py-op">)</tt> <tt class="py-op">:</tt> </tt>
+<a name="L186"></a><tt class="py-lineno">186</tt>  <tt class="py-line">            <tt class="py-keyword">if</tt> <tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">keys</tt><tt class="py-op">)</tt> <tt class="py-op">==</tt> <tt class="py-number">0</tt> <tt class="py-op">:</tt> <tt class="py-keyword">return</tt> <tt class="py-name">False</tt> </tt>
+<a name="L187"></a><tt class="py-lineno">187</tt>  <tt class="py-line">            <tt class="py-keyword">for</tt> <tt class="py-name">k</tt> <tt class="py-keyword">in</tt> <tt class="py-name">keys</tt> <tt class="py-op">:</tt> </tt>
+<a name="L188"></a><tt class="py-lineno">188</tt>  <tt class="py-line">                <tt class="py-keyword">if</tt> <tt class="py-keyword">not</tt> <tt class="py-name">isinstance</tt><tt class="py-op">(</tt><tt class="py-name">k</tt><tt class="py-op">,</tt> <tt class="py-name">basestring</tt><tt class="py-op">)</tt> <tt class="py-keyword">or</tt> <tt class="py-keyword">not</tt> <tt class="py-name">k</tt> <tt class="py-keyword">in</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">variables</tt><tt class="py-op">:</tt> <tt class="py-keyword">return</tt> <tt class="py-name">False</tt> </tt>
+<a name="L189"></a><tt class="py-lineno">189</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-name">True</tt> </tt>
+</div><a name="L190"></a><tt class="py-lineno">190</tt>  <tt class="py-line"> </tt>
+<a name="L191"></a><tt class="py-lineno">191</tt>  <tt class="py-line">        <tt class="py-keyword">def</tt> <tt class="py-def-name">_nonSliceCase</tt><tt class="py-op">(</tt><tt class="py-param">key</tt><tt class="py-op">)</tt> <tt class="py-op">:</tt> </tt>
+<a name="L192"></a><tt class="py-lineno">192</tt>  <tt class="py-line">            <tt class="py-keyword">if</tt> <tt class="py-name">isinstance</tt><tt class="py-op">(</tt><tt class="py-name">key</tt><tt class="py-op">,</tt> <tt class="py-name">basestring</tt><tt class="py-op">)</tt> <tt class="py-keyword">and</tt> <tt class="py-name">key</tt> <tt class="py-op">!=</tt> <tt class="py-string">""</tt> <tt class="py-keyword">and</tt> <tt class="py-name">key</tt> <tt class="py-keyword">in</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">variables</tt> <tt class="py-op">:</tt> </tt>
+<a name="L193"></a><tt class="py-lineno">193</tt>  <tt class="py-line">                <tt class="py-comment"># unicode or string:</tt> </tt>
+<a name="L194"></a><tt class="py-lineno">194</tt>  <tt class="py-line">                <tt class="py-keyword">return</tt> <tt class="py-op">[</tt><tt class="py-name">key</tt><tt class="py-op">]</tt> </tt>
+<a name="L195"></a><tt class="py-lineno">195</tt>  <tt class="py-line">            <tt class="py-keyword">elif</tt> <tt class="py-name">type</tt><tt class="py-op">(</tt><tt class="py-name">key</tt><tt class="py-op">)</tt> <tt class="py-keyword">is</tt> <tt class="py-name">list</tt> <tt class="py-keyword">or</tt> <tt class="py-name">type</tt><tt class="py-op">(</tt><tt class="py-name">key</tt><tt class="py-op">)</tt> <tt class="py-keyword">is</tt> <tt class="py-name">tuple</tt><tt class="py-op">:</tt> </tt>
+<a name="L196"></a><tt class="py-lineno">196</tt>  <tt class="py-line">                <tt class="py-keyword">if</tt> <tt class="py-name">_checkKeys</tt><tt class="py-op">(</tt><tt class="py-name">key</tt><tt class="py-op">)</tt> <tt class="py-op">:</tt> </tt>
+<a name="L197"></a><tt class="py-lineno">197</tt>  <tt class="py-line">                    <tt class="py-keyword">return</tt> <tt class="py-name">key</tt> </tt>
+<a name="L198"></a><tt class="py-lineno">198</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-name">False</tt> </tt>
+</div><a name="L199"></a><tt class="py-lineno">199</tt>  <tt class="py-line"> </tt>
+<a name="L200"></a><tt class="py-lineno">200</tt>  <tt class="py-line">        <tt class="py-comment"># The arguments should be reduced to arrays of variables, ie, unicode strings</tt> </tt>
+<a name="L201"></a><tt class="py-lineno">201</tt>  <tt class="py-line">        <tt class="py-name">yes_keys</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">]</tt> </tt>
+<a name="L202"></a><tt class="py-lineno">202</tt>  <tt class="py-line">        <tt class="py-name">no_keys</tt>  <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">]</tt> </tt>
+<a name="L203"></a><tt class="py-lineno">203</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">type</tt><tt class="py-op">(</tt><tt class="py-name">key</tt><tt class="py-op">)</tt> <tt class="py-keyword">is</tt> <tt class="py-name">slice</tt> <tt class="py-op">:</tt> </tt>
+<a name="L204"></a><tt class="py-lineno">204</tt>  <tt class="py-line">            <tt class="py-comment"># Note: None for start or stop is all right</tt> </tt>
+<a name="L205"></a><tt class="py-lineno">205</tt>  <tt class="py-line">            <tt class="py-keyword">if</tt> <tt class="py-name">key</tt><tt class="py-op">.</tt><tt class="py-name">start</tt> <tt class="py-op">:</tt> </tt>
+<a name="L206"></a><tt class="py-lineno">206</tt>  <tt class="py-line">                <tt class="py-name">yes_keys</tt> <tt class="py-op">=</tt> <tt class="py-name">_nonSliceCase</tt><tt class="py-op">(</tt><tt class="py-name">key</tt><tt class="py-op">.</tt><tt class="py-name">start</tt><tt class="py-op">)</tt> </tt>
+<a name="L207"></a><tt class="py-lineno">207</tt>  <tt class="py-line">                <tt class="py-keyword">if</tt> <tt class="py-keyword">not</tt> <tt class="py-name">yes_keys</tt><tt class="py-op">:</tt> <tt class="py-keyword">raise</tt> <tt class="py-name">TypeError</tt> </tt>
+<a name="L208"></a><tt class="py-lineno">208</tt>  <tt class="py-line">            <tt class="py-keyword">if</tt> <tt class="py-name">key</tt><tt class="py-op">.</tt><tt class="py-name">stop</tt> <tt class="py-op">:</tt> </tt>
+<a name="L209"></a><tt class="py-lineno">209</tt>  <tt class="py-line">                <tt class="py-name">no_keys</tt>  <tt class="py-op">=</tt> <tt class="py-name">_nonSliceCase</tt><tt class="py-op">(</tt><tt class="py-name">key</tt><tt class="py-op">.</tt><tt class="py-name">stop</tt><tt class="py-op">)</tt> </tt>
+<a name="L210"></a><tt class="py-lineno">210</tt>  <tt class="py-line">                <tt class="py-keyword">if</tt> <tt class="py-keyword">not</tt> <tt class="py-name">no_keys</tt><tt class="py-op">:</tt> <tt class="py-keyword">raise</tt> <tt class="py-name">TypeError</tt> </tt>
+<a name="L211"></a><tt class="py-lineno">211</tt>  <tt class="py-line">        <tt class="py-keyword">else</tt> <tt class="py-op">:</tt> </tt>
+<a name="L212"></a><tt class="py-lineno">212</tt>  <tt class="py-line">            <tt class="py-name">yes_keys</tt> <tt class="py-op">=</tt> <tt class="py-name">_nonSliceCase</tt><tt class="py-op">(</tt><tt class="py-name">key</tt><tt class="py-op">)</tt> </tt>
+<a name="L213"></a><tt class="py-lineno">213</tt>  <tt class="py-line"> </tt>
+<a name="L214"></a><tt class="py-lineno">214</tt>  <tt class="py-line">        <tt class="py-comment"># got it right, now get the right binding line with the constraints</tt> </tt>
+<a name="L215"></a><tt class="py-lineno">215</tt>  <tt class="py-line">        <tt class="py-name">retval</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">]</tt> </tt>
+<a name="L216"></a><tt class="py-lineno">216</tt>  <tt class="py-line">        <tt class="py-keyword">for</tt> <tt class="py-name">b</tt> <tt class="py-keyword">in</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">bindings</tt> <tt class="py-op">:</tt> </tt>
+<a name="L217"></a><tt class="py-lineno">217</tt>  <tt class="py-line">            <tt class="py-comment"># first check whether the 'yes' part is all there:</tt> </tt>
+<a name="L218"></a><tt class="py-lineno">218</tt>  <tt class="py-line">            <tt class="py-keyword">if</tt> <tt class="py-name">False</tt> <tt class="py-keyword">in</tt> <tt class="py-op">[</tt><tt class="py-name">k</tt> <tt class="py-keyword">in</tt> <tt class="py-name">b</tt> <tt class="py-keyword">for</tt> <tt class="py-name">k</tt> <tt class="py-keyword">in</tt> <tt class="py-name">yes_keys</tt><tt class="py-op">]</tt> <tt class="py-op">:</tt> <tt class="py-keyword">continue</tt> </tt>
+<a name="L219"></a><tt class="py-lineno">219</tt>  <tt class="py-line">            <tt class="py-keyword">if</tt> <tt class="py-name">True</tt>  <tt class="py-keyword">in</tt> <tt class="py-op">[</tt><tt class="py-name">k</tt> <tt class="py-keyword">in</tt> <tt class="py-name">b</tt> <tt class="py-keyword">for</tt> <tt class="py-name">k</tt> <tt class="py-keyword">in</tt> <tt class="py-name">no_keys</tt><tt class="py-op">]</tt>  <tt class="py-op">:</tt> <tt class="py-keyword">continue</tt> </tt>
+<a name="L220"></a><tt class="py-lineno">220</tt>  <tt class="py-line">            <tt class="py-comment"># if we got that far, we shouild be all right!</tt> </tt>
+<a name="L221"></a><tt class="py-lineno">221</tt>  <tt class="py-line">            <tt class="py-name">retval</tt><tt class="py-op">.</tt><tt class="py-name">append</tt><tt class="py-op">(</tt><tt class="py-name">b</tt><tt class="py-op">)</tt> </tt>
+<a name="L222"></a><tt class="py-lineno">222</tt>  <tt class="py-line">        <tt class="py-comment"># if retval is of zero length, no hit; an exception should be raised to stay within the python style</tt> </tt>
+<a name="L223"></a><tt class="py-lineno">223</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">retval</tt><tt class="py-op">)</tt> <tt class="py-op">==</tt> <tt class="py-number">0</tt> <tt class="py-op">:</tt> </tt>
+<a name="L224"></a><tt class="py-lineno">224</tt>  <tt class="py-line">            <tt class="py-keyword">raise</tt> <tt class="py-name">IndexError</tt> </tt>
+<a name="L225"></a><tt class="py-lineno">225</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">retval</tt> </tt>
+</div><a name="L226"></a><tt class="py-lineno">226</tt>  <tt class="py-line"> </tt>
+<a name="Bindings.convert"></a><div id="Bindings.convert-def"><a name="L227"></a><tt class="py-lineno">227</tt> <a class="py-toggle" href="#" id="Bindings.convert-toggle" onclick="return toggle('Bindings.convert');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="SPARQLWrapper.SmartWrapper.Bindings-class.html#convert">convert</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt> <tt class="py-op">:</tt> </tt>
+</div><div id="Bindings.convert-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Bindings.convert-expanded"><a name="L228"></a><tt class="py-lineno">228</tt>  <tt class="py-line">        <tt class="py-docstring">"""This is just a convenience method, returns C{self}.</tt> </tt>
+<a name="L229"></a><tt class="py-lineno">229</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L230"></a><tt class="py-lineno">230</tt>  <tt class="py-line"><tt class="py-docstring">        Although C{Binding} is not a subclass of L{QueryResult&lt;SPARQLWrapper.Wrapper.QueryResult&gt;}, it is returned as a result by</tt> </tt>
+<a name="L231"></a><tt class="py-lineno">231</tt>  <tt class="py-line"><tt class="py-docstring">        L{SPARQLWrapper2.query}, just like L{QueryResult&lt;SPARQLWrapper.Wrapper.QueryResult&gt;} is returned by</tt> </tt>
+<a name="L232"></a><tt class="py-lineno">232</tt>  <tt class="py-line"><tt class="py-docstring">        L{SPARQLWrapper.SPARQLWrapper.query}. Consequently,</tt> </tt>
+<a name="L233"></a><tt class="py-lineno">233</tt>  <tt class="py-line"><tt class="py-docstring">        having an empty C{convert} method to imitate L{QueryResult's convert method&lt;SPARQLWrapper.Wrapper.QueryResult.convert&gt;} may avoid unnecessary problems.</tt> </tt>
+<a name="L234"></a><tt class="py-lineno">234</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L235"></a><tt class="py-lineno">235</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">self</tt> </tt>
+</div></div><a name="L236"></a><tt class="py-lineno">236</tt>  <tt class="py-line"> </tt>
+<a name="L237"></a><tt class="py-lineno">237</tt>  <tt class="py-line"><tt class="py-comment">##############################################################################################################</tt> </tt>
+<a name="L238"></a><tt class="py-lineno">238</tt>  <tt class="py-line"> </tt>
+<a name="L239"></a><tt class="py-lineno">239</tt>  <tt class="py-line"> </tt>
+<a name="SPARQLWrapper2"></a><div id="SPARQLWrapper2-def"><a name="L240"></a><tt class="py-lineno">240</tt> <a class="py-toggle" href="#" id="SPARQLWrapper2-toggle" onclick="return toggle('SPARQLWrapper2');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="SPARQLWrapper.SmartWrapper.SPARQLWrapper2-class.html">SPARQLWrapper2</a><tt class="py-op">(</tt><tt class="py-base-class">SPARQLWrapper</tt><tt class="py-op">.</tt><tt class="py-base-class">SPARQLWrapper</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="SPARQLWrapper2-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="SPARQLWrapper2-expanded"><a name="L241"></a><tt class="py-lineno">241</tt>  <tt class="py-line">    <tt class="py-docstring">"""Subclass of L{Wrapper&lt;SPARQLWrapper.SPARQLWrapper&gt;} that works with a JSON SELECT return result only. The query result </tt> </tt>
+<a name="L242"></a><tt class="py-lineno">242</tt>  <tt class="py-line"><tt class="py-docstring">    is automatically set to a L{Bindings} instance. Makes the average query processing a bit simpler..."""</tt> </tt>
+<a name="SPARQLWrapper2.__init__"></a><div id="SPARQLWrapper2.__init__-def"><a name="L243"></a><tt class="py-lineno">243</tt> <a class="py-toggle" href="#" id="SPARQLWrapper2.__init__-toggle" onclick="return toggle('SPARQLWrapper2.__init__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="SPARQLWrapper.SmartWrapper.SPARQLWrapper2-class.html#__init__">__init__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">baseURI</tt><tt class="py-op">,</tt> <tt class="py-param">defaultGraph</tt><tt class="py-op">=</tt><tt class="py-name">None</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="SPARQLWrapper2.__init__-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="SPARQLWrapper2.__init__-expanded"><a name="L244"></a><tt class="py-lineno">244</tt>  <tt class="py-line">        <tt class="py-docstring">"""</tt> </tt>
+<a name="L245"></a><tt class="py-lineno">245</tt>  <tt class="py-line"><tt class="py-docstring">        Class encapsulating a full SPARQL call. In contrast to the L{SPARQLWrapper&lt;SPARQLWrapper.SPARQLWrapper&gt;} superclass, the return format</tt> </tt>
+<a name="L246"></a><tt class="py-lineno">246</tt>  <tt class="py-line"><tt class="py-docstring">        cannot be set (it is defaulted to L{JSON&lt;Wrapper.JSON&gt;}).</tt> </tt>
+<a name="L247"></a><tt class="py-lineno">247</tt>  <tt class="py-line"><tt class="py-docstring">        @param baseURI: string of the SPARQL endpoint's URI</tt> </tt>
+<a name="L248"></a><tt class="py-lineno">248</tt>  <tt class="py-line"><tt class="py-docstring">        @type baseURI: string</tt> </tt>
+<a name="L249"></a><tt class="py-lineno">249</tt>  <tt class="py-line"><tt class="py-docstring">        @keyword defaultGraph: URI for the default graph. Default is None, can be set via an explicit call, too</tt> </tt>
+<a name="L250"></a><tt class="py-lineno">250</tt>  <tt class="py-line"><tt class="py-docstring">        @type defaultGraph: string</tt> </tt>
+<a name="L251"></a><tt class="py-lineno">251</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L252"></a><tt class="py-lineno">252</tt>  <tt class="py-line">        <tt class="py-name">super</tt><tt class="py-op">(</tt><tt id="link-11" class="py-name" targets="Class SPARQLWrapper.SmartWrapper.SPARQLWrapper2=SPARQLWrapper.SmartWrapper.SPARQLWrapper2-class.html"><a title="SPARQLWrapper.SmartWrapper.SPARQLWrapper2" class="py-name" href="#" onclick="return doclink('link-11', 'SPARQLWrapper2', 'link-11');">SPARQLWrapper2</a></tt><tt class="py-op">,</tt> <tt class="py-name">self</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt id="link-12" class="py-name" targets="Method SPARQLWrapper.KeyCaseInsensitiveDict.KeyCaseInsensitiveDict.__init__()=SPARQLWrapper.KeyCaseInsensitiveDict.KeyCaseInsensitiveDict-class.html#__init__,Method SPARQLWrapper.SPARQLExceptions.SPARQLWrapperException.__init__()=SPARQLWrapper.SPARQLExceptions.SPARQLWrapperException-class.html#__init__,Method SPARQLWrapper.SmartWrapper.Bindings.__init__()=SPARQLWrapper.SmartWrapper.Bindings-class.html#__init__,Method SPARQLWrapper.SmartWrapper.SPARQLWrapper2.__init__()=SPARQLWrapper.SmartWrapper.SPARQLWrapper2-class.html#__init__,Method SPARQLWrapper.SmartWrapper.Value.__init__()=SPARQLWrapper.SmartWrapper.Value-class.html#__init__,Method SPARQLWrapper.Wrapper.QueryResult.__init__()=SPARQLWrapper.Wrapper.QueryResult-class.html#__init__,Method SPARQLWrapper.Wrapper.SPARQLWrapper.__init__()=SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#__init__"><a title="SPARQLWrapper.KeyCaseInsensitiveDict.KeyCaseInsensitiveDict.__init__
+SPARQLWrapper.SPARQLExceptions.SPARQLWrapperException.__init__
+SPARQLWrapper.SmartWrapper.Bindings.__init__
+SPARQLWrapper.SmartWrapper.SPARQLWrapper2.__init__
+SPARQLWrapper.SmartWrapper.Value.__init__
+SPARQLWrapper.Wrapper.QueryResult.__init__
+SPARQLWrapper.Wrapper.SPARQLWrapper.__init__" class="py-name" href="#" onclick="return doclink('link-12', '__init__', 'link-12');">__init__</a></tt><tt class="py-op">(</tt><tt class="py-name">baseURI</tt><tt class="py-op">,</tt> <tt class="py-name">returnFormat</tt><tt class="py-op">=</tt><tt id="link-13" class="py-name"><a title="SPARQLWrapper.Wrapper.JSON" class="py-name" href="#" onclick="return doclink('link-13', 'JSON', 'link-3');">JSON</a></tt><tt class="py-op">,</tt> <tt class="py-name">defaultGraph</tt><tt class="py-op">=</tt><tt class="py-name">defaultGraph</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L253"></a><tt class="py-lineno">253</tt>  <tt class="py-line"> </tt>
+<a name="SPARQLWrapper2.setReturnFormat"></a><div id="SPARQLWrapper2.setReturnFormat-def"><a name="L254"></a><tt class="py-lineno">254</tt> <a class="py-toggle" href="#" id="SPARQLWrapper2.setReturnFormat-toggle" onclick="return toggle('SPARQLWrapper2.setReturnFormat');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="SPARQLWrapper.SmartWrapper.SPARQLWrapper2-class.html#setReturnFormat">setReturnFormat</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">format</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="SPARQLWrapper2.setReturnFormat-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="SPARQLWrapper2.setReturnFormat-expanded"><a name="L255"></a><tt class="py-lineno">255</tt>  <tt class="py-line">        <tt class="py-docstring">"""Set the return format (overriding the L{inherited method&lt;SPARQLWrapper.SPARQLWrapper.setReturnFormat&gt;}).</tt> </tt>
+<a name="L256"></a><tt class="py-lineno">256</tt>  <tt class="py-line"><tt class="py-docstring">        This method does nothing; this class instance should work with JSON only. The method is defined</tt> </tt>
+<a name="L257"></a><tt class="py-lineno">257</tt>  <tt class="py-line"><tt class="py-docstring">        just to avoid possible errors by erronously setting the return format.</tt> </tt>
+<a name="L258"></a><tt class="py-lineno">258</tt>  <tt class="py-line"><tt class="py-docstring">        When using this class, the user can safely ignore this call.</tt> </tt>
+<a name="L259"></a><tt class="py-lineno">259</tt>  <tt class="py-line"><tt class="py-docstring">        @param format: return format</tt> </tt>
+<a name="L260"></a><tt class="py-lineno">260</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L261"></a><tt class="py-lineno">261</tt>  <tt class="py-line">        <tt class="py-keyword">pass</tt> </tt>
+</div><a name="L262"></a><tt class="py-lineno">262</tt>  <tt class="py-line"> </tt>
+<a name="SPARQLWrapper2.query"></a><div id="SPARQLWrapper2.query-def"><a name="L263"></a><tt class="py-lineno">263</tt> <a class="py-toggle" href="#" id="SPARQLWrapper2.query-toggle" onclick="return toggle('SPARQLWrapper2.query');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="SPARQLWrapper.SmartWrapper.SPARQLWrapper2-class.html#query">query</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="SPARQLWrapper2.query-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="SPARQLWrapper2.query-expanded"><a name="L264"></a><tt class="py-lineno">264</tt>  <tt class="py-line">        <tt class="py-docstring">"""</tt> </tt>
+<a name="L265"></a><tt class="py-lineno">265</tt>  <tt class="py-line"><tt class="py-docstring">            Execute the query and do an automatic conversion.</tt> </tt>
+<a name="L266"></a><tt class="py-lineno">266</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L267"></a><tt class="py-lineno">267</tt>  <tt class="py-line"><tt class="py-docstring">            Exceptions can be raised if either the URI is wrong or the HTTP sends back an error.</tt> </tt>
+<a name="L268"></a><tt class="py-lineno">268</tt>  <tt class="py-line"><tt class="py-docstring">            The usual urllib2 exceptions are raised, which cover possible SPARQL errors, too.</tt> </tt>
+<a name="L269"></a><tt class="py-lineno">269</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L270"></a><tt class="py-lineno">270</tt>  <tt class="py-line"><tt class="py-docstring">            If the query type is I{not} SELECT, the method falls back to the</tt> </tt>
+<a name="L271"></a><tt class="py-lineno">271</tt>  <tt class="py-line"><tt class="py-docstring">            L{corresponding method in the superclass&lt;SPARQLWrapper.query&gt;}.</tt> </tt>
+<a name="L272"></a><tt class="py-lineno">272</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L273"></a><tt class="py-lineno">273</tt>  <tt class="py-line"><tt class="py-docstring">            @return: query result</tt> </tt>
+<a name="L274"></a><tt class="py-lineno">274</tt>  <tt class="py-line"><tt class="py-docstring">            @rtype: L{Bindings} instance</tt> </tt>
+<a name="L275"></a><tt class="py-lineno">275</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L276"></a><tt class="py-lineno">276</tt>  <tt class="py-line">        <tt class="py-name">res</tt> <tt class="py-op">=</tt> <tt class="py-name">super</tt><tt class="py-op">(</tt><tt id="link-14" class="py-name"><a title="SPARQLWrapper.SmartWrapper.SPARQLWrapper2" class="py-name" href="#" onclick="return doclink('link-14', 'SPARQLWrapper2', 'link-11');">SPARQLWrapper2</a></tt><tt class="py-op">,</tt> <tt class="py-name">self</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt id="link-15" class="py-name" targets="Method SPARQLWrapper.SmartWrapper.SPARQLWrapper2.query()=SPARQLWrapper.SmartWrapper.SPARQLWrapper2-class.html#query,Method SPARQLWrapper.Wrapper.SPARQLWrapper.query()=SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#query"><a title="SPARQLWrapper.SmartWrapper.SPARQLWrapper2.query
+SPARQLWrapper.Wrapper.SPARQLWrapper.query" class="py-name" href="#" onclick="return doclink('link-15', 'query', 'link-15');">query</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L277"></a><tt class="py-lineno">277</tt>  <tt class="py-line"> </tt>
+<a name="L278"></a><tt class="py-lineno">278</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">queryType</tt> <tt class="py-op">==</tt> <tt id="link-16" class="py-name"><a title="SPARQLWrapper.Wrapper.SELECT" class="py-name" href="#" onclick="return doclink('link-16', 'SELECT', 'link-4');">SELECT</a></tt><tt class="py-op">:</tt> </tt>
+<a name="L279"></a><tt class="py-lineno">279</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt id="link-17" class="py-name" targets="Class SPARQLWrapper.SmartWrapper.Bindings=SPARQLWrapper.SmartWrapper.Bindings-class.html"><a title="SPARQLWrapper.SmartWrapper.Bindings" class="py-name" href="#" onclick="return doclink('link-17', 'Bindings', 'link-17');">Bindings</a></tt><tt class="py-op">(</tt><tt class="py-name">res</tt><tt class="py-op">)</tt> </tt>
+<a name="L280"></a><tt class="py-lineno">280</tt>  <tt class="py-line">        <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L281"></a><tt class="py-lineno">281</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-name">res</tt> </tt>
+</div><a name="L282"></a><tt class="py-lineno">282</tt>  <tt class="py-line"> </tt>
+<a name="SPARQLWrapper2.queryAndConvert"></a><div id="SPARQLWrapper2.queryAndConvert-def"><a name="L283"></a><tt class="py-lineno">283</tt> <a class="py-toggle" href="#" id="SPARQLWrapper2.queryAndConvert-toggle" onclick="return toggle('SPARQLWrapper2.queryAndConvert');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="SPARQLWrapper.SmartWrapper.SPARQLWrapper2-class.html#queryAndConvert">queryAndConvert</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="SPARQLWrapper2.queryAndConvert-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="SPARQLWrapper2.queryAndConvert-expanded"><a name="L284"></a><tt class="py-lineno">284</tt>  <tt class="py-line">        <tt class="py-docstring">"""This is here to override the inherited method; it is equivalent to L{query}.</tt> </tt>
+<a name="L285"></a><tt class="py-lineno">285</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L286"></a><tt class="py-lineno">286</tt>  <tt class="py-line"><tt class="py-docstring">        If the query type is I{not} SELECT, the method falls back to the</tt> </tt>
+<a name="L287"></a><tt class="py-lineno">287</tt>  <tt class="py-line"><tt class="py-docstring">        L{corresponding method in the superclass&lt;SPARQLWrapper.queryAndConvert&gt;}.</tt> </tt>
+<a name="L288"></a><tt class="py-lineno">288</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L289"></a><tt class="py-lineno">289</tt>  <tt class="py-line"><tt class="py-docstring">        @return: the converted query result.</tt> </tt>
+<a name="L290"></a><tt class="py-lineno">290</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L291"></a><tt class="py-lineno">291</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">queryType</tt> <tt class="py-op">==</tt> <tt id="link-18" class="py-name"><a title="SPARQLWrapper.Wrapper.SELECT" class="py-name" href="#" onclick="return doclink('link-18', 'SELECT', 'link-4');">SELECT</a></tt><tt class="py-op">:</tt> </tt>
+<a name="L292"></a><tt class="py-lineno">292</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-19" class="py-name"><a title="SPARQLWrapper.SmartWrapper.SPARQLWrapper2.query
+SPARQLWrapper.Wrapper.SPARQLWrapper.query" class="py-name" href="#" onclick="return doclink('link-19', 'query', 'link-15');">query</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L293"></a><tt class="py-lineno">293</tt>  <tt class="py-line">        <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L294"></a><tt class="py-lineno">294</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-name">super</tt><tt class="py-op">(</tt><tt id="link-20" class="py-name"><a title="SPARQLWrapper.SmartWrapper.SPARQLWrapper2" class="py-name" href="#" onclick="return doclink('link-20', 'SPARQLWrapper2', 'link-11');">SPARQLWrapper2</a></tt><tt class="py-op">,</tt> <tt class="py-name">self</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt id="link-21" class="py-name" targets="Method SPARQLWrapper.SmartWrapper.SPARQLWrapper2.queryAndConvert()=SPARQLWrapper.SmartWrapper.SPARQLWrapper2-class.html#queryAndConvert,Method SPARQLWrapper.Wrapper.SPARQLWrapper.queryAndConvert()=SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#queryAndConvert"><a title="SPARQLWrapper.SmartWrapper.SPARQLWrapper2.queryAndConvert
+SPARQLWrapper.Wrapper.SPARQLWrapper.queryAndConvert" class="py-name" href="#" onclick="return doclink('link-21', 'queryAndConvert', 'link-21');">queryAndConvert</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+</div></div><a name="L295"></a><tt class="py-lineno">295</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="SPARQLWrapper-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            >SPARQLWrapper 1.7.2</th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1
+    on Sun Feb 14 12:28:50 2016
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

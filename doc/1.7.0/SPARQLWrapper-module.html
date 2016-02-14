@@ -1,0 +1,537 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>SPARQLWrapper</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th bgcolor="#70b0f0" class="navbar-select"
+          >&nbsp;&nbsp;&nbsp;Home&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            >SPARQLWrapper 1.7.0</th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        Package&nbsp;SPARQLWrapper
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="SPARQLWrapper-module.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== PACKAGE DESCRIPTION ==================== -->
+<h1 class="epydoc">Package SPARQLWrapper</h1><p class="nomargin-top"><span class="codelink"><a href="SPARQLWrapper-pysrc.html">source&nbsp;code</a></span></p>
+<p>This is a wrapper around a SPARQL service. It helps in creating the 
+  query URI and, possibly, convert the result into a more managable 
+  format.</p>
+  <p>The following packages are used:</p>
+  <ul>
+    <li>
+      for JSON, the <a href="http://cheeseshop.python.org/pypi/simplejson" 
+      target="_top">simplejson</a> package: 
+      <code>http://cheeseshop.python.org/pypi/simplejson</code>
+    </li>
+    <li>
+      for RDF/XML, the <a href="http://rdflib.net" 
+      target="_top">RDFLib</a>: <code>http://rdflib.net</code>
+    </li>
+  </ul>
+  <p>These packages are imported in a lazy fashion, ie, only when needed. 
+  Ie, if the user never intends to use the JSON format, the 
+  <code>simplejson</code> package is not imported and the user does not 
+  have to install it.</p>
+  <p>The package can be downloaded in <code>zip</code> and 
+  <code>.tar.gz</code> formats from <a 
+  href="http://www.ivan-herman.net/Misc/PythonStuff/SPARQL/" 
+  target="_top">http://www.ivan-herman.net/Misc/PythonStuff/SPARQL/</a>. It
+  is also available from <a 
+  href="https://sourceforge.net/projects/sparql-wrapper/" 
+  target="_top">Sourceforge</a> under the project named 
+  &quot;<code>sparql-wrapper</code>&quot;. Documentation is included in the
+  distribution.</p>
+  <h1 class="heading">Basic QUERY Usage</h1>
+    <h2 class="heading">Simple query</h2>
+      <p>The simplest usage of this module looks as follows (using the 
+      default, ie, <a href="http://www.w3.org/TR/rdf-sparql-XMLres/" 
+      target="_top">XML return format</a>, and special URI for the SPARQL 
+      Service):</p>
+<pre class="literalblock">
+from SPARQLWrapper import SPARQLWrapper
+queryString = &quot;SELECT * WHERE { ?s ?p ?o. }&quot;
+sparql = SPARQLWrapper(&quot;http://localhost:2020/sparql&quot;)
+# add a default graph, though that can also be part of the query string
+sparql.addDefaultGraph(&quot;http://www.example.com/data.rdf&quot;)
+sparql.setQuery(queryString)
+try :
+   ret = sparql.query()
+   # ret is a stream with the results in XML, see &lt;http://www.w3.org/TR/rdf-sparql-XMLres/&gt;
+except :
+   deal_with_the_exception()
+</pre>
+      <p>If 
+      <code>SPARQLWrapper(&quot;http://localhost:2020/sparql&quot;,returnFormat=SPARQLWrapper.JSON)</code>
+      was used, the result would be in <a 
+      href="http://www.w3.org/TR/rdf-sparql-json-res/" target="_top">JSON 
+      format</a> instead of XML (provided the sparql processor can return 
+      JSON).</p>
+    <h2 class="heading">Automatic conversion of the results</h2>
+      <p>To make processing somewhat easier, the package can do some 
+      conversions automatically from the return result. These are:</p>
+      <ul>
+        <li>
+          for XML, the <a 
+          href="http://docs.python.org/library/xml.dom.minidom.html" 
+          target="_top">xml.dom.minidom</a> 
+          (<code>http://docs.python.org/library/xml.dom.minidom.html</code>)
+          is used to convert the result stream into a Python representation
+          of a DOM tree
+        </li>
+        <li>
+          for JSON, the <a 
+          href="http://cheeseshop.python.org/pypi/simplejson" 
+          target="_top">simplejson</a> package 
+          (<code>http://cheeseshop.python.org/pypi/simplejson</code>) to 
+          generate a Python dictionary
+        </li>
+      </ul>
+      <p>There are two ways to generate this conversion:</p>
+      <ul>
+        <li>
+          use <code>ret.convert()</code> in the return result from 
+          <code>sparql.query()</code> in the code above
+        </li>
+        <li>
+          use <code>sparql.queryAndConvert()</code> to get the converted 
+          result right away if the intermediate stream is not used
+        </li>
+      </ul>
+      <p>For example, in the code below:</p>
+<pre class="literalblock">
+try :
+    sparql.setReturnFormat(SPARQLWrapper.JSON)
+    ret = sparql.query()
+    dict = ret.convert()
+except:
+    deal_with_the_exception()
+</pre>
+      <p>the value of <code>dict</code> is a Python dictionary of the query
+      result, based on the <a 
+      href="http://www.w3.org/TR/rdf-sparql-json-res/" target="_top">JSON 
+      format</a>.</p>
+      <p>The <a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html" 
+      class="link">SPARQLWrapper</a> class can be subclassed by overriding 
+      the conversion routines if the user wants to use something else.</p>
+    <h2 class="heading">Partial interpretation of the results</h2>
+      <p>A further help is to offer an extra, partial interpretation of the
+      results, again to cover most of the practical use cases. Based on the
+      <a href="http://www.w3.org/TR/rdf-sparql-json-res/" 
+      target="_top">JSON format</a>, the <a 
+      href="SPARQLWrapper.SmartWrapper.Bindings-class.html" 
+      class="link">SmartWrapper.Bindings</a> class can perform some simple 
+      steps in decoding the JSON return results. If <a 
+      href="SPARQLWrapper.SmartWrapper.SPARQLWrapper2-class.html" 
+      class="link">SPARQLWrapper2</a> is used instead of <a 
+      href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html" 
+      class="link">SPARQLWrapper</a>, this result format is generated. Note
+      that this relies on a JSON format only, ie, it has to be checked 
+      whether the SPARQL service can return JSON or not.</p>
+      <p>Here is a simple code that makes use of this feature:</p>
+<pre class="literalblock">
+from SPARQLWrapper import SPARQLWrapper2
+queryString = &quot;SELECT ?subj ?prop WHERE { ?subj ?prop ?o. }&quot;
+sparql = SPARQLWrapper2(&quot;http://localhost:2020/sparql&quot;)
+# add a default graph, though that can also be in the query string
+sparql.addDefaultGraph(&quot;http://www.example.com/data.rdf&quot;)
+sparql.setQuery(queryString)
+try :
+    ret = sparql.query()
+    print ret.variables  # this is an array consisting of &quot;subj&quot; and &quot;prop&quot;
+    for binding in ret.bindings :
+        # each binding is a dictionary. Let us just print the results
+        print &quot;%s: %s (of type %s)&quot; % (&quot;s&quot;,binding[u&quot;subj&quot;].value,binding[u&quot;subj&quot;].type)
+        print &quot;%s: %s (of type %s)&quot; % (&quot;p&quot;,binding[u&quot;prop&quot;].value,binding[u&quot;prop&quot;].type)
+except:
+    deal_with_the_exception()
+</pre>
+      <p>To make this type of code even easier to realize, the 
+      <code>[]</code> and <code>in</code> operators are also implemented on
+      the result of <a 
+      href="SPARQLWrapper.SmartWrapper.Bindings-class.html" 
+      class="link">SmartWrapper.Bindings</a>. This can be used to check and
+      find a particular binding (ie, particular row in the return value). 
+      This features becomes particularly useful when the 
+      <code>OPTIONAL</code> feature of SPARQL is used. For example:</p>
+<pre class="literalblock">
+from SPARQLWrapper import SPARQLWrapper2
+queryString = &quot;SELECT ?subj ?o ?opt WHERE { ?subj &lt;http://a.b.c&gt; ?o. OPTIONAL { ?subj &lt;http://d.e.f&gt; ?opt }}&quot;
+sparql = SPARQLWrapper2(&quot;http://localhost:2020/sparql&quot;)
+# add a default graph, though that can also be in the query string
+sparql.addDefaultGraph(&quot;http://www.example.com/data.rdf&quot;)
+sparql.setQuery(queryString)
+try :
+    ret = sparql.query()
+    print ret.variables  # this is an array consisting of &quot;subj&quot;, &quot;o&quot;, &quot;opt&quot;
+    if (u&quot;subj&quot;,u&quot;prop&quot;,u&quot;opt&quot;) in ret :
+       # there is at least one binding covering the optional &quot;opt&quot;, too
+       bindings = ret[u&quot;subj&quot;,u&quot;o&quot;,u&quot;opt&quot;]
+       # bindings is an array of dictionaries with the full bindings
+       for b in bindings :
+           subj = b[u&quot;subj&quot;].value
+           o    = b[u&quot;o&quot;].value
+           opt  = b[u&quot;opt&quot;].value
+           # do something nice with subj, o, and opt
+    # another way of accessing to values for a single variable:
+    # take all the bindings of the &quot;subj&quot;
+    subjbind = ret.getValues(u&quot;subj&quot;) # an array of Value instances
+    ...
+except:
+    deal_with_the_exception()
+</pre>
+  <h1 class="heading">CONSTRUCT, ASK, DESCRIBE</h1>
+    <p>All the examples so far were based on the SELECT queries. If the 
+    query includes, eg, the <code>CONSTRUCT</code> keyword then the 
+    accepted return formats should be different: eg, 
+    <code>SPARQLWrapper.XML</code> means <code>RDF/XML</code> and most of 
+    the SPARQL engines can also return the results in <code>Turtle</code>. 
+    The package, though it does not contain a full SPARQL parser, makes an 
+    attempt to determine the query type when the query is set. This should 
+    work in most of the cases (but there is a possibility to set this 
+    manually, in case something goes wrong).</p>
+    <p>For RDF/XML, the <a href="http://rdflib.net" 
+    target="_top">RDFLib</a> (<code>http://rdflib.net</code>) package is 
+    used to convert the result into a <code>Graph</code> instance.</p>
+  <h1 class="heading">GET or POST</h1>
+    <p>By default, all SPARQL services are invoked using HTTP GET. However,
+    POST might be useful if the size of the query extends a reasonable 
+    size; this can be set in the query instance.</p>
+    <p>Note that some combination may not work yet with all SPARQL 
+    processors (eg, there are implementations where POST+JSON return does 
+    not work). Hopefully, this problem will eventually disappear.</p>
+    <p>Note that SPARQLWrapper only supports nowadays query using POST via 
+    URL-encoded.</p>
+  <h1 class="heading">Acknowledgement</h1>
+    <p>The package was greatly inspired by <a 
+    href="http://thefigtrees.net/lee/blog/2006/04/sparql_calendar_demo_a_sparql.html"
+    target="_top">Lee Feigenbaum's similar package for Javascript</a>.</p>
+
+<hr />
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="http://www.w3.org/TR/rdf-sparql-query/" 
+        target="_top">SPARQL Specification</a>
+      </p>
+      <p><strong>Author:</strong>
+        <a href="http://www.ivan-herman.net" target="_top">Ivan Herman</a>,
+        <a href="http://www.wikier.org" target="_top">Sergio Fern&#225;ndez</a>,
+        <a href="http://www.dayures.net" target="_top">Carlos Tejo 
+        Alonso</a>
+      </p>
+      <p><strong>Organization:</strong>
+        <a href="http://www.w3.org" target="_top">World Wide Web 
+        Consortium</a>, <a href="http://www.salzburgresearch.at" 
+        target="_top">Salzburg Research</a> and <a 
+        href="http://www.fundacionctic.org/" target="_top">Foundation 
+        CTIC</a>.
+      </p>
+      <p><strong>License:</strong>
+        <a 
+        href="http://href=&quot;http://www.w3.org/Consortium/Legal/copyright-software&quot;"
+        target="_top">W3C&#174; SOFTWARE NOTICE AND LICENSE</a>
+      </p>
+      <strong>Requires:</strong>
+      <ul class="nomargin-top">
+        <li>
+        <a href="http://cheeseshop.python.org/pypi/simplejson" 
+        target="_top">simplejson</a> package.
+        </li>
+        <li>
+        <a href="http://rdflib.net" target="_top">RDFLib</a> package.
+        </li>
+      </ul>
+      <p><strong>Version:</strong>
+        1.7.0
+      </p>
+      <p><strong>Date:</strong>
+        2014-10-01
+      </p>
+      <p><strong>Contact:</strong>
+        rdflib-dev@googlegroups.com
+      </p>
+</div><!-- ==================== SUBMODULES ==================== -->
+<a name="section-Submodules"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Submodules</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Submodules"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+  <tr><td class="summary">
+  <ul class="nomargin">
+    <li> <strong class="uidlink"><a href="SPARQLWrapper.KeyCaseInsensitiveDict-module.html">SPARQLWrapper.KeyCaseInsensitiveDict</a></strong>: <em class="summary">A simple implementation of a key case-insensitive dictionary.</em>    </li>
+    <li> <strong class="uidlink"><a href="SPARQLWrapper.SPARQLExceptions-module.html">SPARQLWrapper.SPARQLExceptions</a></strong>: <em class="summary">SPARQL Wrapper exceptions</em>    </li>
+    <li> <strong class="uidlink"><a href="SPARQLWrapper.SPARQLUtils-module.html">SPARQLWrapper.SPARQLUtils</a></strong>: <em class="summary">SPARQL Wrapper Utils</em>    </li>
+    <li> <strong class="uidlink"><a href="SPARQLWrapper.SmartWrapper-module.html">SPARQLWrapper.SmartWrapper</a></strong>    </li>
+    <li> <strong class="uidlink"><a href="SPARQLWrapper.Wrapper-module.html">SPARQLWrapper.Wrapper</a></strong>    </li>
+    <li> <strong class="uidlink"><a href="SPARQLWrapper.jsonlayer-module.html">SPARQLWrapper.jsonlayer</a></strong>: <em class="summary">Thin abstraction layer over the different available modules for 
+        decoding and encoding JSON data.</em>    </li>
+  </ul></td></tr>
+</table>
+
+<br />
+<!-- ==================== VARIABLES ==================== -->
+<a name="section-Variables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Variables</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Variables"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="__version__"></a><span class="summary-name">__version__</span> = <code title="'1.7.0'"><code class="variable-quote">'</code><code class="variable-string">1.7.0</code><code class="variable-quote">'</code></code><br />
+      The version of SPARQLWrapper
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="SPARQLWrapper-module.html#__authors__" class="summary-name">__authors__</a> = <code title="'Ivan Herman, Sergio Fern\xc3\xa1ndez, Carlos Tejo Alonso, Alexey Zakh\
+lestin'"><code class="variable-quote">'</code><code class="variable-string">Ivan Herman, Sergio Fern\xc3\xa1ndez, Carlos Te</code><code class="variable-ellipsis">...</code></code><br />
+      The primary authors of SPARQLWrapper
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="SPARQLWrapper-module.html#__license__" class="summary-name">__license__</a> = <code title="'W3C\xc2\xae SOFTWARE NOTICE AND LICENSE, http://www.w3.org/Consortium\
+/Legal/copyright-software'"><code class="variable-quote">'</code><code class="variable-string">W3C\xc2\xae SOFTWARE NOTICE AND LICENSE, http:/</code><code class="variable-ellipsis">...</code></code><br />
+      The license governing the use and distribution of SPARQLWrapper
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="__url__"></a><span class="summary-name">__url__</span> = <code title="'http://rdflib.github.io/sparqlwrapper'"><code class="variable-quote">'</code><code class="variable-string">http://rdflib.github.io/sparqlwrapper</code><code class="variable-quote">'</code></code><br />
+      The URL for SPARQLWrapper's homepage
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="__contact__"></a><span class="summary-name">__contact__</span> = <code title="'rdflib-dev@googlegroups.com'"><code class="variable-quote">'</code><code class="variable-string">rdflib-dev@googlegroups.com</code><code class="variable-quote">'</code></code><br />
+      Mail list to contact to other people RDFLib and SPARQLWrappers folks 
+      and developers
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="__date__"></a><span class="summary-name">__date__</span> = <code title="'2014-10-01'"><code class="variable-quote">'</code><code class="variable-string">2014-10-01</code><code class="variable-quote">'</code></code><br />
+      Last update
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="SPARQLWrapper-module.html#__agent__" class="summary-name">__agent__</a> = <code title="'sparqlwrapper 1.7.0 (rdflib.github.io/sparqlwrapper)'"><code class="variable-quote">'</code><code class="variable-string">sparqlwrapper 1.7.0 (rdflib.github.io/sparqlwrapp</code><code class="variable-ellipsis">...</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="__package__"></a><span class="summary-name">__package__</span> = <code title="'SPARQLWrapper'"><code class="variable-quote">'</code><code class="variable-string">SPARQLWrapper</code><code class="variable-quote">'</code></code>
+    </td>
+  </tr>
+</table>
+<!-- ==================== VARIABLES DETAILS ==================== -->
+<a name="section-VariablesDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Variables Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-VariablesDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="__authors__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">__authors__</h3>
+  <p>The primary authors of SPARQLWrapper</p>
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+<code class="variable-quote">'</code><code class="variable-string">Ivan Herman, Sergio Fern\xc3\xa1ndez, Carlos Tejo Alonso, Alexey Zakh</code><span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+<code class="variable-string">lestin</code><code class="variable-quote">'</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="__license__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">__license__</h3>
+  <p>The license governing the use and distribution of SPARQLWrapper</p>
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+<code class="variable-quote">'</code><code class="variable-string">W3C\xc2\xae SOFTWARE NOTICE AND LICENSE, http://www.w3.org/Consortium</code><span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+<code class="variable-string">/Legal/copyright-software</code><code class="variable-quote">'</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="__agent__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">__agent__</h3>
+  
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+<code class="variable-quote">'</code><code class="variable-string">sparqlwrapper 1.7.0 (rdflib.github.io/sparqlwrapper)</code><code class="variable-quote">'</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th bgcolor="#70b0f0" class="navbar-select"
+          >&nbsp;&nbsp;&nbsp;Home&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            >SPARQLWrapper 1.7.0</th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1
+    on Sun Feb 14 12:11:56 2016
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

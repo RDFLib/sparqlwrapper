@@ -1,0 +1,1481 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>SPARQLWrapper.Wrapper.SPARQLWrapper</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="SPARQLWrapper-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            >SPARQLWrapper 1.7.5</th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="SPARQLWrapper-module.html">Package&nbsp;SPARQLWrapper</a> ::
+        <a href="SPARQLWrapper.Wrapper-module.html">Module&nbsp;Wrapper</a> ::
+        Class&nbsp;SPARQLWrapper
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class SPARQLWrapper</h1><p class="nomargin-top"><span class="codelink"><a href="SPARQLWrapper.Wrapper-pysrc.html#SPARQLWrapper">source&nbsp;code</a></span></p>
+<pre class="base-tree">
+object --+
+         |
+        <strong class="uidshort">SPARQLWrapper</strong>
+</pre>
+
+<dl><dt>Known Subclasses:</dt>
+<dd>
+      <ul class="subclass-list">
+<li><a href="SPARQLWrapper.SmartWrapper.SPARQLWrapper2-class.html">SmartWrapper.SPARQLWrapper2</a></li>  </ul>
+</dd></dl>
+
+<hr />
+<p>Wrapper around an online access to a SPARQL Web entry point.</p>
+  <p>The same class instance can be reused for subsequent queries. The 
+  values of the base Graph URI, return formats, etc, are retained from one 
+  query to the next (in other words, only the query string changes). The 
+  instance can also be reset to its initial values using the <a 
+  href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#resetQuery" 
+  class="link">resetQuery</a> method.</p>
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Instance Methods</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-InstanceMethods"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">endpoint</span>,
+        <span class="summary-sig-arg">updateEndpoint</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">returnFormat</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">xml</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">defaultGraph</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">agent</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">sparqlwrapper 1.7.5 (rdflib.github.io/sparqlwrapper)</code><code class="variable-quote">'</code></span>)</span><br />
+      Class encapsulating a full SPARQL call.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="SPARQLWrapper.Wrapper-pysrc.html#SPARQLWrapper.__init__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#_createRequest" class="summary-sig-name" onclick="show_private();">_createRequest</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Internal method to create request according a HTTP method.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="SPARQLWrapper.Wrapper-pysrc.html#SPARQLWrapper._createRequest">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="_getAcceptHeader"></a><span class="summary-sig-name">_getAcceptHeader</span>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="SPARQLWrapper.Wrapper-pysrc.html#SPARQLWrapper._getAcceptHeader">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="_getRequestEncodedParameters"></a><span class="summary-sig-name">_getRequestEncodedParameters</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">query</span>=<span class="summary-sig-default">None</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="SPARQLWrapper.Wrapper-pysrc.html#SPARQLWrapper._getRequestEncodedParameters">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">string</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#_parseQueryType" class="summary-sig-name" onclick="show_private();">_parseQueryType</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">query</span>)</span><br />
+      Parse the SPARQL query and return its type (ie, <a 
+      href="SPARQLWrapper.Wrapper-module.html#SELECT" 
+      class="link">SELECT</a>, <a 
+      href="SPARQLWrapper.Wrapper-module.html#ASK" class="link">ASK</a>, 
+      etc).</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="SPARQLWrapper.Wrapper-pysrc.html#SPARQLWrapper._parseQueryType">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#_query" class="summary-sig-name" onclick="show_private();">_query</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Internal method to execute the query.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="SPARQLWrapper.Wrapper-pysrc.html#SPARQLWrapper._query">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">bool</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#addCustomParameter" class="summary-sig-name">addCustomParameter</a>(<span class="summary-sig-arg">*args</span>,
+        <span class="summary-sig-arg">**kwargs</span>)</span><br />
+      Method is kept for backwards compatibility.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="SPARQLWrapper.SPARQLUtils-pysrc.html">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#addDefaultGraph" class="summary-sig-name">addDefaultGraph</a>(<span class="summary-sig-arg">*args</span>,
+        <span class="summary-sig-arg">**kwargs</span>)</span><br />
+      Add a default graph URI.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="SPARQLWrapper.SPARQLUtils-pysrc.html">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#addExtraURITag" class="summary-sig-name">addExtraURITag</a>(<span class="summary-sig-arg">*args</span>,
+        <span class="summary-sig-arg">**kwargs</span>)</span><br />
+      Some SPARQL endpoints require extra key value pairs.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="SPARQLWrapper.SPARQLUtils-pysrc.html">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#addNamedGraph" class="summary-sig-name">addNamedGraph</a>(<span class="summary-sig-arg">*args</span>,
+        <span class="summary-sig-arg">**kwargs</span>)</span><br />
+      Add a named graph URI.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="SPARQLWrapper.SPARQLUtils-pysrc.html">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">bool</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#addParameter" class="summary-sig-name">addParameter</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">name</span>,
+        <span class="summary-sig-arg">value</span>)</span><br />
+      Some SPARQL endpoints allow extra key value pairs.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="SPARQLWrapper.Wrapper-pysrc.html#SPARQLWrapper.addParameter">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">bool</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#clearParameter" class="summary-sig-name">clearParameter</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">name</span>)</span><br />
+      Clear the values ofd a concrete parameter.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="SPARQLWrapper.Wrapper-pysrc.html#SPARQLWrapper.clearParameter">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#isSparqlQueryRequest" class="summary-sig-name">isSparqlQueryRequest</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Returns TRUE if SPARQLWrapper is configured for executing SPARQL 
+      Query request</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="SPARQLWrapper.Wrapper-pysrc.html#SPARQLWrapper.isSparqlQueryRequest">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#isSparqlUpdateRequest" class="summary-sig-name">isSparqlUpdateRequest</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Returns TRUE if SPARQLWrapper is configured for executing SPARQL 
+      Update request</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="SPARQLWrapper.Wrapper-pysrc.html#SPARQLWrapper.isSparqlUpdateRequest">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type"><a href="SPARQLWrapper.Wrapper.QueryResult-class.html" 
+      class="link">QueryResult</a> instance</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#query" class="summary-sig-name">query</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Execute the query.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="SPARQLWrapper.Wrapper-pysrc.html#SPARQLWrapper.query">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#queryAndConvert" class="summary-sig-name">queryAndConvert</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Macro like method: issue a query and return the converted results.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="SPARQLWrapper.Wrapper-pysrc.html#SPARQLWrapper.queryAndConvert">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="resetQuery"></a><span class="summary-sig-name">resetQuery</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      Reset the query, ie, return format, query, default or named graph 
+      settings, etc, are reset to their default values.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="SPARQLWrapper.Wrapper-pysrc.html#SPARQLWrapper.resetQuery">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#setCredentials" class="summary-sig-name">setCredentials</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">user</span>,
+        <span class="summary-sig-arg">passwd</span>)</span><br />
+      Set the credentials for querying the current endpoint</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="SPARQLWrapper.Wrapper-pysrc.html#SPARQLWrapper.setCredentials">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#setHTTPAuth" class="summary-sig-name">setHTTPAuth</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">auth</span>)</span><br />
+      Set the HTTP Authentication type (Basic or Digest)</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="SPARQLWrapper.Wrapper-pysrc.html#SPARQLWrapper.setHTTPAuth">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#setMethod" class="summary-sig-name">setMethod</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">method</span>)</span><br />
+      Set the invocation method.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="SPARQLWrapper.Wrapper-pysrc.html#SPARQLWrapper.setMethod">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#setQuery" class="summary-sig-name">setQuery</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">query</span>)</span><br />
+      Set the SPARQL query text.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="SPARQLWrapper.Wrapper-pysrc.html#SPARQLWrapper.setQuery">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#setRequestMethod" class="summary-sig-name">setRequestMethod</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">method</span>)</span><br />
+      Set the internal method to use to perform the request for query or 
+      update operations, either URL-encoded 
+      (<code>SPARQLWrapper.URLENCODED</code>) or POST directly 
+      (<code>SPARQLWrapper.POSTDIRECTLY</code>).</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="SPARQLWrapper.Wrapper-pysrc.html#SPARQLWrapper.setRequestMethod">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#setReturnFormat" class="summary-sig-name">setReturnFormat</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">format</span>)</span><br />
+      Set the return format.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="SPARQLWrapper.Wrapper-pysrc.html#SPARQLWrapper.setReturnFormat">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#setTimeout" class="summary-sig-name">setTimeout</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">timeout</span>)</span><br />
+      Set the timeout (in seconds) to use for querying the endpoint.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="SPARQLWrapper.Wrapper-pysrc.html#SPARQLWrapper.setTimeout">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#setUseKeepAlive" class="summary-sig-name">setUseKeepAlive</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Make urllib2 use keep-alive.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="SPARQLWrapper.Wrapper-pysrc.html#SPARQLWrapper.setUseKeepAlive">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#supportsReturnFormat" class="summary-sig-name">supportsReturnFormat</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">format</span>)</span><br />
+      Check if a return format is supported.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="SPARQLWrapper.Wrapper-pysrc.html#SPARQLWrapper.supportsReturnFormat">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__delattr__</code>,
+      <code>__format__</code>,
+      <code>__getattribute__</code>,
+      <code>__hash__</code>,
+      <code>__new__</code>,
+      <code>__reduce__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__repr__</code>,
+      <code>__setattr__</code>,
+      <code>__sizeof__</code>,
+      <code>__str__</code>,
+      <code>__subclasshook__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS VARIABLES ==================== -->
+<a name="section-ClassVariables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Class Variables</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-ClassVariables"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">compiled regular expression (see the <code>re</code> module of 
+      Python)</span>
+    </td><td class="summary">
+        <a href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#pattern" class="summary-name">pattern</a> = <code title="re.compile(r'(?ix)((?P&lt;base&gt;(\s*BASE\s*&lt;.*?&gt;)\s*)|(?P&lt;prefixes&gt;(\s*PRE\
+FIX\s+.+:\s*&lt;.*?&gt;)\s*))*(?P&lt;queryType&gt;(CONSTRUCT|SELECT|ASK|DESCRIBE|I\
+NSERT|DELETE|CREATE|CLEAR|DROP|LOAD|COPY|MOVE|ADD))')">re.compile(r'<code class="re-flags">(?ix)</code><code class="re-group">(</code><code class="re-group">(?P&lt;</code><code class="re-ref">base</code><code class="re-group">&gt;</code><code class="re-group">(</code>\s<code class="re-op">*</code>BASE\s<code class="re-op">*</code>&lt;.<code class="re-op">*?</code>&gt;<code class="re-group">)</code>\s<code class="re-op">*</code><code class="re-group">)</code><code class="re-op">|</code><code class="re-group">(?</code><code class="variable-ellipsis">...</code></code><br />
+      regular expression used to determine whether a query is of type <a 
+      href="SPARQLWrapper.Wrapper-module.html#CONSTRUCT" 
+      class="link">CONSTRUCT</a>, <a 
+      href="SPARQLWrapper.Wrapper-module.html#SELECT" 
+      class="link">SELECT</a>, <a 
+      href="SPARQLWrapper.Wrapper-module.html#ASK" class="link">ASK</a>, or
+      <a href="SPARQLWrapper.Wrapper-module.html#DESCRIBE" 
+      class="link">DESCRIBE</a>.
+    </td>
+  </tr>
+</table>
+<!-- ==================== INSTANCE VARIABLES ==================== -->
+<a name="section-InstanceVariables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Instance Variables</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-InstanceVariables"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="baseURI"></a><span class="summary-name">baseURI</span><br />
+      the URI of the SPARQL service
+    </td>
+  </tr>
+</table>
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Properties</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Properties"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__class__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Method Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-MethodDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="__init__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">endpoint</span>,
+        <span class="sig-arg">updateEndpoint</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">returnFormat</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">xml</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">defaultGraph</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">agent</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">sparqlwrapper 1.7.5 (rdflib.github.io/sparqlwrapper)</code><code class="variable-quote">'</code></span>)</span>
+    <br /><em class="fname">(Constructor)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="SPARQLWrapper.Wrapper-pysrc.html#SPARQLWrapper.__init__">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Class encapsulating a full SPARQL call.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>endpoint</code></strong> (string) - string of the SPARQL endpoint's URI</li>
+        <li><strong class="pname"><code>updateEndpoint</code></strong> (string) - string of the SPARQL endpoint's URI for update operations (if 
+          it's a different one)</li>
+        <li><strong class="pname"><code>returnFormat</code></strong> (string) - Default: <a href="SPARQLWrapper.Wrapper-module.html#XML" 
+          class="link">XML</a>. Can be set to JSON or Turtle/N3
+          <p>No local check is done, the parameter is simply sent to the 
+          endpoint. Eg, if the value is set to JSON and a construct query 
+          is issued, it is up to the endpoint to react or not, this wrapper
+          does not check.</p>
+          <p>Possible values: <a 
+          href="SPARQLWrapper.Wrapper-module.html#JSON" 
+          class="link">JSON</a>, <a 
+          href="SPARQLWrapper.Wrapper-module.html#XML" 
+          class="link">XML</a>, <a 
+          href="SPARQLWrapper.Wrapper-module.html#TURTLE" 
+          class="link">TURTLE</a>, <a 
+          href="SPARQLWrapper.Wrapper-module.html#N3" class="link">N3</a> 
+          (constants in this module). The value can also be set via 
+          explicit call, see below.</p></li>
+        <li><strong class="pname"><code>defaultGraph</code></strong> (string) - URI for the default graph. Default is None, the value can be set 
+          either via an <a 
+          href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#addDefaultGraph"
+          class="link">explicit call</a> or as part of the query string.</li>
+    </ul></dd>
+    <dt>Overrides:
+        object.__init__
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="_createRequest"></a>
+<div class="private">
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">_createRequest</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="SPARQLWrapper.Wrapper-pysrc.html#SPARQLWrapper._createRequest">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Internal method to create request according a HTTP method. Returns a 
+  <code>urllib2.Request</code> object of the urllib2 Python library</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>request</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="_parseQueryType"></a>
+<div class="private">
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">_parseQueryType</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">query</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="SPARQLWrapper.Wrapper-pysrc.html#SPARQLWrapper._parseQueryType">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Parse the SPARQL query and return its type (ie, <a 
+  href="SPARQLWrapper.Wrapper-module.html#SELECT" class="link">SELECT</a>, 
+  <a href="SPARQLWrapper.Wrapper-module.html#ASK" class="link">ASK</a>, 
+  etc).</p>
+  <p>Note that the method returns <a 
+  href="SPARQLWrapper.Wrapper-module.html#SELECT" class="link">SELECT</a> 
+  if nothing is specified. This is just to get all other methods running; 
+  in fact, this means that the query is erronous, because the query must 
+  be, according to the SPARQL specification, one of Select, Ask, Describe, 
+  or Construct. The SPARQL endpoint should raise an exception (via urllib) 
+  for such syntax error.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>query</code></strong> (string) - query text</li>
+    </ul></dd>
+    <dt>Returns: string</dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="_query"></a>
+<div class="private">
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">_query</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="SPARQLWrapper.Wrapper-pysrc.html#SPARQLWrapper._query">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Internal method to execute the query. Returns the output of the 
+  <code>urllib2.urlopen</code> method of the standard Python library</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>tuples with the raw request plus the expected format</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="addCustomParameter"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">addCustomParameter</span>(<span class="sig-arg">*args</span>,
+        <span class="sig-arg">**kwargs</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="SPARQLWrapper.SPARQLUtils-pysrc.html">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Method is kept for backwards compatibility. Historically, it 
+  &quot;replaces&quot; parameters instead of adding</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>name</code></strong> (string) - name</li>
+        <li><strong class="pname"><code>value</code></strong> (string) - value</li>
+    </ul></dd>
+    <dt>Returns: bool</dt>
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@deprecated</code></li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Deprecated:</strong>
+        use addParameter(name, value) instead of this method
+      </p>
+</div></td></tr></table>
+</div>
+<a name="addDefaultGraph"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">addDefaultGraph</span>(<span class="sig-arg">*args</span>,
+        <span class="sig-arg">**kwargs</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="SPARQLWrapper.SPARQLUtils-pysrc.html">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Add a default graph URI.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>uri</code></strong> (string) - URI of the graph</li>
+    </ul></dd>
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@deprecated</code></li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Deprecated:</strong>
+        use addParameter(&quot;default-graph-uri&quot;, uri) instead of this 
+    method
+      </p>
+</div></td></tr></table>
+</div>
+<a name="addExtraURITag"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">addExtraURITag</span>(<span class="sig-arg">*args</span>,
+        <span class="sig-arg">**kwargs</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="SPARQLWrapper.SPARQLUtils-pysrc.html">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Some SPARQL endpoints require extra key value pairs. E.g., in 
+  virtuoso, one would add <code>should-sponge=soft</code> to the query 
+  forcing virtuoso to retrieve graphs that are not stored in its local 
+  database.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>key</code></strong> (string) - key of the query part</li>
+        <li><strong class="pname"><code>value</code></strong> (string) - value of the query part</li>
+    </ul></dd>
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@deprecated</code></li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Deprecated:</strong>
+        use addParameter(key, value) instead of this method
+      </p>
+</div></td></tr></table>
+</div>
+<a name="addNamedGraph"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">addNamedGraph</span>(<span class="sig-arg">*args</span>,
+        <span class="sig-arg">**kwargs</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="SPARQLWrapper.SPARQLUtils-pysrc.html">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Add a named graph URI.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>uri</code></strong> (string) - URI of the graph</li>
+    </ul></dd>
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@deprecated</code></li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Deprecated:</strong>
+        use addParameter(&quot;named-graph-uri&quot;, uri) instead of this 
+    method
+      </p>
+</div></td></tr></table>
+</div>
+<a name="addParameter"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">addParameter</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">name</span>,
+        <span class="sig-arg">value</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="SPARQLWrapper.Wrapper-pysrc.html#SPARQLWrapper.addParameter">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Some SPARQL endpoints allow extra key value pairs. E.g., in virtuoso, 
+  one would add <code>should-sponge=soft</code> to the query forcing 
+  virtuoso to retrieve graphs that are not stored in its local 
+  database.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>name</code></strong> (string) - name</li>
+        <li><strong class="pname"><code>value</code></strong> (string) - value</li>
+    </ul></dd>
+    <dt>Returns: bool</dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="clearParameter"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">clearParameter</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">name</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="SPARQLWrapper.Wrapper-pysrc.html#SPARQLWrapper.clearParameter">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Clear the values ofd a concrete parameter.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>name</code></strong> (string) - name</li>
+    </ul></dd>
+    <dt>Returns: bool</dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="isSparqlQueryRequest"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isSparqlQueryRequest</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="SPARQLWrapper.Wrapper-pysrc.html#SPARQLWrapper.isSparqlQueryRequest">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Returns TRUE if SPARQLWrapper is configured for executing SPARQL Query
+  request</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>bool</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="isSparqlUpdateRequest"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isSparqlUpdateRequest</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="SPARQLWrapper.Wrapper-pysrc.html#SPARQLWrapper.isSparqlUpdateRequest">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Returns TRUE if SPARQLWrapper is configured for executing SPARQL 
+  Update request</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>bool</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="query"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">query</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="SPARQLWrapper.Wrapper-pysrc.html#SPARQLWrapper.query">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Execute the query. Exceptions can be raised if either the URI is wrong
+  or the HTTP sends back an error (this is also the case when the query is 
+  syntactically incorrect, leading to an HTTP error sent back by the SPARQL
+  endpoint). The usual urllib2 exceptions are raised, which therefore cover
+  possible SPARQL errors, too.</p>
+  <p>Note that some combinations of return formats and query types may not 
+  make sense. For example, a SELECT query with Turtle response is 
+  meaningless (the output of a SELECT is not a Graph), or a CONSTRUCT query
+  with JSON output may be a problem because, at the moment, there is no 
+  accepted JSON serialization of RDF (let alone one implemented by SPARQL 
+  endpoints). In such cases the returned media type of the result is 
+  unpredictable and may differ from one SPARQL endpoint implementation to 
+  the other. (Endpoints usually fall back to one of the 
+  &quot;meaningful&quot; formats, but it is up to the specific 
+  implementation to choose which one that is.)</p>
+  <dl class="fields">
+    <dt>Returns: <a href="SPARQLWrapper.Wrapper.QueryResult-class.html" 
+      class="link">QueryResult</a> instance</dt>
+        <dd>query result</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="queryAndConvert"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">queryAndConvert</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="SPARQLWrapper.Wrapper-pysrc.html#SPARQLWrapper.queryAndConvert">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Macro like method: issue a query and return the converted results.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>the converted query result. See the conversion methods for more 
+          details.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="setCredentials"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">setCredentials</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">user</span>,
+        <span class="sig-arg">passwd</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="SPARQLWrapper.Wrapper-pysrc.html#SPARQLWrapper.setCredentials">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set the credentials for querying the current endpoint</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>user</code></strong> (string) - username</li>
+        <li><strong class="pname"><code>passwd</code></strong> (string) - password</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="setHTTPAuth"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">setHTTPAuth</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">auth</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="SPARQLWrapper.Wrapper-pysrc.html#SPARQLWrapper.setHTTPAuth">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set the HTTP Authentication type (Basic or Digest)</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>auth</code></strong> (string) - auth type</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="setMethod"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">setMethod</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">method</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="SPARQLWrapper.Wrapper-pysrc.html#SPARQLWrapper.setMethod">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set the invocation method. By default, this is <a 
+  href="SPARQLWrapper.Wrapper-module.html#GET" class="link">GET</a>, but 
+  can be set to <a href="SPARQLWrapper.Wrapper-module.html#POST" 
+  class="link">POST</a>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>method</code></strong> - should be either <a href="SPARQLWrapper.Wrapper-module.html#GET" 
+          class="link">GET</a> or <a 
+          href="SPARQLWrapper.Wrapper-module.html#POST" 
+          class="link">POST</a>. Other cases are ignored.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="setQuery"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">setQuery</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">query</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="SPARQLWrapper.Wrapper-pysrc.html#SPARQLWrapper.setQuery">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set the SPARQL query text. Note: no check is done on the validity of 
+  the query (syntax or otherwise) by this module, except for testing the 
+  query type (SELECT, ASK, etc). Syntax and validity checking is done by 
+  the SPARQL service itself.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>query</code></strong> (string) - query text</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Bug:</strong>
+        #2320024
+      </p>
+</div></td></tr></table>
+</div>
+<a name="setRequestMethod"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">setRequestMethod</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">method</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="SPARQLWrapper.Wrapper-pysrc.html#SPARQLWrapper.setRequestMethod">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set the internal method to use to perform the request for query or 
+  update operations, either URL-encoded 
+  (<code>SPARQLWrapper.URLENCODED</code>) or POST directly 
+  (<code>SPARQLWrapper.POSTDIRECTLY</code>). Further details at <a 
+  href="http://www.w3.org/TR/sparql11-protocol/#query-operation" 
+  target="_top">http://www.w3.org/TR/sparql11-protocol/#query-operation</a>
+  and <a href="http://www.w3.org/TR/sparql11-protocol/#update-operation" 
+  target="_top">http://www.w3.org/TR/sparql11-protocol/#update-operation</a>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>method</code></strong> (str) - method</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="setReturnFormat"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">setReturnFormat</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">format</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="SPARQLWrapper.Wrapper-pysrc.html#SPARQLWrapper.setReturnFormat">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set the return format. If not an allowed value, the setting is 
+  ignored.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>format</code></strong> (str) - Possible values: are <a 
+          href="SPARQLWrapper.Wrapper-module.html#JSON" 
+          class="link">JSON</a>, <a 
+          href="SPARQLWrapper.Wrapper-module.html#XML" 
+          class="link">XML</a>, <a 
+          href="SPARQLWrapper.Wrapper-module.html#TURTLE" 
+          class="link">TURTLE</a>, <a 
+          href="SPARQLWrapper.Wrapper-module.html#N3" class="link">N3</a>, 
+          <a href="SPARQLWrapper.Wrapper-module.html#RDF" 
+          class="link">RDF</a> (constants in this module). All other cases 
+          are ignored.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="setTimeout"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">setTimeout</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">timeout</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="SPARQLWrapper.Wrapper-pysrc.html#SPARQLWrapper.setTimeout">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set the timeout (in seconds) to use for querying the endpoint.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>timeout</code></strong> (int) - Timeout in seconds.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="setUseKeepAlive"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">setUseKeepAlive</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="SPARQLWrapper.Wrapper-pysrc.html#SPARQLWrapper.setUseKeepAlive">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Make urllib2 use keep-alive.</p>
+  <dl class="fields">
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ImportError</strong></code> - when could not be imported keepalive.HTTPHandler</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="supportsReturnFormat"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">supportsReturnFormat</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">format</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="SPARQLWrapper.Wrapper-pysrc.html#SPARQLWrapper.supportsReturnFormat">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Check if a return format is supported.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>format</code></strong> (bool) - Possible values: are <a 
+          href="SPARQLWrapper.Wrapper-module.html#JSON" 
+          class="link">JSON</a>, <a 
+          href="SPARQLWrapper.Wrapper-module.html#XML" 
+          class="link">XML</a>, <a 
+          href="SPARQLWrapper.Wrapper-module.html#TURTLE" 
+          class="link">TURTLE</a>, <a 
+          href="SPARQLWrapper.Wrapper-module.html#N3" class="link">N3</a>, 
+          <a href="SPARQLWrapper.Wrapper-module.html#RDF" 
+          class="link">RDF</a> (constants in this module). All other cases 
+          are ignored.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== CLASS VARIABLE DETAILS ==================== -->
+<a name="section-ClassVariableDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Class Variable Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-ClassVariableDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="pattern"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">pattern</h3>
+  regular expression used to determine whether a query is of type <a 
+  href="SPARQLWrapper.Wrapper-module.html#CONSTRUCT" 
+  class="link">CONSTRUCT</a>, <a 
+  href="SPARQLWrapper.Wrapper-module.html#SELECT" class="link">SELECT</a>, 
+  <a href="SPARQLWrapper.Wrapper-module.html#ASK" class="link">ASK</a>, or 
+  <a href="SPARQLWrapper.Wrapper-module.html#DESCRIBE" 
+  class="link">DESCRIBE</a>.
+  <dl class="fields">
+    <dt>Type:</dt>
+      <dd>compiled regular expression (see the <code>re</code> module of 
+      Python)</dd>
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+re.compile(r'<code class="re-flags">(?ix)</code><code class="re-group">(</code><code class="re-group">(?P&lt;</code><code class="re-ref">base</code><code class="re-group">&gt;</code><code class="re-group">(</code>\s<code class="re-op">*</code>BASE\s<code class="re-op">*</code>&lt;.<code class="re-op">*?</code>&gt;<code class="re-group">)</code>\s<code class="re-op">*</code><code class="re-group">)</code><code class="re-op">|</code><code class="re-group">(?P&lt;</code><code class="re-ref">prefixes</code><code class="re-group">&gt;</code><code class="re-group">(</code>\s<code class="re-op">*</code>PRE<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+FIX\s<code class="re-op">+</code>.<code class="re-op">+</code>:\s<code class="re-op">*</code>&lt;.<code class="re-op">*?</code>&gt;<code class="re-group">)</code>\s<code class="re-op">*</code><code class="re-group">)</code><code class="re-group">)</code><code class="re-op">*</code><code class="re-group">(?P&lt;</code><code class="re-ref">queryType</code><code class="re-group">&gt;</code><code class="re-group">(</code>CONSTRUCT<code class="re-op">|</code>SELECT<code class="re-op">|</code>ASK<code class="re-op">|</code>DESCRIBE<code class="re-op">|</code>I<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+NSERT<code class="re-op">|</code>DELETE<code class="re-op">|</code>CREATE<code class="re-op">|</code>CLEAR<code class="re-op">|</code>DROP<code class="re-op">|</code>LOAD<code class="re-op">|</code>COPY<code class="re-op">|</code>MOVE<code class="re-op">|</code>ADD<code class="re-group">)</code><code class="re-group">)</code>')
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="SPARQLWrapper-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            >SPARQLWrapper 1.7.5</th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1
+    on Sun Feb 14 12:31:18 2016
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

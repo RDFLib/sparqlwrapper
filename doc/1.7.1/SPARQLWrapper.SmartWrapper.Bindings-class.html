@@ -1,0 +1,595 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>SPARQLWrapper.SmartWrapper.Bindings</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="SPARQLWrapper-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            >SPARQLWrapper 1.7.1</th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="SPARQLWrapper-module.html">Package&nbsp;SPARQLWrapper</a> ::
+        <a href="SPARQLWrapper.SmartWrapper-module.html">Module&nbsp;SmartWrapper</a> ::
+        Class&nbsp;Bindings
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="SPARQLWrapper.SmartWrapper.Bindings-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class Bindings</h1><p class="nomargin-top"><span class="codelink"><a href="SPARQLWrapper.SmartWrapper-pysrc.html#Bindings">source&nbsp;code</a></span></p>
+<pre class="base-tree">
+object --+
+         |
+        <strong class="uidshort">Bindings</strong>
+</pre>
+
+<hr />
+<p>Class encapsulating one query result, based on the JSON return format.
+  It decodes the return values to make it a bit more usable for a standard 
+  usage. The class consumes the return value and instantiates a number of 
+  attributes that can be consulted directly. See the list of variables.</p>
+  <p>The <a href="http://www.w3.org/TR/rdf-sparql-json-res/" 
+  target="_top">Serializing SPARQL Query Results in JSON</a> explains the 
+  details of the JSON return structures. Very succintly: the return data 
+  has &quot;bindings&quot;, which means a list of dictionaries. Each 
+  dictionary is a possible binding of the SELECT variables to <a 
+  href="SPARQLWrapper.SmartWrapper.Value-class.html" class="link">Value</a>
+  instances. This structure is made a bit more usable by this class.</p>
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Instance Methods</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-InstanceMethods"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="SPARQLWrapper.SmartWrapper.Bindings-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">retval</span>)</span><br />
+      x.__init__(...) initializes x; see help(type(x)) for signature</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="SPARQLWrapper.SmartWrapper-pysrc.html#Bindings.__init__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="SPARQLWrapper.SmartWrapper.Bindings-class.html#getValues" class="summary-sig-name">getValues</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">key</span>)</span><br />
+      A shorthand for the retrieval of all bindings for a single key.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="SPARQLWrapper.SmartWrapper-pysrc.html#Bindings.getValues">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">Boolean</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="SPARQLWrapper.SmartWrapper.Bindings-class.html#__contains__" class="summary-sig-name">__contains__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">key</span>)</span><br />
+      Emulation of the &quot;<code>key in obj</code>&quot; operator.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="SPARQLWrapper.SmartWrapper-pysrc.html#Bindings.__contains__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">array of variable -&gt; <a 
+      href="SPARQLWrapper.SmartWrapper.Value-class.html" 
+      class="link">Value</a>  dictionaries</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="SPARQLWrapper.SmartWrapper.Bindings-class.html#__getitem__" class="summary-sig-name">__getitem__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">key</span>)</span><br />
+      Emulation of the <code>obj[key]</code> operator.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="SPARQLWrapper.SmartWrapper-pysrc.html#Bindings.__getitem__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="SPARQLWrapper.SmartWrapper.Bindings-class.html#convert" class="summary-sig-name">convert</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      This is just a convenience method, returns <code>self</code>.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="SPARQLWrapper.SmartWrapper-pysrc.html#Bindings.convert">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__delattr__</code>,
+      <code>__format__</code>,
+      <code>__getattribute__</code>,
+      <code>__hash__</code>,
+      <code>__new__</code>,
+      <code>__reduce__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__repr__</code>,
+      <code>__setattr__</code>,
+      <code>__sizeof__</code>,
+      <code>__str__</code>,
+      <code>__subclasshook__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== INSTANCE VARIABLES ==================== -->
+<a name="section-InstanceVariables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Instance Variables</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-InstanceVariables"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">Boolean</span>
+    </td><td class="summary">
+        <a name="askResult"></a><span class="summary-name">askResult</span><br />
+      by default, set to False; in case of an ASK query, the result of the 
+      query
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="SPARQLWrapper.SmartWrapper.Bindings-class.html#bindings" class="summary-name">bindings</a><br />
+      The final bindings: array of dictionaries, mapping variables to <a 
+      href="SPARQLWrapper.SmartWrapper.Value-class.html" 
+      class="link">Value</a> instances.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="fullResult"></a><span class="summary-name">fullResult</span><br />
+      The original dictionary of the results, stored for an easier 
+      reference
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="head"></a><span class="summary-name">head</span><br />
+      Header part of the return, see the JSON return format document for 
+      details
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="SPARQLWrapper.SmartWrapper.Bindings-class.html#variables" class="summary-name">variables</a><br />
+      List of unbounds (variables) of the original query.
+    </td>
+  </tr>
+</table>
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Properties</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Properties"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__class__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Method Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-MethodDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="__init__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">retval</span>)</span>
+    <br /><em class="fname">(Constructor)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="SPARQLWrapper.SmartWrapper-pysrc.html#Bindings.__init__">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>x.__init__(...) initializes x; see help(type(x)) for signature</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>retval</code></strong> - the query result, instance of a <a 
+          href="SPARQLWrapper.Wrapper.QueryResult-class.html" 
+          class="link">Wrapper.QueryResult</a></li>
+    </ul></dd>
+    <dt>Overrides:
+        object.__init__
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="getValues"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">getValues</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">key</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="SPARQLWrapper.SmartWrapper-pysrc.html#Bindings.getValues">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>A shorthand for the retrieval of all bindings for a single key. It is 
+  equivalent to &quot;<code>[b[key] for b in self[key]]</code>&quot;</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>key</code></strong> - possible variable</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>list of <a href="SPARQLWrapper.SmartWrapper.Value-class.html" 
+          class="link">Value</a> instances</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="__contains__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__contains__</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">key</span>)</span>
+    <br /><em class="fname">(In operator)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="SPARQLWrapper.SmartWrapper-pysrc.html#Bindings.__contains__">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Emulation of the &quot;<code>key in obj</code>&quot; operator. Key can
+  be a string for a variable or an array/tuple of strings.</p>
+  <p>If <code>key</code> is a variable, the return value is 
+  <code>True</code> if there is at least one binding where <code>key</code>
+  is bound. If <code>key</code> is an array or tuple, the return value is 
+  <code>True</code> if there is at least one binding where <i>all</i> 
+  variables in <code>key</code> are bound.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>key</code></strong> - possible variable, or array/tuple of variables</li>
+    </ul></dd>
+    <dt>Returns: Boolean</dt>
+        <dd>whether there is a binding of the variable in the return</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="__getitem__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__getitem__</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">key</span>)</span>
+    <br /><em class="fname">(Indexing operator)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="SPARQLWrapper.SmartWrapper-pysrc.html#Bindings.__getitem__">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Emulation of the <code>obj[key]</code> operator.  Slice notation is 
+  also available. The goal is to choose the right bindings among the 
+  available ones. The return values are always arrays  of bindings, ie, 
+  arrays of dictionaries mapping variable keys to <a 
+  href="SPARQLWrapper.SmartWrapper.Value-class.html" class="link">Value</a>
+  instances. The different value settings mean the followings:</p>
+  <ul>
+    <li>
+      <code>obj[key]</code> returns the bindings where <code>key</code> has
+      a valid value
+    </li>
+    <li>
+      <code>obj[key1,key2,...]</code> returns the bindings where <i>all</i>
+      <code>key1,key2,...</code> have valid values
+    </li>
+    <li>
+      <code>obj[(key1,key2,...):(nkey1,nkey2,...)]</code> returns the 
+      bindings where all <code>key1,key2,...</code> have valid values and 
+      <i>none</i> of the <code>nkey1,nkey2,...</code> have valid values
+    </li>
+    <li>
+      <code>obj[:(nkey1,nkey2,...)]</code> returns the bindings where 
+      <i>none</i> of the <code>nkey1,nkey2,...</code> have valid values
+    </li>
+  </ul>
+  <p>In all cases complete bindings are returned, ie, the values for other 
+  variables, not present among the keys in the call, may or may not be 
+  present depending on the query results.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>key</code></strong> - possible variable or array/tuple of keys with possible slice 
+          notation</li>
+    </ul></dd>
+    <dt>Returns: array of variable -&gt; <a 
+      href="SPARQLWrapper.SmartWrapper.Value-class.html" 
+      class="link">Value</a>  dictionaries</dt>
+        <dd>list of bindings</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="convert"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">convert</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="SPARQLWrapper.SmartWrapper-pysrc.html#Bindings.convert">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>This is just a convenience method, returns <code>self</code>.</p>
+  <p>Although <code>Binding</code> is not a subclass of <a 
+  href="SPARQLWrapper.Wrapper.QueryResult-class.html" 
+  class="link">QueryResult</a>, it is returned as a result by <a 
+  href="SPARQLWrapper.SmartWrapper.SPARQLWrapper2-class.html#query" 
+  class="link">SPARQLWrapper2.query</a>, just like <a 
+  href="SPARQLWrapper.Wrapper.QueryResult-class.html" 
+  class="link">QueryResult</a> is returned by <a 
+  href="SPARQLWrapper.Wrapper.SPARQLWrapper-class.html#query" 
+  class="link">SPARQLWrapper.SPARQLWrapper.query</a>. Consequently, having 
+  an empty <code>convert</code> method to imitate <a 
+  href="SPARQLWrapper.Wrapper.QueryResult-class.html#convert" 
+  class="link">QueryResult's convert method</a> may avoid unnecessary 
+  problems.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== INSTANCE VARIABLE DETAILS ==================== -->
+<a name="section-InstanceVariableDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Instance Variable Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-InstanceVariableDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="bindings"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">bindings</h3>
+  The final bindings: array of dictionaries, mapping variables to <a 
+  href="SPARQLWrapper.SmartWrapper.Value-class.html" class="link">Value</a>
+  instances. (If unbound, then no value is set in the dictionary; that can 
+  be easily checked with <code>var in res.bindings[..]</code>, for 
+  example.)
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="variables"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">variables</h3>
+  List of unbounds (variables) of the original query. It is an array of 
+  strings. None in the case of an ASK query
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="SPARQLWrapper-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            >SPARQLWrapper 1.7.1</th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1
+    on Sun Feb 14 12:26:36 2016
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>
