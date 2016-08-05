@@ -4,6 +4,7 @@
 """
 @var JSON: to be used to set the return format to JSON
 @var XML: to be used to set the return format to XML (SPARQL XML format or RDF/XML, depending on the query type). This is the default.
+@var RDFXML: to be used to set the return format to RDF/XML explicitly.
 @var TURTLE: to be used to set the return format to Turtle
 @var N3: to be used to set the return format to N3 (for most of the SPARQL services this is equivalent to Turtle)
 @var RDF: to be used to set the return RDF Graph
@@ -45,7 +46,8 @@ XML    = "xml"
 TURTLE = "turtle"
 N3     = "n3"
 RDF    = "rdf"
-_allowedFormats = [JSON, XML, TURTLE, N3, RDF]
+RDFXML = "rdf+xml"
+_allowedFormats = [JSON, XML, TURTLE, N3, RDF, RDFXML]
 
 # Possible HTTP methods
 POST = "POST"
@@ -106,11 +108,11 @@ except ImportError:
     #warnings.warn("JSON-LD disabled because no suitable support has been found", RuntimeWarning)
     pass
 
-# This is very ugly. The fact is that the key for the choice of the output format is not defined. 
-# Virtuoso uses 'format', joseki uses 'output', rasqual seems to use "results", etc. Lee Feigenbaum 
-# told me that virtuoso also understand 'output' these days, so I removed 'format'. I do not have 
-# info about the others yet, ie, for the time being I keep the general mechanism. Hopefully, in a 
-# future release, I can get rid of that. However, these processors are (hopefully) oblivious to the 
+# This is very ugly. The fact is that the key for the choice of the output format is not defined.
+# Virtuoso uses 'format', joseki uses 'output', rasqual seems to use "results", etc. Lee Feigenbaum
+# told me that virtuoso also understand 'output' these days, so I removed 'format'. I do not have
+# info about the others yet, ie, for the time being I keep the general mechanism. Hopefully, in a
+# future release, I can get rid of that. However, these processors are (hopefully) oblivious to the
 # parameters they do not understand. So: just repeat all possibilities in the final URI. UGLY!!!!!!!
 _returnFormatSetting = ["format", "output", "results"]
 
@@ -213,7 +215,7 @@ class SPARQLWrapper(object):
 
     def setRequestMethod(self, method):
         """Set the internal method to use to perform the request for query or
-        update operations, either URL-encoded (C{SPARQLWrapper.URLENCODED}) or 
+        update operations, either URL-encoded (C{SPARQLWrapper.URLENCODED}) or
         POST directly (C{SPARQLWrapper.POSTDIRECTLY}).
         Further details at U{http://www.w3.org/TR/sparql11-protocol/#query-operation}
         and U{http://www.w3.org/TR/sparql11-protocol/#update-operation}.
@@ -250,7 +252,7 @@ class SPARQLWrapper(object):
     def addExtraURITag(self, key, value):
         """
             Some SPARQL endpoints require extra key value pairs.
-            E.g., in virtuoso, one would add C{should-sponge=soft} to the query forcing 
+            E.g., in virtuoso, one would add C{should-sponge=soft} to the query forcing
             virtuoso to retrieve graphs that are not stored in its local database.
             @param key: key of the query part
             @type key: string
@@ -264,7 +266,7 @@ class SPARQLWrapper(object):
     def addCustomParameter(self, name, value):
         """
             Method is kept for backwards compatibility. Historically, it "replaces" parameters instead of adding
-            @param name: name 
+            @param name: name
             @type name: string
             @param value: value
             @type value: string
@@ -277,9 +279,9 @@ class SPARQLWrapper(object):
     def addParameter(self, name, value):
         """
             Some SPARQL endpoints allow extra key value pairs.
-            E.g., in virtuoso, one would add C{should-sponge=soft} to the query forcing 
+            E.g., in virtuoso, one would add C{should-sponge=soft} to the query forcing
             virtuoso to retrieve graphs that are not stored in its local database.
-            @param name: name 
+            @param name: name
             @type name: string
             @param value: value
             @type value: string
@@ -296,7 +298,7 @@ class SPARQLWrapper(object):
     def clearParameter(self, name):
         """
             Clear the values ofd a concrete parameter.
-            @param name: name 
+            @param name: name
             @type name: string
             @rtype: bool
         """
@@ -333,11 +335,11 @@ class SPARQLWrapper(object):
         else:
             valid_types = ", ".join(_allowedAuth)
             raise ValueError("Value should be one of {0}".format(valid_types))
-                    
+
     def setQuery(self, query):
         """
-            Set the SPARQL query text. Note: no check is done on the validity of the query 
-            (syntax or otherwise) by this module, except for testing the query type (SELECT, 
+            Set the SPARQL query text. Note: no check is done on the validity of the query
+            (syntax or otherwise) by this module, except for testing the query type (SELECT,
             ASK, etc). Syntax and validity checking is done by the SPARQL service itself.
             @param query: query text
             @type query: string
@@ -381,7 +383,7 @@ class SPARQLWrapper(object):
         except AttributeError:
             warnings.warn("not detected query type for query '%s'" % query.replace("\n", " "), RuntimeWarning)
             r_queryType = None
-    
+
         if r_queryType in _allowedQueryTypes :
             return r_queryType
         else :
@@ -716,7 +718,7 @@ class QueryResult(object):
                 _validate_format("JSON", [JSON], ct, self.requestedFormat)
                 return self._convertJSON()
             elif _content_type_in_list(ct, _RDF_XML):
-                _validate_format("RDF/XML", [RDF, XML], ct, self.requestedFormat)
+                _validate_format("RDF/XML", [RDF, XML, RDFXML], ct, self.requestedFormat)
                 return self._convertRDF()
             elif _content_type_in_list(ct, _RDF_N3):
                 _validate_format("N3", [N3, TURTLE], ct, self.requestedFormat)
