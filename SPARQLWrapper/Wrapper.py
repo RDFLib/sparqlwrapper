@@ -4,6 +4,7 @@
 """
 @var JSON: to be used to set the return format to JSON
 @var XML: to be used to set the return format to XML (SPARQL XML format or RDF/XML, depending on the query type). This is the default.
+@var RDFXML: to be used to set the return format to RDF/XML explicitly.
 @var TURTLE: to be used to set the return format to Turtle
 @var N3: to be used to set the return format to N3 (for most of the SPARQL services this is equivalent to Turtle)
 @var RDF: to be used to set the return RDF Graph
@@ -39,13 +40,46 @@ from SPARQLUtils import deprecated
 from SPARQLWrapper import __agent__
 
 #  Possible output format keys...
+#  Examples:
+#  - ClioPatria: the SWI-Prolog Semantic Web Server <http://cliopatria.swi-prolog.org/home>
+#    * Parameter "format" must be one of "rdf+xml", "json", "csv", "application/sparql-results+xml" or "application/sparql-results+json".
+#  - OpenLink Virtuoso  <http://virtuoso.openlinksw.com>
+#    * Multiple values, like directly:
+#      "text/html" (HTML), "text/x-html+tr" (HTML (Faceted Browsing Links)), "application/vnd.ms-excel"
+#      "application/sparql-results+xml" (XML), "application/sparql-results+json", (JSON)
+#      "application/javascript" (Javascript), "text/turtle" (Turtle), "application/rdf+xml" (RDF/XML)
+#      "text/plain" (N-Triples), "text/csv" (CSV), "text/tab-separated-values" (TSV)
+#    * Multiple values, like indirectly:
+#      "HTML", "JSON", "XML", "TURTLE"
+#       See  <http://virtuoso.openlinksw.com/dataspace/doc/dav/wiki/Main/VOSSparqlProtocol#Additional HTTP Response Formats -- SELECT>
+#  - Fuseki (formerly there was Joseki) <https://jena.apache.org/documentation/serving_data/>
+#    * Fuseki 1 - Short names for "output=" : "json", "xml", "sparql", "text", "csv", "tsv", "thrift"
+#      See <https://github.com/apache/jena/blob/master/jena-fuseki1/src/main/java/org/apache/jena/fuseki/servlets/ResponseResultSet.java>
+#    * Fuseki 2 - Short names for "output=" : "json", "xml", "sparql", "text", "csv", "tsv", "thrift"
+#      See <https://github.com/apache/jena/blob/master/jena-fuseki2/jena-fuseki-core/src/main/java/org/apache/jena/fuseki/servlets/ResponseResultSet.java>
+#  - Eclipse RDF4J (formerly known as Sesame) <http://rdf4j.org/>
+#    * Uses only content negotiation. See <http://rdf4j.org/doc/the-rdf4j-server-rest-api/#The_QUERY_operation>
+#  - RASQAL <http://librdf.org/rasqal/>
+#    * Uses roqet as RDF query utility
+#      For variable bindings, the values of FORMAT vary upon what Rasqal supports but include simple 
+#      for a simple text format (default), xml for the SPARQL Query Results XML format, csv for SPARQL CSV, 
+#      tsv for SPARQL TSV, rdfxml and turtle for RDF syntax formats, and json for a JSON version of the results.
+#
+#      For RDF graph results, the values of FORMAT are ntriples (N-Triples, default), 
+#      rdfxml-abbrev (RDF/XML Abbreviated), rdfxml (RDF/XML), turtle (Turtle), 
+#      json (RDF/JSON resource centric), json-triples (RDF/JSON triples) or 
+#      rss-1.0 (RSS 1.0, also an RDF/XML syntax).
+#
+#      See <http://librdf.org/rasqal/roqet.html>
+
 JSON   = "json"
 JSONLD = "json-ld"
 XML    = "xml"
 TURTLE = "turtle"
 N3     = "n3"
 RDF    = "rdf"
-_allowedFormats = [JSON, XML, TURTLE, N3, RDF]
+RDFXML = "rdf+xml"
+_allowedFormats = [JSON, XML, TURTLE, N3, RDF, RDFXML]
 
 # Possible HTTP methods
 POST = "POST"
@@ -149,7 +183,7 @@ class SPARQLWrapper(object):
         is up to the endpoint to react or not, this wrapper does not check.
 
         Possible values:
-        L{JSON}, L{XML}, L{TURTLE}, L{N3} (constants in this module). The value can also be set via explicit
+        L{JSON}, L{XML}, L{TURTLE}, L{N3}, L{RDFXML} (constants in this module). The value can also be set via explicit
         call, see below.
         @type returnFormat: string
         @keyword defaultGraph: URI for the default graph. Default is None, the value can be set either via an L{explicit call<addDefaultGraph>} or as part of the query string.
@@ -716,7 +750,7 @@ class QueryResult(object):
                 _validate_format("JSON", [JSON], ct, self.requestedFormat)
                 return self._convertJSON()
             elif _content_type_in_list(ct, _RDF_XML):
-                _validate_format("RDF/XML", [RDF, XML], ct, self.requestedFormat)
+                _validate_format("RDF/XML", [RDF, XML, RDFXML], ct, self.requestedFormat)
                 return self._convertRDF()
             elif _content_type_in_list(ct, _RDF_N3):
                 _validate_format("N3", [N3, TURTLE], ct, self.requestedFormat)

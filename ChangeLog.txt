@@ -1,6 +1,8 @@
 SPARQLWrapper's changelog:
 -------------------------
 
+XXXX-XX-XX  1.8.0   - Updated return formats for not content negotiation situations
+
 2015-12-18  1.7.6   - Removed wrong response encoding (issue #70)
                     - Authorization header bug when using Python 3 (issue #71)
 
