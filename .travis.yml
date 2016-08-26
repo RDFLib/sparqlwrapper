@@ -11,6 +11,9 @@ python:
     - 3.4
     - pypy
 
+before_install:
+    - pip install --upgrade pip setuptools
+
 install:
     - python setup.py sdist && pip install ./dist/*
 
