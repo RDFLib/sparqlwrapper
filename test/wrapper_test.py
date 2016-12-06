@@ -506,6 +506,27 @@ select * where { ?s ?p ?o }
 """)
         self.assertTrue(self.wrapper.isSparqlQueryRequest())
 
+    def testHashInPrefixComplex(self):
+        # see issue #77
+        self.wrapper.setQuery("""
+PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX weather: <http://hal.zamia.org/weather/>
+PREFIX dbo:     <http://dbpedia.org/ontology/> 
+PREFIX dbr:     <http://dbpedia.org/resource/> 
+PREFIX dbp:     <http://dbpedia.org/property/> 
+PREFIX xml:     <http://www.w3.org/XML/1998/namespace> 
+PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#> 
+
+SELECT DISTINCT ?location ?cityid ?timezone ?label
+WHERE {
+  ?location weather:cityid ?cityid .
+  ?location weather:timezone ?timezone .
+  ?location rdfs:label ?label .
+}
+""")
+        self.assertTrue(self.wrapper.isSparqlQueryRequest())
+
 
 class QueryResult_Test(unittest.TestCase):
 
