@@ -552,7 +552,7 @@ WHERE {
 """
         expected_parsed_query = """
 PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-# a comment
+
 SELECT *
 WHERE {
   ?s ?p ?o .
@@ -573,12 +573,25 @@ WHERE {
 """
         expected_parsed_query = """
 PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-     
+
 SELECT *
 WHERE {
   ?s ?p ?o .
 }
 """
+        parsed_query = self.wrapper._cleanComments(query)
+        self.assertEquals(expected_parsed_query, parsed_query)
+
+    def testCommentsFirstLine(self):
+        # see issue #77
+        query = """#CONSTRUCT {?s ?p ?o} 
+                                   SELECT ?s ?p ?o
+                                   WHERE {?s ?p ?o}"""
+        expected_parsed_query = """
+
+                                   SELECT ?s ?p ?o
+                                   WHERE {?s ?p ?o}"""
+
         parsed_query = self.wrapper._cleanComments(query)
         self.assertEquals(expected_parsed_query, parsed_query)
 

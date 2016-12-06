@@ -167,7 +167,7 @@ class SPARQLWrapper(object):
         ((?P<base>(\s*BASE\s*<.*?>)\s*)|(?P<prefixes>(\s*PREFIX\s+.+:\s*<.*?>)\s*))*
         (?P<queryType>(CONSTRUCT|SELECT|ASK|DESCRIBE|INSERT|DELETE|CREATE|CLEAR|DROP|LOAD|COPY|MOVE|ADD))
     """, re.VERBOSE | re.IGNORECASE)
-    comments_pattern = re.compile("^#.*?\n" )
+    comments_pattern = re.compile("(^|\n)\s*#.*?\n" )
 
     def __init__(self, endpoint, updateEndpoint=None, returnFormat=XML, defaultGraph=None, agent=__agent__):
         """
@@ -456,7 +456,7 @@ class SPARQLWrapper(object):
 
     def _cleanComments(self, query):
         # remove all occurance singleline comments (issues #32 and #77)
-        return re.sub(self.comments_pattern, "" , query)
+        return re.sub(self.comments_pattern, "\n\n" , query)
 
     def _getRequestEncodedParameters(self, query=None):
         query_parameters = self.parameters.copy()
