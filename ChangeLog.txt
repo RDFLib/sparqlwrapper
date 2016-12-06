@@ -1,7 +1,12 @@
 SPARQLWrapper's changelog:
 -------------------------
 
-XXXX-XX-XX  1.8.0   - Updated return formats for not content negotiation situations
+2016-12-XX  1.8.0   - Updated return formats for not content negotiation situations
+                    - Included license in the MANIFEST (issue #76)
+                    - Added explicit support for RDF/XML as allowed format (issue #75)
+                    - Added proper shebang (issue #78)
+                    - Moved keepalive as optional dependency (issue #79)
+                    - Fixed hash check on prefixes (issue #77)
 
 2015-12-18  1.7.6   - Removed wrong response encoding (issue #70)
                     - Authorization header bug when using Python 3 (issue #71)

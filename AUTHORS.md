@@ -24,4 +24,4 @@
 * Marcelo Jorge Vieira ([@marcelometal](https://github.com/marcelometal)): typos
 * Trevor Andersen ([@trevorandersen](https://github.com/trevorandersen): patches for Python 3.x
 * Carlos Martinez-Ortiz ([@cmartinez](https://github.com/cmartinez): improves support for return format HTTP parameter
-
+* Christian Amsüss ([@chrysn](https://github.com/chrysn)): dependecy fixes
