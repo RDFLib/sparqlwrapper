@@ -58,6 +58,9 @@ setup(
       platforms = ['any'],
       packages = ['SPARQLWrapper'],
       install_requires = _install_requires,
+      extras_require = {
+        'keepalive': ['keepalive>=0.5'],
+      },
       classifiers =  [
         'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
