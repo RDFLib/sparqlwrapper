@@ -490,6 +490,22 @@ class SPARQLWrapper_Test(TestCase):
         finally:
             _victim.QueryResult = _oldQueryResult
 
+    def testComments(self):
+        # see issue #32
+        self.wrapper.setQuery("""
+# this is a comment
+select * where { ?s ?p ?o }
+""")
+        self.assertTrue(self.wrapper.isSparqlQueryRequest())
+
+    def testHashInPrefix(self):
+        # see issue #77
+        self.wrapper.setQuery("""
+PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
+select * where { ?s ?p ?o }
+""")
+        self.assertTrue(self.wrapper.isSparqlQueryRequest())
+
 
 class QueryResult_Test(unittest.TestCase):
 
