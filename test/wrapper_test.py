@@ -498,7 +498,7 @@ select * where { ?s ?p ?o }
 """)
         self.assertTrue(self.wrapper.isSparqlQueryRequest())
 
-    def testHashInPrefix(self):
+    def testHashInPrefixes(self):
         # see issue #77
         self.wrapper.setQuery("""
 PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
@@ -540,7 +540,7 @@ WHERE {
         parsed_query = self.wrapper._cleanComments(query)
         self.assertEquals(query, parsed_query)
 
-    def testHashWithCommentBeginningLine(self):
+    def testCommentBeginningLine(self):
         # see issue #77
         query = """
 PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -561,7 +561,7 @@ WHERE {
         parsed_query = self.wrapper._cleanComments(query)
         self.assertEquals(expected_parsed_query, parsed_query)
 
-    def testHashWithCommentEmtpyLine(self):
+    def testCommentEmtpyLine(self):
         # see issue #77
         query = """
 PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -592,6 +592,28 @@ WHERE {
                                    SELECT ?s ?p ?o
                                    WHERE {?s ?p ?o}"""
 
+        parsed_query = self.wrapper._cleanComments(query)
+        self.assertEquals(expected_parsed_query, parsed_query)
+
+    @unittest.skip("issue #80")
+    def testCommentAfterStatements(self):
+        # see issue #77
+        query = """
+PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT *
+WHERE {     # this is the where condition
+  ?s ?p ?o .
+}
+"""
+        expected_parsed_query = """
+PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT *
+WHERE {
+  ?s ?p ?o .
+}
+"""
         parsed_query = self.wrapper._cleanComments(query)
         self.assertEquals(expected_parsed_query, parsed_query)
 
