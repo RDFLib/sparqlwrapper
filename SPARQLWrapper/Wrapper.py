@@ -167,6 +167,7 @@ class SPARQLWrapper(object):
         ((?P<base>(\s*BASE\s*<.*?>)\s*)|(?P<prefixes>(\s*PREFIX\s+.+:\s*<.*?>)\s*))*
         (?P<queryType>(CONSTRUCT|SELECT|ASK|DESCRIBE|INSERT|DELETE|CREATE|CLEAR|DROP|LOAD|COPY|MOVE|ADD))
     """, re.VERBOSE | re.IGNORECASE)
+    comments_pattern = re.compile("^#.*?\n" )
 
     def __init__(self, endpoint, updateEndpoint=None, returnFormat=XML, defaultGraph=None, agent=__agent__):
         """
@@ -410,7 +411,7 @@ class SPARQLWrapper(object):
         """
         try:
             query = query if type(query)==str else query.encode('ascii', 'ignore')
-            query = re.sub(re.compile("^#.*?\n" ), "" , query) # remove all occurance singleline comments (issue #32)
+            query = self._cleanComments(query)
             r_queryType = self.pattern.search(query).group("queryType").upper()
         except AttributeError:
             warnings.warn("not detected query type for query '%s'" % query.replace("\n", " "), RuntimeWarning)
@@ -452,6 +453,10 @@ class SPARQLWrapper(object):
         @return: bool
         """
         return not self.isSparqlUpdateRequest()
+
+    def _cleanComments(self, query):
+        # remove all occurance singleline comments (issues #32 and #77)
+        return re.sub(self.comments_pattern, "" , query)
 
     def _getRequestEncodedParameters(self, query=None):
         query_parameters = self.parameters.copy()
