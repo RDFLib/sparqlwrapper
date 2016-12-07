@@ -52,7 +52,6 @@ setup(
       long_description = 'This is a wrapper around a SPARQL service. It helps in creating the query URI and, possibly, convert the result into a more manageable format.',
       license = 'W3C SOFTWARE NOTICE AND LICENSE',
       author = authors,
-      author_email = "ivan at ivan-herman net, sergio at wikier org, carlos.tejo at gmail com, indeyets at gmail com",
       url = url,
       download_url = 'https://github.com/RDFLib/sparqlwrapper/releases',
       platforms = ['any'],
