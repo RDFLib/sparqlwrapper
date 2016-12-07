@@ -167,7 +167,7 @@ class SPARQLWrapper(object):
         ((?P<base>(\s*BASE\s*<.*?>)\s*)|(?P<prefixes>(\s*PREFIX\s+.+:\s*<.*?>)\s*))*
         (?P<queryType>(CONSTRUCT|SELECT|ASK|DESCRIBE|INSERT|DELETE|CREATE|CLEAR|DROP|LOAD|COPY|MOVE|ADD))
     """, re.VERBOSE | re.IGNORECASE)
-    comments_pattern = re.compile("(^|\n)\s*#.*?\n" )
+    comments_pattern = re.compile(r"(^|\n)\s*#.*?\n")
 
     def __init__(self, endpoint, updateEndpoint=None, returnFormat=XML, defaultGraph=None, agent=__agent__):
         """
