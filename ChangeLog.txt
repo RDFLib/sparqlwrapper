@@ -1,7 +1,7 @@
 SPARQLWrapper's changelog:
 -------------------------
 
-2016-12-XX  1.8.0   - Updated return formats for not content negotiation situations
+2016-12-07  1.8.0   - Updated return formats for not content negotiation situations
                     - Included license in the MANIFEST (issue #76)
                     - Added explicit support for RDF/XML as allowed format (issue #75)
                     - Added proper shebang (issue #78)
