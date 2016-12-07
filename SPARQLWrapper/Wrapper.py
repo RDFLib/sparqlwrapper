@@ -36,7 +36,6 @@ import warnings
 import json
 from KeyCaseInsensitiveDict import KeyCaseInsensitiveDict
 from SPARQLExceptions import QueryBadFormed, EndPointNotFound, EndPointInternalError
-from SPARQLUtils import deprecated
 from SPARQLWrapper import __agent__
 
 #  Possible output format keys...
@@ -261,7 +260,6 @@ class SPARQLWrapper(object):
         else:
             warnings.warn("invalid update method '%s'" % method, RuntimeWarning)
 
-    @deprecated
     def addDefaultGraph(self, uri):
         """
             Add a default graph URI.
@@ -271,7 +269,6 @@ class SPARQLWrapper(object):
         """
         self.addParameter("default-graph-uri", uri)
 
-    @deprecated
     def addNamedGraph(self, uri):
         """
             Add a named graph URI.
@@ -281,7 +278,6 @@ class SPARQLWrapper(object):
         """
         self.addParameter("named-graph-uri", uri)
 
-    @deprecated
     def addExtraURITag(self, key, value):
         """
             Some SPARQL endpoints require extra key value pairs.
@@ -295,7 +291,6 @@ class SPARQLWrapper(object):
         """
         self.addParameter(key, value)
 
-    @deprecated
     def addCustomParameter(self, name, value):
         """
             Method is kept for backwards compatibility. Historically, it "replaces" parameters instead of adding
