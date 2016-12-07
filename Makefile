@@ -11,6 +11,6 @@ doc:	clean
 
 clean:
 	rm -rf $(DOCDIR)
-    rm -rf build
-    find . -name "*.pyc" -delete
+	rm -rf build
+	find . -name "*.pyc" -delete
 
