@@ -617,6 +617,15 @@ WHERE {
         parsed_query = self.wrapper._cleanComments(query)
         self.assertEquals(expected_parsed_query, parsed_query)
 
+    def testSingleLineQueryLine(self):
+        # see issue #74
+        query = "prefix whatever: <http://example.org/blah#> ASK { ?s ?p ?o }"
+        parsed_query = self.wrapper._cleanComments(query)
+        self.assertEquals(query, parsed_query)
+
+        self.wrapper.setQuery(query)
+        self.assertTrue(self.wrapper.isSparqlQueryRequest())
+
 
 
 class QueryResult_Test(unittest.TestCase):
