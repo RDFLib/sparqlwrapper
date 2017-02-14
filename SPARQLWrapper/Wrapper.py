@@ -38,27 +38,37 @@ from KeyCaseInsensitiveDict import KeyCaseInsensitiveDict
 from SPARQLExceptions import QueryBadFormed, EndPointNotFound, EndPointInternalError
 from SPARQLWrapper import __agent__
 
-#  Possible output format keys...
+#  Possible parameter keys and values...
 #  Examples:
 #  - ClioPatria: the SWI-Prolog Semantic Web Server <http://cliopatria.swi-prolog.org/home>
-#    * Parameter "format" must be one of "rdf+xml", "json", "csv", "application/sparql-results+xml" or "application/sparql-results+json".
+#    * Parameter key: "format"
+#    * Parameter value must have one of these values: "rdf+xml", "json", "csv", "application/sparql-results+xml" or "application/sparql-results+json".
+#
 #  - OpenLink Virtuoso  <http://virtuoso.openlinksw.com>
-#    * Multiple values, like directly:
+#    * Parameter key: "format" or "output"
+#    * Parameter value, like directly:
 #      "text/html" (HTML), "text/x-html+tr" (HTML (Faceted Browsing Links)), "application/vnd.ms-excel"
 #      "application/sparql-results+xml" (XML), "application/sparql-results+json", (JSON)
 #      "application/javascript" (Javascript), "text/turtle" (Turtle), "application/rdf+xml" (RDF/XML)
 #      "text/plain" (N-Triples), "text/csv" (CSV), "text/tab-separated-values" (TSV)
-#    * Multiple values, like indirectly:
+#    * Parameter value, like indirectly:
 #      "HTML", "JSON", "XML", "TURTLE"
 #       See  <http://virtuoso.openlinksw.com/dataspace/doc/dav/wiki/Main/VOSSparqlProtocol#Additional HTTP Response Formats -- SELECT>
+#
 #  - Fuseki (formerly there was Joseki) <https://jena.apache.org/documentation/serving_data/>
+#    * Parameter key: "format" or "output"
+#      See Fuseki 1: https://github.com/apache/jena/blob/master/jena-fuseki1/src/main/java/org/apache/jena/fuseki/HttpNames.java
+#      See Fuseki 2: https://github.com/apache/jena/blob/master/jena-arq/src/main/java/org/apache/jena/riot/web/HttpNames.java
 #    * Fuseki 1 - Short names for "output=" : "json", "xml", "sparql", "text", "csv", "tsv", "thrift"
 #      See <https://github.com/apache/jena/blob/master/jena-fuseki1/src/main/java/org/apache/jena/fuseki/servlets/ResponseResultSet.java>
 #    * Fuseki 2 - Short names for "output=" : "json", "xml", "sparql", "text", "csv", "tsv", "thrift"
 #      See <https://github.com/apache/jena/blob/master/jena-fuseki2/jena-fuseki-core/src/main/java/org/apache/jena/fuseki/servlets/ResponseResultSet.java>
+#
 #  - Eclipse RDF4J (formerly known as Sesame) <http://rdf4j.org/>
 #    * Uses only content negotiation. See <http://rdf4j.org/doc/the-rdf4j-server-rest-api/#The_QUERY_operation>
+#
 #  - RASQAL <http://librdf.org/rasqal/>
+#    * Parameter key: "results"
 #    * Uses roqet as RDF query utility
 #      For variable bindings, the values of FORMAT vary upon what Rasqal supports but include simple 
 #      for a simple text format (default), xml for the SPARQL Query Results XML format, csv for SPARQL CSV, 
@@ -70,6 +80,20 @@ from SPARQLWrapper import __agent__
 #      rss-1.0 (RSS 1.0, also an RDF/XML syntax).
 #
 #      See <http://librdf.org/rasqal/roqet.html>
+#
+#  - Marklogic <http://marklogic.com>
+#    * Uses content negotiation.
+#    * You can use following methods to query triples <https://docs.marklogic.com/guide/semantics/semantic-searches#chapter>:
+#      - SPARQL mode in Query Console. For details, see Querying Triples with SPARQL
+#      - XQuery using the semantics functions, and Search API, or a combination of XQuery and SPARQL. For details, see Querying Triples with XQuery or JavaScript.
+#      - HTTP via a SPARQL endpoint. For details, see Using Semantics with the REST Client API.
+#    * Formats are specified as part of the HTTP Accept headers of the REST request. <https://docs.marklogic.com/guide/semantics/REST#id_92428>
+#      - When you query the SPARQL endpoint with REST Client APIs, you can specify the result output format.  <https://docs.marklogic.com/guide/semantics/REST#id_54258>
+#        The response type format depends on the type of query and the MIME type in the HTTP Accept header.
+#      - This table describes the MIME types and Accept Header/Output formats (MIME type) for different types of SPARQL queries. See <https://docs.marklogic.com/guide/semantics/REST#id_54258> and <https://docs.marklogic.com/guide/semantics/loading#id_70682>
+#        SELECT "application/sparql-results+xml", "application/sparql-results+json", "text/html", "text/csv"
+#        CONSTRUCT or DESCRIBE "application/n-triples", "application/rdf+json", "application/rdf+xml", "text/turtle", "text/n3", "application/n-quads", "application/trig"
+#
 
 JSON   = "json"
 JSONLD = "json-ld"
