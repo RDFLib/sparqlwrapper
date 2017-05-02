@@ -455,6 +455,11 @@ class SPARQLWrapper(object):
         """
         try:
             from keepalive import HTTPHandler
+
+            if urllib2._opener and any(isinstance(h, HTTPHandler) for h in urllib2._opener.handlers):
+                # already installed
+                return
+
             keepalive_handler = HTTPHandler()
             opener = urllib2.build_opener(keepalive_handler)
             urllib2.install_opener(opener)
