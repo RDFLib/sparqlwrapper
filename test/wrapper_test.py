@@ -189,7 +189,7 @@ class SPARQLWrapper_Test(TestCase):
         try:
             import rdflib_jsonld
             self.wrapper.setReturnFormat(JSONLD)
-            self.assertEqual(JSONLD, self.wrapper.query().requestedFormat)   
+            self.assertEqual(JSONLD, self.wrapper.query().requestedFormat)
         except ImportError:
             self.assertRaises(ValueError, self.wrapper.setReturnFormat, JSONLD)
 
@@ -230,7 +230,7 @@ class SPARQLWrapper_Test(TestCase):
         self.wrapper.setCredentials('login', 'password')
         request = self._get_request(self.wrapper)
         self.assertTrue(request.has_header('Authorization'))
-        
+
         # expected header for login:password
         # should succeed for python 3 since pull request #72
         self.assertEqual("Basic bG9naW46cGFzc3dvcmQ=", request.get_header('Authorization'))
@@ -261,11 +261,11 @@ class SPARQLWrapper_Test(TestCase):
 
         self.wrapper.setQuery('PREFIX e: <http://example.org/> INSERT {e:a e:b e:c}')
         self.assertEqual(INSERT, self.wrapper.queryType)
-        
-        self.wrapper.setQuery("""#CONSTRUCT {?s ?p ?o} 
+
+        self.wrapper.setQuery("""#CONSTRUCT {?s ?p ?o}
                                    SELECT ?s ?p ?o
                                    WHERE {?s ?p ?o}""")
-        self.assertEqual(SELECT, self.wrapper.queryType)        
+        self.assertEqual(SELECT, self.wrapper.queryType)
 
         with warnings.catch_warnings(record=True) as w:
             self.wrapper.setQuery('UNKNOWN {e:a e:b e:c}')
