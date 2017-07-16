@@ -820,7 +820,7 @@ class QueryResult(object):
             for var in results["head"]["vars"] :
                 result = self.__get_prettyprint_string_sparql_var_result(result[var])
                 width[index] = max(width[index], len(result))
-                index =+ 1
+                index += 1
         return width
 
     def __get_prettyprint_string_sparql_var_result(self, result):
