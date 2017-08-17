@@ -4,7 +4,6 @@
 """
 @var JSON: to be used to set the return format to JSON
 @var XML: to be used to set the return format to XML (SPARQL XML format or RDF/XML, depending on the query type). This is the default.
-@var RDFXML: to be used to set the return format to RDF/XML explicitly.
 @var TURTLE: to be used to set the return format to Turtle
 @var N3: to be used to set the return format to N3 (for most of the SPARQL services this is equivalent to Turtle)
 @var RDF: to be used to set the return RDF Graph
@@ -33,86 +32,25 @@ import re
 import sys
 import warnings
 
-import json
+import jsonlayer
 from KeyCaseInsensitiveDict import KeyCaseInsensitiveDict
 from SPARQLExceptions import QueryBadFormed, EndPointNotFound, EndPointInternalError
+from SPARQLUtils import deprecated
 from SPARQLWrapper import __agent__
 
-#  Possible parameter keys and values...
-#  Examples:
-#  - ClioPatria: the SWI-Prolog Semantic Web Server <http://cliopatria.swi-prolog.org/home>
-#    * Parameter key: "format"
-#    * Parameter value must have one of these values: "rdf+xml", "json", "csv", "application/sparql-results+xml" or "application/sparql-results+json".
-#
-#  - OpenLink Virtuoso  <http://virtuoso.openlinksw.com>
-#    * Parameter key: "format" or "output"
-#    * Parameter value, like directly:
-#      "text/html" (HTML), "text/x-html+tr" (HTML (Faceted Browsing Links)), "application/vnd.ms-excel"
-#      "application/sparql-results+xml" (XML), "application/sparql-results+json", (JSON)
-#      "application/javascript" (Javascript), "text/turtle" (Turtle), "application/rdf+xml" (RDF/XML)
-#      "text/plain" (N-Triples), "text/csv" (CSV), "text/tab-separated-values" (TSV)
-#    * Parameter value, like indirectly:
-#      "HTML", "JSON", "XML", "TURTLE"
-#       See  <http://virtuoso.openlinksw.com/dataspace/doc/dav/wiki/Main/VOSSparqlProtocol#Additional HTTP Response Formats -- SELECT>
-#
-#  - Fuseki (formerly there was Joseki) <https://jena.apache.org/documentation/serving_data/>
-#    * Parameter key: "format" or "output"
-#      See Fuseki 1: https://github.com/apache/jena/blob/master/jena-fuseki1/src/main/java/org/apache/jena/fuseki/HttpNames.java
-#      See Fuseki 2: https://github.com/apache/jena/blob/master/jena-arq/src/main/java/org/apache/jena/riot/web/HttpNames.java
-#    * Fuseki 1 - Short names for "output=" : "json", "xml", "sparql", "text", "csv", "tsv", "thrift"
-#      See <https://github.com/apache/jena/blob/master/jena-fuseki1/src/main/java/org/apache/jena/fuseki/servlets/ResponseResultSet.java>
-#    * Fuseki 2 - Short names for "output=" : "json", "xml", "sparql", "text", "csv", "tsv", "thrift"
-#      See <https://github.com/apache/jena/blob/master/jena-fuseki2/jena-fuseki-core/src/main/java/org/apache/jena/fuseki/servlets/ResponseResultSet.java>
-#
-#  - Eclipse RDF4J (formerly known as Sesame) <http://rdf4j.org/>
-#    * Uses only content negotiation. See <http://rdf4j.org/doc/the-rdf4j-server-rest-api/#The_QUERY_operation>
-#
-#  - RASQAL <http://librdf.org/rasqal/>
-#    * Parameter key: "results"
-#    * Uses roqet as RDF query utility
-#      For variable bindings, the values of FORMAT vary upon what Rasqal supports but include simple 
-#      for a simple text format (default), xml for the SPARQL Query Results XML format, csv for SPARQL CSV, 
-#      tsv for SPARQL TSV, rdfxml and turtle for RDF syntax formats, and json for a JSON version of the results.
-#
-#      For RDF graph results, the values of FORMAT are ntriples (N-Triples, default), 
-#      rdfxml-abbrev (RDF/XML Abbreviated), rdfxml (RDF/XML), turtle (Turtle), 
-#      json (RDF/JSON resource centric), json-triples (RDF/JSON triples) or 
-#      rss-1.0 (RSS 1.0, also an RDF/XML syntax).
-#
-#      See <http://librdf.org/rasqal/roqet.html>
-#
-#  - Marklogic <http://marklogic.com>
-#    * Uses content negotiation.
-#    * You can use following methods to query triples <https://docs.marklogic.com/guide/semantics/semantic-searches#chapter>:
-#      - SPARQL mode in Query Console. For details, see Querying Triples with SPARQL
-#      - XQuery using the semantics functions, and Search API, or a combination of XQuery and SPARQL. For details, see Querying Triples with XQuery or JavaScript.
-#      - HTTP via a SPARQL endpoint. For details, see Using Semantics with the REST Client API.
-#    * Formats are specified as part of the HTTP Accept headers of the REST request. <https://docs.marklogic.com/guide/semantics/REST#id_92428>
-#      - When you query the SPARQL endpoint with REST Client APIs, you can specify the result output format.  <https://docs.marklogic.com/guide/semantics/REST#id_54258>
-#        The response type format depends on the type of query and the MIME type in the HTTP Accept header.
-#      - This table describes the MIME types and Accept Header/Output formats (MIME type) for different types of SPARQL queries. See <https://docs.marklogic.com/guide/semantics/REST#id_54258> and <https://docs.marklogic.com/guide/semantics/loading#id_70682>
-#        SELECT "application/sparql-results+xml", "application/sparql-results+json", "text/html", "text/csv"
-#        CONSTRUCT or DESCRIBE "application/n-triples", "application/rdf+json", "application/rdf+xml", "text/turtle", "text/n3", "application/n-quads", "application/trig"
-#
-
+#  Possible output format keys...
 JSON   = "json"
 JSONLD = "json-ld"
 XML    = "xml"
-TURTLE = "turtle"
+TURTLE = "n3"
 N3     = "n3"
 RDF    = "rdf"
-RDFXML = "rdf+xml"
-_allowedFormats = [JSON, XML, TURTLE, N3, RDF, RDFXML]
+_allowedFormats = [JSON, XML, TURTLE, N3, RDF]
 
 # Possible HTTP methods
 POST = "POST"
 GET  = "GET"
 _allowedRequests = [POST, GET]
-
-# Possible HTTP Authentication methods
-BASIC = "BASIC"
-DIGEST = "DIGEST"
-_allowedAuth = [BASIC, DIGEST]
 
 # Possible SPARQL/SPARUL query type
 SELECT     = "SELECT"
@@ -163,11 +101,11 @@ except ImportError:
     #warnings.warn("JSON-LD disabled because no suitable support has been found", RuntimeWarning)
     pass
 
-# This is very ugly. The fact is that the key for the choice of the output format is not defined. 
-# Virtuoso uses 'format', joseki uses 'output', rasqual seems to use "results", etc. Lee Feigenbaum 
-# told me that virtuoso also understand 'output' these days, so I removed 'format'. I do not have 
-# info about the others yet, ie, for the time being I keep the general mechanism. Hopefully, in a 
-# future release, I can get rid of that. However, these processors are (hopefully) oblivious to the 
+# This is very ugly. The fact is that the key for the choice of the output format is not defined.
+# Virtuoso uses 'format', joseki uses 'output', rasqual seems to use "results", etc. Lee Feigenbaum
+# told me that virtuoso also understand 'output' these days, so I removed 'format'. I do not have
+# info about the others yet, ie, for the time being I keep the general mechanism. Hopefully, in a
+# future release, I can get rid of that. However, these processors are (hopefully) oblivious to the
 # parameters they do not understand. So: just repeat all possibilities in the final URI. UGLY!!!!!!!
 _returnFormatSetting = ["format", "output", "results"]
 
@@ -190,9 +128,8 @@ class SPARQLWrapper(object):
         ((?P<base>(\s*BASE\s*<.*?>)\s*)|(?P<prefixes>(\s*PREFIX\s+.+:\s*<.*?>)\s*))*
         (?P<queryType>(CONSTRUCT|SELECT|ASK|DESCRIBE|INSERT|DELETE|CREATE|CLEAR|DROP|LOAD|COPY|MOVE|ADD))
     """, re.VERBOSE | re.IGNORECASE)
-    comments_pattern = re.compile(r"(^|\n)\s*#.*?\n")
 
-    def __init__(self, endpoint, updateEndpoint=None, returnFormat=XML, defaultGraph=None, agent=__agent__):
+    def __init__(self, endpoint, updateEndpoint=None, returnFormat=XML, defaultGraph=None, proxies=None, agent=__agent__):
         """
         Class encapsulating a full SPARQL call.
         @param endpoint: string of the SPARQL endpoint's URI
@@ -207,7 +144,7 @@ class SPARQLWrapper(object):
         is up to the endpoint to react or not, this wrapper does not check.
 
         Possible values:
-        L{JSON}, L{XML}, L{TURTLE}, L{N3}, L{RDFXML} (constants in this module). The value can also be set via explicit
+        L{JSON}, L{XML}, L{TURTLE}, L{N3} (constants in this module). The value can also be set via explicit
         call, see below.
         @type returnFormat: string
         @keyword defaultGraph: URI for the default graph. Default is None, the value can be set either via an L{explicit call<addDefaultGraph>} or as part of the query string.
@@ -218,7 +155,6 @@ class SPARQLWrapper(object):
         self.agent = agent
         self.user = None
         self.passwd = None
-        self.http_auth = BASIC
         self._defaultGraph = defaultGraph
 
         if returnFormat in _allowedFormats:
@@ -227,6 +163,7 @@ class SPARQLWrapper(object):
             self._defaultReturnFormat = XML
 
         self.resetQuery()
+        self.proxies = proxies
 
     def resetQuery(self):
         """Reset the query, ie, return format, query, default or named graph settings, etc,
@@ -271,7 +208,7 @@ class SPARQLWrapper(object):
 
     def setRequestMethod(self, method):
         """Set the internal method to use to perform the request for query or
-        update operations, either URL-encoded (C{SPARQLWrapper.URLENCODED}) or 
+        update operations, either URL-encoded (C{SPARQLWrapper.URLENCODED}) or
         POST directly (C{SPARQLWrapper.POSTDIRECTLY}).
         Further details at U{http://www.w3.org/TR/sparql11-protocol/#query-operation}
         and U{http://www.w3.org/TR/sparql11-protocol/#update-operation}.
@@ -284,6 +221,7 @@ class SPARQLWrapper(object):
         else:
             warnings.warn("invalid update method '%s'" % method, RuntimeWarning)
 
+    @deprecated
     def addDefaultGraph(self, uri):
         """
             Add a default graph URI.
@@ -293,6 +231,7 @@ class SPARQLWrapper(object):
         """
         self.addParameter("default-graph-uri", uri)
 
+    @deprecated
     def addNamedGraph(self, uri):
         """
             Add a named graph URI.
@@ -302,10 +241,11 @@ class SPARQLWrapper(object):
         """
         self.addParameter("named-graph-uri", uri)
 
+    @deprecated
     def addExtraURITag(self, key, value):
         """
             Some SPARQL endpoints require extra key value pairs.
-            E.g., in virtuoso, one would add C{should-sponge=soft} to the query forcing 
+            E.g., in virtuoso, one would add C{should-sponge=soft} to the query forcing
             virtuoso to retrieve graphs that are not stored in its local database.
             @param key: key of the query part
             @type key: string
@@ -315,10 +255,11 @@ class SPARQLWrapper(object):
         """
         self.addParameter(key, value)
 
+    @deprecated
     def addCustomParameter(self, name, value):
         """
             Method is kept for backwards compatibility. Historically, it "replaces" parameters instead of adding
-            @param name: name 
+            @param name: name
             @type name: string
             @param value: value
             @type value: string
@@ -331,9 +272,9 @@ class SPARQLWrapper(object):
     def addParameter(self, name, value):
         """
             Some SPARQL endpoints allow extra key value pairs.
-            E.g., in virtuoso, one would add C{should-sponge=soft} to the query forcing 
+            E.g., in virtuoso, one would add C{should-sponge=soft} to the query forcing
             virtuoso to retrieve graphs that are not stored in its local database.
-            @param name: name 
+            @param name: name
             @type name: string
             @param value: value
             @type value: string
@@ -350,7 +291,7 @@ class SPARQLWrapper(object):
     def clearParameter(self, name):
         """
             Clear the values ofd a concrete parameter.
-            @param name: name 
+            @param name: name
             @type name: string
             @rtype: bool
         """
@@ -374,24 +315,10 @@ class SPARQLWrapper(object):
         self.user = user
         self.passwd = passwd
 
-    def setHTTPAuth(self, auth):
-        """
-           Set the HTTP Authentication type (Basic or Digest)
-           @param auth: auth type
-           @type auth: string
-        """
-        if not isinstance(auth, str):
-            raise TypeError('setHTTPAuth takes a string')
-        elif auth.upper() in _allowedAuth:
-            self.http_auth = auth.upper()
-        else:
-            valid_types = ", ".join(_allowedAuth)
-            raise ValueError("Value should be one of {0}".format(valid_types))
-                    
     def setQuery(self, query):
         """
-            Set the SPARQL query text. Note: no check is done on the validity of the query 
-            (syntax or otherwise) by this module, except for testing the query type (SELECT, 
+            Set the SPARQL query text. Note: no check is done on the validity of the query
+            (syntax or otherwise) by this module, except for testing the query type (SELECT,
             ASK, etc). Syntax and validity checking is done by the SPARQL service itself.
             @param query: query text
             @type query: string
@@ -430,12 +357,12 @@ class SPARQLWrapper(object):
         """
         try:
             query = query if type(query)==str else query.encode('ascii', 'ignore')
-            query = self._cleanComments(query)
+            query = re.sub(re.compile("#.*?\n" ), "" , query) # remove all occurance singleline comments (issue #32)
             r_queryType = self.pattern.search(query).group("queryType").upper()
         except AttributeError:
             warnings.warn("not detected query type for query '%s'" % query.replace("\n", " "), RuntimeWarning)
             r_queryType = None
-    
+
         if r_queryType in _allowedQueryTypes :
             return r_queryType
         else :
@@ -451,20 +378,15 @@ class SPARQLWrapper(object):
 
     def setUseKeepAlive(self):
         """Make urllib2 use keep-alive.
-        @raise ImportError: when could not be imported keepalive.HTTPHandler
+        @raise ImportError: when could not be imported urlgrabber.keepalive.HTTPHandler
         """
         try:
-            from keepalive import HTTPHandler
-
-            if urllib2._opener and any(isinstance(h, HTTPHandler) for h in urllib2._opener.handlers):
-                # already installed
-                return
-
+            from urlgrabber.keepalive import HTTPHandler
             keepalive_handler = HTTPHandler()
             opener = urllib2.build_opener(keepalive_handler)
             urllib2.install_opener(opener)
         except ImportError:
-            warnings.warn("keepalive support not available, so the execution of this method has no effect")
+            warnings.warn("urlgrabber not installed in the system. The execution of this method has no effect.")
 
     def isSparqlUpdateRequest(self):
         """ Returns TRUE if SPARQLWrapper is configured for executing SPARQL Update request
@@ -477,10 +399,6 @@ class SPARQLWrapper(object):
         @return: bool
         """
         return not self.isSparqlUpdateRequest()
-
-    def _cleanComments(self, query):
-        # remove all occurance singleline comments (issues #32 and #77)
-        return re.sub(self.comments_pattern, "\n\n" , query)
 
     def _getRequestEncodedParameters(self, query=None):
         query_parameters = self.parameters.copy()
@@ -533,6 +451,14 @@ class SPARQLWrapper(object):
         @return: request
         """
         request = None
+        if self.proxies:
+            proxies = self.proxies
+        else:
+            proxies = {}
+
+        proxy_support = urllib2.ProxyHandler(proxies)
+        opener = urllib2.build_opener(proxy_support)
+        urllib2.install_opener(opener)
 
         if self.isSparqlUpdateRequest():
             #protocol details at http://www.w3.org/TR/sparql11-protocol/#update-operation
@@ -568,20 +494,8 @@ class SPARQLWrapper(object):
         request.add_header("User-Agent", self.agent)
         request.add_header("Accept", self._getAcceptHeader())
         if self.user and self.passwd:
-            if self.http_auth == BASIC:
-                credentials = "%s:%s" % (self.user, self.passwd)
-                request.add_header("Authorization", "Basic %s" % base64.b64encode(credentials.encode('utf-8')).decode('utf-8'))
-            elif self.http_auth == DIGEST:
-                realm = "SPARQL"
-                pwd_mgr = urllib2.HTTPPasswordMgr()
-                pwd_mgr.add_password(realm, uri, self.user, self.passwd)
-                opener = urllib2.build_opener()
-                opener.add_handler(urllib2.HTTPDigestAuthHandler(pwd_mgr))
-                urllib2.install_opener(opener)
-            else:
-                valid_types = ", ".join(_allowedAuth)
-                raise NotImplementedError("Expecting one of: {0}, but received: {1}".format(valid_types,
-                                                                                            self.http_auth))
+            credentials = "%s:%s" % (self.user, self.passwd)
+            request.add_header("Authorization", "Basic %s" % base64.encodestring(credentials.encode('utf-8')))
 
         return request
 
@@ -694,6 +608,20 @@ class QueryResult(object):
         """Method for the standard iterator."""
         return self.response.next()
 
+    @staticmethod
+    def setJSONModule(module):
+        """Set the Python module for encoding JSON data. If not an allowed value, the setting is ignored.
+           JSON modules supported:
+             - ``simplejson``: http://code.google.com/p/simplejson/
+             - ``cjson``: http://pypi.python.org/pypi/python-cjson
+             - ``json``: This is the version of ``simplejson`` that is bundled with the
+               Python standard library since version 2.6
+               (see http://docs.python.org/library/json.html)
+        @param module: Possible values: are L{simplejson}, L{cjson}, L{json}. All other cases raise a ValueError exception.
+        @type module: string
+        """
+        jsonlayer.use(module)
+
     def _convertJSON(self):
         """
         Convert a JSON result into a Python dict. This method can be overwritten in a subclass
@@ -701,7 +629,7 @@ class QueryResult(object):
         @return: converted result
         @rtype: Python dictionary
         """
-        return json.loads(self.response.read().decode("utf-8"))
+        return jsonlayer.decode(self.response.read().decode("utf-8"))
 
     def _convertXML(self):
         """
@@ -779,7 +707,7 @@ class QueryResult(object):
                 _validate_format("JSON", [JSON], ct, self.requestedFormat)
                 return self._convertJSON()
             elif _content_type_in_list(ct, _RDF_XML):
-                _validate_format("RDF/XML", [RDF, XML, RDFXML], ct, self.requestedFormat)
+                _validate_format("RDF/XML", [RDF, XML], ct, self.requestedFormat)
                 return self._convertRDF()
             elif _content_type_in_list(ct, _RDF_N3):
                 _validate_format("N3", [N3, TURTLE], ct, self.requestedFormat)
@@ -806,8 +734,7 @@ class QueryResult(object):
         for result in results["results"]["bindings"] :
             index = 0
             for var in results["head"]["vars"] :
-                result = self.__get_prettyprint_string_sparql_var_result(result[var])
-                print result.ljust(width[index]),"|",
+                print result[var]["value"].ljust(width[index]),"|",
                 index += 1
             print
 
@@ -818,17 +745,6 @@ class QueryResult(object):
         for result in results["results"]["bindings"] :
             index = 0
             for var in results["head"]["vars"] :
-                result = self.__get_prettyprint_string_sparql_var_result(result[var])
-                width[index] = max(width[index], len(result))
-                index += 1
+                width[index] = max(width[index], len(result[var]["value"]))
+                index =+ 1
         return width
-
-    def __get_prettyprint_string_sparql_var_result(self, result):
-        value = result["value"]
-        lang = result.get("xml:lang", None)
-        datatype = result.get("datatype",None)
-        if lang is not None:
-            value+="@"+lang
-        if datatype is not None:
-            value+=" ["+datatype+"]"
-        return value
