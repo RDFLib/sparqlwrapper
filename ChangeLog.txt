@@ -1,7 +1,7 @@
 SPARQLWrapper's changelog:
 -------------------------
 
-201X-XX-XX  1.8.1   - 
+2017-08-17  1.8.1   - Modified Wrapper.py to handle proxies
 
 2016-12-07  1.8.0   - Updated return formats for not content negotiation situations
                     - Included license in the MANIFEST (issue #76)
@@ -39,7 +39,7 @@ SPARQLWrapper's changelog:
 2014-07-24  1.6.2   - Fixed query type detection with comments (issue #32)
 
 2014-07-21  1.6.1   - Added missing query types (issue #17)
-                    - Added a new method to the API to select the request method to be fully SPARQL 1.1 Protocol compliant (issue #28)             
+                    - Added a new method to the API to select the request method to be fully SPARQL 1.1 Protocol compliant (issue #28)
                     - Improved the test suite coverage, including support to run the tests under Python 3.x (issues #20, #24 and #31)
 
 2014-05-09  1.6.0   - Returning raw response in case of unknown content type returned
