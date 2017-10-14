@@ -1,7 +1,9 @@
 SPARQLWrapper's changelog:
 -------------------------
 
-201X-XX-XX  1.8.1   - 
+201X-XX-XX  1.8.1   - Update classifiers (Python 3.6)
+                    - Added some documentation about the parameter to indicate the output format
+                    - Fixed typo in width calculation
 
 2016-12-07  1.8.0   - Updated return formats for not content negotiation situations
                     - Included license in the MANIFEST (issue #76)
