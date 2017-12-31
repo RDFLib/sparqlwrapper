@@ -16,7 +16,7 @@ class SPARQLWrapperException(Exception):
     Base class for SPARQL Wrapper exceptions
     """
 
-    msg = "an exception has occured"
+    msg = "an exception has occurred"
     
     def __init__(self, response=None):
         if response:
