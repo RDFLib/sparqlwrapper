@@ -420,7 +420,7 @@ class SPARQLWrapper(object):
             Parse the SPARQL query and return its type (ie, L{SELECT}, L{ASK}, etc).
 
             Note that the method returns L{SELECT} if nothing is specified. This is just to get all other
-            methods running; in fact, this means that the query is erronous, because the query must be,
+            methods running; in fact, this means that the query is erroneous, because the query must be,
             according to the SPARQL specification, one of Select, Ask, Describe, or Construct. The
             SPARQL endpoint should raise an exception (via urllib) for such syntax error.
 
@@ -479,7 +479,7 @@ class SPARQLWrapper(object):
         return not self.isSparqlUpdateRequest()
 
     def _cleanComments(self, query):
-        # remove all occurance singleline comments (issues #32 and #77)
+        # remove all occurrence singleline comments (issues #32 and #77)
         return re.sub(self.comments_pattern, "\n\n" , query)
 
     def _getRequestEncodedParameters(self, query=None):
