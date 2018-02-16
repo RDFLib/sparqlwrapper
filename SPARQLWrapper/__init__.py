@@ -131,9 +131,9 @@ CONSTRUCT, ASK, DESCRIBE
 ========================
 
 All the examples so far were based on the SELECT queries. If the query includes, eg, the C{CONSTRUCT} keyword then the accepted
-return formats should be different: eg, C{SPARQLWrapper.XML} means C{RDF/XML} and most of the SPARQL engines can also return the 
-results in C{Turtle}. The package, though it does not contain a full SPARQL parser, makes an attempt to determine the query type 
-when the query is set. This should work in most of the cases (but there is a possibility to set this manually, in case something 
+return formats should be different: eg, C{SPARQLWrapper.XML} means C{RDF/XML} and most of the SPARQL engines can also return the
+results in C{Turtle}. The package, though it does not contain a full SPARQL parser, makes an attempt to determine the query type
+when the query is set. This should work in most of the cases (but there is a possibility to set this manually, in case something
 goes wrong).
 
 For RDF/XML, the U{RDFLib<http://rdflib.net>} (C{http://rdflib.net}) package is used to convert the result into a C{Graph} instance.
@@ -185,7 +185,7 @@ __agent__   = "sparqlwrapper %s (rdflib.github.io/sparqlwrapper)" % __version__
 
 
 from Wrapper import SPARQLWrapper
-from Wrapper import XML, JSON, TURTLE, N3, JSONLD, RDF, RDFXML
+from Wrapper import XML, JSON, TURTLE, N3, JSONLD, RDF, RDFXML, CSV
 from Wrapper import GET, POST
 from Wrapper import SELECT, CONSTRUCT, ASK, DESCRIBE, INSERT, DELETE
 from Wrapper import URLENCODED, POSTDIRECTLY
