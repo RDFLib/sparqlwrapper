@@ -131,9 +131,9 @@ CONSTRUCT, ASK, DESCRIBE
 ========================
 
 All the examples so far were based on the SELECT queries. If the query includes, eg, the C{CONSTRUCT} keyword then the accepted
-return formats should be different: eg, C{SPARQLWrapper.XML} means C{RDF/XML} and most of the SPARQL engines can also return the 
-results in C{Turtle}. The package, though it does not contain a full SPARQL parser, makes an attempt to determine the query type 
-when the query is set. This should work in most of the cases (but there is a possibility to set this manually, in case something 
+return formats should be different: eg, C{SPARQLWrapper.XML} means C{RDF/XML} and most of the SPARQL engines can also return the
+results in C{Turtle}. The package, though it does not contain a full SPARQL parser, makes an attempt to determine the query type
+when the query is set. This should work in most of the cases (but there is a possibility to set this manually, in case something
 goes wrong).
 
 For RDF/XML, the U{RDFLib<http://rdflib.net>} (C{http://rdflib.net}) package is used to convert the result into a C{Graph} instance.
@@ -166,7 +166,7 @@ The package was greatly inspired by U{Lee Feigenbaum's similar package for Javas
 __version__ = "1.8.1.dev0"
 """The version of SPARQLWrapper"""
 
-__authors__  = "Ivan Herman, Sergio Fernández, Carlos Tejo Alonso, Alexey Zakhlestin"
+__authors__ = "Ivan Herman, Sergio Fernández, Carlos Tejo Alonso, Alexey Zakhlestin"
 """The primary authors of SPARQLWrapper"""
 
 __license__ = "W3C® SOFTWARE NOTICE AND LICENSE, http://www.w3.org/Consortium/Legal/copyright-software"
@@ -178,10 +178,10 @@ __url__ = "http://rdflib.github.io/sparqlwrapper"
 __contact__ = "rdflib-dev@googlegroups.com"
 """Mail list to contact to other people RDFLib and SPARQLWrappers folks and developers"""
 
-__date__    = "2015-12-18"
+__date__ = "2015-12-18"
 """Last update"""
 
-__agent__   = "sparqlwrapper %s (rdflib.github.io/sparqlwrapper)" % __version__
+__agent__ = "sparqlwrapper %s (rdflib.github.io/sparqlwrapper)" % __version__
 
 
 from Wrapper import SPARQLWrapper

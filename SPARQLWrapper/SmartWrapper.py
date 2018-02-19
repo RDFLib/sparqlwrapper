@@ -36,21 +36,21 @@ class Value(object):
     @ivar datatype: Datatype of the binding, or C{None} if not set
     @type datatype: string (URI)
     """
-    URI          = "uri"
-    Literal      = "literal"
+    URI = "uri"
+    Literal = "literal"
     TypedLiteral = "typed-literal"
-    BNODE        = "bnode"
+    BNODE = "bnode"
 
-    def __init__(self,variable,binding) :
+    def __init__(self, variable, binding) :
         """
         @param variable: the variable for that binding. Stored for an easier reference
         @param binding: the binding dictionary part of the return result for a specific binding
         """
-        self.variable  = variable
-        self.value     = binding['value']
-        self.type      = binding['type']
-        self.lang      = None
-        self.datatype  = None
+        self.variable = variable
+        self.value = binding['value']
+        self.type = binding['type']
+        self.lang = None
+        self.datatype = None
         try :
             self.lang = binding['xml:lang']
         except :
@@ -89,19 +89,19 @@ class Bindings(object):
     @ivar askResult: by default, set to False; in case of an ASK query, the result of the query
     @type askResult: Boolean
     """
-    def __init__(self,retval) :
+    def __init__(self, retval) :
         """
         @param retval: the query result, instance of a L{Wrapper.QueryResult}
         """
-        self.fullResult  = retval._convertJSON()
-        self.head        = self.fullResult['head']
-        self.variables   = None
+        self.fullResult = retval._convertJSON()
+        self.head = self.fullResult['head']
+        self.variables = None
         try :
-            self.variables   = self.fullResult['head']['vars']
+            self.variables = self.fullResult['head']['vars']
         except :
             pass
 
-        self.bindings    = []
+        self.bindings = []
         try :
             for b in self.fullResult['results']['bindings'] :
                 #  this is a single binding.  It is a dictionary per variable; each value is a dictionary again that has to be
@@ -110,7 +110,7 @@ class Bindings(object):
                 for key in self.variables :
                     if key in b :
                         # there is a real binding for this key
-                        newBind[key] = Value(key,b[key])
+                        newBind[key] = Value(key, b[key])
                 self.bindings.append(newBind)
         except :
             pass
@@ -121,7 +121,7 @@ class Bindings(object):
         except :
             pass
 
-    def getValues(self,key) :
+    def getValues(self, key) :
         """A shorthand for the retrieval of all bindings for a single key. It is
         equivalent to "C{[b[key] for b in self[key]]}"
         @param key: possible variable
@@ -132,7 +132,7 @@ class Bindings(object):
         except :
             return []
 
-    def __contains__(self,key) :
+    def __contains__(self, key) :
         """Emulation of the "C{key in obj}" operator. Key can be a string for a variable or an array/tuple
         of strings.
 
@@ -163,7 +163,7 @@ class Bindings(object):
                 if key in b : return True
             return False
 
-    def __getitem__(self,key) :
+    def __getitem__(self, key) :
         """Emulation of the C{obj[key]} operator.  Slice notation is also available.
         The goal is to choose the right bindings among the available ones. The return values are always
         arrays  of bindings, ie, arrays of dictionaries mapping variable keys to L{Value} instances.
@@ -199,14 +199,14 @@ class Bindings(object):
 
         # The arguments should be reduced to arrays of variables, ie, unicode strings
         yes_keys = []
-        no_keys  = []
+        no_keys = []
         if type(key) is slice :
             # Note: None for start or stop is all right
             if key.start :
                 yes_keys = _nonSliceCase(key.start)
                 if not yes_keys: raise TypeError
             if key.stop :
-                no_keys  = _nonSliceCase(key.stop)
+                no_keys = _nonSliceCase(key.stop)
                 if not no_keys: raise TypeError
         else :
             yes_keys = _nonSliceCase(key)
