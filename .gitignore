@@ -6,3 +6,6 @@ dist
 doc
 .idea
 *.iml
+.project
+.pydevproject
+.settings/
