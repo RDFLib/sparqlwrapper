@@ -520,22 +520,15 @@ class SPARQLWrapper(object):
         return '&'.join(pairs)
 
     def _getAcceptHeader(self):
-        if self.queryType in [SELECT]:
+        if self.queryType in [SELECT, ASK]:
             if self.returnFormat == XML:
                 acceptHeader = ",".join(_SPARQL_XML)
             elif self.returnFormat == JSON:
                 acceptHeader = ",".join(_SPARQL_JSON)
-            elif self.returnFormat == CSV: # Only for SELECT https://www.w3.org/TR/sparql11-results-csv-tsv/
+            elif self.returnFormat == CSV: # Allowed for SELECT and ASK (https://www.w3.org/TR/2013/REC-sparql11-protocol-20130321/#query-success) but only described for SELECT (https://www.w3.org/TR/sparql11-results-csv-tsv/)
                 acceptHeader = ",".join(_CSV)
-            elif self.returnFormat == TSV: # Only for SELECT https://www.w3.org/TR/sparql11-results-csv-tsv/
+            elif self.returnFormat == TSV: # Allowed for SELECT and ASK (https://www.w3.org/TR/2013/REC-sparql11-protocol-20130321/#query-success) but only described for SELECT (https://www.w3.org/TR/sparql11-results-csv-tsv/)
                 acceptHeader = ",".join(_TSV)
-            else:
-                acceptHeader = ",".join(_ALL)
-        elif self.queryType in [ASK]:
-            if self.returnFormat == XML:
-                acceptHeader = ",".join(_SPARQL_XML)
-            elif self.returnFormat == JSON:
-                acceptHeader = ",".join(_SPARQL_JSON)
             else:
                 acceptHeader = ",".join(_ALL)
         elif self.queryType in [INSERT, DELETE]:
