@@ -20,8 +20,8 @@ try:
     from rdflib.graph import ConjunctiveGraph
 except ImportError:
     from rdflib import ConjunctiveGraph
-from SPARQLWrapper import SPARQLWrapper, XML, N3, JSONLD, JSON, CSV, POST, GET, SELECT, CONSTRUCT, ASK, DESCRIBE
-from SPARQLWrapper.Wrapper import _SPARQL_DEFAULT, _SPARQL_XML, _SPARQL_JSON, _SPARQL_POSSIBLE, _RDF_XML, _RDF_N3, _RDF_JSONLD, _RDF_POSSIBLE, _CSV
+from SPARQLWrapper import SPARQLWrapper, XML, N3, JSONLD, JSON, CSV, TSV, POST, GET, SELECT, CONSTRUCT, ASK, DESCRIBE
+from SPARQLWrapper.Wrapper import _SPARQL_DEFAULT, _SPARQL_XML, _SPARQL_JSON, _SPARQL_POSSIBLE, _RDF_XML, _RDF_N3, _RDF_JSONLD, _RDF_POSSIBLE, _CSV, _TSV
 from SPARQLWrapper.SPARQLExceptions import QueryBadFormed
 
 try:
@@ -48,6 +48,14 @@ selectQuery = """
     SELECT ?label
     WHERE {
     <http://dbpedia.org/resource/Asturias> rdfs:label ?label .
+    }
+"""
+
+selectQueryCSV_TSV = """
+    SELECT ?label ?wikiPageID
+    WHERE {
+    <http://dbpedia.org/resource/Asturias> rdfs:label ?label ;
+         <http://dbpedia.org/ontology/wikiPageID> ?wikiPageID
     }
 """
 
@@ -132,7 +140,6 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         results.toxml()
 
-
     def testSelectByPOSTinXML(self):
         result = self.__generic(selectQuery, XML, POST)
         ct = result.info()["content-type"]
@@ -141,15 +148,27 @@ class SPARQLWrapperTests(unittest.TestCase):
         results.toxml()
 
     def testSelectByGETinCSV(self):
-        result = self.__generic(selectQuery, CSV, GET)
+        result = self.__generic(selectQueryCSV_TSV, CSV, GET)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _CSV], ct
         results = result.convert()
 
     def testSelectByPOSTinCSV(self):
-        result = self.__generic(selectQuery, CSV, POST)
+        result = self.__generic(selectQueryCSV_TSV, CSV, POST)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _CSV], ct
+        results = result.convert()
+
+    def testSelectByGETinTSV(self):
+        result = self.__generic(selectQueryCSV_TSV, TSV, GET)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _TSV], ct
+        results = result.convert()
+
+    def testSelectByPOSTinTSV(self):
+        result = self.__generic(selectQueryCSV_TSV, TSV, POST)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _TSV], ct
         results = result.convert()
 
     # Virtuoso returns text/rdf+n3. It MUST return SPARQL Results Document in XML (sparql-results+xml), JSON (sparql-results+json), or CSV/TSV (text/csv or text/tab-separated-values) see http://www.w3.org/TR/sparql11-protocol/#query-success
@@ -248,8 +267,8 @@ class SPARQLWrapperTests(unittest.TestCase):
     def testQueryBadFormed(self):
         self.assertRaises(QueryBadFormed, self.__generic, queryBadFormed, XML, GET) 
 
-#    def testQueryManyPrefixes(self):        
-#        result = self.__generic(queryManyPrefixes, XML, GET)
+    def testQueryManyPrefixes(self):
+        result = self.__generic(queryManyPrefixes, XML, GET)
 
     def testKeepAlive(self):
         sparql = SPARQLWrapper(endpoint)

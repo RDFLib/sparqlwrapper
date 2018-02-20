@@ -24,7 +24,7 @@ if _top_level_path not in sys.path:
 # end of hack
 
 from SPARQLWrapper import SPARQLWrapper
-from SPARQLWrapper import XML, GET, POST, JSON, JSONLD, N3, TURTLE, RDF, SELECT, INSERT, RDFXML, CSV
+from SPARQLWrapper import XML, GET, POST, JSON, JSONLD, N3, TURTLE, RDF, SELECT, INSERT, RDFXML, CSV, TSV
 from SPARQLWrapper import URLENCODED, POSTDIRECTLY
 from SPARQLWrapper import BASIC, DIGEST
 from SPARQLWrapper.Wrapper import QueryResult, QueryBadFormed, EndPointNotFound, EndPointInternalError
@@ -201,6 +201,7 @@ class SPARQLWrapper_Test(TestCase):
         self.assertTrue(self.wrapper.supportsReturnFormat(RDF))
         self.assertTrue(self.wrapper.supportsReturnFormat(RDFXML))
         self.assertTrue(self.wrapper.supportsReturnFormat(CSV))
+        self.assertTrue(self.wrapper.supportsReturnFormat(TSV))
         self.assertFalse(self.wrapper.supportsReturnFormat('nonexistent format'))
 
         try:
@@ -717,6 +718,7 @@ class QueryResult_Test(unittest.TestCase):
         self.assertEqual(0, _mime_vs_type("application/rdf+xml", RDF))
         self.assertEqual(0, _mime_vs_type("application/rdf+xml", RDFXML))
         self.assertEqual(0, _mime_vs_type("text/csv", CSV))
+        self.assertEqual(0, _mime_vs_type("text/tab-separated-values", TSV))
 
         self.assertEqual(1, _mime_vs_type("application/x-foo-bar", XML), "invalid mime")
 
