@@ -249,7 +249,7 @@ class SPARQLWrapper(object):
     def setReturnFormat(self, format):
         """Set the return format. If not an allowed value, the setting is ignored.
 
-        @param format: Possible values: are L{JSON}, L{XML}, L{TURTLE}, L{N3}, L{RDF}, L{RDFXML}, L{CSV}, L{CSV} (constants in this module). All other cases are ignored.
+        @param format: Possible values: are L{JSON}, L{XML}, L{TURTLE}, L{N3}, L{RDF}, L{RDFXML}, L{CSV}, L{TSV} (constants in this module). All other cases are ignored.
         @type format: str
         """
         if format in _allowedFormats :
@@ -262,7 +262,7 @@ class SPARQLWrapper(object):
     def supportsReturnFormat(self, format):
         """Check if a return format is supported.
 
-        @param format: Possible values: are L{JSON}, L{XML}, L{TURTLE}, L{N3}, L{RDF}, L{RDFXML}, L{CSV}, L{CSV} (constants in this module). All other cases are ignored.
+        @param format: Possible values: are L{JSON}, L{XML}, L{TURTLE}, L{N3}, L{RDF}, L{RDFXML}, L{CSV}, L{TSV} (constants in this module). All other cases are ignored.
         @type format: bool
         """
         return (format in _allowedFormats)
