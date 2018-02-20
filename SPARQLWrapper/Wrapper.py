@@ -8,6 +8,7 @@
 @var TURTLE: to be used to set the return format to Turtle
 @var N3: to be used to set the return format to N3 (for most of the SPARQL services this is equivalent to Turtle)
 @var RDF: to be used to set the return RDF Graph
+@var CSV: to be used to set the return format to CSV
 
 @var POST: to be used to set HTTP POST
 @var GET: to be used to set HTTP GET. This is the default.
@@ -102,7 +103,8 @@ TURTLE = "turtle"
 N3     = "n3"
 RDF    = "rdf"
 RDFXML = "rdf+xml"
-_allowedFormats = [JSON, XML, TURTLE, N3, RDF, RDFXML]
+CSV    = "csv"
+_allowedFormats = [JSON, XML, TURTLE, N3, RDF, RDFXML, CSV]
 
 # Possible HTTP methods
 POST = "POST"
@@ -150,9 +152,10 @@ _SPARQL_JSON     = ["application/sparql-results+json", "text/javascript", "appli
 _RDF_XML         = ["application/rdf+xml"]
 _RDF_N3          = ["text/rdf+n3", "application/n-triples", "application/turtle", "application/n3", "text/n3", "text/turtle"]
 _RDF_JSONLD      = ["application/x-json+ld", "application/ld+json"]
+_CSV             = ["text/csv"]
 _ALL             = ["*/*"]
 _RDF_POSSIBLE    = _RDF_XML + _RDF_N3
-_SPARQL_POSSIBLE = _SPARQL_XML + _SPARQL_JSON + _RDF_XML + _RDF_N3
+_SPARQL_POSSIBLE = _SPARQL_XML + _SPARQL_JSON + _RDF_XML + _RDF_N3 + _CSV
 _SPARQL_PARAMS   = ["query"]
 
 try:
@@ -207,7 +210,7 @@ class SPARQLWrapper(object):
         is up to the endpoint to react or not, this wrapper does not check.
 
         Possible values:
-        L{JSON}, L{XML}, L{TURTLE}, L{N3}, L{RDFXML} (constants in this module). The value can also be set via explicit
+        L{JSON}, L{XML}, L{TURTLE}, L{N3}, L{RDFXML}, L{CSV} (constants in this module). The value can also be set via explicit
         call, see below.
         @type returnFormat: string
         @keyword defaultGraph: URI for the default graph. Default is None, the value can be set either via an L{explicit call<addDefaultGraph>} or as part of the query string.
@@ -243,7 +246,7 @@ class SPARQLWrapper(object):
     def setReturnFormat(self, format):
         """Set the return format. If not an allowed value, the setting is ignored.
 
-        @param format: Possible values: are L{JSON}, L{XML}, L{TURTLE}, L{N3}, L{RDF} (constants in this module). All other cases are ignored.
+        @param format: Possible values: are L{JSON}, L{XML}, L{TURTLE}, L{N3}, L{RDF}, L{RDFXML}, L{CSV} (constants in this module). All other cases are ignored.
         @type format: str
         """
         if format in _allowedFormats :
@@ -256,7 +259,7 @@ class SPARQLWrapper(object):
     def supportsReturnFormat(self, format):
         """Check if a return format is supported.
 
-        @param format: Possible values: are L{JSON}, L{XML}, L{TURTLE}, L{N3}, L{RDF} (constants in this module). All other cases are ignored.
+        @param format: Possible values: are L{JSON}, L{XML}, L{TURTLE}, L{N3}, L{RDF}, L{RDFXML}, L{CSV} (constants in this module). All other cases are ignored.
         @type format: bool
         """
         return (format in _allowedFormats)
@@ -507,7 +510,16 @@ class SPARQLWrapper(object):
         return '&'.join(pairs)
 
     def _getAcceptHeader(self):
-        if self.queryType in [SELECT, ASK]:
+        if self.queryType in [SELECT]:
+            if self.returnFormat == XML:
+                acceptHeader = ",".join(_SPARQL_XML)
+            elif self.returnFormat == JSON:
+                acceptHeader = ",".join(_SPARQL_JSON)
+            elif self.returnFormat == CSV: # Only for SELECT https://www.w3.org/TR/sparql11-results-csv-tsv/
+                acceptHeader = ",".join(_CSV)
+            else:
+                acceptHeader = ",".join(_ALL)
+        elif self.queryType in [ASK]:
             if self.returnFormat == XML:
                 acceptHeader = ",".join(_SPARQL_XML)
             elif self.returnFormat == JSON:
@@ -516,7 +528,7 @@ class SPARQLWrapper(object):
                 acceptHeader = ",".join(_ALL)
         elif self.queryType in [INSERT, DELETE]:
             acceptHeader = "*/*"
-        else:
+        else: #CONSTRUCT, DESCRIBE
             if self.returnFormat == N3 or self.returnFormat == TURTLE:
                 acceptHeader = ",".join(_RDF_N3)
             elif self.returnFormat == XML:
@@ -739,6 +751,15 @@ class QueryResult(object):
         """
         return self.response.read()
 
+    def _convertCSV(self):
+        """
+        Convert a CSV result into a string. This method can be overwritten in a subclass
+        for a different conversion method.
+        @return: converted result
+        @rtype: string
+        """
+        return self.response.read()
+
     def _convertJSONLD(self):
         """
         Convert a RDF JSON-LDresult into an RDFLib triple store. This method can be overwritten
@@ -756,7 +777,9 @@ class QueryResult(object):
         Encode the return value depending on the return format:
             - in the case of XML, a DOM top element is returned;
             - in the case of JSON, a simplejson conversion will return a dictionary;
-            - in the case of RDF/XML, the value is converted via RDFLib into a Graph instance.
+            - in the case of RDF/XML, the value is converted via RDFLib into a Graph instance;
+            - in the case of RDF Turtle/N3, a string is returned;
+            - in the case of CSV, a string is returned.
         In all other cases the input simply returned.
 
         @return: the converted query result. See the conversion methods for more details.
@@ -784,6 +807,9 @@ class QueryResult(object):
             elif _content_type_in_list(ct, _RDF_N3):
                 _validate_format("N3", [N3, TURTLE], ct, self.requestedFormat)
                 return self._convertN3()
+            elif _content_type_in_list(ct, _CSV):
+                _validate_format("CSV", [CSV], ct, self.requestedFormat)
+                return self._convertCSV()
             elif _content_type_in_list(ct, _RDF_JSONLD):
                 _validate_format("JSON(-LD)", [JSONLD, JSON], ct, self.requestedFormat)
                 return self._convertJSONLD()

@@ -20,8 +20,8 @@ try:
     from rdflib.graph import ConjunctiveGraph
 except ImportError:
     from rdflib import ConjunctiveGraph
-from SPARQLWrapper import SPARQLWrapper, XML, N3, JSONLD, JSON, POST, GET, SELECT, CONSTRUCT, ASK, DESCRIBE
-from SPARQLWrapper.Wrapper import _SPARQL_DEFAULT, _SPARQL_XML, _SPARQL_JSON, _SPARQL_POSSIBLE, _RDF_XML, _RDF_N3, _RDF_JSONLD, _RDF_POSSIBLE
+from SPARQLWrapper import SPARQLWrapper, XML, N3, JSONLD, JSON, CSV, POST, GET, SELECT, CONSTRUCT, ASK, DESCRIBE
+from SPARQLWrapper.Wrapper import _SPARQL_DEFAULT, _SPARQL_XML, _SPARQL_JSON, _SPARQL_POSSIBLE, _RDF_XML, _RDF_N3, _RDF_JSONLD, _RDF_POSSIBLE, _CSV
 from SPARQLWrapper.SPARQLExceptions import QueryBadFormed
 
 try:
@@ -132,12 +132,25 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         results.toxml()
 
+
     def testSelectByPOSTinXML(self):
         result = self.__generic(selectQuery, XML, POST)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_XML], ct
         results = result.convert()
         results.toxml()
+
+    def testSelectByGETinCSV(self):
+        result = self.__generic(selectQuery, CSV, GET)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _CSV], ct
+        results = result.convert()
+
+    def testSelectByPOSTinCSV(self):
+        result = self.__generic(selectQuery, CSV, POST)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _CSV], ct
+        results = result.convert()
 
     # Virtuoso returns text/rdf+n3. It MUST return SPARQL Results Document in XML (sparql-results+xml), JSON (sparql-results+json), or CSV/TSV (text/csv or text/tab-separated-values) see http://www.w3.org/TR/sparql11-protocol/#query-success
     # URI generated http://dbpedia.org/sparql?query=%0A++++PREFIX+rdf%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%3E%0A++++PREFIX+rdfs%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F2000%2F01%2Frdf-schema%23%3E%0A%0A++++SELECT+%3Flabel%0A++++WHERE+%7B%0A++++%3Chttp%3A%2F%2Fdbpedia.org%2Fresource%2FAsturias%3E+rdfs%3Alabel+%3Flabel+.%0A++++%7D%0A
