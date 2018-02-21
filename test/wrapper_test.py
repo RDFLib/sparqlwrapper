@@ -694,8 +694,8 @@ class QueryResult_Test(unittest.TestCase):
 
         def _mime_vs_type(mime, requested_type):
             """
-            @param mime:
-            @param requested_type:
+            @param mime: mimetype/Content-Type of the response
+            @param requested_type: requested mimetype (alias)
             @return: number of warnings produced by combo
             """
             with warnings.catch_warnings(record=True) as w:
@@ -719,6 +719,7 @@ class QueryResult_Test(unittest.TestCase):
         self.assertEqual(0, _mime_vs_type("application/rdf+xml", RDFXML))
         self.assertEqual(0, _mime_vs_type("text/csv", CSV))
         self.assertEqual(0, _mime_vs_type("text/tab-separated-values", TSV))
+        self.assertEqual(0, _mime_vs_type("application/xml", XML))
 
         self.assertEqual(1, _mime_vs_type("application/x-foo-bar", XML), "invalid mime")
 

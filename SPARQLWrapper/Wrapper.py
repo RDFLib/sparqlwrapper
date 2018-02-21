@@ -40,6 +40,11 @@ from KeyCaseInsensitiveDict import KeyCaseInsensitiveDict
 from SPARQLExceptions import QueryBadFormed, EndPointNotFound, EndPointInternalError
 from SPARQLWrapper import __agent__
 
+#  From <https://www.w3.org/TR/sparql11-protocol/#query-success>
+#  The response body of a successful query operation with a 2XX response is either:
+#  * SELECT and ASK: a SPARQL Results Document in XML, JSON, or CSV/TSV format.
+#  * DESCRIBE and CONSTRUCT: an RDF graph serialized, for example, in the RDF/XML syntax, or an equivalent RDF graph serialization.
+#
 #  Possible parameter keys and values...
 #  Examples:
 #  - ClioPatria: the SWI-Prolog Semantic Web Server <http://cliopatria.swi-prolog.org/home>
@@ -54,7 +59,7 @@ from SPARQLWrapper import __agent__
 #      "application/javascript" (Javascript), "text/turtle" (Turtle), "application/rdf+xml" (RDF/XML)
 #      "text/plain" (N-Triples), "text/csv" (CSV), "text/tab-separated-values" (TSV)
 #    * Parameter value, like indirectly:
-#      "HTML", "JSON", "XML", "TURTLE"
+#      "HTML" (alias text/html), "JSON" (alias application/sparql-results+json), "XML" (alias application/sparql-results+xml), "TURTLE" (alias     text/rdf+n3), JavaScript (alias application/javascript)
 #       See  <http://virtuoso.openlinksw.com/dataspace/doc/dav/wiki/Main/VOSSparqlProtocol#Additional HTTP Response Formats -- SELECT>
 #
 #  - Fuseki (formerly there was Joseki) <https://jena.apache.org/documentation/serving_data/>
@@ -156,9 +161,10 @@ _RDF_N3          = ["text/rdf+n3", "application/n-triples", "application/turtle"
 _RDF_JSONLD      = ["application/x-json+ld", "application/ld+json"]
 _CSV             = ["text/csv"]
 _TSV             = ["text/tab-separated-values"]
+_XML             = ["application/xml"]
 _ALL             = ["*/*"]
 _RDF_POSSIBLE    = _RDF_XML + _RDF_N3
-_SPARQL_POSSIBLE = _SPARQL_XML + _SPARQL_JSON + _RDF_XML + _RDF_N3 + _CSV + _TSV
+_SPARQL_POSSIBLE = _SPARQL_XML + _SPARQL_JSON + _RDF_XML + _RDF_N3 + _CSV + _TSV + _XML # only used in test
 _SPARQL_PARAMS   = ["query"]
 
 try:
@@ -807,9 +813,12 @@ class QueryResult(object):
                 warnings.warn(message % (requested.upper(), format_name, mime), RuntimeWarning)
 
         if "content-type" in self.info():
-            ct = self.info()["content-type"]
+            ct = self.info()["content-type"] # returned Content-Type value
 
             if _content_type_in_list(ct, _SPARQL_XML):
+                _validate_format("XML", [XML], ct, self.requestedFormat)
+                return self._convertXML()
+            elif _content_type_in_list(ct, _XML):
                 _validate_format("XML", [XML], ct, self.requestedFormat)
                 return self._convertXML()
             elif _content_type_in_list(ct, _SPARQL_JSON):
@@ -831,7 +840,7 @@ class QueryResult(object):
                 _validate_format("JSON(-LD)", [JSONLD, JSON], ct, self.requestedFormat)
                 return self._convertJSONLD()
 
-        warnings.warn("unknown response content type, returning raw response...", RuntimeWarning)
+        warnings.warn("unknown response content type '%s' returning raw response..." %(ct), RuntimeWarning)
         return self.response.read()
 
     def print_results(self, minWidth=None):
