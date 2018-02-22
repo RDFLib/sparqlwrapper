@@ -708,15 +708,19 @@ class QueryResult_Test(unittest.TestCase):
 
                 return len(w)
 
+        # In the cases of "application/ld+json" and "application/rdf+xml", the
+        # RDFLib raised a warning because the manually created QueryResult has no real
+        # response value (implemented a fake read).
+        # "WARNING:rdflib.term:  does not look like a valid URI, trying to serialize this will break."
         self.assertEqual(0, _mime_vs_type("application/sparql-results+xml", XML))
         self.assertEqual(0, _mime_vs_type("application/sparql-results+json", JSON))
         self.assertEqual(0, _mime_vs_type("text/n3", N3))
         self.assertEqual(0, _mime_vs_type("text/turtle", TURTLE))
-        self.assertEqual(0, _mime_vs_type("application/ld+json", JSON))
-        self.assertEqual(0, _mime_vs_type("application/ld+json", JSONLD))
-        self.assertEqual(0, _mime_vs_type("application/rdf+xml", XML))
-        self.assertEqual(0, _mime_vs_type("application/rdf+xml", RDF))
-        self.assertEqual(0, _mime_vs_type("application/rdf+xml", RDFXML))
+        self.assertEqual(0, _mime_vs_type("application/ld+json", JSON)) # Warning
+        self.assertEqual(0, _mime_vs_type("application/ld+json", JSONLD)) # Warning
+        self.assertEqual(0, _mime_vs_type("application/rdf+xml", XML)) # Warning
+        self.assertEqual(0, _mime_vs_type("application/rdf+xml", RDF)) # Warning
+        self.assertEqual(0, _mime_vs_type("application/rdf+xml", RDFXML)) # Warning
         self.assertEqual(0, _mime_vs_type("text/csv", CSV))
         self.assertEqual(0, _mime_vs_type("text/tab-separated-values", TSV))
         self.assertEqual(0, _mime_vs_type("application/xml", XML))
@@ -727,10 +731,10 @@ class QueryResult_Test(unittest.TestCase):
         self.assertEqual(1, _mime_vs_type("application/sparql-results+json", XML))
         self.assertEqual(1, _mime_vs_type("text/n3", JSON))
         self.assertEqual(1, _mime_vs_type("text/turtle", XML))
-        self.assertEqual(1, _mime_vs_type("application/ld+json", XML))
-        self.assertEqual(1, _mime_vs_type("application/ld+json", N3))
-        self.assertEqual(1, _mime_vs_type("application/rdf+xml", JSON))
-        self.assertEqual(1, _mime_vs_type("application/rdf+xml", N3))
+        self.assertEqual(1, _mime_vs_type("application/ld+json", XML))  # Warning
+        self.assertEqual(1, _mime_vs_type("application/ld+json", N3))  # Warning
+        self.assertEqual(1, _mime_vs_type("application/rdf+xml", JSON))  # Warning
+        self.assertEqual(1, _mime_vs_type("application/rdf+xml", N3))  # Warning
 
 if __name__ == "__main__":
     unittest.main()
