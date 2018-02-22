@@ -748,9 +748,9 @@ class QueryResult(object):
         except ImportError:
             from rdflib import ConjunctiveGraph
         retval = ConjunctiveGraph()
-        # this is a strange hack. If the publicID is not set, rdflib (or the underlying xml parser) makes a funny
-        #(and, as far as I could see, meaningless) error message...
-        retval.load(self.response, publicID=' ')
+        # (DEPRECATED) this is a strange hack. If the publicID is not set, rdflib (or the underlying xml parser) makes a funny
+        # (DEPRECATED) (and, as far as I could see, meaningless) error message...
+        retval.load(self.response) # (DEPRECATED) publicID=' ')
         return retval
 
     def _convertN3(self):
@@ -789,7 +789,7 @@ class QueryResult(object):
         """
         from rdflib import ConjunctiveGraph
         retval = ConjunctiveGraph()
-        retval.load(self.response, format='json-ld', publicID=' ')
+        retval.load(self.response, format='json-ld')# (DEPRECATED), publicID=' ')
         return retval
 
     def convert(self):
