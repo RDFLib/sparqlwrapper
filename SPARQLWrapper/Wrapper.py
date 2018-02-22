@@ -509,9 +509,9 @@ class SPARQLWrapper(object):
             query_parameters[f] = [self.returnFormat]
 
             # Virtuoso is not supporting a correct Accept header and an unexpected "output"/"format" parameter value. It returns a 406.
-            # "tsv" is not supported as a correct "output"/"format" parameter value but "text/tab-separated-values" is a valid value,
+            # "tsv" and "json-ld" are not supported as a correct "output"/"format" parameter value but "text/tab-separated-values" is a valid value,
             # and there is no problem to send both.
-            if self.returnFormat in [TSV]:
+            if self.returnFormat in [TSV, JSONLD]:
                 acceptHeader = self._getAcceptHeader() # to obtain the mime-type "text/tab-separated-values"
                 query_parameters[f]+= [acceptHeader]
 
