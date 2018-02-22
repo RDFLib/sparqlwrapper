@@ -191,7 +191,6 @@ class SPARQLWrapperTests(unittest.TestCase):
     def testSelectByGETinN3(self):
         result = self.__generic(selectQuery, N3, GET)
         ct = result.info()["content-type"]
-        print ct
         assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], "returned Content-Type='%s'. Expected fail due to Virtuoso configuration" %(ct)
         results = result.convert()
         self.assertEqual(type(results), bytes)
