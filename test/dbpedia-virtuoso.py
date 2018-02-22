@@ -140,6 +140,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_XML], ct
         results = result.convert()
+        results.toxml()
 
     def testSelectByPOSTinXML(self):
         result = self.__generic(selectQuery, XML, POST)
@@ -254,14 +255,14 @@ class SPARQLWrapperTests(unittest.TestCase):
     def testConstructByGETinJSONLD(self):
         result = self.__generic(constructQuery, JSONLD, GET)
         ct = result.info()["content-type"]
-        assert True in [one in ct for one in _RDF_JSONLD], "returned Content-Type='%s'. Expected fail due to Virtuoso configuration" %(ct)
+        assert True in [one in ct for one in _RDF_JSONLD], "returned Content-Type='%s'." %(ct)
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
     def testConstructByPOSTinJSONLD(self):
         result = self.__generic(constructQuery, JSONLD, POST)
         ct = result.info()["content-type"]
-        assert True in [one in ct for one in _RDF_JSONLD], "returned Content-Type='%s'. Expected fail due to Virtuoso configuration" %(ct)
+        assert True in [one in ct for one in _RDF_JSONLD], "returned Content-Type='%s'." %(ct)
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
