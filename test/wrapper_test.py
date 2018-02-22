@@ -24,7 +24,7 @@ if _top_level_path not in sys.path:
 # end of hack
 
 from SPARQLWrapper import SPARQLWrapper
-from SPARQLWrapper import XML, GET, POST, JSON, JSONLD, N3, TURTLE, RDF, SELECT, INSERT, RDFXML, CSV, TSV
+from SPARQLWrapper import XML, GET, POST, JSON, JSONLD, N3, TURTLE, RDF, SELECT, INSERT, RDFXML, CSV, TSV, HTML
 from SPARQLWrapper import URLENCODED, POSTDIRECTLY
 from SPARQLWrapper import BASIC, DIGEST
 from SPARQLWrapper.Wrapper import QueryResult, QueryBadFormed, EndPointNotFound, EndPointInternalError
@@ -189,7 +189,7 @@ class SPARQLWrapper_Test(TestCase):
         try:
             import rdflib_jsonld
             self.wrapper.setReturnFormat(JSONLD)
-            self.assertEqual(JSONLD, self.wrapper.query().requestedFormat)   
+            self.assertEqual(JSONLD, self.wrapper.query().requestedFormat)
         except ImportError:
             self.assertRaises(ValueError, self.wrapper.setReturnFormat, JSONLD)
 
@@ -202,6 +202,7 @@ class SPARQLWrapper_Test(TestCase):
         self.assertTrue(self.wrapper.supportsReturnFormat(RDFXML))
         self.assertTrue(self.wrapper.supportsReturnFormat(CSV))
         self.assertTrue(self.wrapper.supportsReturnFormat(TSV))
+        self.assertTrue(self.wrapper.supportsReturnFormat(HTML))
         self.assertFalse(self.wrapper.supportsReturnFormat('nonexistent format'))
 
         try:
@@ -232,7 +233,7 @@ class SPARQLWrapper_Test(TestCase):
         self.wrapper.setCredentials('login', 'password')
         request = self._get_request(self.wrapper)
         self.assertTrue(request.has_header('Authorization'))
-        
+
         # expected header for login:password
         # should succeed for python 3 since pull request #72
         self.assertEqual("Basic bG9naW46cGFzc3dvcmQ=", request.get_header('Authorization'))
@@ -263,11 +264,11 @@ class SPARQLWrapper_Test(TestCase):
 
         self.wrapper.setQuery('PREFIX e: <http://example.org/> INSERT {e:a e:b e:c}')
         self.assertEqual(INSERT, self.wrapper.queryType)
-        
-        self.wrapper.setQuery("""#CONSTRUCT {?s ?p ?o} 
+
+        self.wrapper.setQuery("""#CONSTRUCT {?s ?p ?o}
                                    SELECT ?s ?p ?o
                                    WHERE {?s ?p ?o}""")
-        self.assertEqual(SELECT, self.wrapper.queryType)        
+        self.assertEqual(SELECT, self.wrapper.queryType)
 
         with warnings.catch_warnings(record=True) as w:
             self.wrapper.setQuery('UNKNOWN {e:a e:b e:c}')
@@ -514,11 +515,11 @@ select * where { ?s ?p ?o }
 PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX weather: <http://hal.zamia.org/weather/>
-PREFIX dbo:     <http://dbpedia.org/ontology/> 
-PREFIX dbr:     <http://dbpedia.org/resource/> 
-PREFIX dbp:     <http://dbpedia.org/property/> 
-PREFIX xml:     <http://www.w3.org/XML/1998/namespace> 
-PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#> 
+PREFIX dbo:     <http://dbpedia.org/ontology/>
+PREFIX dbr:     <http://dbpedia.org/resource/>
+PREFIX dbp:     <http://dbpedia.org/property/>
+PREFIX xml:     <http://www.w3.org/XML/1998/namespace>
+PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
 
 SELECT DISTINCT ?location ?cityid ?timezone ?label
 WHERE {
@@ -586,7 +587,7 @@ WHERE {
 
     def testCommentsFirstLine(self):
         # see issue #77
-        query = """#CONSTRUCT {?s ?p ?o} 
+        query = """#CONSTRUCT {?s ?p ?o}
                                    SELECT ?s ?p ?o
                                    WHERE {?s ?p ?o}"""
         expected_parsed_query = """
@@ -719,6 +720,7 @@ class QueryResult_Test(unittest.TestCase):
         self.assertEqual(0, _mime_vs_type("application/rdf+xml", RDFXML))
         self.assertEqual(0, _mime_vs_type("text/csv", CSV))
         self.assertEqual(0, _mime_vs_type("text/tab-separated-values", TSV))
+        self.assertEqual(0, _mime_vs_type("text/html", HTML))
 
         self.assertEqual(1, _mime_vs_type("application/x-foo-bar", XML), "invalid mime")
 

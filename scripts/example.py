@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from SPARQLWrapper import SPARQLWrapper, JSON, XML, N3, RDF, CSV, TSV
+from SPARQLWrapper import SPARQLWrapper, JSON, XML, N3, RDF, CSV, TSV, HTML
 
 sparql = SPARQLWrapper("http://dbpedia.org/sparql")
 sparql.setQuery("""
@@ -44,5 +44,11 @@ print results
 # TSV example
 print '\n\n*** TSV Example'
 sparql.setReturnFormat(TSV)
+results = sparql.query().convert()
+print results
+
+# HTML example
+print '\n\n*** HTML Example'
+sparql.setReturnFormat(HTML)
 results = sparql.query().convert()
 print results

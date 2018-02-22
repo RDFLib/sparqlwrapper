@@ -178,14 +178,14 @@ __url__ = "http://rdflib.github.io/sparqlwrapper"
 __contact__ = "rdflib-dev@googlegroups.com"
 """Mail list to contact to other people RDFLib and SPARQLWrappers folks and developers"""
 
-__date__ = "2018-02-19"
+__date__ = "2018-02-22"
 """Last update"""
 
 __agent__ = "sparqlwrapper %s (rdflib.github.io/sparqlwrapper)" % __version__
 
 
 from Wrapper import SPARQLWrapper
-from Wrapper import XML, JSON, TURTLE, N3, JSONLD, RDF, RDFXML, CSV, TSV
+from Wrapper import XML, JSON, TURTLE, N3, JSONLD, RDF, RDFXML, CSV, TSV, HTML
 from Wrapper import GET, POST
 from Wrapper import SELECT, CONSTRUCT, ASK, DESCRIBE, INSERT, DELETE
 from Wrapper import URLENCODED, POSTDIRECTLY

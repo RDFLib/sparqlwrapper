@@ -20,8 +20,8 @@ try:
     from rdflib.graph import ConjunctiveGraph
 except ImportError:
     from rdflib import ConjunctiveGraph
-from SPARQLWrapper import SPARQLWrapper, XML, N3, JSONLD, JSON, CSV, TSV, POST, GET, SELECT, CONSTRUCT, ASK, DESCRIBE
-from SPARQLWrapper.Wrapper import _SPARQL_DEFAULT, _SPARQL_XML, _SPARQL_JSON, _SPARQL_POSSIBLE, _RDF_XML, _RDF_N3, _RDF_JSONLD, _RDF_POSSIBLE, _CSV, _TSV
+from SPARQLWrapper import SPARQLWrapper, XML, N3, JSONLD, JSON, CSV, TSV, HTML, POST, GET, SELECT, CONSTRUCT, ASK, DESCRIBE
+from SPARQLWrapper.Wrapper import _SPARQL_DEFAULT, _SPARQL_XML, _SPARQL_JSON, _SPARQL_POSSIBLE, _RDF_XML, _RDF_N3, _RDF_JSONLD, _RDF_POSSIBLE, _CSV, _TSV, _HTML
 from SPARQLWrapper.SPARQLExceptions import QueryBadFormed
 
 try:
@@ -77,7 +77,7 @@ queryBadFormed = """
     WHERE {
         res:Budapest prop:latitude ?lat;
         prop:longitude ?long.
-    }      
+    }
 """
 
 queryManyPrefixes = """
@@ -169,6 +169,18 @@ class SPARQLWrapperTests(unittest.TestCase):
         result = self.__generic(selectQueryCSV_TSV, TSV, POST)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _TSV], ct
+        results = result.convert()
+
+    def testSelectByGETinHTML(self):
+        result = self.__generic(selectQuery, HTML, GET)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _HTML], ct
+        results = result.convert()
+
+    def testSelectByPOSTinHTML(self):
+        result = self.__generic(selectQuery, HTML, POST)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _HTML], ct
         results = result.convert()
 
     # Virtuoso returns text/rdf+n3. It MUST return SPARQL Results Document in XML (sparql-results+xml), JSON (sparql-results+json), or CSV/TSV (text/csv or text/tab-separated-values) see http://www.w3.org/TR/sparql11-protocol/#query-success
@@ -265,7 +277,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), ConjunctiveGraph)
 
     def testQueryBadFormed(self):
-        self.assertRaises(QueryBadFormed, self.__generic, queryBadFormed, XML, GET) 
+        self.assertRaises(QueryBadFormed, self.__generic, queryBadFormed, XML, GET)
 
     def testQueryManyPrefixes(self):
         result = self.__generic(queryManyPrefixes, XML, GET)
@@ -283,4 +295,3 @@ class SPARQLWrapperTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-
