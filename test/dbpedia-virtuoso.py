@@ -1,4 +1,4 @@
-# -*- coding: utf8 -*-
+# -*- coding: utf-8 -*-
 #!/usr/bin/python
 
 import inspect
@@ -21,8 +21,11 @@ try:
 except ImportError:
     from rdflib import ConjunctiveGraph
 from SPARQLWrapper import SPARQLWrapper, XML, N3, JSONLD, JSON, CSV, TSV, POST, GET, SELECT, CONSTRUCT, ASK, DESCRIBE
-from SPARQLWrapper.Wrapper import _SPARQL_DEFAULT, _SPARQL_XML, _SPARQL_JSON, _SPARQL_POSSIBLE, _RDF_XML, _RDF_N3, _RDF_JSONLD, _RDF_POSSIBLE, _CSV, _TSV
+from SPARQLWrapper.Wrapper import _SPARQL_XML, _SPARQL_JSON, _XML, _RDF_XML, _RDF_N3, _RDF_JSONLD, _CSV, _TSV
 from SPARQLWrapper.SPARQLExceptions import QueryBadFormed
+
+_SPARQL_SELECT_ASK_POSSIBLE = _SPARQL_XML + _SPARQL_JSON + _CSV + _TSV + _XML # only used in test
+_SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE = _RDF_XML + _RDF_N3 + _XML # only used in test. Same as Wrapper._RDF_POSSIBLE
 
 try:
     from urllib.error import HTTPError   # Python 3
@@ -132,13 +135,11 @@ class SPARQLWrapperTests(unittest.TestCase):
         else:
             return result
 
-
     def testSelectByGETinXML(self):
         result = self.__generic(selectQuery, XML, GET)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_XML], ct
         results = result.convert()
-        results.toxml()
 
     def testSelectByPOSTinXML(self):
         result = self.__generic(selectQuery, XML, POST)
@@ -171,16 +172,6 @@ class SPARQLWrapperTests(unittest.TestCase):
         assert True in [one in ct for one in _TSV], ct
         results = result.convert()
 
-    # Virtuoso returns text/rdf+n3. It MUST return SPARQL Results Document in XML (sparql-results+xml), JSON (sparql-results+json), or CSV/TSV (text/csv or text/tab-separated-values) see http://www.w3.org/TR/sparql11-protocol/#query-success
-    # URI generated http://dbpedia.org/sparql?query=%0A++++PREFIX+rdf%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%3E%0A++++PREFIX+rdfs%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F2000%2F01%2Frdf-schema%23%3E%0A%0A++++SELECT+%3Flabel%0A++++WHERE+%7B%0A++++%3Chttp%3A%2F%2Fdbpedia.org%2Fresource%2FAsturias%3E+rdfs%3Alabel+%3Flabel+.%0A++++%7D%0A
-    def _testSelectByGETinN3(self):
-        result = self.__generic(selectQuery, N3, GET)
-        ct = result.info()["content-type"]
-        assert True in [one in ct for one in _SPARQL_XML], ct
-        assert True in [one in ct for one in _SPARQL_POSSIBLE], ct
-        results = result.convert()
-        self.assertEqual(type(results), bytes)
-
     def testSelectByGETinJSON(self):
         result = self.__generic(selectQuery, JSON, GET)
         ct = result.info()["content-type"]
@@ -195,16 +186,26 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), dict)
 
+    # Virtuoso returns text/rdf+n3. It MUST return SPARQL Results Document in XML (sparql-results+xml), JSON (sparql-results+json), or CSV/TSV (text/csv or text/tab-separated-values) see http://www.w3.org/TR/sparql11-protocol/#query-success
+    # URI generated http://dbpedia.org/sparql?query=%0A++++PREFIX+rdf%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%3E%0A++++PREFIX+rdfs%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F2000%2F01%2Frdf-schema%23%3E%0A%0A++++SELECT+%3Flabel%0A++++WHERE+%7B%0A++++%3Chttp%3A%2F%2Fdbpedia.org%2Fresource%2FAsturias%3E+rdfs%3Alabel+%3Flabel+.%0A++++%7D%0A
+    def testSelectByGETinN3(self):
+        result = self.__generic(selectQuery, N3, GET)
+        ct = result.info()["content-type"]
+        print ct
+        assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], "returned Content-Type='%s'. Expected fail due to Virtuoso configuration" %(ct)
+        results = result.convert()
+        self.assertEqual(type(results), bytes)
+
     def testSelectByGETinUnknow(self):
         result = self.__generic(selectQuery, "foo", GET)
         ct = result.info()["content-type"]
-        assert True in [one in ct for one in _SPARQL_POSSIBLE], ct
+        assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
         results = result.convert()
 
     def testSelectByPOSTinUnknow(self):
         result = self.__generic(selectQuery, "bar", POST)
         ct = result.info()["content-type"]
-        assert True in [one in ct for one in _SPARQL_POSSIBLE], ct
+        assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
         results = result.convert()
 
     def testConstructByGETinXML(self):
@@ -236,31 +237,46 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), bytes)
 
     # Virtuoso returns application/sparql-results+json. It MUST return an RDF graph [RDF-CONCEPTS] serialized, for example, in the RDF/XML syntax [RDF-XML], or an equivalent RDF graph serialization, for SPARQL Query forms DESCRIBE and CONSTRUCT). See http://www.w3.org/TR/sparql11-protocol/#query-success
-    def _testConstructByGETinJSON(self):
+    def testConstructByGETinJSON(self):
         result = self.__generic(constructQuery, JSON, GET)
         ct = result.info()["content-type"]
-        assert True in [one in ct for one in _RDF_POSSIBLE], ct
+        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], "returned Content-Type='%s'. Expected fail due to Virtuoso configuration" %(ct)
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
-    def _testConstructByPOSTinJSON(self):
-        result = self.__generic(constructQuery, _RDF_JSONLD, POST)
+    # Virtuoso returns application/sparql-results+json. It MUST return an RDF graph [RDF-CONCEPTS] serialized, for example, in the RDF/XML syntax [RDF-XML], or an equivalent RDF graph serialization, for SPARQL Query forms DESCRIBE and CONSTRUCT). See http://www.w3.org/TR/sparql11-protocol/#query-success
+    def testConstructByPOSTinJSON(self):
+        result = self.__generic(constructQuery, JSON, POST)
         ct = result.info()["content-type"]
-        assert True in [one in ct for one in _RDF_POSSIBLE], ct
+        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], "returned Content-Type='%s'. Expected fail due to Virtuoso configuration" %(ct)
         results = result.convert()
-        self.assertEqual(type(results), bytes)
+        self.assertEqual(type(results), ConjunctiveGraph)
+
+    def testConstructByGETinJSONLD(self):
+        result = self.__generic(constructQuery, JSONLD, GET)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _RDF_JSONLD], "returned Content-Type='%s'. Expected fail due to Virtuoso configuration" %(ct)
+        results = result.convert()
+        self.assertEqual(type(results), ConjunctiveGraph)
+
+    def testConstructByPOSTinJSONLD(self):
+        result = self.__generic(constructQuery, JSONLD, POST)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _RDF_JSONLD], "returned Content-Type='%s'. Expected fail due to Virtuoso configuration" %(ct)
+        results = result.convert()
+        self.assertEqual(type(results), ConjunctiveGraph)
 
     def testConstructByGETinUnknow(self):
         result = self.__generic(constructQuery, "foo", GET)
         ct = result.info()["content-type"]
-        assert True in [one in ct for one in _RDF_POSSIBLE], ct
+        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], ct
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
     def testConstructByPOSTinUnknow(self):
         result = self.__generic(constructQuery, "bar", POST)
         ct = result.info()["content-type"]
-        assert True in [one in ct for one in _RDF_POSSIBLE], ct
+        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], ct
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 

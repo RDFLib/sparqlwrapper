@@ -163,8 +163,7 @@ _CSV             = ["text/csv"]
 _TSV             = ["text/tab-separated-values"]
 _XML             = ["application/xml"]
 _ALL             = ["*/*"]
-_RDF_POSSIBLE    = _RDF_XML + _RDF_N3
-_SPARQL_POSSIBLE = _SPARQL_XML + _SPARQL_JSON + _RDF_XML + _RDF_N3 + _CSV + _TSV + _XML # only used in test
+_RDF_POSSIBLE    = _RDF_XML + _RDF_N3 + _XML
 _SPARQL_PARAMS   = ["query"]
 
 try:
