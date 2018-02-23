@@ -111,6 +111,29 @@ queryManyPrefixes = """
     }
 """
 
+queryWithCommaInCurie_1 = """
+    PREFIX dbpedia: <http://dbpedia.org/resource/>
+    SELECT ?article ?title WHERE {
+        ?article ?relation dbpedia:Victoria\\,\\_British\\_Columbia .
+        ?article <http://xmlns.com/foaf/0.1/isPrimaryTopicOf> ?title
+    }
+"""
+
+queryWithCommaInCurie_2 = """
+    PREFIX dbpedia: <http://dbpedia.org/resource/>
+    SELECT ?article ?title WHERE {
+        ?article ?relation dbpedia:Category\:Victoria\,\_British\_Columbia .
+        ?article <http://xmlns.com/foaf/0.1/isPrimaryTopicOf> ?title
+    }
+"""
+
+queryWithCommaInUri = """
+    SELECT ?article ?title WHERE {
+        ?article ?relation <http://dbpedia.org/resource/Category:Victoria,_British_Columbia> .
+        ?article <http://xmlns.com/foaf/0.1/isPrimaryTopicOf> ?title
+    }
+"""
+
 class SPARQLWrapperTests(unittest.TestCase):
 
     def __generic(self, query, returnFormat, method):
@@ -303,6 +326,16 @@ class SPARQLWrapperTests(unittest.TestCase):
         sparql.query()
         sparql.query()
 
+    @unittest.skip("Virtuoso returns a QueryBadFormed Error. See #94")
+    def testQueryWithComma_1(self):
+        result = self.__generic(queryWithCommaInCurie_1, XML, GET)
+
+    @unittest.skip("Virtuoso returns a QueryBadFormed Error. See #94")
+    def testQueryWithComma_2(self):
+        result = self.__generic(queryWithCommaInCurie_2, XML, GET)
+
+    def testQueryWithComma_3(self):
+        result = self.__generic(queryWithCommaInUri, XML, GET)
 
 if __name__ == "__main__":
     unittest.main()
