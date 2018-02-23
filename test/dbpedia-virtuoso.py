@@ -187,6 +187,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), dict)
 
+    # asking for an unexpected return format for SELECT queryType
     # Virtuoso returns text/rdf+n3. It MUST return SPARQL Results Document in XML (sparql-results+xml), JSON (sparql-results+json), or CSV/TSV (text/csv or text/tab-separated-values) see http://www.w3.org/TR/sparql11-protocol/#query-success
     # URI generated http://dbpedia.org/sparql?query=%0A++++PREFIX+rdf%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%3E%0A++++PREFIX+rdfs%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F2000%2F01%2Frdf-schema%23%3E%0A%0A++++SELECT+%3Flabel%0A++++WHERE+%7B%0A++++%3Chttp%3A%2F%2Fdbpedia.org%2Fresource%2FAsturias%3E+rdfs%3Alabel+%3Flabel+.%0A++++%7D%0A
     def testSelectByGETinN3(self):
@@ -196,12 +197,14 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), bytes)
 
+    # asking for an unexpected return format for SELECT queryType
     def testSelectByGETinUnknow(self):
         result = self.__generic(selectQuery, "foo", GET)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
         results = result.convert()
 
+    # asking for an unexpected return format for SELECT queryType
     def testSelectByPOSTinUnknow(self):
         result = self.__generic(selectQuery, "bar", POST)
         ct = result.info()["content-type"]
@@ -236,6 +239,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), bytes)
 
+    # asking for an unexpected return format for CONSTRUCT queryType
     # Virtuoso returns application/sparql-results+json. It MUST return an RDF graph [RDF-CONCEPTS] serialized, for example, in the RDF/XML syntax [RDF-XML], or an equivalent RDF graph serialization, for SPARQL Query forms DESCRIBE and CONSTRUCT). See http://www.w3.org/TR/sparql11-protocol/#query-success
     def testConstructByGETinJSON(self):
         result = self.__generic(constructQuery, JSON, GET)
@@ -244,6 +248,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
+    # asking for an unexpected return format for CONSTRUCT queryType
     # Virtuoso returns application/sparql-results+json. It MUST return an RDF graph [RDF-CONCEPTS] serialized, for example, in the RDF/XML syntax [RDF-XML], or an equivalent RDF graph serialization, for SPARQL Query forms DESCRIBE and CONSTRUCT). See http://www.w3.org/TR/sparql11-protocol/#query-success
     def testConstructByPOSTinJSON(self):
         result = self.__generic(constructQuery, JSON, POST)
@@ -266,6 +271,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
+    # asking for an unexpected return format for CONSTRUCT queryType
     def testConstructByGETinUnknow(self):
         result = self.__generic(constructQuery, "foo", GET)
         ct = result.info()["content-type"]
@@ -273,6 +279,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
+    # asking for an unexpected return format for CONSTRUCT queryType
     def testConstructByPOSTinUnknow(self):
         result = self.__generic(constructQuery, "bar", POST)
         ct = result.info()["content-type"]
