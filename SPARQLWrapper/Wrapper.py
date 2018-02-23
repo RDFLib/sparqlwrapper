@@ -59,7 +59,7 @@ from SPARQLWrapper import __agent__
 #      "application/javascript" (Javascript), "text/turtle" (Turtle), "application/rdf+xml" (RDF/XML)
 #      "text/plain" (N-Triples), "text/csv" (CSV), "text/tab-separated-values" (TSV)
 #    * Parameter value, like indirectly:
-#      "HTML" (alias text/html), "JSON" (alias application/sparql-results+json), "XML" (alias application/sparql-results+xml), "TURTLE" (alias     text/rdf+n3), JavaScript (alias application/javascript)
+#      "HTML" (alias text/html), "JSON" (alias application/sparql-results+json), "XML" (alias application/sparql-results+xml), "TURTLE" (alias text/rdf+n3), JavaScript (alias application/javascript)
 #       See  <http://virtuoso.openlinksw.com/dataspace/doc/dav/wiki/Main/VOSSparqlProtocol#Additional HTTP Response Formats -- SELECT>
 #
 #  - Fuseki (formerly there was Joseki) <https://jena.apache.org/documentation/serving_data/>
@@ -72,7 +72,8 @@ from SPARQLWrapper import __agent__
 #      See <https://github.com/apache/jena/blob/master/jena-fuseki2/jena-fuseki-core/src/main/java/org/apache/jena/fuseki/servlets/ResponseResultSet.java>
 #
 #  - Eclipse RDF4J (formerly known as Sesame) <http://rdf4j.org/>
-#    * Uses only content negotiation. See <http://rdf4j.org/doc/the-rdf4j-server-rest-api/#The_QUERY_operation>
+#    * Uses only content negotiation (no URL parameters).
+#    * See <http://rdf4j.org/doc/the-rdf4j-server-rest-api/#The_QUERY_operation>
 #
 #  - RASQAL <http://librdf.org/rasqal/>
 #    * Parameter key: "results"
@@ -89,7 +90,7 @@ from SPARQLWrapper import __agent__
 #      See <http://librdf.org/rasqal/roqet.html>
 #
 #  - Marklogic <http://marklogic.com>
-#    * Uses content negotiation.
+#    * Uses content negotiation (no URL parameters).
 #    * You can use following methods to query triples <https://docs.marklogic.com/guide/semantics/semantic-searches#chapter>:
 #      - SPARQL mode in Query Console. For details, see Querying Triples with SPARQL
 #      - XQuery using the semantics functions, and Search API, or a combination of XQuery and SPARQL. For details, see Querying Triples with XQuery or JavaScript.
@@ -101,6 +102,27 @@ from SPARQLWrapper import __agent__
 #        SELECT "application/sparql-results+xml", "application/sparql-results+json", "text/html", "text/csv"
 #        CONSTRUCT or DESCRIBE "application/n-triples", "application/rdf+json", "application/rdf+xml", "text/turtle", "text/n3", "application/n-quads", "application/trig"
 #
+#  - AllegroGraph <https://franz.com/agraph/allegrograph/>
+#    * Uses only content negotiation (no URL parameters).
+#    * The server always looks at the Accept header of a request, and tries to
+#      generate a response in the format that the client asks for. If this fails,
+#      a 406 response is returned. When no Accept, or an Accept of */* is specified,
+#      the server prefers text/plain, in order to make it easy to explore the interface from a web browser.
+#    * Accept header expected (values returned by server when a wrong header is sent):
+#    ** SELECT
+#    *** application/sparql-results+xml
+#    *** application/sparql-results+json (and application/json)
+#    *** text/csv
+#    *** text/tab-separated-values
+#    *** OTHERS: application/sparql-results+ttl, text/integer, application/x-lisp-structured-expression, text/table, application/processed-csv, text/simple-csv, application/x-direct-upis
+#
+#    ** CONSTRUCT
+#    *** application/rdf+xml
+#    *** text/rdf+n3
+#    *** OTHERS: text/integer, application/json, text/plain, text/x-nquads, application/trix, text/table, application/x-direct-upis
+#
+#      See <https://franz.com/agraph/support/documentation/current/http-protocol.html>
+
 
 JSON   = "json"
 JSONLD = "json-ld"
@@ -815,6 +837,7 @@ class QueryResult(object):
                 message = "Format requested was %s, but %s (%s) has been returned by the endpoint"
                 warnings.warn(message % (requested.upper(), format_name, mime), RuntimeWarning)
 
+        # TODO. In order to compare properly, the requested QueryType (SPARQL Query Form) is needed. For instance, the unexpected N3 requested for a SELECT would return XML
         if "content-type" in self.info():
             ct = self.info()["content-type"] # returned Content-Type value
 
