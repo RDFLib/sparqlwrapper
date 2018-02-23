@@ -123,7 +123,7 @@ BASIC = "BASIC"
 DIGEST = "DIGEST"
 _allowedAuth = [BASIC, DIGEST]
 
-# Possible SPARQL/SPARUL query type
+# Possible SPARQL/SPARUL query type (aka SPARQL Query forms)
 SELECT     = "SELECT"
 CONSTRUCT  = "CONSTRUCT"
 ASK        = "ASK"
@@ -512,6 +512,8 @@ class SPARQLWrapper(object):
             # and there is no problem to send both.
             if self.returnFormat in [TSV, JSONLD]:
                 acceptHeader = self._getAcceptHeader() # to obtain the mime-type "text/tab-separated-values"
+                if "*/*" in acceptHeader:
+                    acceptHeader="" # clear the value in case of "*/*"
                 query_parameters[f]+= [acceptHeader]
 
         pairs = (
@@ -536,6 +538,7 @@ class SPARQLWrapper(object):
                 acceptHeader = ",".join(_TSV)
             else:
                 acceptHeader = ",".join(_ALL)
+                warnings.warn("Sending Accept header '*/*' because unexpected returned format '%s' in a '%s' SPARQL query form" % (self.returnFormat, self.queryType), RuntimeWarning)
         elif self.queryType in [INSERT, DELETE]:
             acceptHeader = "*/*"
         else: #CONSTRUCT, DESCRIBE
@@ -547,6 +550,7 @@ class SPARQLWrapper(object):
                 acceptHeader = ",".join(_RDF_JSONLD)
             else:
                 acceptHeader = ",".join(_ALL)
+                warnings.warn("Sending Accept header '*/*' because unexpected returned format '%s' in a '%s' SPARQL query form" % (self.returnFormat, self.queryType), RuntimeWarning)
         return acceptHeader
 
     def _createRequest(self):
