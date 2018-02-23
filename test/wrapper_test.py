@@ -180,7 +180,10 @@ class SPARQLWrapper_Test(TestCase):
         self.assertFalse('a' in parameters)
 
     def testSetReturnFormat(self):
-        self.assertRaises(ValueError, self.wrapper.setReturnFormat, 'nonexistent format')
+        with warnings.catch_warnings(record=True) as w:
+            self.wrapper.setReturnFormat('nonexistent format')
+            self.assertEqual(1, len(w), "Warning due to non expected format")
+
         self.assertEqual(XML, self.wrapper.query().requestedFormat)
 
         self.wrapper.setReturnFormat(JSON)
