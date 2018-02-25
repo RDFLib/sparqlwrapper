@@ -136,11 +136,12 @@ queryWithCommaInUri = """
 
 class SPARQLWrapperTests(unittest.TestCase):
 
-    def __generic(self, query, returnFormat, method):
+    def __generic(self, query, returnFormat, method, onlyConneg=False):
         sparql = SPARQLWrapper(endpoint)
         sparql.setQuery(prefixes + query)
         sparql.setReturnFormat(returnFormat)
         sparql.setMethod(method)
+        sparql.setOnlyConneg(onlyConneg)
         try:
             result = sparql.query()
         except HTTPError:
@@ -185,13 +186,13 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
 
     def testSelectByGETinTSV(self):
-        result = self.__generic(selectQueryCSV_TSV, TSV, GET)
+        result = self.__generic(selectQueryCSV_TSV, TSV, GET, True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _TSV], ct
         results = result.convert()
 
     def testSelectByPOSTinTSV(self):
-        result = self.__generic(selectQueryCSV_TSV, TSV, POST)
+        result = self.__generic(selectQueryCSV_TSV, TSV, POST, True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _TSV], ct
         results = result.convert()
@@ -281,14 +282,14 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), ConjunctiveGraph)
 
     def testConstructByGETinJSONLD(self):
-        result = self.__generic(constructQuery, JSONLD, GET)
+        result = self.__generic(constructQuery, JSONLD, GET, True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_JSONLD], "returned Content-Type='%s'." %(ct)
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
     def testConstructByPOSTinJSONLD(self):
-        result = self.__generic(constructQuery, JSONLD, POST)
+        result = self.__generic(constructQuery, JSONLD, POST, True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_JSONLD], "returned Content-Type='%s'." %(ct)
         results = result.convert()

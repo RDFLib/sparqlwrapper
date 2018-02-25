@@ -8,10 +8,9 @@ logging.basicConfig()
 
 import unittest
 import urllib2
-from urlparse import urlparse
+from urlparse import urlparse, parse_qsl, parse_qs
 from urllib2 import Request
 
-from cgi import parse_qs
 
 # prefer local copy to the one which is installed
 # hack from http://stackoverflow.com/a/6098238/280539
@@ -159,25 +158,31 @@ class SPARQLWrapper_Test(TestCase):
         self.wrapper.setQuery('CONSTRUCT WHERE {?a ?b ?c}')
         self.wrapper.setReturnFormat(N3)
         self.wrapper.addParameter('a', 'b')
+        self.wrapper.setOnlyConneg(True)
 
         request = self._get_request(self.wrapper)
         parameters = self._get_parameters_from_request(request)
+        onlyConneg = self.wrapper.onlyConneg
 
         self.assertEqual('POST', request.get_method())
         self.assertTrue(parameters['query'][0].startswith('CONSTRUCT'))
         self.assertTrue('rdf+n3' in request.get_header('Accept'))
         self.assertTrue('a' in parameters)
+        self.assertTrue(onlyConneg)
 
         self.wrapper.resetQuery()
 
         request = self._get_request(self.wrapper)
         parameters = self._get_parameters_from_request(request)
+        onlyConneg = self.wrapper.onlyConneg
 
         self.assertEqual('GET', request.get_method())
         self.assertTrue(parameters['query'][0].startswith('SELECT'))
         self.assertFalse('rdf+n3' in request.get_header('Accept'))
         self.assertTrue('sparql-results+xml' in request.get_header('Accept'))
         self.assertFalse('a' in parameters)
+        self.assertFalse('a' in parameters)
+        self.assertTrue(onlyConneg)
 
     def testSetReturnFormat(self):
         with warnings.catch_warnings(record=True) as w:
@@ -631,6 +636,24 @@ WHERE {
         self.wrapper.setQuery(query)
         self.assertTrue(self.wrapper.isSparqlQueryRequest())
 
+    def testOnlyConneg(self):
+        # see issue #82
+        query = "prefix whatever: <http://example.org/blah#> ASK { ?s ?p ?o }"
+        self.wrapper.setOnlyConneg(False)
+        self.wrapper.setQuery(query)
+        request = self._get_request(self.wrapper)
+        request_params = dict(parse_qsl(urlparse(request.get_full_url()).query))
+        for returnFormatSetting in ["format", "output", "results"]: # Obviously _returnFormatSetting is not accessible from SPARQLWrapper, so we copy&paste the possible values
+            self.assertTrue(returnFormatSetting in request_params, "URL parameter '%s' was not sent, and it was expected" %returnFormatSetting)
+
+        #ONLY Content Negotiation
+        self.wrapper.resetQuery()
+        self.wrapper.setOnlyConneg(True)
+        self.wrapper.setQuery(query)
+        request = self._get_request(self.wrapper)
+        request_params = dict(parse_qsl(urlparse(request.get_full_url()).query))
+        for returnFormatSetting in ["format", "output", "results"]: # Obviously _returnFormatSetting is not accessible from SPARQLWrapper, so we copy&paste the possible values
+            self.assertFalse(returnFormatSetting in request_params, "URL parameter '%s' was sent, and it was not expected (only Content Negotiation)" %returnFormatSetting)
 
 
 class QueryResult_Test(unittest.TestCase):

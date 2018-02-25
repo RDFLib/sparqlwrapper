@@ -5,6 +5,7 @@ SPARQLWrapper's changelog:
                     - Added some documentation about the parameter to indicate the output format
                     - Fixed typo in width calculation
                     - Added support for CSV, TSV (PR #98)
+                    - Added support for Only HTTP Content Negotiation (#82)
 
 
 2016-12-07  1.8.0   - Updated return formats for not content negotiation situations

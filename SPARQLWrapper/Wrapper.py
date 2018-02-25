@@ -253,6 +253,7 @@ class SPARQLWrapper(object):
         self.passwd = None
         self.http_auth = BASIC
         self._defaultGraph = defaultGraph
+        self.onlyConneg = False # Only Content Negotiation
 
         if returnFormat in _allowedFormats:
             self._defaultReturnFormat = returnFormat
@@ -263,7 +264,8 @@ class SPARQLWrapper(object):
 
     def resetQuery(self):
         """Reset the query, ie, return format, query, default or named graph settings, etc,
-        are reset to their default values."""
+        are reset to their default values.
+        """
         self.parameters = {}
         if self._defaultGraph:
             self.addParameter("default-graph-uri", self._defaultGraph)
@@ -301,6 +303,14 @@ class SPARQLWrapper(object):
         @type timeout: int
         """
         self.timeout = int(timeout)
+
+    def setOnlyConneg(self, onlyConneg):
+        """Set this option for allowing (or not) only HTTP Content Negotiation (so dismiss the use of HTTP parameters).
+
+        @param onlyConneg: True if only HTTP Content Negotiation is allowed; False is HTTP parameters are allowed also.
+        @type onlyConneg: bool
+        """
+        self.onlyConneg = onlyConneg
 
     def setRequestMethod(self, method):
         """Set the internal method to use to perform the request for query or
@@ -526,17 +536,17 @@ class SPARQLWrapper(object):
         # Virtuoso uses 'format',sparqler uses 'output'
         # However, these processors are (hopefully) oblivious to the parameters they do not understand.
         # So: just repeat all possibilities in the final URI. UGLY!!!!!!!
-        for f in _returnFormatSetting:
-            query_parameters[f] = [self.returnFormat]
-
-            # Virtuoso is not supporting a correct Accept header and an unexpected "output"/"format" parameter value. It returns a 406.
-            # "tsv" and "json-ld" are not supported as a correct "output"/"format" parameter value but "text/tab-separated-values" is a valid value,
-            # and there is no problem to send both.
-            if self.returnFormat in [TSV, JSONLD]:
-                acceptHeader = self._getAcceptHeader() # to obtain the mime-type "text/tab-separated-values"
-                if "*/*" in acceptHeader:
-                    acceptHeader="" # clear the value in case of "*/*"
-                query_parameters[f]+= [acceptHeader]
+        if not self.onlyConneg:
+            for f in _returnFormatSetting:
+                query_parameters[f] = [self.returnFormat]
+                # Virtuoso is not supporting a correct Accept header and an unexpected "output"/"format" parameter value. It returns a 406.
+                # "tsv" and "json-ld" are not supported as a correct "output"/"format" parameter value but "text/tab-separated-values" is a valid value,
+                # and there is no problem to send both.
+                if self.returnFormat in [TSV, JSONLD]:
+                    acceptHeader = self._getAcceptHeader() # to obtain the mime-type "text/tab-separated-values"
+                    if "*/*" in acceptHeader:
+                        acceptHeader="" # clear the value in case of "*/*"
+                    query_parameters[f]+= [acceptHeader]
 
         pairs = (
             "%s=%s" % (
@@ -578,7 +588,7 @@ class SPARQLWrapper(object):
     def _createRequest(self):
         """Internal method to create request according a HTTP method. Returns a
         C{urllib2.Request} object of the urllib2 Python library
-        @return: request
+        @return: request a C{urllib2.Request} object of the urllib2 Python library
         """
         request = None
 
@@ -641,7 +651,6 @@ class SPARQLWrapper(object):
         """
         if self.timeout:
             socket.setdefaulttimeout(self.timeout)
-
         request = self._createRequest()
 
         try:
