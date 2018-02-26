@@ -874,8 +874,8 @@ class QueryResult(object):
             elif _content_type_in_list(ct, _RDF_JSONLD):
                 _validate_format("JSON(-LD)", [JSONLD, JSON], ct, self.requestedFormat)
                 return self._convertJSONLD()
-
-        warnings.warn("unknown response content type '%s' returning raw response..." %(ct), RuntimeWarning)
+            else:
+                warnings.warn("unknown response content type '%s' returning raw response..." %(ct), RuntimeWarning)
         return self.response.read()
 
     def print_results(self, minWidth=None):
