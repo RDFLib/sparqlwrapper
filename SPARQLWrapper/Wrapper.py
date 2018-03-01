@@ -10,6 +10,7 @@
 @var RDF: to be used to set the return RDF Graph
 @var CSV: to be used to set the return format to CSV
 @var TSV: to be used to set the return format to TSV
+@var JSONLD: to be used to set the return format to JSON-LD
 
 @var POST: to be used to set HTTP POST
 @var GET: to be used to set HTTP GET. This is the default.
@@ -18,6 +19,20 @@
 @var CONSTRUCT: to be used to set the query type to CONSTRUCT. This is, usually, determined automatically.
 @var ASK: to be used to set the query type to ASK. This is, usually, determined automatically.
 @var DESCRIBE: to be used to set the query type to DESCRIBE. This is, usually, determined automatically.
+
+@var INSERT: to be used to set the query type to INSERT.
+@var DELETE: to be used to set the query type to DELETE.
+@var CREATE: to be used to set the query type to CREATE.
+@var CLEAR: to be used to set the query type to CLEAR.
+@var DROP: to be used to set the query type to DROP.
+@var LOAD: to be used to set the query type to LOAD.
+@var COPY: to be used to set the query type to COPY.
+@var MOVE: to be used to set the query type to MOVE.
+@var ADD: to be used to set the query type to ADD.
+
+
+@var BASIC: BASIC HTTP Authentication method
+@var DIGEST: DIGEST HTTP Authentication method
 
 @see: U{SPARQL Specification<http://www.w3.org/TR/rdf-sparql-query/>}
 @authors: U{Ivan Herman<http://www.ivan-herman.net>}, U{Sergio Fernández<http://www.wikier.org>}, U{Carlos Tejo Alonso<http://www.dayures.net>}
@@ -217,7 +232,22 @@ class SPARQLWrapper(object):
 
     @cvar pattern: regular expression used to determine whether a query is of type L{CONSTRUCT}, L{SELECT}, L{ASK}, or L{DESCRIBE}.
     @type pattern: compiled regular expression (see the C{re} module of Python)
-    @ivar baseURI: the URI of the SPARQL service
+    @ivar endpoint: SPARQL endpoint's URI
+    @type endpoint: string
+    @ivar updateEndpoint: SPARQL endpoint's URI for update operations (if it's a different one). Default is C{None}
+    @type updateEndpoint: string
+    @ivar agent: The User-Agent for the HTTP request header.
+    @type agent: string
+    @ivar _defaultGraph: URI for the default graph. Default is C{None}, the value can be set either via an L{explicit call<addParameter>("default-graph-uri", uri)} or as part of the query string.
+    @type _defaultGraph: string
+    @ivar user: The username of the credentials for querying the current endpoint. Default is C{None}, the value can be set an L{explicit call<setCredentials>}.
+    @type user: string
+    @ivar passwd: The password of the credentials for querying the current endpoint. Default is C{None}, the value can be set an L{explicit call<setCredentials>}.
+    @type passwd: string
+    @ivar http_auth: HTTP Authentication type. The default value is L{BASIC}. Possible values are L{BASIC} or L{DIGEST}
+    @type http_auth: string
+    @ivar onlyConneg: Option for allowing (or not) only HTTP Content Negotiation (so dismiss the use of HTTP parameters).The default value is L{False}.
+    @type onlyConneg: boolean
     """
     pattern = re.compile(r"""
         ((?P<base>(\s*BASE\s*<.*?>)\s*)|(?P<prefixes>(\s*PREFIX\s+.+:\s*<.*?>)\s*))*
@@ -232,7 +262,7 @@ class SPARQLWrapper(object):
         @type endpoint: string
         @param updateEndpoint: string of the SPARQL endpoint's URI for update operations (if it's a different one)
         @type updateEndpoint: string
-        @keyword returnFormat: Default: L{XML}.
+        @param returnFormat: Default: L{XML}.
         Can be set to JSON or Turtle/N3
 
         No local check is done, the parameter is simply
@@ -243,8 +273,10 @@ class SPARQLWrapper(object):
         L{JSON}, L{XML}, L{TURTLE}, L{N3}, L{RDFXML}, L{CSV}, L{TSV} (constants in this module). The value can also be set via explicit
         call, see below.
         @type returnFormat: string
-        @keyword defaultGraph: URI for the default graph. Default is None, the value can be set either via an L{explicit call<addDefaultGraph>} or as part of the query string.
+        @param defaultGraph: URI for the default graph. Default is None, the value can be set either via an L{explicit call<addDefaultGraph>} or as part of the query string.
         @type defaultGraph: string
+        @param agent: The User-Agent for the HTTP request header.
+        @type agent: string
         """
         self.endpoint = endpoint
         self.updateEndpoint = updateEndpoint if updateEndpoint else endpoint
@@ -263,7 +295,7 @@ class SPARQLWrapper(object):
         self.resetQuery()
 
     def resetQuery(self):
-        """Reset the query, ie, return format, query, default or named graph settings, etc,
+        """Reset the query, ie, return format, method, query, default or named graph settings, etc,
         are reset to their default values.
         """
         self.parameters = {}
@@ -278,8 +310,9 @@ class SPARQLWrapper(object):
     def setReturnFormat(self, format):
         """Set the return format. If not an allowed value, the setting is ignored.
 
-        @param format: Possible values: are L{JSON}, L{XML}, L{TURTLE}, L{N3}, L{RDF}, L{RDFXML}, L{CSV}, L{TSV} (constants in this module). All other cases are ignored.
-        @type format: str
+        @param format: Possible values are L{JSON}, L{XML}, L{TURTLE}, L{N3}, L{RDF}, L{RDFXML}, L{CSV}, L{TSV}, L{JSONLD} (constants in this module). All other cases are ignored.
+        @type format: string
+        @raise ValueError: if L{JSONLD} is tried to set and the current instance does not support JSON-LD.
         """
         if format in _allowedFormats :
             self.returnFormat = format
@@ -291,8 +324,10 @@ class SPARQLWrapper(object):
     def supportsReturnFormat(self, format):
         """Check if a return format is supported.
 
-        @param format: Possible values: are L{JSON}, L{XML}, L{TURTLE}, L{N3}, L{RDF}, L{RDFXML}, L{CSV}, L{TSV} (constants in this module). All other cases are ignored.
-        @type format: bool
+        @param format: Possible values are L{JSON}, L{XML}, L{TURTLE}, L{N3}, L{RDF}, L{RDFXML}, L{CSV}, L{TSV} (constants in this module). All other cases are ignored.
+        @type format: string
+        @return: Returns a boolean after checking if a return format is supported.
+        @rtype: bool
         """
         return (format in _allowedFormats)
 
@@ -319,8 +354,8 @@ class SPARQLWrapper(object):
         Further details at U{http://www.w3.org/TR/sparql11-protocol/#query-operation}
         and U{http://www.w3.org/TR/sparql11-protocol/#update-operation}.
 
-        @param method: method
-        @type method: str
+        @param method: Possible values are C{SPARQLWrapper.URLENCODED} (URL-encoded) or C{SPARQLWrapper.POSTDIRECTLY} (POST directly). All other cases are ignored.
+        @type method: string
         """
         if method in _REQUEST_METHODS:
             self.requestMethod = method
@@ -350,6 +385,7 @@ class SPARQLWrapper(object):
             Some SPARQL endpoints require extra key value pairs.
             E.g., in virtuoso, one would add C{should-sponge=soft} to the query forcing
             virtuoso to retrieve graphs that are not stored in its local database.
+            Alias of L{SPARQLWrapper.addParameter} method.
             @param key: key of the query part
             @type key: string
             @param value: value of the query part
@@ -360,11 +396,12 @@ class SPARQLWrapper(object):
 
     def addCustomParameter(self, name, value):
         """
-            Method is kept for backwards compatibility. Historically, it "replaces" parameters instead of adding
+            Method is kept for backwards compatibility. Historically, it "replaces" parameters instead of adding.
             @param name: name
             @type name: string
             @param value: value
             @type value: string
+            @return: Returns a boolean indicating if the adding has been accomplished.
             @rtype: bool
             @deprecated: use addParameter(name, value) instead of this method
         """
@@ -376,10 +413,13 @@ class SPARQLWrapper(object):
             Some SPARQL endpoints allow extra key value pairs.
             E.g., in virtuoso, one would add C{should-sponge=soft} to the query forcing
             virtuoso to retrieve graphs that are not stored in its local database.
+            If the param C{query} is tried to be set, this intent is dismissed.
+            Returns a boolean indicating if the set has been accomplished.
             @param name: name
             @type name: string
             @param value: value
             @type value: string
+            @return: Returns a boolean indicating if the adding has been accomplished.
             @rtype: bool
         """
         if name in _SPARQL_PARAMS:
@@ -392,9 +432,11 @@ class SPARQLWrapper(object):
 
     def clearParameter(self, name):
         """
-            Clear the values ofd a concrete parameter.
+            Clear the values of a concrete parameter.
+            Returns a boolean indicating if the clearing has been accomplished.
             @param name: name
             @type name: string
+            @return: Returns a boolean indicating if the clearing has been accomplished.
             @rtype: bool
         """
         if name in _SPARQL_PARAMS:
@@ -408,7 +450,7 @@ class SPARQLWrapper(object):
 
     def setCredentials(self, user, passwd):
         """
-            Set the credentials for querying the current endpoint
+            Set the credentials for querying the current endpoint.
             @param user: username
             @type user: string
             @param passwd: password
@@ -419,7 +461,7 @@ class SPARQLWrapper(object):
 
     def setHTTPAuth(self, auth):
         """
-           Set the HTTP Authentication type (Basic or Digest)
+           Set the HTTP Authentication type. Possible values are L{BASIC} or L{DIGEST}.
            @param auth: auth type
            @type auth: string
         """
@@ -460,7 +502,7 @@ class SPARQLWrapper(object):
 
     def _parseQueryType(self,query):
         """
-            Parse the SPARQL query and return its type (ie, L{SELECT}, L{ASK}, etc).
+            Internal method for parsing the SPARQL query and return its type (ie, L{SELECT}, L{ASK}, etc).
 
             Note that the method returns L{SELECT} if nothing is specified. This is just to get all other
             methods running; in fact, this means that the query is erroneous, because the query must be,
@@ -469,6 +511,7 @@ class SPARQLWrapper(object):
 
             @param query: query text
             @type query: string
+            @return: the type of SPARQL query (aka SPARQL query form)
             @rtype: string
         """
         try:
@@ -489,6 +532,7 @@ class SPARQLWrapper(object):
     def setMethod(self,method):
         """Set the invocation method. By default, this is L{GET}, but can be set to L{POST}.
         @param method: should be either L{GET} or L{POST}. Other cases are ignored.
+        @type method: string
         """
         if method in _allowedRequests : self.method = method
 
@@ -510,22 +554,33 @@ class SPARQLWrapper(object):
             warnings.warn("keepalive support not available, so the execution of this method has no effect")
 
     def isSparqlUpdateRequest(self):
-        """ Returns TRUE if SPARQLWrapper is configured for executing SPARQL Update request
-        @return: bool
+        """ Returns C{TRUE} if SPARQLWrapper is configured for executing SPARQL Update request.
+        @return: Returns C{TRUE} if SPARQLWrapper is configured for executing SPARQL Update request
+        @rtype: bool
         """
         return self.queryType in [INSERT, DELETE, CREATE, CLEAR, DROP, LOAD, COPY, MOVE, ADD]
 
     def isSparqlQueryRequest(self):
-        """ Returns TRUE if SPARQLWrapper is configured for executing SPARQL Query request
-        @return: bool
+        """ Returns C{TRUE} if SPARQLWrapper is configured for executing SPARQL Query request.
+        @return: Returns C{TRUE} if SPARQLWrapper is configured for executing SPARQL Query request.
+        @rtype: bool
         """
         return not self.isSparqlUpdateRequest()
 
     def _cleanComments(self, query):
-        # remove all occurrence singleline comments (issues #32 and #77)
+        """ Internal method for returning the query after all occurrence of singleline comments are removed (issues #32 and #77).
+        @param: query: The query
+        @type query: string
+        @return: the query after all occurrence of singleline comments are removed.
+        @rtype: string
+        """
         return re.sub(self.comments_pattern, "\n\n" , query)
 
     def _getRequestEncodedParameters(self, query=None):
+        """ Internal method for getting the request encoded parameters.
+        @param: query: The query
+        @type query: string
+        """
         query_parameters = self.parameters.copy()
 
         if query and type(query) == tuple and len(query) == 2:
@@ -559,6 +614,9 @@ class SPARQLWrapper(object):
         return '&'.join(pairs)
 
     def _getAcceptHeader(self):
+        """ Internal method for getting the HTTP Accept Header.
+        @see U{Hypertext Transfer Protocol -- HTTP/1.1 - Header Field Definitions<https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.1>}
+        """
         if self.queryType in [SELECT, ASK]:
             if self.returnFormat == XML:
                 acceptHeader = ",".join(_SPARQL_XML)
@@ -715,6 +773,9 @@ class QueryResult(object):
     would work, too.
 
     @ivar response: the direct HTTP response; a file-like object, as return by the C{urllib2.urlopen} library call.
+    @ivar requestedFormat: The requested format. The possible values are: L{JSON}, L{XML}, L{RDFXML}, L{TURTLE}, L{N3}, L{RDF}, L{CSV}, L{TSV}, L{JSONLD}.
+    @type requestedFormat: string
+
     """
     def __init__(self,result):
         """
@@ -728,15 +789,15 @@ class QueryResult(object):
         """Direct response, see class comments for details"""
 
     def geturl(self):
-        """Return the URI of the original call.
-        @return: URI
+        """Return the URL of the original call.
+        @return: URL of the original call
         @rtype: string
         """
         return self.response.geturl()
 
     def info(self):
         """Return the meta-information of the HTTP result.
-        @return: meta information
+        @return: meta information of the HTTP result
         @rtype: dictionary
         """
         return KeyCaseInsensitiveDict(self.response.info())
@@ -775,7 +836,7 @@ class QueryResult(object):
         Convert a RDF/XML result into an RDFLib triple store. This method can be overwritten
         in a subclass for a different conversion method.
         @return: converted result
-        @rtype: RDFLib Graph
+        @rtype: RDFLib C{Graph}
         """
         try:
             from rdflib.graph import ConjunctiveGraph
@@ -816,7 +877,7 @@ class QueryResult(object):
 
     def _convertJSONLD(self):
         """
-        Convert a RDF JSON-LDresult into an RDFLib triple store. This method can be overwritten
+        Convert a RDF JSON-LD result into an RDFLib triple store. This method can be overwritten
         in a subclass for a different conversion method.
         @return: converted result
         @rtype: RDFLib Graph
@@ -831,7 +892,7 @@ class QueryResult(object):
         Encode the return value depending on the return format:
             - in the case of XML, a DOM top element is returned;
             - in the case of JSON, a simplejson conversion will return a dictionary;
-            - in the case of RDF/XML, the value is converted via RDFLib into a Graph instance;
+            - in the case of RDF/XML, the value is converted via RDFLib into a C{Graph} instance;
             - in the case of RDF Turtle/N3, a string is returned;
             - in the case of CSV/TSV, a string is returned.
         In all other cases the input simply returned.

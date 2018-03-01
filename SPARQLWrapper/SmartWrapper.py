@@ -246,7 +246,7 @@ class SPARQLWrapper2(SPARQLWrapper.SPARQLWrapper):
         cannot be set (it is defaulted to L{JSON<Wrapper.JSON>}).
         @param baseURI: string of the SPARQL endpoint's URI
         @type baseURI: string
-        @keyword defaultGraph: URI for the default graph. Default is None, can be set via an explicit call, too
+        @param defaultGraph: URI for the default graph. Default is None, can be set via an explicit call, too
         @type defaultGraph: string
         """
         super(SPARQLWrapper2, self).__init__(baseURI, returnFormat=JSON, defaultGraph=defaultGraph)
