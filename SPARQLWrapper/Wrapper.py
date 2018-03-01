@@ -238,7 +238,7 @@ class SPARQLWrapper(object):
     @type updateEndpoint: string
     @ivar agent: The User-Agent for the HTTP request header.
     @type agent: string
-    @ivar _defaultGraph: URI for the default graph. Default is C{None}, the value can be set either via an L{explicit call<addParameter>("default-graph-uri", uri)} or as part of the query string.
+    @ivar _defaultGraph: URI for the default graph. Default is C{None}, the value can be set either via an L{explicit call<addParameter>}("default-graph-uri", uri) or as part of the query string.
     @type _defaultGraph: string
     @ivar user: The username of the credentials for querying the current endpoint. Default is C{None}, the value can be set an L{explicit call<setCredentials>}.
     @type user: string
@@ -569,7 +569,7 @@ class SPARQLWrapper(object):
 
     def _cleanComments(self, query):
         """ Internal method for returning the query after all occurrence of singleline comments are removed (issues #32 and #77).
-        @param: query: The query
+        @param query: The query
         @type query: string
         @return: the query after all occurrence of singleline comments are removed.
         @rtype: string
@@ -578,7 +578,7 @@ class SPARQLWrapper(object):
 
     def _getRequestEncodedParameters(self, query=None):
         """ Internal method for getting the request encoded parameters.
-        @param: query: The query
+        @param query: The query
         @type query: string
         """
         query_parameters = self.parameters.copy()
@@ -615,7 +615,7 @@ class SPARQLWrapper(object):
 
     def _getAcceptHeader(self):
         """ Internal method for getting the HTTP Accept Header.
-        @see U{Hypertext Transfer Protocol -- HTTP/1.1 - Header Field Definitions<https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.1>}
+        @see: U{Hypertext Transfer Protocol -- HTTP/1.1 - Header Field Definitions<https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.1>}
         """
         if self.queryType in [SELECT, ASK]:
             if self.returnFormat == XML:

@@ -85,7 +85,7 @@ Here is a simple code that makes use of this feature::
  queryString = "SELECT ?subj ?prop WHERE { ?subj ?prop ?o. }"
  sparql = SPARQLWrapper2("http://example.org/sparql")
  # add a default graph, though that can also be in the query string
- sparql.addDefaultGraph("http://www.example.org/graph")
+ sparql.addDefaultGraph("http://www.example.org/graph-selected")
  sparql.setQuery(queryString)
  try :
      ret = sparql.query()
@@ -105,7 +105,7 @@ in the return value). This features becomes particularly useful when the C{OPTIO
  queryString = "SELECT ?subj ?o ?opt WHERE { ?subj <http://a.b.c> ?o. OPTIONAL { ?subj <http://d.e.f> ?opt }}"
  sparql = SPARQLWrapper2("http://example.org/sparql")
  # add a default graph, though that can also be in the query string
- sparql.addDefaultGraph("http://www.example.org/graph")
+ sparql.addDefaultGraph("http://www.example.org/graph-selected")
  sparql.setQuery(queryString)
  try :
      ret = sparql.query()
@@ -155,7 +155,7 @@ The package was greatly inspired by U{Lee Feigenbaum's similar package for Javas
 
 @summary: Python interface to SPARQL services
 @see: U{SPARQL Specification<http://www.w3.org/TR/rdf-sparql-query/>}
-@authors: U{Ivan Herman<http://www.ivan-herman.net>}, U{Sergio Fernández<http://www.wikier.org>}, U{Carlos Tejo Alonso<http://www.dayures.net>, U{Alexey Zakhlestin<https://indeyets.ru/>}}
+@authors: U{Ivan Herman<http://www.ivan-herman.net>}, U{Sergio Fernández<http://www.wikier.org>}, U{Carlos Tejo Alonso<http://www.dayures.net>}, U{Alexey Zakhlestin<https://indeyets.ru/>}
 @organization: U{World Wide Web Consortium<http://www.w3.org>}, U{Salzburg Research<http://www.salzburgresearch.at>} and U{Foundation CTIC<http://www.fundacionctic.org/>}.
 @license: U{W3C® SOFTWARE NOTICE AND LICENSE<href="http://www.w3.org/Consortium/Legal/copyright-software">}
 @requires: U{simplejson<https://pypi.python.org/pypi/simplejson>} package.
