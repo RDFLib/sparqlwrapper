@@ -7,20 +7,19 @@ possibly, convert the result into a more manageable format.
 
 The following packages are used:
 
-  - for JSON, the U{simplejson<http://cheeseshop.python.org/pypi/simplejson>} package: C{http://cheeseshop.python.org/pypi/simplejson}
-  - for RDF/XML, the U{RDFLib<http://rdflib.net>}: C{http://rdflib.net}
+  - for JSON, the U{simplejson<https://pypi.python.org/pypi/simplejson>} package
+  - for RDF/XML, the U{RDFLib<https://rdflib.readthedocs.io>}
 
 These packages are imported in a lazy fashion, ie, only when needed. Ie, if the user never intends to use the
 JSON format, the C{simplejson} package is not imported and the user does not have to install it.
 
 The package can be downloaded in C{zip} and C{.tar.gz} formats from
-U{http://www.ivan-herman.net/Misc/PythonStuff/SPARQL/<http://www.ivan-herman.net/Misc/PythonStuff/SPARQL/>}. It is also
-available from U{Sourceforge<https://sourceforge.net/projects/sparql-wrapper/>} under the project named "C{sparql-wrapper}".
+U{https://github.com/RDFLib/sparqlwrapper/releases<https://github.com/RDFLib/sparqlwrapper/releases>}.
 Documentation is included in the distribution.
 
 
-Basic QUERY Usage
-=================
+Basic QUERY Usage (SELECT)
+==========================
 
 Simple query
 ------------
@@ -30,9 +29,9 @@ SPARQL Service)::
 
  from SPARQLWrapper import SPARQLWrapper
  queryString = "SELECT * WHERE { ?s ?p ?o. }"
- sparql = SPARQLWrapper("http://localhost:2020/sparql")
+ sparql = SPARQLWrapper("http://example.org/sparql")
  # add a default graph, though that can also be part of the query string
- sparql.addDefaultGraph("http://www.example.com/data.rdf")
+ sparql.addDefaultGraph("http://www.example.org/graph-selected")
  sparql.setQuery(queryString)
  try :
     ret = sparql.query()
@@ -40,7 +39,7 @@ SPARQL Service)::
  except :
     deal_with_the_exception()
 
-If C{SPARQLWrapper("http://localhost:2020/sparql",returnFormat=SPARQLWrapper.JSON)} was used, the result would be in
+If C{SPARQLWrapper("http://example.org/sparql",returnFormat=SPARQLWrapper.JSON)} was used, the result would be in
 U{JSON format<http://www.w3.org/TR/rdf-sparql-json-res/>} instead of XML (provided the sparql
 processor can return JSON).
 
@@ -51,7 +50,8 @@ To make processing somewhat easier, the package can do some conversions automati
 
   - for XML, the U{xml.dom.minidom<http://docs.python.org/library/xml.dom.minidom.html>} (C{http://docs.python.org/library/xml.dom.minidom.html}) is
   used to convert the result stream into a Python representation of a DOM tree
-  - for JSON, the U{simplejson<http://cheeseshop.python.org/pypi/simplejson>} package (C{http://cheeseshop.python.org/pypi/simplejson}) to generate a Python dictionary
+  - for JSON, the U{simplejson<https://pypi.python.org/pypi/simplejson>} package (C{https://pypi.python.org/pypi/simplejson}) to generate a Python dictionary
+  - for CSV/TSV, a simple C{string}
 
 There are two ways to generate this conversion:
 
@@ -83,9 +83,9 @@ Here is a simple code that makes use of this feature::
 
  from SPARQLWrapper import SPARQLWrapper2
  queryString = "SELECT ?subj ?prop WHERE { ?subj ?prop ?o. }"
- sparql = SPARQLWrapper2("http://localhost:2020/sparql")
+ sparql = SPARQLWrapper2("http://example.org/sparql")
  # add a default graph, though that can also be in the query string
- sparql.addDefaultGraph("http://www.example.com/data.rdf")
+ sparql.addDefaultGraph("http://www.example.org/graph")
  sparql.setQuery(queryString)
  try :
      ret = sparql.query()
@@ -103,9 +103,9 @@ in the return value). This features becomes particularly useful when the C{OPTIO
 
  from SPARQLWrapper import SPARQLWrapper2
  queryString = "SELECT ?subj ?o ?opt WHERE { ?subj <http://a.b.c> ?o. OPTIONAL { ?subj <http://d.e.f> ?opt }}"
- sparql = SPARQLWrapper2("http://localhost:2020/sparql")
+ sparql = SPARQLWrapper2("http://example.org/sparql")
  # add a default graph, though that can also be in the query string
- sparql.addDefaultGraph("http://www.example.com/data.rdf")
+ sparql.addDefaultGraph("http://www.example.org/graph")
  sparql.setQuery(queryString)
  try :
      ret = sparql.query()
@@ -136,7 +136,8 @@ results in C{Turtle}. The package, though it does not contain a full SPARQL pars
 when the query is set. This should work in most of the cases (but there is a possibility to set this manually, in case something
 goes wrong).
 
-For RDF/XML, the U{RDFLib<http://rdflib.net>} (C{http://rdflib.net}) package is used to convert the result into a C{Graph} instance.
+For RDF/XML and JSON-LD, the U{RDFLib<https://rdflib.readthedocs.io>} package is used to convert the result into a C{Graph} instance.
+For Turtle, a string is returned.
 
 GET or POST
 ===========
@@ -147,8 +148,6 @@ extends a reasonable size; this can be set in the query instance.
 Note that some combination may not work yet with all SPARQL processors
 (eg, there are implementations where POST+JSON return does not work). Hopefully, this problem will eventually disappear.
 
-Note that SPARQLWrapper only supports nowadays query using POST via URL-encoded.
-
 Acknowledgement
 ===============
 
@@ -156,11 +155,11 @@ The package was greatly inspired by U{Lee Feigenbaum's similar package for Javas
 
 @summary: Python interface to SPARQL services
 @see: U{SPARQL Specification<http://www.w3.org/TR/rdf-sparql-query/>}
-@authors: U{Ivan Herman<http://www.ivan-herman.net>}, U{Sergio Fernández<http://www.wikier.org>}, U{Carlos Tejo Alonso<http://www.dayures.net>}
+@authors: U{Ivan Herman<http://www.ivan-herman.net>}, U{Sergio Fernández<http://www.wikier.org>}, U{Carlos Tejo Alonso<http://www.dayures.net>, U{Alexey Zakhlestin<https://indeyets.ru/>}}
 @organization: U{World Wide Web Consortium<http://www.w3.org>}, U{Salzburg Research<http://www.salzburgresearch.at>} and U{Foundation CTIC<http://www.fundacionctic.org/>}.
 @license: U{W3C® SOFTWARE NOTICE AND LICENSE<href="http://www.w3.org/Consortium/Legal/copyright-software">}
-@requires: U{simplejson<http://cheeseshop.python.org/pypi/simplejson>} package.
-@requires: U{RDFLib<http://rdflib.net>} package.
+@requires: U{simplejson<https://pypi.python.org/pypi/simplejson>} package.
+@requires: U{RDFLib<https://rdflib.readthedocs.io>} package.
 """
 
 __version__ = "1.8.2dev0"

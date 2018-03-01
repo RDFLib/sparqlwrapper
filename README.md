@@ -54,6 +54,10 @@ The source distribution contains:
   
 * `script`: some scripts to run the library against some SPARQL endpoints.
 
+## Documentation
+
+The SPARQLWrapper documentation is available online at https://rdflib.github.io/sparqlwrapper/doc/latest/.
+
 ## License
 
 The package is licensed under [W3C license](https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document).
