@@ -133,7 +133,7 @@ for l in obj : do_something_with_line(l)
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="SPARQLWrapper.Wrapper.QueryResult-class.html#geturl" class="summary-sig-name">geturl</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Return the URI of the original call.</td>
+      Return the URL of the original call.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="SPARQLWrapper.Wrapper-pysrc.html#QueryResult.geturl">source&nbsp;code</a></span>
             
@@ -230,7 +230,7 @@ for l in obj : do_something_with_line(l)
   </tr>
 <tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">RDFLib Graph</span>
+      <span class="summary-type">RDFLib <code>Graph</code></span>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
@@ -303,7 +303,7 @@ for l in obj : do_something_with_line(l)
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="SPARQLWrapper.Wrapper.QueryResult-class.html#_convertJSONLD" class="summary-sig-name" onclick="show_private();">_convertJSONLD</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Convert a RDF JSON-LDresult into an RDFLib triple store.</td>
+      Convert a RDF JSON-LD result into an RDFLib triple store.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="SPARQLWrapper.Wrapper-pysrc.html#QueryResult._convertJSONLD">source&nbsp;code</a></span>
             
@@ -427,6 +427,14 @@ for l in obj : do_something_with_line(l)
       <code>urllib2.urlopen</code> library call.
     </td>
   </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">string</span>
+    </td><td class="summary">
+        <a href="SPARQLWrapper.Wrapper.QueryResult-class.html#requestedFormat" class="summary-name">requestedFormat</a><br />
+      The requested format.
+    </td>
+  </tr>
 </table>
 <!-- ==================== PROPERTIES ==================== -->
 <a name="section-Properties"></a>
@@ -516,10 +524,10 @@ for l in obj : do_something_with_line(l)
     </td>
   </tr></table>
   
-  <p>Return the URI of the original call.</p>
+  <p>Return the URL of the original call.</p>
   <dl class="fields">
     <dt>Returns: string</dt>
-        <dd>URI</dd>
+        <dd>URL of the original call</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -540,7 +548,7 @@ for l in obj : do_something_with_line(l)
   <p>Return the meta-information of the HTTP result.</p>
   <dl class="fields">
     <dt>Returns: dictionary</dt>
-        <dd>meta information</dd>
+        <dd>meta information of the HTTP result</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -625,7 +633,7 @@ for l in obj : do_something_with_line(l)
   <p>Convert a RDF/XML result into an RDFLib triple store. This method can 
   be overwritten in a subclass for a different conversion method.</p>
   <dl class="fields">
-    <dt>Returns: RDFLib Graph</dt>
+    <dt>Returns: RDFLib <code>Graph</code></dt>
         <dd>converted result</dd>
   </dl>
 </td></tr></table>
@@ -710,7 +718,7 @@ for l in obj : do_something_with_line(l)
     </td>
   </tr></table>
   
-  <p>Convert a RDF JSON-LDresult into an RDFLib triple store. This method 
+  <p>Convert a RDF JSON-LD result into an RDFLib triple store. This method 
   can be overwritten in a subclass for a different conversion method.</p>
   <dl class="fields">
     <dt>Returns: RDFLib Graph</dt>
@@ -743,7 +751,7 @@ for l in obj : do_something_with_line(l)
     </li>
     <li>
       in the case of RDF/XML, the value is converted via RDFLib into a 
-      Graph instance;
+      <code>Graph</code> instance;
     </li>
     <li>
       in the case of RDF Turtle/N3, a string is returned;
@@ -757,6 +765,48 @@ for l in obj : do_something_with_line(l)
     <dt>Returns:</dt>
         <dd>the converted query result. See the conversion methods for more 
           details.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== INSTANCE VARIABLE DETAILS ==================== -->
+<a name="section-InstanceVariableDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Instance Variable Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-InstanceVariableDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="requestedFormat"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">requestedFormat</h3>
+  The requested format. The possible values are: <a 
+  href="SPARQLWrapper.Wrapper-module.html#JSON" class="link">JSON</a>, <a 
+  href="SPARQLWrapper.Wrapper-module.html#XML" class="link">XML</a>, <a 
+  href="SPARQLWrapper.Wrapper-module.html#RDFXML" class="link">RDFXML</a>, 
+  <a href="SPARQLWrapper.Wrapper-module.html#TURTLE" 
+  class="link">TURTLE</a>, <a href="SPARQLWrapper.Wrapper-module.html#N3" 
+  class="link">N3</a>, <a href="SPARQLWrapper.Wrapper-module.html#RDF" 
+  class="link">RDF</a>, <a href="SPARQLWrapper.Wrapper-module.html#CSV" 
+  class="link">CSV</a>, <a href="SPARQLWrapper.Wrapper-module.html#TSV" 
+  class="link">TSV</a>, <a href="SPARQLWrapper.Wrapper-module.html#JSONLD" 
+  class="link">JSONLD</a>.
+  <dl class="fields">
+    <dt>Type:</dt>
+      <dd>string</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -793,7 +843,7 @@ for l in obj : do_something_with_line(l)
   <tr>
     <td align="left" class="footer">
     Generated by Epydoc 3.0.1
-    on Sun Feb 25 11:04:23 2018
+    on Thu Mar  1 19:02:33 2018
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
