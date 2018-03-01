@@ -74,7 +74,8 @@ setup(
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: Implementation :: CPython',
         'Programming Language :: Python :: Implementation :: PyPy',
+        'Topic :: Software Development :: Libraries :: Python Modules',
       ],
-      keywords = 'python sparql rdf rdflib',
+      keywords = ['python', 'sparql', 'rdf', 'rdflib'],
       use_2to3 = True
 )
