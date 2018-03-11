@@ -312,7 +312,7 @@ class SPARQLWrapper(object):
 
         @param format: Possible values are L{JSON}, L{XML}, L{TURTLE}, L{N3}, L{RDF}, L{RDFXML}, L{CSV}, L{TSV}, L{JSONLD} (constants in this module). All other cases are ignored.
         @type format: string
-        @raise ValueError: if L{JSONLD} is tried to set and the current instance does not support JSON-LD.
+        @raise ValueError: If L{JSONLD} is tried to set and the current instance does not support JSON-LD.
         """
         if format in _allowedFormats :
             self.returnFormat = format
@@ -461,9 +461,11 @@ class SPARQLWrapper(object):
 
     def setHTTPAuth(self, auth):
         """
-           Set the HTTP Authentication type. Possible values are L{BASIC} or L{DIGEST}.
-           @param auth: auth type
-           @type auth: string
+            Set the HTTP Authentication type. Possible values are L{BASIC} or L{DIGEST}.
+            @param auth: auth type
+            @type auth: string
+            @raise TypeError: If the C{auth} parameter is not an string.
+            @raise ValueError: If the C{auth} parameter has not one of the valid values: L{BASIC} or L{DIGEST}.
         """
         if not isinstance(auth, str):
             raise TypeError('setHTTPAuth takes a string')
@@ -481,6 +483,7 @@ class SPARQLWrapper(object):
             @param query: query text
             @type query: string
             @bug: #2320024
+            @raise TypeError: If the C{query} parameter is not an unicode-string or utf-8 encoded byte-string.
         """
         if sys.version < '3':  # have to write it like this, for 2to3 compatibility
             if isinstance(query, unicode):
@@ -646,6 +649,7 @@ class SPARQLWrapper(object):
     def _createRequest(self):
         """Internal method to create request according a HTTP method. Returns a
         C{urllib2.Request} object of the urllib2 Python library
+        @raise NotImplementedError: If the C{HTTP authentification} method is not one of the valid values: L{BASIC} or L{DIGEST}.
         @return: request a C{urllib2.Request} object of the urllib2 Python library
         """
         request = None
@@ -705,7 +709,10 @@ class SPARQLWrapper(object):
         """Internal method to execute the query. Returns the output of the
         C{urllib2.urlopen} method of the standard Python library
 
-        @return: tuples with the raw request plus the expected format
+        @return: tuples with the raw request plus the expected format.
+        @raise QueryBadFormed: If the C{HTTP return code} is C{400}.
+        @raise EndPointNotFound: If the C{HTTP return code} is C{404}.
+        @raise EndPointInternalError: If the C{HTTP return code} is C{500}.
         """
         if self.timeout:
             socket.setdefaulttimeout(self.timeout)
