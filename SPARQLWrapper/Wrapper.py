@@ -341,6 +341,7 @@ class SPARQLWrapper(object):
 
     def setOnlyConneg(self, onlyConneg):
         """Set this option for allowing (or not) only HTTP Content Negotiation (so dismiss the use of HTTP parameters).
+        @since: 1.8.1
 
         @param onlyConneg: True if only HTTP Content Negotiation is allowed; False is HTTP parameters are allowed also.
         @type onlyConneg: bool
@@ -482,7 +483,6 @@ class SPARQLWrapper(object):
             ASK, etc). Syntax and validity checking is done by the SPARQL service itself.
             @param query: query text
             @type query: string
-            @bug: #2320024
             @raise TypeError: If the C{query} parameter is not an unicode-string or utf-8 encoded byte-string.
         """
         if sys.version < '3':  # have to write it like this, for 2to3 compatibility
