@@ -254,7 +254,7 @@ class SPARQLWrapper2(SPARQLWrapper.SPARQLWrapper):
     def setReturnFormat(self, format):
         """Set the return format (overriding the L{inherited method<SPARQLWrapper.SPARQLWrapper.setReturnFormat>}).
         This method does nothing; this class instance should work with JSON only. The method is defined
-        just to avoid possible errors by erronously setting the return format.
+        just to avoid possible errors by erroneously setting the return format.
         When using this class, the user can safely ignore this call.
         @param format: return format
         """
