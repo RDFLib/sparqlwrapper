@@ -52,7 +52,7 @@ import warnings
 
 import json
 from KeyCaseInsensitiveDict import KeyCaseInsensitiveDict
-from SPARQLExceptions import QueryBadFormed, EndPointNotFound, EndPointInternalError
+from SPARQLExceptions import QueryBadFormed, EndPointNotFound, EndPointInternalError, Unauthorized
 from SPARQLWrapper import __agent__
 
 #  From <https://www.w3.org/TR/sparql11-protocol/#query-success>
@@ -116,6 +116,7 @@ from SPARQLWrapper import __agent__
 #      - This table describes the MIME types and Accept Header/Output formats (MIME type) for different types of SPARQL queries. See <https://docs.marklogic.com/guide/semantics/REST#id_54258> and <https://docs.marklogic.com/guide/semantics/loading#id_70682>
 #        SELECT "application/sparql-results+xml", "application/sparql-results+json", "text/html", "text/csv"
 #        CONSTRUCT or DESCRIBE "application/n-triples", "application/rdf+json", "application/rdf+xml", "text/turtle", "text/n3", "application/n-quads", "application/trig"
+#        ASK queries return a boolean (true or false).
 #
 #  - AllegroGraph <https://franz.com/agraph/allegrograph/>
 #    * Uses only content negotiation (no URL parameters).
@@ -711,6 +712,7 @@ class SPARQLWrapper(object):
 
         @return: tuples with the raw request plus the expected format.
         @raise QueryBadFormed: If the C{HTTP return code} is C{400}.
+        @raise Unauthorized: If the C{HTTP return code} is C{401}.
         @raise EndPointNotFound: If the C{HTTP return code} is C{404}.
         @raise EndPointInternalError: If the C{HTTP return code} is C{500}.
         """
@@ -726,6 +728,8 @@ class SPARQLWrapper(object):
                 raise QueryBadFormed(e.read())
             elif e.code == 404:
                 raise EndPointNotFound(e.read())
+            elif e.code == 401:
+                raise Unauthorized(e.read())
             elif e.code == 500:
                 raise EndPointInternalError(e.read())
             else:

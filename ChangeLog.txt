@@ -1,6 +1,8 @@
 SPARQLWrapper's changelog:
 -------------------------
 201X-XX-XX  1.8.2   - Fixed bug (#100)
+                    - Updated doc
+                    - Added Unauthorized exception in SPARQLWrapperExceptions
 
 
 2018-02-25  1.8.1   - Update classifiers (Python 3.6)

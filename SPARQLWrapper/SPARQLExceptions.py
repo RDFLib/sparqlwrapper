@@ -48,3 +48,11 @@ class EndPointNotFound(SPARQLWrapperException):
     """
 
     msg = "it was impossible to connect with the endpoint in that address, check if it is correct"
+
+class Unauthorized(SPARQLWrapperException):
+    """
+    Access is denied due to invalid credentials (unauthorized).
+    @since: 1.8.2
+    """
+
+    msg = "access is denied due to invalid credentials (unauthorized). Check the credentials"
