@@ -63,7 +63,7 @@ from SPARQLWrapper import __agent__
 #  Possible parameter keys and values...
 #  Examples:
 #  - ClioPatria: the SWI-Prolog Semantic Web Server <http://cliopatria.swi-prolog.org/home>
-#    * Parameter key: "format"
+#    * Parameter key: "format" <http://cliopatria.swi-prolog.org/help/http>
 #    * Parameter value must have one of these values: "rdf+xml", "json", "csv", "application/sparql-results+xml" or "application/sparql-results+json".
 #
 #  - OpenLink Virtuoso  <http://virtuoso.openlinksw.com>
@@ -287,6 +287,7 @@ class SPARQLWrapper(object):
         self.http_auth = BASIC
         self._defaultGraph = defaultGraph
         self.onlyConneg = False # Only Content Negotiation
+        self.customHeaders = {}
 
         if returnFormat in _allowedFormats:
             self._defaultReturnFormat = returnFormat
@@ -307,6 +308,7 @@ class SPARQLWrapper(object):
         self.setQuery("""SELECT * WHERE{ ?s ?p ?o }""")
         self.timeout = None
         self.requestMethod = URLENCODED
+
 
     def setReturnFormat(self, format):
         """Set the return format. If not an allowed value, the setting is ignored.
@@ -348,6 +350,18 @@ class SPARQLWrapper(object):
         @type onlyConneg: bool
         """
         self.onlyConneg = onlyConneg
+
+    def setCustomHeaders(self, customHeaders):
+        """Set custom HTTP headers (this method can override all HTTP headers).
+        Take into acount that each previous value for the header field names
+        "Content-Type", "User-Agent", "Accept" and "Authorization" would be overriden
+        if the header field name is present as key of the customHeaders dictionary.
+        @since: 1.8.2
+
+        @param customHeaders: A dictionary that contains the header field names as key, and its values.
+        @type customHeaders: dictionary
+        """
+        self.customHeaders = customHeaders
 
     def setRequestMethod(self, method):
         """Set the internal method to use to perform the request for query or
@@ -703,6 +717,10 @@ class SPARQLWrapper(object):
                 valid_types = ", ".join(_allowedAuth)
                 raise NotImplementedError("Expecting one of: {0}, but received: {1}".format(valid_types,
                                                                                             self.http_auth))
+
+        # The header field name is capitalized in the request.add_header method.
+        for customHeader in self.customHeaders:
+            request.add_header(customHeader, self.customHeaders[customHeader])
 
         return request
 
