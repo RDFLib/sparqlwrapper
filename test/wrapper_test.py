@@ -245,6 +245,21 @@ class SPARQLWrapper_Test(TestCase):
         # should succeed for python 3 since pull request #72
         self.assertEqual("Basic bG9naW46cGFzc3dvcmQ=", request.get_header('Authorization'))
 
+    def testSetCustomHeaders(self):
+        request = self._get_request(self.wrapper)
+        self.assertFalse(request.has_header('Foo'))
+
+        # Add new header field name
+        self.wrapper.setCustomHeaders({'Foo': 'bar'})
+        request = self._get_request(self.wrapper)
+        self.assertTrue(request.has_header('Foo'))
+        self.assertEqual("bar", request.get_header('Foo'))
+
+        # Override header field name
+        self.wrapper.setCustomHeaders({'User-agent': 'Another UA'})
+        request = self._get_request(self.wrapper)
+        self.assertEqual("Another UA", request.get_header('User-agent'))
+
     def testSetHTTPAuth(self):
         self.assertRaises(TypeError, self.wrapper.setHTTPAuth, 123)
 
