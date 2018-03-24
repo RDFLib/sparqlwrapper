@@ -62,6 +62,9 @@ selectQueryCSV_TSV = """
          <http://purl.org/dc/terms/created> ?created
     }
 """
+askQuery = """
+    ASK { <http://aims.fao.org/aos/agrovoc/c_aca7ac6d> a ?type }
+"""
 
 constructQuery = """
     CONSTRUCT {
@@ -71,6 +74,10 @@ constructQuery = """
     WHERE {
         <http://aims.fao.org/aos/agrovoc/c_aca7ac6d> skos:prefLabel ?label .
     }
+"""
+
+describeQuery = """
+    DESCRIBE <http://aims.fao.org/aos/agrovoc/c_aca7ac6d>
 """
 
 queryBadFormed = """
@@ -161,6 +168,10 @@ class SPARQLWrapperTests(unittest.TestCase):
         else:
             return result
 
+###############
+#### SELECT ###
+###############
+
     def testSelectByGETinXML(self):
         result = self.__generic(selectQuery, XML, GET)
         ct = result.info()["content-type"]
@@ -241,6 +252,70 @@ class SPARQLWrapperTests(unittest.TestCase):
         assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
         results = result.convert()
 
+################################################################################
+
+###############
+#### ASK ###
+###############
+
+    def testAskByGETinXML(self):
+        result = self.__generic(askQuery, XML, GET)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_XML], ct
+        results = result.convert()
+
+    def testAskByPOSTinXML(self):
+        result = self.__generic(askQuery, XML, POST)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_XML], ct
+        results = result.convert()
+        results.toxml()
+
+    def testAskByGETinJSON(self):
+        result = self.__generic(askQuery, JSON, GET)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_JSON], ct
+        results = result.convert()
+        self.assertEqual(type(results), dict)
+
+    def testAskByPOSTinJSON(self):
+        result = self.__generic(askQuery, JSON, POST)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_JSON], ct
+        results = result.convert()
+        self.assertEqual(type(results), dict)
+
+    # asking for an unexpected return format for ASK queryType
+    def testAskByGETinN3(self):
+        result = self.__generic(askQuery, N3, GET)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
+        results = result.convert()
+        results.toxml()
+
+    # asking for an unexpected return format for ASK queryType
+    def testAskByGETinJSONLD(self):
+        result = self.__generic(askQuery, JSONLD, GET)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
+        results = result.convert()
+
+    # asking for an unexpected return format for ASK queryType
+    def testAskByGETinUnknow(self):
+        result = self.__generic(askQuery, "foo", GET)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
+        results = result.convert()
+
+     # asking for an unexpected return format for ASK queryType
+    def testAskByPOSTinUnknow(self):
+        result = self.__generic(askQuery, "bar", POST)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
+        results = result.convert()
+
+################################################################################
+
 ##################
 #### CONSTRUCT ###
 ##################
@@ -274,29 +349,31 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), bytes)
 
     # JSON-LD is not supported currently for AllegroGraph
-    def _testConstructByGETinJSONLD(self):
+    @unittest.skip("JSON-LD is not supported currently for AllegroGraph")
+    def testConstructByGETinJSONLD(self):
         result = self.__generic(constructQuery, JSONLD, GET)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_JSONLD], ct
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
-    # JSON-LD is not supported currently for AllegroGraph 
-    def _testConstructByPOSTinJSONLD(self):
+    # JSON-LD is not supported currently for AllegroGraph
+    @unittest.skip("JSON-LD is not supported currently for AllegroGraph")
+    def testConstructByPOSTinJSONLD(self):
         result = self.__generic(constructQuery, JSONLD, POST)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_JSONLD], ct
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
- 
-    # asking for an unexpected return format for CONSTRUCT queryType 
+
+    # asking for an unexpected return format for CONSTRUCT queryType
     def testConstructByGETinJSON(self):
         result = self.__generic(constructQuery, JSON, GET)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], ct
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
- 
+
     # asking for an unexpected return format for CONSTRUCT queryType
     def testConstructByPOSTinJSON(self):
         result = self.__generic(constructQuery, JSON, POST)
@@ -304,7 +381,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], ct
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
- 
+
     # asking for an unexpected return format for CONSTRUCT queryType
     def testConstructByGETinUnknow(self):
         result = self.__generic(constructQuery, "foo", GET)
@@ -312,7 +389,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], ct
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
- 
+
     # asking for an unexpected return format for CONSTRUCT queryType
     def testConstructByPOSTinUnknow(self):
         result = self.__generic(constructQuery, "bar", POST)
@@ -320,7 +397,93 @@ class SPARQLWrapperTests(unittest.TestCase):
         assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], ct
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
+
+################################################################################
+
+#################
+#### DESCRIBE ###
+#################
+
+    def testDescribeByGETinXML(self):
+        result = self.__generic(describeQuery, XML, GET)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _RDF_XML], ct
+        results = result.convert()
+        self.assertEqual(type(results), ConjunctiveGraph)
+
+    def testDescribeByPOSTinXML(self):
+        result = self.__generic(describeQuery, XML, POST)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _RDF_XML], ct
+        results = result.convert()
+        self.assertEqual(type(results), ConjunctiveGraph)
+
+    def testDescribeByGETinN3(self):
+        result = self.__generic(describeQuery, N3, GET)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _RDF_N3], ct
+        results = result.convert()
+        self.assertEqual(type(results), bytes)
+
+    def testDescribeByPOSTinN3(self):
+        result = self.__generic(describeQuery, N3, POST)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _RDF_N3], ct
+        results = result.convert()
+        self.assertEqual(type(results), bytes)
+
+    # JSON-LD is not supported currently for AllegroGraph
+    @unittest.skip("JSON-LD is not supported currently for AllegroGraph")
+    def testDescribeByGETinJSONLD(self):
+        result = self.__generic(describeQuery, JSONLD, GET)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _RDF_JSONLD], ct
+        results = result.convert()
+        self.assertEqual(type(results), ConjunctiveGraph)
+
+    # JSON-LD is not supported currently for AllegroGraph
+    @unittest.skip("JSON-LD is not supported currently for AllegroGraph")
+    def testDescribeByPOSTinJSONLD(self):
+        result = self.__generic(describeQuery, JSONLD, POST)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _RDF_JSONLD], ct
+        results = result.convert()
+        self.assertEqual(type(results), ConjunctiveGraph)
+
+    # asking for an unexpected return format for DESCRIBE queryType
+    def testDescribeByGETinJSON(self):
+        result = self.__generic(describeQuery, JSON, GET)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], ct
+        results = result.convert()
+        self.assertEqual(type(results), ConjunctiveGraph)
+
+    # asking for an unexpected return format for DESCRIBE queryType
+    def testDescribeByPOSTinJSON(self):
+        result = self.__generic(describeQuery, JSON, POST)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], ct
+        results = result.convert()
+        self.assertEqual(type(results), ConjunctiveGraph)
+
+    # asking for an unexpected return format for DESCRIBE queryType
+    def testDescribeByGETinUnknow(self):
+        result = self.__generic(describeQuery, "foo", GET)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], ct
+        results = result.convert()
+        self.assertEqual(type(results), ConjunctiveGraph)
  
+    # asking for an unexpected return format for DESCRIBE queryType
+    def testDescribeByPOSTinUnknow(self):
+        result = self.__generic(describeQuery, "bar", POST)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], ct
+        results = result.convert()
+        self.assertEqual(type(results), ConjunctiveGraph)
+
+################################################################################
+
     def testQueryBadFormed(self):
         self.assertRaises(QueryBadFormed, self.__generic, queryBadFormed, XML, GET) 
  
