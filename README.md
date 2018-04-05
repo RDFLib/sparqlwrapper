@@ -42,7 +42,7 @@ for result in results["results"]["bindings"]:
     print('%s: %s' % (result["label"]["xml:lang"], result["label"]["value"]))
 ```
 
-There is also a `SPARQLWrapper2` class that works with JSON results only and wraps the results to make processing of average queries a bit simpler.
+There is also a `SPARQLWrapper2` class that works with JSON SELECT results only and wraps the results to make processing of average queries a bit simpler.
 
 ```python
 from SPARQLWrapper import SPARQLWrapper2
