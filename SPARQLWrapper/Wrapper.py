@@ -249,6 +249,8 @@ class SPARQLWrapper(object):
     @type http_auth: string
     @ivar onlyConneg: Option for allowing (or not) only HTTP Content Negotiation (so dismiss the use of HTTP parameters).The default value is L{False}.
     @type onlyConneg: boolean
+    @ivar customHttpHeaders: Custom HTTP Headers to be included in the request. Important: These headers override previous values (including C{Content-Type}, C{User-Agent}, C{Accept} and C{Authorization} if they are present). It is a dictionary where keys are the header field nada and values are the header values.
+    @type customHttpHeaders: dict
     """
     pattern = re.compile(r"""
         ((?P<base>(\s*BASE\s*<.*?>)\s*)|(?P<prefixes>(\s*PREFIX\s+.+:\s*<.*?>)\s*))*
@@ -287,6 +289,7 @@ class SPARQLWrapper(object):
         self.http_auth = BASIC
         self._defaultGraph = defaultGraph
         self.onlyConneg = False # Only Content Negotiation
+        self.customHttpHeaders = {}
 
         if returnFormat in _allowedFormats:
             self._defaultReturnFormat = returnFormat
@@ -307,6 +310,7 @@ class SPARQLWrapper(object):
         self.setQuery("""SELECT * WHERE{ ?s ?p ?o }""")
         self.timeout = None
         self.requestMethod = URLENCODED
+
 
     def setReturnFormat(self, format):
         """Set the return format. If not an allowed value, the setting is ignored.
@@ -431,6 +435,38 @@ class SPARQLWrapper(object):
                 self.parameters[name] = []
             self.parameters[name].append(value)
             return True
+
+    def addCustomHttpHeader(self, httpHeaderName, httpHeaderValue):
+        """
+            Add a custom HTTP header (this method can override all HTTP headers).
+            IMPORTANT: Take into acount that each previous value for the header field names
+            C{Content-Type}, C{User-Agent}, C{Accept} and C{Authorization} would be overriden
+            if the header field name is present as value of the parameter C{httpHeaderName}.
+            @since: 1.8.2
+
+            @param httpHeaderName: The header field name.
+            @type httpHeaderName: string
+            @param httpHeaderValue: The header field value.
+            @type httpHeaderValue: string
+        """
+        self.customHttpHeaders[httpHeaderName] = httpHeaderValue
+
+    def clearCustomHttpHeader(self, httpHeaderName):
+        """
+            Clear the values of a custom Http Header previously setted.
+            Returns a boolean indicating if the clearing has been accomplished.
+            @since: 1.8.2
+
+            @param httpHeaderName: name
+            @type httpHeaderName: string
+            @return: Returns a boolean indicating if the clearing has been accomplished.
+            @rtype: bool
+        """
+        try:
+            del self.customHttpHeaders[httpHeaderName]
+            return True
+        except KeyError:
+            return False
 
     def clearParameter(self, name):
         """
@@ -704,6 +740,10 @@ class SPARQLWrapper(object):
                 raise NotImplementedError("Expecting one of: {0}, but received: {1}".format(valid_types,
                                                                                             self.http_auth))
 
+        # The header field name is capitalized in the request.add_header method.
+        for customHttpHeader in self.customHttpHeaders:
+            request.add_header(customHttpHeader, self.customHttpHeaders[customHttpHeader])
+
         return request
 
     def _query(self):
@@ -809,7 +849,7 @@ class QueryResult(object):
     def info(self):
         """Return the meta-information of the HTTP result.
         @return: meta information of the HTTP result
-        @rtype: dictionary
+        @rtype: dict
         """
         return KeyCaseInsensitiveDict(self.response.info())
 
@@ -828,7 +868,7 @@ class QueryResult(object):
         Convert a JSON result into a Python dict. This method can be overwritten in a subclass
         for a different conversion method.
         @return: converted result
-        @rtype: Python dictionary
+        @rtype: dict
         """
         return json.loads(self.response.read().decode("utf-8"))
 

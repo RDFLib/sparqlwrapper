@@ -245,6 +245,54 @@ class SPARQLWrapper_Test(TestCase):
         # should succeed for python 3 since pull request #72
         self.assertEqual("Basic bG9naW46cGFzc3dvcmQ=", request.get_header('Authorization'))
 
+    def testAddCustomHttpHeader(self):
+        request = self._get_request(self.wrapper)
+        self.assertFalse(request.has_header('Foo'))
+
+        # Add new header field name
+        self.wrapper.addCustomHttpHeader('Foo', 'bar')
+        request = self._get_request(self.wrapper)
+        self.assertTrue(request.has_header('Foo'))
+        self.assertEqual("bar", request.get_header('Foo'))
+
+        # Override a new field name
+        self.wrapper.addCustomHttpHeader('Foo', 'bar')
+        request = self._get_request(self.wrapper)
+        self.assertTrue(request.has_header('Foo'))
+        self.assertEqual("bar", request.get_header('Foo'))
+        self.wrapper.addCustomHttpHeader('Foo', 'bar_2')
+        request = self._get_request(self.wrapper)
+        self.assertTrue(request.has_header('Foo'))
+        self.assertEqual("bar_2", request.get_header('Foo'))
+
+        # Override header field name
+        self.wrapper.addCustomHttpHeader('User-agent', 'Another UA')
+        request = self._get_request(self.wrapper)
+        self.assertEqual("Another UA", request.get_header('User-agent'))
+
+    def testClearCustomHttpHeader(self):
+        request = self._get_request(self.wrapper)
+        self.assertFalse(request.has_header('Foo'))
+
+        # Add new header field name
+        self.wrapper.addCustomHttpHeader('Foo_1', 'bar_1')
+        self.wrapper.addCustomHttpHeader('Foo_2', 'bar_2')
+        self.wrapper.addCustomHttpHeader('Foo_3', 'bar_3')
+
+
+        self.assertFalse(self.wrapper.clearCustomHttpHeader('Foo_4'))
+        self.assertTrue(self.wrapper.clearCustomHttpHeader('Foo_3'))
+
+        customHttpHeaders = self.wrapper.customHttpHeaders
+
+        self.assertTrue('Foo_1' in customHttpHeaders)
+        self.assertTrue('Foo_2' in customHttpHeaders)
+        self.assertEqual('bar_1', customHttpHeaders['Foo_1'])
+        self.assertEqual('bar_2', customHttpHeaders['Foo_2'])
+
+        self.assertFalse(self.wrapper.clearCustomHttpHeader('Foo_3'), 'already cleaned')
+
+
     def testSetHTTPAuth(self):
         self.assertRaises(TypeError, self.wrapper.setHTTPAuth, 123)
 
