@@ -63,7 +63,7 @@ from SPARQLWrapper import __agent__
 #  Possible parameter keys and values...
 #  Examples:
 #  - ClioPatria: the SWI-Prolog Semantic Web Server <http://cliopatria.swi-prolog.org/home>
-#    * Parameter key: "format"
+#    * Parameter key: "format" <http://cliopatria.swi-prolog.org/help/http>
 #    * Parameter value must have one of these values: "rdf+xml", "json", "csv", "application/sparql-results+xml" or "application/sparql-results+json".
 #
 #  - OpenLink Virtuoso  <http://virtuoso.openlinksw.com>
@@ -193,7 +193,7 @@ _REQUEST_METHODS  = [URLENCODED, POSTDIRECTLY]
 # mime types have just been proposed and not yet widely used...
 _SPARQL_DEFAULT  = ["application/sparql-results+xml", "application/rdf+xml", "*/*"]
 _SPARQL_XML      = ["application/sparql-results+xml"]
-_SPARQL_JSON     = ["application/sparql-results+json", "text/javascript", "application/json"]
+_SPARQL_JSON     = ["application/sparql-results+json", "application/json", "text/javascript", "application/javascript"] # VIVO server returns "application/javascript"
 _RDF_XML         = ["application/rdf+xml"]
 _RDF_N3          = ["text/rdf+n3", "application/n-triples", "application/turtle", "application/n3", "text/n3", "text/turtle"]
 _RDF_JSONLD      = ["application/x-json+ld", "application/ld+json"]
