@@ -17,7 +17,7 @@ class SPARQLWrapperException(Exception):
     """
 
     msg = "an exception has occurred"
-    
+
     def __init__(self, response=None):
         if response:
             formatted_msg = "%s: %s. \n\nResponse:\n%s" % (self.__class__.__name__, self.msg, response)

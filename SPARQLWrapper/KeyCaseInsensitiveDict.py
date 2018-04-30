@@ -18,12 +18,12 @@ class KeyCaseInsensitiveDict(dict):
             self[k] = v
 
     def __setitem__(self, key, value):
-        if (hasattr(key, "lower")):
+        if hasattr(key, "lower"):
             key = key.lower()
         dict.__setitem__(self, key, value)
 
     def __getitem__(self, key):
-        if (hasattr(key, "lower")):
+        if hasattr(key, "lower"):
             key = key.lower()
         return dict.__getitem__(self, key)
 
@@ -31,4 +31,3 @@ class KeyCaseInsensitiveDict(dict):
         if hasattr(key, "lower"):
             key = key.lower()
         dict.__delitem__(self, key)
-

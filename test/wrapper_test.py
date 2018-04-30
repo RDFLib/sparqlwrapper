@@ -4,13 +4,13 @@ import os
 import sys
 
 import logging
-logging.basicConfig()
 
 import unittest
 import urllib2
 from urlparse import urlparse, parse_qsl, parse_qs
 from urllib2 import Request
 
+logging.basicConfig()
 
 # prefer local copy to the one which is installed
 # hack from http://stackoverflow.com/a/6098238/280539
@@ -22,13 +22,6 @@ if _top_level_path not in sys.path:
     sys.path.insert(0, _top_level_path)
 # end of hack
 
-from SPARQLWrapper import SPARQLWrapper
-from SPARQLWrapper import XML, GET, POST, JSON, JSONLD, N3, TURTLE, RDF, SELECT, INSERT, RDFXML, CSV, TSV
-from SPARQLWrapper import URLENCODED, POSTDIRECTLY
-from SPARQLWrapper import BASIC, DIGEST
-from SPARQLWrapper.Wrapper import QueryResult, QueryBadFormed, EndPointNotFound, EndPointInternalError
-
-
 # we don't want to let Wrapper do real web-requests. so, we are…
 # constructing a simple Mock!
 from urllib2 import HTTPError
@@ -37,6 +30,12 @@ from io import StringIO
 import warnings
 
 import SPARQLWrapper.Wrapper as _victim
+
+from SPARQLWrapper import SPARQLWrapper
+from SPARQLWrapper import XML, GET, POST, JSON, JSONLD, N3, TURTLE, RDF, SELECT, INSERT, RDFXML, CSV, TSV
+from SPARQLWrapper import URLENCODED, POSTDIRECTLY
+from SPARQLWrapper import BASIC, DIGEST
+from SPARQLWrapper.Wrapper import QueryResult, QueryBadFormed, EndPointNotFound, EndPointInternalError
 
 
 class FakeResult(object):
@@ -119,7 +118,7 @@ class SPARQLWrapper_Test(TestCase):
             return parameters
         else:
             result = {}
-            for k,vs in parameters.iteritems():
+            for k, vs in parameters.iteritems():
                 result[k] = [v.encode('utf-8') for v in vs]
             return result
 
@@ -197,7 +196,7 @@ class SPARQLWrapper_Test(TestCase):
         try:
             import rdflib_jsonld
             self.wrapper.setReturnFormat(JSONLD)
-            self.assertEqual(JSONLD, self.wrapper.query().requestedFormat)   
+            self.assertEqual(JSONLD, self.wrapper.query().requestedFormat)
         except ImportError:
             self.assertRaises(ValueError, self.wrapper.setReturnFormat, JSONLD)
 
@@ -240,7 +239,7 @@ class SPARQLWrapper_Test(TestCase):
         self.wrapper.setCredentials('login', 'password')
         request = self._get_request(self.wrapper)
         self.assertTrue(request.has_header('Authorization'))
-        
+
         # expected header for login:password
         # should succeed for python 3 since pull request #72
         self.assertEqual("Basic bG9naW46cGFzc3dvcmQ=", request.get_header('Authorization'))
@@ -319,11 +318,11 @@ class SPARQLWrapper_Test(TestCase):
 
         self.wrapper.setQuery('PREFIX e: <http://example.org/> INSERT {e:a e:b e:c}')
         self.assertEqual(INSERT, self.wrapper.queryType)
-        
-        self.wrapper.setQuery("""#CONSTRUCT {?s ?p ?o} 
+
+        self.wrapper.setQuery("""#CONSTRUCT {?s ?p ?o}
                                    SELECT ?s ?p ?o
                                    WHERE {?s ?p ?o}""")
-        self.assertEqual(SELECT, self.wrapper.queryType)        
+        self.assertEqual(SELECT, self.wrapper.queryType)
 
         with warnings.catch_warnings(record=True) as w:
             self.wrapper.setQuery('UNKNOWN {e:a e:b e:c}')
@@ -642,7 +641,7 @@ WHERE {
 
     def testCommentsFirstLine(self):
         # see issue #77
-        query = """#CONSTRUCT {?s ?p ?o} 
+        query = """#CONSTRUCT {?s ?p ?o}
                                    SELECT ?s ?p ?o
                                    WHERE {?s ?p ?o}"""
         expected_parsed_query = """

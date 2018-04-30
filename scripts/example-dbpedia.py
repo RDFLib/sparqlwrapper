@@ -28,4 +28,3 @@ WHERE {
 sparql.setReturnFormat(JSON)
 results = sparql.query()
 results.print_results()
-

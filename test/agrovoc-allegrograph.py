@@ -4,6 +4,8 @@
 import inspect
 import os
 import sys
+import logging
+import unittest
 
 # prefer local copy to the one which is installed
 # hack from http://stackoverflow.com/a/6098238/280539
@@ -15,7 +17,6 @@ if _top_level_path not in sys.path:
     sys.path.insert(0, _top_level_path)
 # end of hack
 
-import unittest
 try:
     from rdflib.graph import ConjunctiveGraph
 except ImportError:
@@ -37,7 +38,6 @@ try:
 except NameError:
     bytes = str
 
-import logging
 logging.basicConfig()
 
 endpoint = "http://202.45.139.84:10035/catalogs/fao/repositories/agrovoc"
@@ -177,45 +177,45 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_XML], ct
         results = result.convert()
- 
+
     def testSelectByPOSTinXML(self):
         result = self.__generic(selectQuery, XML, POST)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_XML], ct
         results = result.convert()
         results.toxml()
- 
+
     def testSelectByGETinCSV(self):
         result = self.__generic(selectQueryCSV_TSV, CSV, GET)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _CSV], ct
         results = result.convert()
- 
+
     def testSelectByPOSTinCSV(self):
         result = self.__generic(selectQueryCSV_TSV, CSV, POST)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _CSV], ct
         results = result.convert()
- 
+
     def testSelectByGETinTSV(self):
         result = self.__generic(selectQueryCSV_TSV, TSV, GET)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _TSV], ct
         results = result.convert()
- 
+
     def testSelectByPOSTinTSV(self):
         result = self.__generic(selectQueryCSV_TSV, TSV, POST)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _TSV], ct
         results = result.convert()
- 
+
     def testSelectByGETinJSON(self):
         result = self.__generic(selectQuery, JSON, GET)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_JSON], ct
         results = result.convert()
         self.assertEqual(type(results), dict)
- 
+
     def testSelectByPOSTinJSON(self):
         result = self.__generic(selectQuery, JSON, POST)
         ct = result.info()["content-type"]
@@ -230,7 +230,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
         results = result.convert()
         results.toxml()
-    
+
     # asking for an unexpected return format for SELECT queryType
     def testSelectByGETinJSONLD(self):
         result = self.__generic(selectQuery, JSONLD, GET)
@@ -244,7 +244,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
         results = result.convert()
- 
+
      # asking for an unexpected return format for SELECT queryType
     def testSelectByPOSTinUnknow(self):
         result = self.__generic(selectQuery, "bar", POST)
@@ -326,21 +326,21 @@ class SPARQLWrapperTests(unittest.TestCase):
         assert True in [one in ct for one in _RDF_XML], ct
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
- 
+
     def testConstructByPOSTinXML(self):
         result = self.__generic(constructQuery, XML, POST)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_XML], ct
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
- 
+
     def testConstructByGETinN3(self):
         result = self.__generic(constructQuery, N3, GET)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_N3], ct
         results = result.convert()
         self.assertEqual(type(results), bytes)
- 
+
     def testConstructByPOSTinN3(self):
         result = self.__generic(constructQuery, N3, POST)
         ct = result.info()["content-type"]
@@ -473,7 +473,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], ct
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
- 
+
     # asking for an unexpected return format for DESCRIBE queryType
     def testDescribeByPOSTinUnknow(self):
         result = self.__generic(describeQuery, "bar", POST)
@@ -485,18 +485,18 @@ class SPARQLWrapperTests(unittest.TestCase):
 ################################################################################
 
     def testQueryBadFormed(self):
-        self.assertRaises(QueryBadFormed, self.__generic, queryBadFormed, XML, GET) 
- 
+        self.assertRaises(QueryBadFormed, self.__generic, queryBadFormed, XML, GET)
+
     def testQueryManyPrefixes(self):
         result = self.__generic(queryManyPrefixes, XML, GET)
- 
+
     def testKeepAlive(self):
         sparql = SPARQLWrapper(endpoint)
         sparql.setQuery('SELECT * WHERE {?s ?p ?o} LIMIT 10')
         sparql.setReturnFormat(JSON)
         sparql.setMethod(GET)
         sparql.setUseKeepAlive()
- 
+
         sparql.query()
         sparql.query()
 
@@ -513,4 +513,3 @@ class SPARQLWrapperTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

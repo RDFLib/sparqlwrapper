@@ -153,7 +153,7 @@ _allowedFormats = [JSON, XML, TURTLE, N3, RDF, RDFXML, CSV, TSV]
 
 # Possible HTTP methods
 POST = "POST"
-GET  = "GET"
+GET = "GET"
 _allowedRequests = [POST, GET]
 
 # Possible HTTP Authentication methods
@@ -181,7 +181,7 @@ _allowedQueryTypes = [SELECT, CONSTRUCT, ASK, DESCRIBE, INSERT, DELETE, CREATE, 
 # Possible methods to perform requests
 URLENCODED = "urlencoded"
 POSTDIRECTLY = "postdirectly"
-_REQUEST_METHODS  = [URLENCODED, POSTDIRECTLY]
+_REQUEST_METHODS = [URLENCODED, POSTDIRECTLY]
 
 # Possible output format (mime types) that can be converted by the local script. Unfortunately,
 # it does not work by simply setting the return format, because there is still a certain level of confusion
@@ -202,7 +202,8 @@ _TSV             = ["text/tab-separated-values"]
 _XML             = ["application/xml"]
 _ALL             = ["*/*"]
 _RDF_POSSIBLE    = _RDF_XML + _RDF_N3 + _XML
-_SPARQL_PARAMS   = ["query"]
+
+_SPARQL_PARAMS = ["query"]
 
 try:
     import rdflib_jsonld
@@ -319,7 +320,7 @@ class SPARQLWrapper(object):
         @type format: string
         @raise ValueError: If L{JSONLD} is tried to set and the current instance does not support JSON-LD.
         """
-        if format in _allowedFormats :
+        if format in _allowedFormats:
             self.returnFormat = format
         elif format == JSONLD:
             raise ValueError("Current instance does not support JSON-LD; you might want to install the rdflib-json package.")
@@ -538,9 +539,9 @@ class SPARQLWrapper(object):
                 raise TypeError('setQuery takes either unicode-strings or utf-8 encoded byte-strings')
 
         self.queryString = query
-        self.queryType   = self._parseQueryType(query)
+        self.queryType = self._parseQueryType(query)
 
-    def _parseQueryType(self,query):
+    def _parseQueryType(self, query):
         """
             Internal method for parsing the SPARQL query and return its type (ie, L{SELECT}, L{ASK}, etc).
 
@@ -555,26 +556,27 @@ class SPARQLWrapper(object):
             @rtype: string
         """
         try:
-            query = query if type(query)==str else query.encode('ascii', 'ignore')
+            query = query if (isinstance(query, str)) else query.encode('ascii', 'ignore')
             query = self._cleanComments(query)
             r_queryType = self.pattern.search(query).group("queryType").upper()
         except AttributeError:
             warnings.warn("not detected query type for query '%s'" % query.replace("\n", " "), RuntimeWarning)
             r_queryType = None
 
-        if r_queryType in _allowedQueryTypes :
+        if r_queryType in _allowedQueryTypes:
             return r_queryType
-        else :
+        else:
             #raise Exception("Illegal SPARQL Query; must be one of SELECT, ASK, DESCRIBE, or CONSTRUCT")
             warnings.warn("unknown query type '%s'" % r_queryType, RuntimeWarning)
             return SELECT
 
-    def setMethod(self,method):
+    def setMethod(self, method):
         """Set the invocation method. By default, this is L{GET}, but can be set to L{POST}.
         @param method: should be either L{GET} or L{POST}. Other cases are ignored.
         @type method: string
         """
-        if method in _allowedRequests : self.method = method
+        if method in _allowedRequests:
+            self.method = method
 
     def setUseKeepAlive(self):
         """Make urllib2 use keep-alive.
@@ -614,7 +616,7 @@ class SPARQLWrapper(object):
         @return: the query after all occurrence of singleline comments are removed.
         @rtype: string
         """
-        return re.sub(self.comments_pattern, "\n\n" , query)
+        return re.sub(self.comments_pattern, "\n\n", query)
 
     def _getRequestEncodedParameters(self, query=None):
         """ Internal method for getting the request encoded parameters.
@@ -623,7 +625,7 @@ class SPARQLWrapper(object):
         """
         query_parameters = self.parameters.copy()
 
-        if query and type(query) == tuple and len(query) == 2:
+        if query and (isinstance(query, tuple)) and len(query) == 2:
             #tuple ("query"/"update", queryString)
             query_parameters[query[0]] = [query[1]]
 
@@ -640,8 +642,8 @@ class SPARQLWrapper(object):
                 if self.returnFormat in [TSV, JSONLD]:
                     acceptHeader = self._getAcceptHeader() # to obtain the mime-type "text/tab-separated-values"
                     if "*/*" in acceptHeader:
-                        acceptHeader="" # clear the value in case of "*/*"
-                    query_parameters[f]+= [acceptHeader]
+                        acceptHeader = "" # clear the value in case of "*/*"
+                    query_parameters[f] += [acceptHeader]
 
         pairs = (
             "%s=%s" % (
@@ -828,11 +830,11 @@ class QueryResult(object):
     @type requestedFormat: string
 
     """
-    def __init__(self,result):
+    def __init__(self, result):
         """
         @param result: HTTP response stemming from a L{SPARQLWrapper.query} call, or a tuple with the expected format: (response,format)
         """
-        if (type(result) == tuple):
+        if isinstance(result, tuple):
             self.response = result[0]
             self.requestedFormat = result[1]
         else:
@@ -992,31 +994,31 @@ class QueryResult(object):
 
     def print_results(self, minWidth=None):
         results = self._convertJSON()
-        if minWidth :
+        if minWidth:
             width = self.__get_results_width(results, minWidth)
-        else :
+        else:
             width = self.__get_results_width(results)
         index = 0
-        for var in results["head"]["vars"] :
-            print ("?" + var).ljust(width[index]),"|",
+        for var in results["head"]["vars"]:
+            print ("?" + var).ljust(width[index]), "|",
             index += 1
         print
         print "=" * (sum(width) + 3 * len(width))
-        for result in results["results"]["bindings"] :
+        for result in results["results"]["bindings"]:
             index = 0
-            for var in results["head"]["vars"] :
+            for var in results["head"]["vars"]:
                 result = self.__get_prettyprint_string_sparql_var_result(result[var])
-                print result.ljust(width[index]),"|",
+                print result.ljust(width[index]), "|",
                 index += 1
             print
 
     def __get_results_width(self, results, minWidth=2):
         width = []
-        for var in results["head"]["vars"] :
+        for var in results["head"]["vars"]:
             width.append(max(minWidth, len(var)+1))
-        for result in results["results"]["bindings"] :
+        for result in results["results"]["bindings"]:
             index = 0
-            for var in results["head"]["vars"] :
+            for var in results["head"]["vars"]:
                 result = self.__get_prettyprint_string_sparql_var_result(result[var])
                 width[index] = max(width[index], len(result))
                 index += 1
@@ -1025,9 +1027,9 @@ class QueryResult(object):
     def __get_prettyprint_string_sparql_var_result(self, result):
         value = result["value"]
         lang = result.get("xml:lang", None)
-        datatype = result.get("datatype",None)
+        datatype = result.get("datatype", None)
         if lang is not None:
-            value+="@"+lang
+            value += "@"+lang
         if datatype is not None:
-            value+=" ["+datatype+"]"
+            value += " ["+datatype+"]"
         return value

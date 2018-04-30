@@ -8,11 +8,10 @@
 @requires: U{RDFLib<http://rdflib.net>} package.
 """
 
-import SPARQLWrapper
-from SPARQLWrapper.Wrapper import JSON, SELECT
 import urllib2
 from types import *
-
+import SPARQLWrapper
+from SPARQLWrapper.Wrapper import JSON, SELECT
 
 ######################################################################################
 
@@ -41,7 +40,7 @@ class Value(object):
     TypedLiteral = "typed-literal"
     BNODE = "bnode"
 
-    def __init__(self, variable, binding) :
+    def __init__(self, variable, binding):
         """
         @param variable: the variable for that binding. Stored for an easier reference
         @param binding: the binding dictionary part of the return result for a specific binding
@@ -51,14 +50,14 @@ class Value(object):
         self.type = binding['type']
         self.lang = None
         self.datatype = None
-        try :
+        try:
             self.lang = binding['xml:lang']
-        except :
+        except:
             # no lang is set
             pass
-        try :
+        try:
             self.datatype = binding['datatype']
-        except :
+        except:
             pass
 
     def __repr__(self):
@@ -89,50 +88,50 @@ class Bindings(object):
     @ivar askResult: by default, set to False; in case of an ASK query, the result of the query
     @type askResult: Boolean
     """
-    def __init__(self, retval) :
+    def __init__(self, retval):
         """
         @param retval: the query result, instance of a L{Wrapper.QueryResult}
         """
         self.fullResult = retval._convertJSON()
         self.head = self.fullResult['head']
         self.variables = None
-        try :
+        try:
             self.variables = self.fullResult['head']['vars']
-        except :
+        except:
             pass
 
         self.bindings = []
-        try :
-            for b in self.fullResult['results']['bindings'] :
+        try:
+            for b in self.fullResult['results']['bindings']:
                 #  this is a single binding.  It is a dictionary per variable; each value is a dictionary again that has to be
                 # converted into a Value instance
                 newBind = {}
-                for key in self.variables :
-                    if key in b :
+                for key in self.variables:
+                    if key in b:
                         # there is a real binding for this key
                         newBind[key] = Value(key, b[key])
                 self.bindings.append(newBind)
-        except :
+        except:
             pass
 
         self.askResult = False
-        try :
+        try:
             self.askResult = self.fullResult["boolean"]
-        except :
+        except:
             pass
 
-    def getValues(self, key) :
+    def getValues(self, key):
         """A shorthand for the retrieval of all bindings for a single key. It is
         equivalent to "C{[b[key] for b in self[key]]}"
         @param key: possible variable
         @return: list of L{Value} instances
         """
-        try :
+        try:
             return [b[key] for b in self[key]]
-        except :
+        except:
             return []
 
-    def __contains__(self, key) :
+    def __contains__(self, key):
         """Emulation of the "C{key in obj}" operator. Key can be a string for a variable or an array/tuple
         of strings.
 
@@ -144,26 +143,30 @@ class Bindings(object):
         @return: whether there is a binding of the variable in the return
         @rtype: Boolean
         """
-        if len(self.bindings) == 0 : return False
+        if len(self.bindings) == 0:
+            return False
         if type(key) is list or type(key) is tuple:
             # check first whether they are all really variables
-            if False in [ k in self.variables for k in key ]: return False
-            for b in self.bindings :
+            if False in [k in self.variables for k in key]:
+                return False
+            for b in self.bindings:
                 # try to find a binding where all key elements are present
-                if False in [ k in b for k in key ] :
+                if False in [k in b for k in key]:
                     # this is not a binding for the key combination, move on...
                     continue
-                else :
+                else:
                     # yep, this one is good!
                     return True
             return False
-        else :
-            if key not in self.variables : return False
-            for b in self.bindings :
-                if key in b : return True
+        else:
+            if key not in self.variables:
+                return False
+            for b in self.bindings:
+                if key in b:
+                    return True
             return False
 
-    def __getitem__(self, key) :
+    def __getitem__(self, key):
         """Emulation of the C{obj[key]} operator.  Slice notation is also available.
         The goal is to choose the right bindings among the available ones. The return values are always
         arrays  of bindings, ie, arrays of dictionaries mapping variable keys to L{Value} instances.
@@ -182,49 +185,55 @@ class Bindings(object):
         @return: list of bindings
         @rtype: array of variable -> L{Value}  dictionaries
         """
-        def _checkKeys(keys) :
-            if len(keys) == 0 : return False
-            for k in keys :
-                if not isinstance(k, basestring) or not k in self.variables: return False
+        def _checkKeys(keys):
+            if len(keys) == 0:
+                return False
+            for k in keys:
+                if not isinstance(k, basestring) or not k in self.variables:
+                    return False
             return True
 
-        def _nonSliceCase(key) :
-            if isinstance(key, basestring) and key != "" and key in self.variables :
+        def _nonSliceCase(key):
+            if isinstance(key, basestring) and key != "" and key in self.variables:
                 # unicode or string:
                 return [key]
             elif type(key) is list or type(key) is tuple:
-                if _checkKeys(key) :
+                if _checkKeys(key):
                     return key
             return False
 
         # The arguments should be reduced to arrays of variables, ie, unicode strings
         yes_keys = []
         no_keys = []
-        if type(key) is slice :
+        if type(key) is slice:
             # Note: None for start or stop is all right
-            if key.start :
+            if key.start:
                 yes_keys = _nonSliceCase(key.start)
-                if not yes_keys: raise TypeError
-            if key.stop :
+                if not yes_keys:
+                    raise TypeError
+            if key.stop:
                 no_keys = _nonSliceCase(key.stop)
-                if not no_keys: raise TypeError
-        else :
+                if not no_keys:
+                    raise TypeError
+        else:
             yes_keys = _nonSliceCase(key)
 
         # got it right, now get the right binding line with the constraints
         retval = []
-        for b in self.bindings :
+        for b in self.bindings:
             # first check whether the 'yes' part is all there:
-            if False in [k in b for k in yes_keys] : continue
-            if True  in [k in b for k in no_keys]  : continue
+            if False in [k in b for k in yes_keys]:
+                continue
+            if True  in [k in b for k in no_keys]:
+                continue
             # if we got that far, we shouild be all right!
             retval.append(b)
         # if retval is of zero length, no hit; an exception should be raised to stay within the python style
-        if len(retval) == 0 :
+        if len(retval) == 0:
             raise IndexError
         return retval
 
-    def convert(self) :
+    def convert(self):
         """This is just a convenience method, returns C{self}.
 
         Although C{Binding} is not a subclass of L{QueryResult<SPARQLWrapper.Wrapper.QueryResult>}, it is returned as a result by
@@ -238,7 +247,7 @@ class Bindings(object):
 
 
 class SPARQLWrapper2(SPARQLWrapper.SPARQLWrapper):
-    """Subclass of L{Wrapper<SPARQLWrapper.SPARQLWrapper>} that works with a JSON SELECT return result only. The query result 
+    """Subclass of L{Wrapper<SPARQLWrapper.SPARQLWrapper>} that works with a JSON SELECT return result only. The query result
     is automatically set to a L{Bindings} instance. Makes the average query processing a bit simpler..."""
     def __init__(self, baseURI, defaultGraph=None):
         """

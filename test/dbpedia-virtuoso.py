@@ -4,6 +4,7 @@
 import inspect
 import os
 import sys
+import logging
 
 # prefer local copy to the one which is installed
 # hack from http://stackoverflow.com/a/6098238/280539
@@ -37,7 +38,6 @@ try:
 except NameError:
     bytes = str
 
-import logging
 logging.basicConfig()
 
 endpoint = "http://dbpedia.org/sparql"
@@ -507,4 +507,3 @@ class SPARQLWrapperTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-
