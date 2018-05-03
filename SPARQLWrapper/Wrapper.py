@@ -44,7 +44,6 @@
 import urllib
 import urllib2
 from urllib2 import urlopen as urlopener  # don't change the name: tests override it
-import socket
 import base64
 import re
 import sys
@@ -758,12 +757,13 @@ class SPARQLWrapper(object):
         @raise EndPointNotFound: If the C{HTTP return code} is C{404}.
         @raise EndPointInternalError: If the C{HTTP return code} is C{500}.
         """
-        if self.timeout:
-            socket.setdefaulttimeout(self.timeout)
         request = self._createRequest()
 
         try:
-            response = urlopener(request)
+            if self.timeout:
+                response = urlopener(request, timeout=self.timeout)
+            else:
+                response = urlopener(request)
             return response, self.returnFormat
         except urllib2.HTTPError, e:
             if e.code == 400:
