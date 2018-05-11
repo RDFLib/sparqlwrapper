@@ -32,7 +32,11 @@ cp -r build/lib/SPARQLWrapper build/py3_testing/
 
 cd build/py3_testing
 
-2to3-$PYTHON_VERSION -wn --no-diffs test
+if command -v 2to3-$PYTHON_VERSION; then
+    2to3-$PYTHON_VERSION -wn --no-diffs test
+else
+    2to3 -wn --no-diffs test
+fi
 
 sed -i.bak s/urllib2._opener/urllib.request._opener/g test/wrapper_test.py
 
