@@ -15,8 +15,8 @@ cmdcheck python3
 
 PYTHON_VERSION=`python3 -c "import sys;t='{v[0]}.{v[1]}'.format(v=list(sys.version_info[:2]));sys.stdout.write(t)";`
 
-cmdcheck 2to3-$PYTHON_VERSION
-cmdcheck nosetests-$PYTHON_VERSION
+#cmdcheck 2to3-$PYTHON_VERSION
+#cmdcheck nosetests-$PYTHON_VERSION
 #cmdcheck nosetests3
 
 python3 setup.py build
