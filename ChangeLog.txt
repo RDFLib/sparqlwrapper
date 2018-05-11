@@ -4,6 +4,7 @@ SPARQLWrapper's changelog:
                     - Updated doc
                     - Added Unauthorized exception in SPARQLWrapperExceptions
                     - Added support for custom HTTP headers (#52)
+                    - Changed timeout setting (#106)
 
 
 2018-02-25  1.8.1   - Update classifiers (Python 3.6)
