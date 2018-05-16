@@ -3,7 +3,7 @@
           "DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <title>SPARQLWrapper.SPARQLExceptions.QueryBadFormed</title>
+  <title>SPARQLWrapper.SPARQLExceptions.Unauthorized</title>
   <link rel="stylesheet" href="epydoc.css" type="text/css" />
   <script type="text/javascript" src="epydoc.js"></script>
 </head>
@@ -44,7 +44,7 @@
       <span class="breadcrumbs">
         <a href="SPARQLWrapper-module.html">Package&nbsp;SPARQLWrapper</a> ::
         <a href="SPARQLWrapper.SPARQLExceptions-module.html">Module&nbsp;SPARQLExceptions</a> ::
-        Class&nbsp;QueryBadFormed
+        Class&nbsp;Unauthorized
       </span>
     </td>
     <td>
@@ -54,14 +54,14 @@
     onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
         <tr><td align="right"><span class="options"
             >[<a href="frames.html" target="_top">frames</a
-            >]&nbsp;|&nbsp;<a href="SPARQLWrapper.SPARQLExceptions.QueryBadFormed-class.html"
+            >]&nbsp;|&nbsp;<a href="SPARQLWrapper.SPARQLExceptions.Unauthorized-class.html"
             target="_top">no&nbsp;frames</a>]</span></td></tr>
       </table>
     </td>
   </tr>
 </table>
 <!-- ==================== CLASS DESCRIPTION ==================== -->
-<h1 class="epydoc">Class QueryBadFormed</h1><p class="nomargin-top"><span class="codelink"><a href="SPARQLWrapper.SPARQLExceptions-pysrc.html#QueryBadFormed">source&nbsp;code</a></span></p>
+<h1 class="epydoc">Class Unauthorized</h1><p class="nomargin-top"><span class="codelink"><a href="SPARQLWrapper.SPARQLExceptions-pysrc.html#Unauthorized">source&nbsp;code</a></span></p>
 <pre class="base-tree">
               object --+            
                        |            
@@ -71,13 +71,17 @@ exceptions.BaseException --+
                                |    
           <a href="SPARQLWrapper.SPARQLExceptions.SPARQLWrapperException-class.html">SPARQLWrapperException</a> --+
                                    |
-                                  <strong class="uidshort">QueryBadFormed</strong>
+                                  <strong class="uidshort">Unauthorized</strong>
 </pre>
 
 <hr />
-<p>Query Bad Formed exception</p>
+<p>Access is denied due to invalid credentials (unauthorized).</p>
 
-<!-- ==================== INSTANCE METHODS ==================== -->
+<hr />
+<div class="fields">      <p><strong>Since:</strong>
+        1.8.2
+      </p>
+</div><!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
 <table class="summary" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
@@ -145,8 +149,8 @@ exceptions.BaseException --+
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="SPARQLWrapper.SPARQLExceptions.QueryBadFormed-class.html#msg" class="summary-name">msg</a> = <code title="'a bad request has been sent to the endpoint, probably the sparql quer\
-y is bad formed'"><code class="variable-quote">'</code><code class="variable-string">a bad request has been sent to the endpoint, probably t</code><code class="variable-ellipsis">...</code></code>
+        <a href="SPARQLWrapper.SPARQLExceptions.Unauthorized-class.html#msg" class="summary-name">msg</a> = <code title="'access is denied due to invalid credentials (unauthorized). Check the\
+ credentials'"><code class="variable-quote">'</code><code class="variable-string">access is denied due to invalid credentials (unauthoriz</code><code class="variable-ellipsis">...</code></code>
     </td>
   </tr>
 </table>
@@ -209,8 +213,8 @@ y is bad formed'"><code class="variable-quote">'</code><code class="variable-str
   <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
-<code class="variable-quote">'</code><code class="variable-string">a bad request has been sent to the endpoint, probably the sparql quer</code><span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-<code class="variable-string">y is bad formed</code><code class="variable-quote">'</code>
+<code class="variable-quote">'</code><code class="variable-string">access is denied due to invalid credentials (unauthorized). Check the</code><span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+<code class="variable-string"> credentials</code><code class="variable-quote">'</code>
 </pre></td></tr></table>
 </dd>
   </dl>
