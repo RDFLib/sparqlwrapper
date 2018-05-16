@@ -162,7 +162,7 @@ The package was greatly inspired by U{Lee Feigenbaum's similar package for Javas
 @requires: U{RDFLib<https://rdflib.readthedocs.io>} package.
 """
 
-__version__ = "1.8.2"
+__version__ = "1.8.3dev0"
 """The version of SPARQLWrapper"""
 
 __authors__ = "Ivan Herman, Sergio Fernández, Carlos Tejo Alonso, Alexey Zakhlestin"

@@ -1,11 +1,13 @@
 SPARQLWrapper's changelog:
 -------------------------
+2018-XX-XX  1.8.3   - XXXX
+
+
 2018-05-26  1.8.2   - Fixed bug (#100)
                     - Updated doc
                     - Added Unauthorized exception in SPARQLWrapperExceptions
                     - Added support for custom HTTP headers (#52)
                     - Changed timeout setting (#106)
-
 
 2018-02-25  1.8.1   - Update classifiers (Python 3.6)
                     - Added some documentation about the parameter to indicate the output format
@@ -107,4 +109,3 @@ SPARQLWrapper's changelog:
                     - Project moved to SourceForge.
 
 2007-07-06  0.2.0   - First public release of the library.
-
