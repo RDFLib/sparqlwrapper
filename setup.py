@@ -77,5 +77,11 @@ setup(
         'Topic :: Software Development :: Libraries :: Python Modules',
       ],
       keywords = ['python', 'sparql', 'rdf', 'rdflib'],
-      use_2to3 = True
+      use_2to3 = True,
+      project_urls={
+        'Home': 'https://rdflib.github.io/sparqlwrapper/',
+        'Documentation': 'https://rdflib.github.io/sparqlwrapper/doc/',
+        'Source': 'https://github.com/RDFLib/sparqlwrapper',
+        'Tracker': 'https://github.com/RDFLib/sparqlwrapper/issues',
+	  }
 )
