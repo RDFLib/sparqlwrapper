@@ -191,3 +191,4 @@ from Wrapper import URLENCODED, POSTDIRECTLY
 from Wrapper import BASIC, DIGEST
 
 from SmartWrapper import SPARQLWrapper2
+from sparql_dataframe import get_sparql_dataframe
