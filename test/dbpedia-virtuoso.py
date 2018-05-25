@@ -476,8 +476,6 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
-
-
     def testQueryBadFormed(self):
         self.assertRaises(QueryBadFormed, self.__generic, queryBadFormed, XML, GET)
 
