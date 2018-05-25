@@ -312,6 +312,15 @@ class SPARQLWrapper_Test(TestCase):
         self.wrapper.http_auth = "OAuth"
         self.assertRaises(NotImplementedError, self._get_request, self.wrapper)
 
+    def testSetProxies(self):
+        proxies = {"http": "127.0.0.1"}
+        self.assertFalse(self.wrapper.proxies)
+        self.wrapper.setProxies(proxies)
+        self.assertTrue(self.wrapper.proxies)
+        self.assertEqual(self.wrapper.proxies, proxies)
+        self.assertIsInstance(urllib2._opener, urllib2.OpenerDirector)
+
+
     def testSetQuery(self):
         self.wrapper.setQuery('PREFIX example: <http://example.org/INSERT/> SELECT * WHERE {?s ?p ?v}')
         self.assertEqual(SELECT, self.wrapper.queryType)
