@@ -34,10 +34,9 @@ if py3:
         if url_match:
             url = url_match.group(1)
 else:
-    import SPARQLWrapper
-    version = SPARQLWrapper.__version__
-    authors = SPARQLWrapper.__authors__
-    url = SPARQLWrapper.__url__
+    version = "1.8.3.dev0"
+    authors = "Ivan Herman, Sergio Fernández, Carlos Tejo Alonso, Alexey Zakhlestin"
+    url = "http://rdflib.github.io/sparqlwrapper"
 
 
 # requirements
