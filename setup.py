@@ -18,27 +18,24 @@ except:
     py3 = sys.version_info[0] >= 3
 
 # metadata
-if py3:
-    import re
-    _version_re = re.compile(r'__version__\s*=\s*"(.*)"')
-    _authors_re = re.compile(r'__authors__\s*=\s*"(.*)"')
-    _url_re = re.compile(r'__url__\s*=\s*"(.*)"')
-    for line in open('SPARQLWrapper/__init__.py', encoding='utf-8'):
-        version_match = _version_re.match(line)
-        if version_match:
-            version = version_match.group(1)
-        authors_match = _authors_re.match(line)
-        if authors_match:
-            authors = authors_match.group(1)
-        url_match = _url_re.match(line)
-        if url_match:
-            url = url_match.group(1)
-else:
-    import SPARQLWrapper
-    version = SPARQLWrapper.__version__
-    authors = SPARQLWrapper.__authors__
-    url = SPARQLWrapper.__url__
+import re
+_version_re = re.compile(r'__version__\s*=\s*"(.*)"')
+_authors_re = re.compile(r'__authors__\s*=\s*"(.*)"')
+_url_re = re.compile(r'__url__\s*=\s*"(.*)"')
 
+for line in open('SPARQLWrapper/__init__.py'):
+
+    version_match = _version_re.match(line)
+    if version_match:
+        version = version_match.group(1)
+
+    authors_match = _authors_re.match(line)
+    if authors_match:
+        authors = authors_match.group(1)
+
+    url_match = _url_re.match(line)
+    if url_match:
+        url = url_match.group(1)
 
 # requirements
 with open('requirements.txt', 'r') as f:
