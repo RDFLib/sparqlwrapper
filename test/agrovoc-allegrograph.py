@@ -168,9 +168,12 @@ class SPARQLWrapperTests(unittest.TestCase):
         else:
             return result
 
-###############
-#### SELECT ###
-###############
+################################################################################
+################################################################################
+
+################
+#### SELECT ####
+################
 
     def testSelectByGETinXML(self):
         result = self.__generic(selectQuery, XML, GET)
@@ -253,10 +256,11 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
 
 ################################################################################
+################################################################################
 
-###############
-#### ASK ###
-###############
+#############
+#### ASK ####
+#############
 
     def testAskByGETinXML(self):
         result = self.__generic(askQuery, XML, GET)
@@ -315,10 +319,11 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
 
 ################################################################################
+################################################################################
 
-##################
-#### CONSTRUCT ###
-##################
+###################
+#### CONSTRUCT ####
+###################
 
     def testConstructByGETinXML(self):
         result = self.__generic(constructQuery, XML, GET)
@@ -399,10 +404,11 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), ConjunctiveGraph)
 
 ################################################################################
+################################################################################
 
-#################
-#### DESCRIBE ###
-#################
+##################
+#### DESCRIBE ####
+##################
 
     def testDescribeByGETinXML(self):
         result = self.__generic(describeQuery, XML, GET)
@@ -482,6 +488,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
+################################################################################
 ################################################################################
 
     def testQueryBadFormed(self):

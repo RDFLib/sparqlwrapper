@@ -167,6 +167,13 @@ class SPARQLWrapperTests(unittest.TestCase):
         else:
             return result
 
+################################################################################
+################################################################################
+
+################
+#### SELECT ####
+################
+
     def testSelectByGETinXML(self):
         result = self.__generic(selectQuery, XML, GET)
         ct = result.info()["content-type"]
@@ -194,13 +201,13 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
 
     def testSelectByGETinTSV(self):
-        result = self.__generic(selectQueryCSV_TSV, TSV, GET, True)
+        result = self.__generic(selectQueryCSV_TSV, TSV, GET, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _TSV], ct
         results = result.convert()
 
     def testSelectByPOSTinTSV(self):
-        result = self.__generic(selectQueryCSV_TSV, TSV, POST, True)
+        result = self.__generic(selectQueryCSV_TSV, TSV, POST, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _TSV], ct
         results = result.convert()
@@ -244,6 +251,11 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
 
 ################################################################################
+################################################################################
+
+#############
+#### ASK ####
+#############
 
     def testAskByGETinXML(self):
         result = self.__generic(askQuery, XML, GET)
@@ -272,13 +284,13 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
 
     def testAskByGETinTSV(self):
-        result = self.__generic(askQuery, TSV, GET, True)
+        result = self.__generic(askQuery, TSV, GET, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _TSV], ct
         results = result.convert()
 
     def testAskByPOSTinTSV(self):
-        result = self.__generic(askQuery, TSV, POST, True)
+        result = self.__generic(askQuery, TSV, POST, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _TSV], ct
         results = result.convert()
@@ -321,6 +333,11 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
 
 ###############################################################################
+################################################################################
+
+###################
+#### CONSTRUCT ####
+###################
 
     def testConstructByGETinXML(self):
         result = self.__generic(constructQuery, XML, GET)
@@ -369,14 +386,14 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), ConjunctiveGraph)
 
     def testConstructByGETinJSONLD(self):
-        result = self.__generic(constructQuery, JSONLD, GET, True)
+        result = self.__generic(constructQuery, JSONLD, GET, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_JSONLD], "returned Content-Type='%s'." %(ct)
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
     def testConstructByPOSTinJSONLD(self):
-        result = self.__generic(constructQuery, JSONLD, POST, True)
+        result = self.__generic(constructQuery, JSONLD, POST, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_JSONLD], "returned Content-Type='%s'." %(ct)
         results = result.convert()
@@ -399,6 +416,11 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), ConjunctiveGraph)
 
 ###############################################################################
+################################################################################
+
+##################
+#### DESCRIBE ####
+##################
 
     def testDescribeByGETinXML(self):
         result = self.__generic(describeQuery, XML, GET)
@@ -447,14 +469,14 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), ConjunctiveGraph)
 
     def testDescribeByGETinJSONLD(self):
-        result = self.__generic(describeQuery, JSONLD, GET, True)
+        result = self.__generic(describeQuery, JSONLD, GET, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_JSONLD], "returned Content-Type='%s'." %(ct)
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
     def testDescribeByPOSTinJSONLD(self):
-        result = self.__generic(describeQuery, JSONLD, POST, True)
+        result = self.__generic(describeQuery, JSONLD, POST, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_JSONLD], "returned Content-Type='%s'." %(ct)
         results = result.convert()
