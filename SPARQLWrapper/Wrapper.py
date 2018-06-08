@@ -636,10 +636,10 @@ class SPARQLWrapper(object):
             for f in _returnFormatSetting:
                 query_parameters[f] = [self.returnFormat]
                 # Virtuoso is not supporting a correct Accept header and an unexpected "output"/"format" parameter value. It returns a 406.
-                # "tsv" and "json-ld" are not supported as a correct "output"/"format" parameter value but "text/tab-separated-values" is a valid value,
+                # "tsv", "rdf+xml" and "json-ld" are not supported as a correct "output"/"format" parameter value but "text/tab-separated-values" or "application/rdf+xml" are a valid values,
                 # and there is no problem to send both.
-                if self.returnFormat in [TSV, JSONLD]:
-                    acceptHeader = self._getAcceptHeader() # to obtain the mime-type "text/tab-separated-values"
+                if self.returnFormat in [TSV, JSONLD, RDFXML]:
+                    acceptHeader = self._getAcceptHeader() # to obtain the mime-type "text/tab-separated-values" or "application/rdf+xml"
                     if "*/*" in acceptHeader:
                         acceptHeader = "" # clear the value in case of "*/*"
                     query_parameters[f] += [acceptHeader]
@@ -675,7 +675,7 @@ class SPARQLWrapper(object):
         else: #CONSTRUCT, DESCRIBE
             if self.returnFormat == N3 or self.returnFormat == TURTLE:
                 acceptHeader = ",".join(_RDF_N3)
-            elif self.returnFormat == XML:
+            elif self.returnFormat == XML or self.returnFormat == RDFXML:
                 acceptHeader = ",".join(_RDF_XML)
             elif self.returnFormat == JSONLD and JSONLD in _allowedFormats:
                 acceptHeader = ",".join(_RDF_JSONLD)
