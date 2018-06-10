@@ -19,4 +19,7 @@ before_install:
 install:
     - python setup.py sdist && pip install ./dist/*
 
+before_script:
+    - pip install rdflib-jsonld
+
 script: ./tests.sh 
