@@ -346,7 +346,7 @@ class SPARQLWrapper(object):
         if format in _allowedFormats:
             self.returnFormat = format
         elif format == JSONLD:
-            raise ValueError("Current instance does not support JSON-LD; you might want to install the rdflib-json package.")
+            raise ValueError("Current instance does not support JSON-LD; you might want to install the rdflib-jsonld package.")
         else:
             warnings.warn("Ignore format '%s'; current instance supports: %s." %(format, ", ".join(_allowedFormats)), SyntaxWarning)
 
