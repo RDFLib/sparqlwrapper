@@ -76,6 +76,12 @@ from SPARQLWrapper import __agent__
 #      "HTML" (alias text/html), "JSON" (alias application/sparql-results+json), "XML" (alias application/sparql-results+xml), "TURTLE" (alias text/rdf+n3), JavaScript (alias application/javascript)
 #       See  <http://virtuoso.openlinksw.com/dataspace/doc/dav/wiki/Main/VOSSparqlProtocol#Additional HTTP Response Formats -- SELECT>
 #
+#      For a SELECT query type, the default return mimetype (if Accept: */* is sent) is application/sparql-results+xml
+#      For a ASK query type, the default return mimetype (if Accept: */* is sent) is text/html
+#      For a CONSTRUCT query type, the default return mimetype (if Accept: */* is sent) is text/turtle
+#      For a DESCRIBE query type, the default return mimetype (if Accept: */* is sent) is text/turtle
+#
+#
 #  - Fuseki (formerly there was Joseki) <https://jena.apache.org/documentation/serving_data/>
 #    * Parameter key: "format" or "output"
 #      See Fuseki 1: https://github.com/apache/jena/blob/master/jena-fuseki1/src/main/java/org/apache/jena/fuseki/HttpNames.java
@@ -84,6 +90,14 @@ from SPARQLWrapper import __agent__
 #      See <https://github.com/apache/jena/blob/master/jena-fuseki1/src/main/java/org/apache/jena/fuseki/servlets/ResponseResultSet.java>
 #    * Fuseki 2 - Short names for "output=" : "json", "xml", "sparql", "text", "csv", "tsv", "thrift"
 #      See <https://github.com/apache/jena/blob/master/jena-fuseki2/jena-fuseki-core/src/main/java/org/apache/jena/fuseki/servlets/ResponseResultSet.java>
+#      If a non-expected short name is used, the server returns an "Error 400: Can't determine output serialization"
+#      application/ld+json supported in CONSTRUCT, DESCRIBE
+#      Valid alias for SELECT and ASK: "json", "xml", csv", "tsv"
+#      Valid alias for DESCRIBE and CONSTRUCT: "json" (alias for json-ld), "xml"
+#      Valid mimetype for DESCRIBE and CONSTRUCT: "application/ld+json"
+#      Default return mimetypes: For a SELECT and ASK query types, the default return mimetype (if Accept: */* is sent) is application/sparql-results+json
+#      Default return mimetypes: For a DESCRIBE and CONTRUCT query types, the default return mimetype (if Accept: */* is sent) is text/turtle
+#
 #
 #  - Eclipse RDF4J (formerly known as Sesame) <http://rdf4j.org/>
 #    * Uses only content negotiation (no URL parameters).
@@ -125,17 +139,27 @@ from SPARQLWrapper import __agent__
 #      the server prefers text/plain, in order to make it easy to explore the interface from a web browser.
 #    * Accept header expected (values returned by server when a wrong header is sent):
 #    ** SELECT
-#    *** application/sparql-results+xml
+#    *** application/sparql-results+xml (DEFAULT if Accept: */* is sent)
 #    *** application/sparql-results+json (and application/json)
 #    *** text/csv
 #    *** text/tab-separated-values
 #    *** OTHERS: application/sparql-results+ttl, text/integer, application/x-lisp-structured-expression, text/table, application/processed-csv, text/simple-csv, application/x-direct-upis
 #
+#    ** ASK
+#    *** application/sparql-results+xml (DEFAULT if Accept: */* is sent)
+#    *** application/sparql-results+json (and application/json)
+#    *** Not supported: text/csv
+#    *** Not supported: text/tab-separated-values
+#
 #    ** CONSTRUCT
-#    *** application/rdf+xml
+#    *** application/rdf+xml (DEFAULT if Accept: */* is sent)
 #    *** text/rdf+n3
 #    *** OTHERS: text/integer, application/json, text/plain, text/x-nquads, application/trix, text/table, application/x-direct-upis
 #
+#    ** DESCRIBE
+#    *** application/rdf+xml (DEFAULT if Accept: */* is sent)
+#    *** text/rdf+n3
+
 #      See <https://franz.com/agraph/support/documentation/current/http-protocol.html>
 
 
@@ -946,6 +970,7 @@ class QueryResult(object):
             - in the case of XML, a DOM top element is returned;
             - in the case of JSON, a simplejson conversion will return a dictionary;
             - in the case of RDF/XML, the value is converted via RDFLib into a C{Graph} instance;
+            - in the case of JSON-LD, the value is converted via RDFLib into a C{Graph} instance;
             - in the case of RDF Turtle/N3, a string is returned;
             - in the case of CSV/TSV, a string is returned.
         In all other cases the input simply returned.
