@@ -237,6 +237,13 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), bytes)
 
     # asking for an unexpected return format for SELECT queryType
+    def testSelectByGETinJSONLD(self):
+        result = self.__generic(selectQuery, JSONLD, GET)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
+        results = result.convert()
+
+    # asking for an unexpected return format for SELECT queryType
     def testSelectByGETinUnknow(self):
         result = self.__generic(selectQuery, "foo", GET)
         ct = result.info()["content-type"]
