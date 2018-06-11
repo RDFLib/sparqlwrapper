@@ -122,6 +122,10 @@ class SPARQLWrapper_Test(TestCase):
                 result[k] = [v.encode('utf-8') for v in vs]
             return result
 
+    @classmethod
+    def setUpClass(cls):
+        urllib2._opener = None # clear value. Due to the order of test execution, the value of urllib2._opener contains, for instance, keepalive.keepalive.HTTPHandler
+
     def setUp(self):
         self.wrapper = SPARQLWrapper(endpoint='http://example.org/sparql')
         _victim.urlopener = urlopener
@@ -294,7 +298,6 @@ class SPARQLWrapper_Test(TestCase):
 
     def testSetHTTPAuth(self):
         self.assertRaises(TypeError, self.wrapper.setHTTPAuth, 123)
-
         self.wrapper.setCredentials('login', 'password')
         request = self._get_request(self.wrapper)
         self.assertTrue(request.has_header('Authorization'))
