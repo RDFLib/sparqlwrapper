@@ -159,8 +159,40 @@ from SPARQLWrapper import __agent__
 #    ** DESCRIBE
 #    *** application/rdf+xml (DEFAULT if Accept: */* is sent)
 #    *** text/rdf+n3
-
+#
 #      See <https://franz.com/agraph/support/documentation/current/http-protocol.html>
+#
+#
+#  - 4store. Code repository <https://github.com/4store/4store> documentation <https://4store.danielknoell.de/trac/wiki/SparqlServer/>
+#    * Parameter key: "output"
+#    * Parameter value: alias. If an unexpected alias is used, the server is not working properly
+#    * Also, it uses content negotiation
+#    ** SELECT
+#    *** application/sparql-results+xml (alias xml) (DEFAULT if Accept: */* is sent))
+#    *** application/sparql-results+json or application/json (alias json)
+#    *** text/csv (alias csv)
+#    *** text/tab-separated-values (alias tsv). Returns "text/plain" in GET.
+#    *** Other values: text/plain, application/n-triples
+#
+#    ** ASK
+#    *** application/sparql-results+xml (alias xml) (DEFAULT if Accept: */* is sent))
+#    *** application/sparql-results+json or application/json (alias json)
+#    *** text/csv (alias csv)
+#    *** text/tab-separated-values (alias tsv). Returns "text/plain" in GET.
+#    *** Other values: text/plain, application/n-triples
+#
+#    ** CONSTRUCT
+#    *** application/rdf+xml (alias xml) (DEFAULT if Accept: */* is sent)
+#    *** text/turtle (alias "text")
+#
+#    ** DESCRIBE
+#    *** application/rdf+xml (alias xml) (DEFAULT if Accept: */* is sent)
+#    *** text/turtle (alias "text")
+#
+#      Valid alias for SELECT and ASK: "json", "xml", csv", "tsv" (also "text" and "ascii")
+#      Valid alias for DESCRIBE and CONSTRUCT: "xml", "text" (for turtle)
+#      Default return mimetypes: For a SELECT and ASK query types, the default return mimetype (if Accept: */* is sent) is application/sparql-results+xml
+#      Default return mimetypes: For a DESCRIBE and CONTRUCT query types, the default return mimetype (if Accept: */* is sent) is application/rdf+xml
 
 
 JSON   = "json"
@@ -661,7 +693,7 @@ class SPARQLWrapper(object):
                 query_parameters[f] = [self.returnFormat]
                 # Virtuoso is not supporting a correct Accept header and an unexpected "output"/"format" parameter value. It returns a 406.
                 # "tsv", "rdf+xml" and "json-ld" are not supported as a correct "output"/"format" parameter value but "text/tab-separated-values" or "application/rdf+xml" are a valid values,
-                # and there is no problem to send both.
+                # and there is no problem to send both (4store does not support unexpected values).
                 if self.returnFormat in [TSV, JSONLD, RDFXML]:
                     acceptHeader = self._getAcceptHeader() # to obtain the mime-type "text/tab-separated-values" or "application/rdf+xml"
                     if "*/*" in acceptHeader:
