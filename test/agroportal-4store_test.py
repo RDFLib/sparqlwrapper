@@ -152,7 +152,6 @@ class SPARQLWrapperTests(unittest.TestCase):
         sparql.setOnlyConneg(onlyConneg)
         try:
             result = sparql.query()
-            print result.geturl()
         except HTTPError:
             # An ugly way to get the exception, but the only one that works
             # both on Python 2.5 and Python 3.
@@ -248,7 +247,6 @@ class SPARQLWrapperTests(unittest.TestCase):
     def testSelectByGETinN3(self):
         result = self.__generic(selectQuery, N3, GET, onlyConneg=True)
         ct = result.info()["content-type"]
-        print ct
         assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
         results = result.convert()
         results.toxml()
@@ -517,7 +515,6 @@ class SPARQLWrapperTests(unittest.TestCase):
     def testConstructByPOSTinCSV(self):
         result = self.__generic(constructQuery, CSV, POST, onlyConneg=True)
         ct = result.info()["content-type"]
-        print ct
         assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], "returned Content-Type='%s'. Expected fail due to Virtuoso configuration" %(ct)
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
