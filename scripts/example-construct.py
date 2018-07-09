@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from SPARQLWrapper import SPARQLWrapper, RDFXML, N3, TURTLE, JSONLD
+from SPARQLWrapper import SPARQLWrapper, XML, N3, TURTLE, JSONLD
 from rdflib import Graph
 
 sparql = SPARQLWrapper("http://dbpedia.org/sparql")
@@ -24,7 +24,7 @@ sparql.setQuery("""
 
 # RDF/XML example
 print '\n\n*** RDF/XML Example'
-sparql.setReturnFormat(RDFXML)
+sparql.setReturnFormat(XML)
 results = sparql.query().convert()
 print(results.serialize(format='xml'))
 
