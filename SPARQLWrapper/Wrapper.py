@@ -193,8 +193,39 @@ from SPARQLWrapper import __agent__
 #      Valid alias for DESCRIBE and CONSTRUCT: "xml", "text" (for turtle)
 #      Default return mimetypes: For a SELECT and ASK query types, the default return mimetype (if Accept: */* is sent) is application/sparql-results+xml
 #      Default return mimetypes: For a DESCRIBE and CONTRUCT query types, the default return mimetype (if Accept: */* is sent) is application/rdf+xml
+#
+#
+#  - Blazegraph <https://www.blazegraph.com/> & NanoSparqlServer <https://wiki.blazegraph.com/wiki/index.php/NanoSparqlServer> <https://wiki.blazegraph.com/wiki/index.php/REST_API#SPARQL_End_Point>
+#    * Parameter key: "format" (available since version 1.4.0). Setting this parameter will override any Accept Header that is present. <https://wiki.blazegraph.com/wiki/index.php/REST_API#GET_or_POST>
+#    * Parameter value: alias. If an unexpected alias is used, the server is not working properly
+#    * Also, it uses content negotiation
+#    ** SELECT
+#    *** application/sparql-results+xml (alias xml) (DEFAULT if Accept: */* is sent))
+#    *** application/sparql-results+json or application/json (alias json)
+#    *** text/csv
+#    *** text/tab-separated-values
+#    *** Other values: application/x-binary-rdf-results-table
+#
+#    ** ASK
+#    *** application/sparql-results+xml (alias xml) (DEFAULT if Accept: */* is sent))
+#    *** application/sparql-results+json or application/json (alias json)
+#
+#    ** CONSTRUCT
+#    *** application/rdf+xml (alias xml) (DEFAULT if Accept: */* is sent)
+#    *** text/turtle (returns text/n3)
+#    *** text/n3
+#
+#    ** DESCRIBE
+#    *** application/rdf+xml (alias xml) (DEFAULT if Accept: */* is sent)
+#    *** text/turtle (returns text/n3)
+#    *** text/n3
+#
+#      Valid alias for SELECT and ASK: "xml", "json"
+#      Valid alias for DESCRIBE and CONSTRUCT: "xml", "json" (but it returns unexpected "application/sparql-results+json")
+#      Default return mimetypes: For a SELECT and ASK query types, the default return mimetype (if Accept: */* is sent) is application/sparql-results+xml
+#      Default return mimetypes: For a DESCRIBE and CONTRUCT query types, the default return mimetype (if Accept: */* is sent) is application/rdf+xml
 
-
+# alias
 JSON   = "json"
 JSONLD = "json-ld"
 XML    = "xml"
