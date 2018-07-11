@@ -702,7 +702,6 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_JSONLD], ct
         results = result.convert()
-        print results
         self.assertEqual(type(results), ConjunctiveGraph)
 
     def testDescribeByPOSTinJSONLDConneg(self):
