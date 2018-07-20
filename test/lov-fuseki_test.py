@@ -6,7 +6,6 @@ import os
 import sys
 import logging
 import unittest
-from nltk.test.unit.utils import skip
 
 # prefer local copy to the one which is installed
 # hack from http://stackoverflow.com/a/6098238/280539
