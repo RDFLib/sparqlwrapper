@@ -119,6 +119,15 @@ queryManyPrefixes = """
     }
 """
 
+queryDuplicatedPrefix = """
+    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+    SELECT ?s ?p ?o WHERE {
+        ?s ?p ?o .
+    } LIMIT 10
+"""
+
 queryWithCommaInCurie_1 = """
     PREFIX dbpedia: <http://dbpedia.org/resource/>
     SELECT ?article ?title WHERE {
@@ -643,6 +652,9 @@ class SPARQLWrapperTests(unittest.TestCase):
 
     def testQueryManyPrefixes(self):
         result = self.__generic(queryManyPrefixes, XML, GET)
+
+    def testQueryDuplicatedPrefix(self):
+        result = self.__generic(queryDuplicatedPrefix, XML, GET)
 
     def testKeepAlive(self):
         sparql = SPARQLWrapper(endpoint)
