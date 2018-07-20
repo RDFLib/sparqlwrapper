@@ -93,11 +93,11 @@ from SPARQLWrapper import __agent__
 #      If a non-expected short name is used, the server returns an "Error 400: Can't determine output serialization"
 #      application/ld+json supported in CONSTRUCT, DESCRIBE
 #      Valid alias for SELECT and ASK: "json", "xml", csv", "tsv"
-#      Valid alias for DESCRIBE and CONSTRUCT: "json" (alias for json-ld), "xml"
+#      Valid alias for DESCRIBE and CONSTRUCT: "json" (alias for json-ld ONLY in Fuseki2), "xml"
 #      Valid mimetype for DESCRIBE and CONSTRUCT: "application/ld+json"
 #      Default return mimetypes: For a SELECT and ASK query types, the default return mimetype (if Accept: */* is sent) is application/sparql-results+json
 #      Default return mimetypes: For a DESCRIBE and CONTRUCT query types, the default return mimetype (if Accept: */* is sent) is text/turtle
-#
+#      In case of a bad formed query, Fuseki1 returns 200 instead of 400.
 #
 #  - Eclipse RDF4J (formerly known as Sesame) <http://rdf4j.org/>
 #    * Uses only content negotiation (no URL parameters).
