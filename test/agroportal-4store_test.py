@@ -17,6 +17,9 @@ if _top_level_path not in sys.path:
     sys.path.insert(0, _top_level_path)
 # end of hack
 
+import warnings
+warnings.simplefilter("always")
+
 try:
     from rdflib.graph import ConjunctiveGraph
 except ImportError:
@@ -26,7 +29,7 @@ from SPARQLWrapper.Wrapper import _SPARQL_XML, _SPARQL_JSON, _XML, _RDF_XML, _RD
 from SPARQLWrapper.SPARQLExceptions import QueryBadFormed
 
 _SPARQL_SELECT_ASK_POSSIBLE = _SPARQL_XML + _SPARQL_JSON + _CSV + _TSV + _XML # only used in test
-_SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE = _RDF_XML + _RDF_N3 + _XML + _RDF_JSONLD# only used in test. Same as Wrapper._RDF_POSSIBLE
+_SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE = _RDF_XML + _RDF_N3 + _XML + _RDF_JSONLD # only used in test. Same as Wrapper._RDF_POSSIBLE
 
 try:
     from urllib.error import HTTPError   # Python 3
@@ -271,7 +274,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
-    # asking for an unexpected return format for SELECT queryType (json-ld is not supported is an invalid alias). Set by the default None (and sending */*). For a SELECT query type, the default return mimetype (if Accept: */* is sent) is application/sparql-results+json
+    # asking for an unexpected return format for SELECT queryType (json-ld is not supported is an invalid alias). Set by the default None (and sending */*). For a SELECT query type, the default return mimetype (if Accept: */* is sent) is application/sparql-results+xml
     def testSelectByGETinJSONLDConneg(self):
         result = self.__generic(selectQuery, JSONLD, GET, onlyConneg=True)
         ct = result.info()["content-type"]
@@ -281,7 +284,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
-    # asking for an unexpected return format for SELECT queryType (json-ld is not supported is an invalid alias). Set by the default None (and sending */*). For a SELECT query type, the default return mimetype (if Accept: */* is sent) is application/sparql-results+json
+    # asking for an unexpected return format for SELECT queryType (json-ld is not supported is an invalid alias). Set by the default None (and sending */*). For a SELECT query type, the default return mimetype (if Accept: */* is sent) is application/sparql-results+xml
     def testSelectByPOSTinJSONLDConneg(self):
         result = self.__generic(selectQuery, JSONLD, POST, onlyConneg=True)
         ct = result.info()["content-type"]

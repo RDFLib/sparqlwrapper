@@ -16,6 +16,9 @@ if _top_level_path not in sys.path:
     sys.path.insert(0, _top_level_path)
 # end of hack
 
+import warnings
+warnings.simplefilter("always")
+
 import unittest
 try:
     from rdflib.graph import ConjunctiveGraph

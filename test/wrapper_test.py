@@ -28,6 +28,7 @@ from urllib2 import HTTPError
 
 from io import StringIO
 import warnings
+warnings.simplefilter("always")
 
 import SPARQLWrapper.Wrapper as _victim
 
