@@ -482,6 +482,10 @@ class SPARQLWrapper_Test(TestCase):
         parameters = self._get_request_parameters(self.wrapper)
         self.assertTrue('update' in parameters)
         self.assertTrue('query' not in parameters)
+        #_returnFormatSetting = ["format", "output", "results"]
+        self.assertTrue('format' not in parameters)
+        self.assertTrue('output' not in parameters)
+        self.assertTrue('results' not in parameters)
 
         _victim.urlopener = urlopener_error_generator(400)
         try:

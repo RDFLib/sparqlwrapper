@@ -706,30 +706,34 @@ class SPARQLWrapper(object):
 
     def _getRequestEncodedParameters(self, query=None):
         """ Internal method for getting the request encoded parameters.
-        @param query: The query
-        @type query: string
+        @param query: a tuple of two items. The first item can be the string
+        "query" (for SELECT, DESCRIBE, ASK, CONSTRUCT query) or the string "update"
+        (for SPARQL Update queries, like DELETE or INSERT). The second item of the tuple
+        is the query string itself.
+        @type query: tuple
         """
         query_parameters = self.parameters.copy()
 
+        # in case of query = tuple("query"/"update", queryString)
         if query and (isinstance(query, tuple)) and len(query) == 2:
-            #tuple ("query"/"update", queryString)
             query_parameters[query[0]] = [query[1]]
 
-        # This is very ugly. The fact is that the key for the choice of the output format is not defined.
-        # Virtuoso uses 'format',sparqler uses 'output'
-        # However, these processors are (hopefully) oblivious to the parameters they do not understand.
-        # So: just repeat all possibilities in the final URI. UGLY!!!!!!!
-        if not self.onlyConneg:
-            for f in _returnFormatSetting:
-                query_parameters[f] = [self.returnFormat]
-                # Virtuoso is not supporting a correct Accept header and an unexpected "output"/"format" parameter value. It returns a 406.
-                # "tsv", "rdf+xml" and "json-ld" are not supported as a correct "output"/"format" parameter value but "text/tab-separated-values" or "application/rdf+xml" are a valid values,
-                # and there is no problem to send both (4store does not support unexpected values).
-                if self.returnFormat in [TSV, JSONLD, RDFXML]:
-                    acceptHeader = self._getAcceptHeader() # to obtain the mime-type "text/tab-separated-values" or "application/rdf+xml"
-                    if "*/*" in acceptHeader:
-                        acceptHeader = "" # clear the value in case of "*/*"
-                    query_parameters[f] += [acceptHeader]
+        if not self.isSparqlUpdateRequest():
+            # This is very ugly. The fact is that the key for the choice of the output format is not defined.
+            # Virtuoso uses 'format',sparqler uses 'output'
+            # However, these processors are (hopefully) oblivious to the parameters they do not understand.
+            # So: just repeat all possibilities in the final URI. UGLY!!!!!!!
+            if not self.onlyConneg:
+                for f in _returnFormatSetting:
+                    query_parameters[f] = [self.returnFormat]
+                    # Virtuoso is not supporting a correct Accept header and an unexpected "output"/"format" parameter value. It returns a 406.
+                    # "tsv", "rdf+xml" and "json-ld" are not supported as a correct "output"/"format" parameter value but "text/tab-separated-values" or "application/rdf+xml" are a valid values,
+                    # and there is no problem to send both (4store does not support unexpected values).
+                    if self.returnFormat in [TSV, JSONLD, RDFXML]:
+                        acceptHeader = self._getAcceptHeader() # to obtain the mime-type "text/tab-separated-values" or "application/rdf+xml"
+                        if "*/*" in acceptHeader:
+                            acceptHeader = "" # clear the value in case of "*/*"
+                        query_parameters[f] += [acceptHeader]
 
         pairs = (
             "%s=%s" % (
