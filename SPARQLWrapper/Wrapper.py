@@ -318,8 +318,12 @@ class SPARQLWrapper(object):
     are retained from one query to the next (in other words, only the query string changes). The instance can also be
     reset to its initial values using the L{resetQuery} method.
 
-    @cvar pattern: regular expression used to determine whether a query is of type L{CONSTRUCT}, L{SELECT}, L{ASK}, or L{DESCRIBE}.
+    @cvar prefix_pattern: regular expression used to remove base/prefixes in the process of determining the query type.
+    @type prefix_pattern: compiled regular expression (see the C{re} module of Python)
+    @cvar pattern: regular expression used to determine whether a query (without base/prefixes) is of type L{CONSTRUCT}, L{SELECT}, L{ASK}, L{DESCRIBE}, L{INSERT}, L{DELETE}, L{CREATE}, L{CLEAR}, L{DROP}, L{LOAD}, L{COPY}, L{MOVE} or L{ADD}.
     @type pattern: compiled regular expression (see the C{re} module of Python)
+    @cvar comments_pattern: regular expression used to remove comments from a query.
+    @type comments_pattern: compiled regular expression (see the C{re} module of Python)
     @ivar endpoint: SPARQL endpoint's URI
     @type endpoint: string
     @ivar updateEndpoint: SPARQL endpoint's URI for update operations (if it's a different one). Default is C{None}
@@ -339,10 +343,9 @@ class SPARQLWrapper(object):
     @ivar customHttpHeaders: Custom HTTP Headers to be included in the request. Important: These headers override previous values (including C{Content-Type}, C{User-Agent}, C{Accept} and C{Authorization} if they are present). It is a dictionary where keys are the header field nada and values are the header values.
     @type customHttpHeaders: dict
     """
-    pattern = re.compile(r"""
-        ((?P<base>(\s*BASE\s*<.*?>)\s*)|(?P<prefixes>(\s*PREFIX\s+.+:\s*<.*?>)\s*))*
-        (?P<queryType>(CONSTRUCT|SELECT|ASK|DESCRIBE|INSERT|DELETE|CREATE|CLEAR|DROP|LOAD|COPY|MOVE|ADD))
-    """, re.VERBOSE | re.IGNORECASE)
+    prefix_pattern = re.compile(r"((?P<base>(\s*BASE\s*<.*?>)\s*)|(?P<prefixes>(\s*PREFIX\s+.+:\s*<.*?>)\s*))*")
+    # Maybe the future name could be queryType_pattern
+    pattern = re.compile(r"(?P<queryType>(CONSTRUCT|SELECT|ASK|DESCRIBE|INSERT|DELETE|CREATE|CLEAR|DROP|LOAD|COPY|MOVE|ADD))", re.VERBOSE | re.IGNORECASE)
     comments_pattern = re.compile(r"(^|\n)\s*#.*?\n")
 
     def __init__(self, endpoint, updateEndpoint=None, returnFormat=XML, defaultGraph=None, agent=__agent__):
@@ -644,7 +647,8 @@ class SPARQLWrapper(object):
         try:
             query = query if (isinstance(query, str)) else query.encode('ascii', 'ignore')
             query = self._cleanComments(query)
-            r_queryType = self.pattern.search(query).group("queryType").upper()
+            query_for_queryType = re.sub(self.prefix_pattern, "", query.strip())
+            r_queryType = self.pattern.search(query_for_queryType).group("queryType").upper()
         except AttributeError:
             warnings.warn("not detected query type for query '%s'" % query.replace("\n", " "), RuntimeWarning)
             r_queryType = None

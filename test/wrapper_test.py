@@ -9,6 +9,7 @@ import unittest
 import urllib2
 from urlparse import urlparse, parse_qsl, parse_qs
 from urllib2 import Request
+import time
 
 logging.basicConfig()
 
@@ -816,6 +817,153 @@ class QueryResult_Test(unittest.TestCase):
         self.assertEqual(1, _mime_vs_type("application/ld+json", N3))  # Warning
         self.assertEqual(1, _mime_vs_type("application/rdf+xml", JSON))  # Warning
         self.assertEqual(1, _mime_vs_type("application/rdf+xml", N3))  # Warning
+
+class QueryType_Time_Test(unittest.TestCase):
+
+    def testQueries(self):
+        sparql = SPARQLWrapper("http://example.org/sparql")
+
+        queries = []
+
+        queries.append("""
+    PREFIX a: <http://dbpedia.org/a>
+    PREFIX b: <http://dbpedia.org/b>
+    PREFIX c: <http://dbpedia.org/c>
+    PREFIX d: <http://dbpedia.org/d>
+    PREFIX e: <http://dbpedia.org/e>
+    PREFIX f: <http://dbpedia.org/f>
+    PREFIX g: <http://dbpedia.org/g>
+    PREFIX h: <http://dbpedia.org/h>
+    FROM <http://dbpedia.org>
+    SELECT ?s ?p ?o WHERE {
+        ?s ?p ?o.
+    }""")
+
+        queries.append("""PREFIX a: <http://dbpedia.org/a>
+    PREFIX b: <http://dbpedia.org/b>
+    PREFIX c: <http://dbpedia.org/c>
+    PREFIX d: <http://dbpedia.org/d>
+    PREFIX e: <http://dbpedia.org/e>
+    PREFIX f: <http://dbpedia.org/f>
+    PREFIX g: <http://dbpedia.org/g>
+    PREFIX h: <http://dbpedia.org/h>
+    FROM <http://dbpedia.org>
+    SELECT ?s ?p ?o WHERE {
+        ?s ?p ?o.
+    }""")
+
+        queries.append("""PREFIX a: <http://dbpedia.org/a>
+PREFIX b: <http://dbpedia.org/b>
+PREFIX c: <http://dbpedia.org/c>
+PREFIX d: <http://dbpedia.org/d>
+PREFIX e: <http://dbpedia.org/e>
+PREFIX f: <http://dbpedia.org/f>
+PREFIX g: <http://dbpedia.org/g>
+PREFIX h: <http://dbpedia.org/h>
+FROM <http://dbpedia.org>
+SELECT ?s ?p ?o WHERE {
+    ?s ?p ?o.
+}""")
+
+
+        queries.append("""PREFIX a: <http://dbpedia.org/a>
+PREFIX b: <http://dbpedia.org/b>
+PREFIX c: <http://dbpedia.org/c>
+PREFIX d: <http://dbpedia.org/d>
+PREFIX e: <http://dbpedia.org/e>
+PREFIX f: <http://dbpedia.org/f>
+PREFIX g: <http://dbpedia.org/g>
+PREFIX h: <http://dbpedia.org/h>
+SELECT ?s ?p ?o WHERE {
+    ?s ?p ?o.
+}""")
+
+
+        queries.append("""
+    PREFIX a: <http://dbpedia.org/a>
+    PREFIX b: <http://dbpedia.org/b>
+    PREFIX c: <http://dbpedia.org/c>
+    PREFIX d: <http://dbpedia.org/d>
+    PREFIX e: <http://dbpedia.org/e>
+    PREFIX f: <http://dbpedia.org/f>
+    PREFIX g: <http://dbpedia.org/g>
+    PREFIX h: <http://dbpedia.org/h>
+    SELECT ?s ?p ?o WHERE {
+        ?s ?p ?o.
+    }""")
+
+
+        queries.append("""
+    FROM <http://dbpedia.org>
+    SELECT ?s ?p ?o WHERE {
+        ?s ?p ?o.
+    }""")
+
+
+        queries.append("""
+    PREFIX a: <http://dbpedia.org/a>
+    PREFIX b: <http://dbpedia.org/b>
+    PREFIX c: <http://dbpedia.org/c>
+    PREFIX d: <http://dbpedia.org/d>
+    PREFIX e: <http://dbpedia.org/e>
+    PREFIX f: <http://dbpedia.org/f>
+    PREFIX g: <http://dbpedia.org/g>
+    PREFIX h: <http://dbpedia.org/h>
+    PREFIX a: <http://dbpedia.org/a>
+    PREFIX b: <http://dbpedia.org/b>
+    PREFIX c: <http://dbpedia.org/c>
+    PREFIX d: <http://dbpedia.org/d>
+    PREFIX e: <http://dbpedia.org/e>
+    PREFIX f: <http://dbpedia.org/f>
+    PREFIX g: <http://dbpedia.org/g>
+    PREFIX h: <http://dbpedia.org/h>
+    PREFIX a: <http://dbpedia.org/a>
+    PREFIX b: <http://dbpedia.org/b>
+    PREFIX c: <http://dbpedia.org/c>
+    PREFIX d: <http://dbpedia.org/d>
+    PREFIX e: <http://dbpedia.org/e>
+    PREFIX f: <http://dbpedia.org/f>
+    PREFIX g: <http://dbpedia.org/g>
+    PREFIX h: <http://dbpedia.org/h>
+    FROM <http://dbpedia.org>
+    SELECT ?s ?p ?o WHERE {
+        ?s ?p ?o.
+    }""")
+
+        queries.append("""PREFIX a: <http://dbpedia.org/a>
+    PREFIX b: <http://dbpedia.org/b>
+    PREFIX c: <http://dbpedia.org/c>
+    PREFIX d: <http://dbpedia.org/d>
+    PREFIX e: <http://dbpedia.org/e>
+    PREFIX f: <http://dbpedia.org/f>
+    PREFIX g: <http://dbpedia.org/g>
+    PREFIX h: <http://dbpedia.org/h>
+    PREFIX a: <http://dbpedia.org/a>
+    PREFIX b: <http://dbpedia.org/b>
+    PREFIX c: <http://dbpedia.org/c>
+    PREFIX d: <http://dbpedia.org/d>
+    PREFIX e: <http://dbpedia.org/e>
+    PREFIX f: <http://dbpedia.org/f>
+    PREFIX g: <http://dbpedia.org/g>
+    PREFIX h: <http://dbpedia.org/h>
+    PREFIX a: <http://dbpedia.org/a>
+    PREFIX b: <http://dbpedia.org/b>
+    PREFIX c: <http://dbpedia.org/c>
+    PREFIX d: <http://dbpedia.org/d>
+    PREFIX e: <http://dbpedia.org/e>
+    PREFIX f: <http://dbpedia.org/f>
+    PREFIX g: <http://dbpedia.org/g>
+    PREFIX h: <http://dbpedia.org/h>
+    FROM <http://dbpedia.org>
+    SELECT ?s ?p ?o WHERE {
+        ?s ?p ?o.
+    }""")
+
+        for query in queries:
+            start_time = time.time()
+            sparql.setQuery(query)
+            self.assertTrue((time.time()-start_time)<0.001) # less than 0.001 second
+
 
 if __name__ == "__main__":
     unittest.main()
