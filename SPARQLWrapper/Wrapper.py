@@ -324,7 +324,7 @@ class SPARQLWrapper(object):
     @type pattern: compiled regular expression (see the C{re} module of Python)
     @cvar comments_pattern: regular expression used to remove comments from a query.
     @type comments_pattern: compiled regular expression (see the C{re} module of Python)
-    @ivar endpoint: SPARQL endpoint's URI
+    @ivar endpoint: SPARQL endpoint's URI.
     @type endpoint: string
     @ivar updateEndpoint: SPARQL endpoint's URI for update operations (if it's a different one). Default is C{None}
     @type updateEndpoint: string
@@ -342,6 +342,24 @@ class SPARQLWrapper(object):
     @type onlyConneg: boolean
     @ivar customHttpHeaders: Custom HTTP Headers to be included in the request. Important: These headers override previous values (including C{Content-Type}, C{User-Agent}, C{Accept} and C{Authorization} if they are present). It is a dictionary where keys are the header field nada and values are the header values.
     @type customHttpHeaders: dict
+    @ivar timeout: The timeout (in seconds) to use for querying the endpoint.
+    @type timeout: int
+    @ivar queryString: The SPARQL query text.
+    @type queryString: string
+    @ivar queryType: The type of SPARQL query (aka SPARQL query form), like L{CONSTRUCT}, L{SELECT}, L{ASK}, L{DESCRIBE}, L{INSERT}, L{DELETE}, L{CREATE}, L{CLEAR}, L{DROP}, L{LOAD}, L{COPY}, L{MOVE} or L{ADD} (constants in this module).
+    @type queryType: string
+    @ivar returnFormat: The return format. The possible values are L{JSON}, L{XML}, L{TURTLE}, L{N3}, L{RDF}, L{RDFXML}, L{CSV}, L{TSV}, L{JSONLD} (constants in this module).
+    @type returnFormat: string
+    @ivar requestMethod: The request method for query or update operations. The possibles values are URL-encoded (L{URLENCODED}) or POST directly (L{POSTDIRECTLY}).
+    @type requestMethod: string
+    @ivar method: The invocation method. By default, this is L{GET}, but can be set to L{POST}.
+    @type method: string
+    @ivar parameters: The parameters of the request (key/value pairs in a dictionary).
+    @type parameters: dict
+    @ivar _defaultReturnFormat: The default return format.
+    @type _defaultReturnFormat: string
+
+
     """
     prefix_pattern = re.compile(r"((?P<base>(\s*BASE\s*<.*?>)\s*)|(?P<prefixes>(\s*PREFIX\s+.+:\s*<.*?>)\s*))*")
     # Maybe the future name could be queryType_pattern
@@ -445,12 +463,12 @@ class SPARQLWrapper(object):
 
     def setRequestMethod(self, method):
         """Set the internal method to use to perform the request for query or
-        update operations, either URL-encoded (C{SPARQLWrapper.URLENCODED}) or
-        POST directly (C{SPARQLWrapper.POSTDIRECTLY}).
+        update operations, either URL-encoded (L{SPARQLWrapper.URLENCODED}) or
+        POST directly (L{SPARQLWrapper.POSTDIRECTLY}).
         Further details at U{http://www.w3.org/TR/sparql11-protocol/#query-operation}
         and U{http://www.w3.org/TR/sparql11-protocol/#update-operation}.
 
-        @param method: Possible values are C{SPARQLWrapper.URLENCODED} (URL-encoded) or C{SPARQLWrapper.POSTDIRECTLY} (POST directly). All other cases are ignored.
+        @param method: Possible values are L{SPARQLWrapper.URLENCODED} (URL-encoded) or L{SPARQLWrapper.POSTDIRECTLY} (POST directly). All other cases are ignored.
         @type method: string
         """
         if method in _REQUEST_METHODS:
@@ -903,6 +921,7 @@ class SPARQLWrapper(object):
         """This method returns the string representation of a L{SPARQLWrapper} object.
         @return: A human-readable string of the object.
         @rtype: string
+        @since: 1.8.3
         """
         fullname = self.__module__ + "." + self.__class__.__name__
         items = ('"%s" : %r' % (k, v) for k, v in sorted(self.__dict__.items()))
@@ -1145,6 +1164,7 @@ class QueryResult(object):
         """This method returns the string representation of a L{QueryResult} object.
         @return: A human-readable string of the object.
         @rtype: string
+        @since: 1.8.3
         """
         fullname = self.__module__ + "." + self.__class__.__name__
         str_requestedFormat = '"requestedFormat" : '+repr(self.requestedFormat)
