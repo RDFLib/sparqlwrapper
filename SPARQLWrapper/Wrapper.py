@@ -899,6 +899,17 @@ class SPARQLWrapper(object):
         res = self.query()
         return res.convert()
 
+    def __str__(self):
+        """This method returns the string representation of a L{SPARQLWrapper} object.
+        @return: A human-readable string of the object.
+        @rtype: string
+        """
+        fullname = self.__module__ + "." + self.__class__.__name__
+        items = ('"%s" : %r' % (k, v) for k, v in sorted(self.__dict__.items()))
+        str_dict_items = "{%s}" % (',\n'.join(items))
+        return "<%s object at 0x%016X>\n%s" % (fullname, id(self), str_dict_items)
+
+
 #######################################################################################################
 
 
@@ -1129,3 +1140,16 @@ class QueryResult(object):
         if datatype is not None:
             value += " ["+datatype+"]"
         return value
+
+    def __str__(self):
+        """This method returns the string representation of a L{QueryResult} object.
+        @return: A human-readable string of the object.
+        @rtype: string
+        """
+        fullname = self.__module__ + "." + self.__class__.__name__
+        str_requestedFormat = '"requestedFormat" : '+repr(self.requestedFormat)
+        str_url = self.response.url
+        str_code = self.response.code
+        str_headers = self.response.info()
+        str_response = '"response (a file-like object, as return by the urllib2.urlopen library call)" : {\n\t"url" : "%s",\n\t"code" : "%s",\n\t"headers" : %s}' % (str_url, str_code, str_headers)
+        return "<%s object at 0x%016X>\n{%s,\n%s}" % (fullname, id(self), str_requestedFormat, str_response)
