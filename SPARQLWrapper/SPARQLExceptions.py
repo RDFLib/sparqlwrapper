@@ -28,7 +28,7 @@ class SPARQLWrapperException(Exception):
 
 class EndPointInternalError(SPARQLWrapperException):
     """
-    Exception type for 500 Internal Server Error responses.
+    Exception type for 500 Internal Server Error responses. Usually HTTP response status code 500.
     """
 
     msg = "endpoint returned code 500 and response"
@@ -36,7 +36,7 @@ class EndPointInternalError(SPARQLWrapperException):
 
 class QueryBadFormed(SPARQLWrapperException):
     """
-    Query Bad Formed exception
+    Query Bad Formed exception. Usually HTTP response status code 400.
     """
 
     msg = "a bad request has been sent to the endpoint, probably the sparql query is bad formed"
@@ -44,15 +44,24 @@ class QueryBadFormed(SPARQLWrapperException):
 
 class EndPointNotFound(SPARQLWrapperException):
     """
-    End Point Not Found exception
+    End Point Not Found exception. Usually HTTP response status code 404.
     """
 
     msg = "it was impossible to connect with the endpoint in that address, check if it is correct"
 
 class Unauthorized(SPARQLWrapperException):
     """
-    Access is denied due to invalid credentials (unauthorized).
+    Access is denied due to invalid credentials (unauthorized). Usually HTTP response status code 401.
     @since: 1.8.2
     """
 
     msg = "access is denied due to invalid credentials (unauthorized). Check the credentials"
+
+class URITooLong(SPARQLWrapperException):
+    """
+    The URI requested by the client is longer than the server is willing to interpret. Usually HTTP response status code 414.
+    @since: 1.8.3
+    """
+
+    msg = "the URI requested by the client is longer than the server is willing to interpret. Check if the request was sent using GET method instead of POST method."
+

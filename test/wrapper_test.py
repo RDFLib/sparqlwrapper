@@ -37,7 +37,7 @@ from SPARQLWrapper import SPARQLWrapper
 from SPARQLWrapper import XML, GET, POST, JSON, JSONLD, N3, TURTLE, RDF, SELECT, INSERT, RDFXML, CSV, TSV
 from SPARQLWrapper import URLENCODED, POSTDIRECTLY
 from SPARQLWrapper import BASIC, DIGEST
-from SPARQLWrapper.Wrapper import QueryResult, QueryBadFormed, EndPointNotFound, EndPointInternalError
+from SPARQLWrapper.Wrapper import QueryResult, QueryBadFormed, EndPointNotFound, EndPointInternalError, Unauthorized, URITooLong
 
 
 class FakeResult(object):
@@ -498,11 +498,31 @@ class SPARQLWrapper_Test(TestCase):
         except:
             self.fail('got wrong exception')
 
+        _victim.urlopener = urlopener_error_generator(401)
+        try:
+            self.wrapper.query()
+            self.fail('should have raised exception')
+        except Unauthorized as e:
+            #  TODO: check exception-format
+            pass
+        except:
+            self.fail('got wrong exception')
+
         _victim.urlopener = urlopener_error_generator(404)
         try:
             self.wrapper.query()
             self.fail('should have raised exception')
         except EndPointNotFound as e:
+            #  TODO: check exception-format
+            pass
+        except:
+            self.fail('got wrong exception')
+
+        _victim.urlopener = urlopener_error_generator(414)
+        try:
+            self.wrapper.query()
+            self.fail('should have raised exception')
+        except URITooLong as e:
             #  TODO: check exception-format
             pass
         except:

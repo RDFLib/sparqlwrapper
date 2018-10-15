@@ -51,7 +51,7 @@ import warnings
 
 import json
 from KeyCaseInsensitiveDict import KeyCaseInsensitiveDict
-from SPARQLExceptions import QueryBadFormed, EndPointNotFound, EndPointInternalError, Unauthorized
+from SPARQLExceptions import QueryBadFormed, EndPointNotFound, EndPointInternalError, Unauthorized, URITooLong
 from SPARQLWrapper import __agent__
 
 #  From <https://www.w3.org/TR/sparql11-protocol/#query-success>
@@ -868,6 +868,7 @@ class SPARQLWrapper(object):
         @raise QueryBadFormed: If the C{HTTP return code} is C{400}.
         @raise Unauthorized: If the C{HTTP return code} is C{401}.
         @raise EndPointNotFound: If the C{HTTP return code} is C{404}.
+        @raise URITooLong: If the C{HTTP return code} is C{414}.
         @raise EndPointInternalError: If the C{HTTP return code} is C{500}.
         """
         request = self._createRequest()
@@ -885,6 +886,8 @@ class SPARQLWrapper(object):
                 raise EndPointNotFound(e.read())
             elif e.code == 401:
                 raise Unauthorized(e.read())
+            elif e.code == 414:
+                raise URITooLong(e.read())
             elif e.code == 500:
                 raise EndPointInternalError(e.read())
             else:
