@@ -312,6 +312,24 @@ class SPARQLWrapper_Test(TestCase):
         self.assertEqual(self.wrapper.http_auth, DIGEST)
         self.assertIsInstance(urllib2._opener, urllib2.OpenerDirector)
 
+        self.wrapper.setHTTPAuth(DIGEST)
+        self.wrapper.setCredentials('login', 'password')
+        request = self._get_request(self.wrapper)
+        self.assertEqual(self.wrapper.http_auth, DIGEST)
+        self.assertEqual(self.wrapper.user, "login")
+        self.assertEqual(self.wrapper.passwd, "password")
+        self.assertEqual(self.wrapper.realm, "SPARQL")
+        self.assertNotEqual(self.wrapper.realm, "SPARQL Endpoint")
+
+        self.wrapper.setHTTPAuth(DIGEST)
+        self.wrapper.setCredentials('login', 'password', realm="SPARQL Endpoint")
+        request = self._get_request(self.wrapper)
+        self.assertEqual(self.wrapper.http_auth, DIGEST)
+        self.assertEqual(self.wrapper.user, "login")
+        self.assertEqual(self.wrapper.passwd, "password")
+        self.assertEqual(self.wrapper.realm, "SPARQL Endpoint")
+        self.assertNotEqual(self.wrapper.realm, "SPARQL")
+
         self.assertRaises(ValueError, self.wrapper.setHTTPAuth, 'OAuth')
 
         self.wrapper.http_auth = "OAuth"

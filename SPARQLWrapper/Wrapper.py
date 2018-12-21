@@ -594,16 +594,20 @@ class SPARQLWrapper(object):
             except KeyError:
                 return False
 
-    def setCredentials(self, user, passwd):
+    def setCredentials(self, user, passwd, realm="SPARQL"):
         """
             Set the credentials for querying the current endpoint.
             @param user: username
             @type user: string
             @param passwd: password
             @type passwd: string
+            @param realm: realm. Only used for L{DIGEST} authentication. Default is C{SPARQL}
+            @type realm: string
+            @change: Added C{realm} parameter since version C{1.8.3}.
         """
         self.user = user
         self.passwd = passwd
+        self.realm = realm
 
     def setHTTPAuth(self, auth):
         """
@@ -843,7 +847,7 @@ class SPARQLWrapper(object):
                 credentials = "%s:%s" % (self.user, self.passwd)
                 request.add_header("Authorization", "Basic %s" % base64.b64encode(credentials.encode('utf-8')).decode('utf-8'))
             elif self.http_auth == DIGEST:
-                realm = "SPARQL"
+                realm = self.realm
                 pwd_mgr = urllib2.HTTPPasswordMgr()
                 pwd_mgr.add_password(realm, uri, self.user, self.passwd)
                 opener = urllib2.build_opener()
