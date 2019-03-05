@@ -770,7 +770,6 @@ class SPARQLWrapper(object):
             )
             for param, values in query_parameters.items() for value in values
         )
-
         return '&'.join(pairs)
 
     def _getAcceptHeader(self):
@@ -789,9 +788,7 @@ class SPARQLWrapper(object):
             else:
                 acceptHeader = ",".join(_ALL)
                 warnings.warn("Sending Accept header '*/*' because unexpected returned format '%s' in a '%s' SPARQL query form" % (self.returnFormat, self.queryType), RuntimeWarning)
-        elif self.queryType in [INSERT, DELETE]:
-            acceptHeader = "*/*"
-        else: #CONSTRUCT, DESCRIBE
+        elif self.queryType in [CONSTRUCT, DESCRIBE]:
             if self.returnFormat == N3 or self.returnFormat == TURTLE:
                 acceptHeader = ",".join(_RDF_N3)
             elif self.returnFormat == XML or self.returnFormat == RDFXML:
@@ -801,6 +798,15 @@ class SPARQLWrapper(object):
             else:
                 acceptHeader = ",".join(_ALL)
                 warnings.warn("Sending Accept header '*/*' because unexpected returned format '%s' in a '%s' SPARQL query form" % (self.returnFormat, self.queryType), RuntimeWarning)
+        elif self.queryType in [INSERT, DELETE, CREATE, CLEAR, DROP, LOAD, COPY, MOVE, ADD]:
+            if self.returnFormat == XML:
+                acceptHeader = ",".join(_SPARQL_XML)
+            elif self.returnFormat == JSON:
+                acceptHeader = ",".join(_SPARQL_JSON)
+            else:
+                acceptHeader = ",".join(_ALL)
+        else:
+            acceptHeader = "*/*"
         return acceptHeader
 
     def _createRequest(self):
