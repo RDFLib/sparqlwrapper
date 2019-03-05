@@ -733,10 +733,12 @@ class SPARQLWrapper(object):
     def _getRequestEncodedParameters(self, query=None):
         """ Internal method for getting the request encoded parameters.
         @param query: a tuple of two items. The first item can be the string
-        "query" (for SELECT, DESCRIBE, ASK, CONSTRUCT query) or the string "update"
+        C{query} (for SELECT, DESCRIBE, ASK, CONSTRUCT query) or the string C{update}
         (for SPARQL Update queries, like DELETE or INSERT). The second item of the tuple
         is the query string itself.
         @type query: tuple
+        @return: the request encoded parameters.
+        @rtype: string
         """
         query_parameters = self.parameters.copy()
 
