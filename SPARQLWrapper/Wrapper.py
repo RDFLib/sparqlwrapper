@@ -281,7 +281,8 @@ _SPARQL_DEFAULT  = ["application/sparql-results+xml", "application/rdf+xml", "*/
 _SPARQL_XML      = ["application/sparql-results+xml"]
 _SPARQL_JSON     = ["application/sparql-results+json", "application/json", "text/javascript", "application/javascript"] # VIVO server returns "application/javascript"
 _RDF_XML         = ["application/rdf+xml"]
-_RDF_N3          = ["text/rdf+n3", "application/n-triples", "application/turtle", "application/n3", "text/n3", "text/turtle"]
+_RDF_TURTLE      = ["application/turtle", "text/turtle"]
+_RDF_N3          = _RDF_TURTLE + ["text/rdf+n3", "application/n-triples", "application/n3", "text/n3"]
 _RDF_JSONLD      = ["application/ld+json", "application/x-json+ld"]
 _CSV             = ["text/csv"]
 _TSV             = ["text/tab-separated-values"]
@@ -384,7 +385,7 @@ class SPARQLWrapper(object):
         L{JSON}, L{XML}, L{TURTLE}, L{N3}, L{RDFXML}, L{CSV}, L{TSV} (constants in this module). The value can also be set via explicit
         call, see below.
         @type returnFormat: string
-        @param defaultGraph: URI for the default graph. Default is None, the value can be set either via an L{explicit call<addDefaultGraph>} or as part of the query string.
+        @param defaultGraph: URI for the default graph. Default is C{None}, the value can be set either via an L{explicit call<addDefaultGraph>} or as part of the query string.
         @type defaultGraph: string
         @param agent: The User-Agent for the HTTP request header.
         @type agent: string
@@ -968,7 +969,6 @@ class QueryResult(object):
     @ivar response: the direct HTTP response; a file-like object, as return by the C{urllib2.urlopen} library call.
     @ivar requestedFormat: The requested format. The possible values are: L{JSON}, L{XML}, L{RDFXML}, L{TURTLE}, L{N3}, L{RDF}, L{CSV}, L{TSV}, L{JSONLD}.
     @type requestedFormat: string
-
     """
     def __init__(self, result):
         """
@@ -1133,7 +1133,58 @@ class QueryResult(object):
                 warnings.warn("unknown response content type '%s' returning raw response..." %(ct), RuntimeWarning)
         return self.response.read()
 
+    def _get_responseFormat(self):
+        """
+        Get the response (return) format. The possible values are: L{JSON}, L{XML}, L{RDFXML}, L{TURTLE}, L{N3}, L{CSV}, L{TSV}, L{JSONLD}.
+        In case there is no Content-Type, C{None} is return. In all other cases, the raw C{Content-Type} is return. 
+        @since: 1.8.3
+
+        @return: the response format. The possible values are: L{JSON}, L{XML}, L{RDFXML}, L{TURTLE}, L{N3}, L{CSV}, L{TSV}, L{JSONLD}.
+        @rtype: string
+        """
+
+        def _content_type_in_list(real, expected):
+            return True in [real.find(mime) != -1 for mime in expected]
+
+        if "content-type" in self.info():
+            ct = self.info()["content-type"] # returned Content-Type value
+
+            if _content_type_in_list(ct, _SPARQL_XML):
+                return XML
+            elif _content_type_in_list(ct, _XML):
+                return XML
+            elif _content_type_in_list(ct, _SPARQL_JSON):
+                return JSON
+            elif _content_type_in_list(ct, _RDF_XML):
+                return RDFXML
+            elif _content_type_in_list(ct, _RDF_TURTLE):
+                return TURTLE
+            elif _content_type_in_list(ct, _RDF_N3):
+                return N3
+            elif _content_type_in_list(ct, _CSV):
+                return CSV
+            elif _content_type_in_list(ct, _TSV):
+                return TSV
+            elif _content_type_in_list(ct, _RDF_JSONLD):
+                return JSONLD
+            else:
+                warnings.warn("Unknown response content type. Returning raw content-type ('%s')." %(ct), RuntimeWarning)
+                return ct
+        return None
+
     def print_results(self, minWidth=None):
+        """This method prints a representation of a L{QueryResult} object that MUST has as response format L{JSON}.
+        @param minWidth: The minimun width, counting as characters. The default value is C{None}.
+        @type minWidth: string
+        """
+
+        # Check if the requested format was JSON. If not, exit.
+        responseFormat = self._get_responseFormat()
+        if responseFormat != JSON:
+            message = "Format return was %s, but JSON was expected. No printing."
+            warnings.warn(message % (responseFormat), RuntimeWarning)
+            return
+
         results = self._convertJSON()
         if minWidth:
             width = self.__get_results_width(results, minWidth)

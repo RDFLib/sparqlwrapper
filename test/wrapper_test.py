@@ -856,6 +856,62 @@ class QueryResult_Test(unittest.TestCase):
         self.assertEqual(1, _mime_vs_type("application/rdf+xml", JSON))  # Warning
         self.assertEqual(1, _mime_vs_type("application/rdf+xml", N3))  # Warning
 
+    def testPrint_results(self):
+        """
+        print_results() is only allowed for JSON return format.
+        """
+        class FakeResponse(object):
+            def __init__(self, content_type):
+                self.content_type = content_type
+
+            def info(self):
+                return {"Content-type": self.content_type}
+
+            def read(self, len):
+                return ''
+
+        def _print_results(mime):
+            """
+            @param mime: mimetype/Content-Type of the response
+            @return: number of warnings produced by combo
+            """
+            with warnings.catch_warnings(record=True) as w:
+                qr = QueryResult(FakeResponse(mime))
+
+                try:
+                    qr.print_results()
+                except:
+                    pass
+
+                return len(w)
+
+        self.assertEqual(0, _print_results("application/sparql-results+json"))
+        self.assertEqual(0, _print_results("application/json"))
+        self.assertEqual(0, _print_results("text/javascript"))
+        self.assertEqual(0, _print_results("application/javascript"))
+
+        self.assertEqual(1, _print_results("application/sparql-results+xml"))
+        self.assertEqual(1, _print_results("application/xml"))
+        self.assertEqual(1, _print_results("application/rdf+xml"))
+
+        self.assertEqual(1, _print_results("application/turtle"))
+        self.assertEqual(1, _print_results("text/turtle"))
+
+        self.assertEqual(1, _print_results("text/rdf+n3"))
+        self.assertEqual(1, _print_results("application/n-triples"))
+        self.assertEqual(1, _print_results("application/n3"))
+        self.assertEqual(1, _print_results("text/n3"))
+
+        self.assertEqual(1, _print_results("text/csv"))
+
+        self.assertEqual(1, _print_results("text/tab-separated-values"))
+
+        self.assertEqual(1, _print_results("application/ld+json"))
+        self.assertEqual(1, _print_results("application/x-json+ld"))
+
+        self.assertEqual(2, _print_results("application/x-foo-bar"))
+
+
 class QueryType_Time_Test(unittest.TestCase):
 
     def testQueries(self):
