@@ -24,6 +24,7 @@ matrix:
 
   allow_failures:
     - env: ENV=py38-dev
+    - python: 'pypy'
 
 before_install:
     - pip install --upgrade pip setuptools
