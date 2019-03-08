@@ -18,11 +18,12 @@ print
 
 sparql.setQuery("""
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX dbpo: <http://dbpedia.org/property/>
-SELECT ?subdivision ?label 
-WHERE { 
-  <http://dbpedia.org/resource/Asturias> dbpo:subdivisionName ?subdivision .
-  ?subdivision rdfs:label ?label .
+PREFIX dbp: <http://dbpedia.org/property/>
+SELECT ?cheese ?label
+WHERE {
+  ?cheese a <http://dbpedia.org/ontology/Cheese> ;
+          dbp:region <http://dbpedia.org/resource/Asturias> ;
+          rdfs:label ?label .
 }
 """)
 sparql.setReturnFormat(JSON)
