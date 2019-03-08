@@ -24,7 +24,7 @@ try:
     from rdflib.graph import ConjunctiveGraph
 except ImportError:
     from rdflib import ConjunctiveGraph
-from SPARQLWrapper import SPARQLWrapper, XML, RDFXML, N3, JSONLD, JSON, CSV, TSV, POST, GET, SELECT, CONSTRUCT, ASK, DESCRIBE
+from SPARQLWrapper import SPARQLWrapper, XML, RDFXML, N3, JSONLD, JSON, CSV, TSV, POST, GET
 from SPARQLWrapper.Wrapper import _SPARQL_XML, _SPARQL_JSON, _XML, _RDF_XML, _RDF_N3, _RDF_JSONLD, _CSV, _TSV
 from SPARQLWrapper.Wrapper import URLENCODED, POSTDIRECTLY
 from SPARQLWrapper.SPARQLExceptions import QueryBadFormed
