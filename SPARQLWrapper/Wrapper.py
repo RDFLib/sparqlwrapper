@@ -979,7 +979,6 @@ class QueryResult(object):
             self.requestedFormat = result[1]
         else:
             self.response = result
-        """Direct response, see class comments for details"""
 
     def geturl(self):
         """Return the URL of the original call.
@@ -1094,9 +1093,27 @@ class QueryResult(object):
         @return: the converted query result. See the conversion methods for more details.
         """
         def _content_type_in_list(real, expected):
+            """ Internal method for checking if the content-type header received matches any of the content types of the expected list.
+            @param real: The content-type header received.
+            @type real: string
+            @param expected: A list of expected content types.
+            @type expected: list
+            @return: Returns a boolean after checking if the content-type header received matches any of the content types of the expected list.
+            @rtype: boolean
+            """
             return True in [real.find(mime) != -1 for mime in expected]
 
         def _validate_format(format_name, allowed, mime, requested):
+            """ Internal method for validating if the requested format is one of the allowed formats.
+            @param format_name: The format name (to be used in the warning message).
+            @type format_name: string
+            @param allowed: A list of allowed content types.
+            @type allowed: list
+            @param mime: The content-type header received (to be used in the warning message).
+            @type mime: string
+            @param requested: the requested format.
+            @type requested: string
+            """
             if requested not in allowed:
                 message = "Format requested was %s, but %s (%s) has been returned by the endpoint"
                 warnings.warn(message % (requested.upper(), format_name, mime), RuntimeWarning)
@@ -1136,7 +1153,7 @@ class QueryResult(object):
     def _get_responseFormat(self):
         """
         Get the response (return) format. The possible values are: L{JSON}, L{XML}, L{RDFXML}, L{TURTLE}, L{N3}, L{CSV}, L{TSV}, L{JSONLD}.
-        In case there is no Content-Type, C{None} is return. In all other cases, the raw C{Content-Type} is return. 
+        In case there is no Content-Type, C{None} is return. In all other cases, the raw C{Content-Type} is return.
         @since: 1.8.3
 
         @return: the response format. The possible values are: L{JSON}, L{XML}, L{RDFXML}, L{TURTLE}, L{N3}, L{CSV}, L{TSV}, L{JSONLD}.
@@ -1144,6 +1161,14 @@ class QueryResult(object):
         """
 
         def _content_type_in_list(real, expected):
+            """ Internal method for checking if the content-type header received matches any of the content types of the expected list.
+            @param real: The content-type header received.
+            @type real: string
+            @param expected: A list of expected content types.
+            @type expected: list
+            @return: Returns a boolean after checking if the content-type header received matches any of the content types of the expected list.
+            @rtype: boolean
+            """
             return True in [real.find(mime) != -1 for mime in expected]
 
         if "content-type" in self.info():
