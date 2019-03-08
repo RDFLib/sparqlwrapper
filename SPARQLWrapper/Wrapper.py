@@ -1224,8 +1224,8 @@ class QueryResult(object):
         for result in results["results"]["bindings"]:
             index = 0
             for var in results["head"]["vars"]:
-                result = self.__get_prettyprint_string_sparql_var_result(result[var])
-                print result.ljust(width[index]), "|",
+                result_value = self.__get_prettyprint_string_sparql_var_result(result[var])
+                print result_value.ljust(width[index]), "|",
                 index += 1
             print
 
@@ -1236,8 +1236,8 @@ class QueryResult(object):
         for result in results["results"]["bindings"]:
             index = 0
             for var in results["head"]["vars"]:
-                result = self.__get_prettyprint_string_sparql_var_result(result[var])
-                width[index] = max(width[index], len(result))
+                result_value = self.__get_prettyprint_string_sparql_var_result(result[var])
+                width[index] = max(width[index], len(result_value))
                 index += 1
         return width
 
