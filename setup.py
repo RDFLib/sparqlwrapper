@@ -76,6 +76,7 @@ setup(
       ],
       keywords = ['python', 'sparql', 'rdf', 'rdflib'],
       use_2to3 = True,
+      use_2to3_fixers = ['custom_fixers'],
       project_urls={
         'Home': 'https://rdflib.github.io/sparqlwrapper/',
         'Documentation': 'https://rdflib.github.io/sparqlwrapper/doc/',
