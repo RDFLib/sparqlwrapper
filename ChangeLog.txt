@@ -1,6 +1,6 @@
 SPARQLWrapper's changelog:
 -------------------------
-2018-XX-XX  1.8.3   - Include ChangeLog.txt in the distribution
+2019-04-17  1.8.3   - Include ChangeLog.txt in the distribution
                     - Removed import of SPARQLWrapper in setup.py (fixed #113 and closed #115)
                     - Added support for querying RDF/XML in a CONSTRUCT query type
                     - Updated the procedure for determining the query type (#120)
@@ -10,7 +10,7 @@ SPARQLWrapper's changelog:
                     - Added/Updated tests
                     - Added examples
                     - Updated doc
-
+                    - Fixed code generated for python3 using 2to3, adding a custom fixer (#109)
 
 2018-05-26  1.8.2   - Fixed bug (#100)
                     - Updated doc
