@@ -1,7 +1,7 @@
 SPARQLWrapper's changelog:
 -------------------------
-2019-XX-XX  1.8.3   - Added example
-                    - XXX
+2019-04-18  1.8.4   - Added example
+                    - hotfix: Added custom_fixers folder in MANIFEST, in order to be used in python3 (#129)
 
 2019-04-17  1.8.3   - Include ChangeLog.txt in the distribution
                     - Removed import of SPARQLWrapper in setup.py (fixed #113 and closed #115)
