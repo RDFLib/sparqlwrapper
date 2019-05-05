@@ -1,13 +1,12 @@
 #!/bin/bash
 
-PYTHON_VERSION=`python -c "import sys;t='{v[0]}.{v[1]}'.format(v=list(sys.version_info[:2]));sys.stdout.write(t)";`
+PYTHON_VERSION=`python -c "import platform; print(int(platform.python_version()[:1]))"`
+VERSION_THRESHOLD=3
 
 echo "running tests on python $PYTHON_VERSION.x..."
 
-if  [[ $PYTHON_VERSION == 3.* ]] ;
-then
-    . run_tests_py3.sh
+if [[ ${PYTHON_VERSION} -ge ${VERSION_THRESHOLD} ]]; then
+	bash ./run_tests_py3.sh
 else
-    nosetests
+	nosetests
 fi
-
