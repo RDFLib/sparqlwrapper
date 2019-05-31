@@ -25,7 +25,7 @@ try:
 except ImportError:
     from rdflib import ConjunctiveGraph
 from SPARQLWrapper import SPARQLWrapper, XML, RDFXML, RDF, N3, TURTLE, JSONLD, JSON, CSV, TSV, POST, GET
-from SPARQLWrapper.Wrapper import _SPARQL_XML, _SPARQL_JSON, _XML, _RDF_XML, _RDF_N3, _RDF_JSONLD, _CSV, _TSV
+from SPARQLWrapper.Wrapper import _SPARQL_XML, _SPARQL_JSON, _XML, _RDF_XML, _RDF_N3, _RDF_TURTLE, _RDF_JSONLD, _CSV, _TSV
 from SPARQLWrapper.SPARQLExceptions import QueryBadFormed
 
 _SPARQL_SELECT_ASK_POSSIBLE = _SPARQL_XML + _SPARQL_JSON + _CSV + _TSV + _XML # only used in test
@@ -533,18 +533,18 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), ConjunctiveGraph)
 
     # turtle is not a valid alias
-    def testConstructByGETinTurtleConneg(self):
+    def testConstructByGETinTURTLEConneg(self):
         result = self.__generic(constructQuery, TURTLE, GET, onlyConneg=True)
         ct = result.info()["content-type"]
-        assert True in [one in ct for one in _RDF_N3], ct
+        assert True in [one in ct for one in _RDF_TURTLE], ct
         results = result.convert()
         self.assertEqual(type(results), bytes)
 
     # turtle is not a valid alias
-    def testConstructByPOSTinTurtleConneg(self):
+    def testConstructByPOSTinTURTLEConneg(self):
         result = self.__generic(constructQuery, TURTLE, POST, onlyConneg=True)
         ct = result.info()["content-type"]
-        assert True in [one in ct for one in _RDF_N3], ct
+        assert True in [one in ct for one in _RDF_TURTLE], ct
         results = result.convert()
         self.assertEqual(type(results), bytes)
 
@@ -663,7 +663,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), ConjunctiveGraph)
 
     # turtle is not a valid alias
-    def testDescribeByGETinTurtleConneg(self):
+    def testDescribeByGETinTURTLEConneg(self):
         result = self.__generic(describeQuery, TURTLE, GET, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_N3], ct
@@ -671,7 +671,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), bytes)
 
     # turtle is not a valid alias
-    def testDescribeByPOSTinTurtleConneg(self):
+    def testDescribeByPOSTinTURTLEConneg(self):
         result = self.__generic(describeQuery, TURTLE, POST, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_N3], ct

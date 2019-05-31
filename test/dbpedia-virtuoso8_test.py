@@ -24,8 +24,8 @@ try:
     from rdflib.graph import ConjunctiveGraph
 except ImportError:
     from rdflib import ConjunctiveGraph
-from SPARQLWrapper import SPARQLWrapper, XML, RDFXML, N3, JSONLD, JSON, CSV, TSV, POST, GET
-from SPARQLWrapper.Wrapper import _SPARQL_XML, _SPARQL_JSON, _XML, _RDF_XML, _RDF_N3, _RDF_JSONLD, _CSV, _TSV
+from SPARQLWrapper import SPARQLWrapper, XML, RDFXML, N3, TURTLE, JSONLD, JSON, CSV, TSV, POST, GET
+from SPARQLWrapper.Wrapper import _SPARQL_XML, _SPARQL_JSON, _XML, _RDF_XML, _RDF_N3, _RDF_TURTLE, _RDF_JSONLD, _CSV, _TSV
 from SPARQLWrapper.Wrapper import URLENCODED, POSTDIRECTLY
 from SPARQLWrapper.SPARQLExceptions import QueryBadFormed
 
@@ -471,6 +471,22 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), bytes)
 
+    # turtle is not a valid alias
+    def testConstructByGETinTURTLE(self):
+        result = self.__generic(constructQuery, TURTLE, GET, onlyConneg=True)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _RDF_TURTLE], ct
+        results = result.convert()
+        self.assertEqual(type(results), bytes)
+
+    # turtle is not a valid alias
+    def testConstructByPOSTinTURTLE(self):
+        result = self.__generic(constructQuery, TURTLE, POST, onlyConneg=True)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _RDF_TURTLE], ct
+        results = result.convert()
+        self.assertEqual(type(results), bytes)
+
     # asking for an unexpected return format for CONSTRUCT queryType
     @unittest.skip("Virtuoso returns application/sparql-results+json. It MUST return an RDF graph [RDF-CONCEPTS] serialized, for example, in the RDF/XML syntax [RDF-XML], or an equivalent RDF graph serialization, for SPARQL Query forms DESCRIBE and CONSTRUCT). See http://www.w3.org/TR/sparql11-protocol/#query-success")
     def testConstructByGETinJSON(self):
@@ -581,6 +597,22 @@ class SPARQLWrapperTests(unittest.TestCase):
         result = self.__generic(describeQuery, N3, POST)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_N3], ct
+        results = result.convert()
+        self.assertEqual(type(results), bytes)
+
+    # turtle is a valid alias
+    def testDescribeByGETinTURTLE(self):
+        result = self.__generic(describeQuery, TURTLE, GET)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _RDF_TURTLE], ct
+        results = result.convert()
+        self.assertEqual(type(results), bytes)
+
+    # turtle is a valid alias
+    def testDescribeByPOSTinTURTLE(self):
+        result = self.__generic(describeQuery, TURTLE, POST)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _RDF_TURTLE], ct
         results = result.convert()
         self.assertEqual(type(results), bytes)
 
