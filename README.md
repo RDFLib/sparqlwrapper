@@ -16,7 +16,7 @@ From PyPi:
 
 From GitHub::
 
-    $ pip install git+https://github.com/rdflib/sparqlwrapper#egg=sparqlwrapper
+    $ pip install git+https://github.com/abuonomo/sparqlwrapper#egg=sparqlwrapper
 
 From Debian
 
