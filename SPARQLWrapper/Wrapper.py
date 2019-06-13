@@ -367,7 +367,7 @@ class SPARQLWrapper(object):
     pattern = re.compile(r"(?P<queryType>(CONSTRUCT|SELECT|ASK|DESCRIBE|INSERT|DELETE|CREATE|CLEAR|DROP|LOAD|COPY|MOVE|ADD))", re.VERBOSE | re.IGNORECASE)
     comments_pattern = re.compile(r"(^|\n)\s*#.*?\n")
 
-    def __init__(self, endpoint, updateEndpoint=None, returnFormat=XML, defaultGraph=None, agent=__agent__):
+    def __init__(self, endpoint, updateEndpoint=None, returnFormat=XML, defaultGraph=None, agent=__agent__, cafile=None):
         """
         Class encapsulating a full SPARQL call.
         @param endpoint: string of the SPARQL endpoint's URI
@@ -399,6 +399,7 @@ class SPARQLWrapper(object):
         self._defaultGraph = defaultGraph
         self.onlyConneg = False # Only Content Negotiation
         self.customHttpHeaders = {}
+        self.cafile = cafile
 
         if returnFormat in _allowedFormats:
             self._defaultReturnFormat = returnFormat
@@ -888,9 +889,9 @@ class SPARQLWrapper(object):
 
         try:
             if self.timeout:
-                response = urlopener(request, timeout=self.timeout)
+                response = urlopener(request, timeout=self.timeout, cafile=self.cafile)
             else:
-                response = urlopener(request)
+                response = urlopener(request, cafile=self.cafile)
             return response, self.returnFormat
         except urllib2.HTTPError, e:
             if e.code == 400:
