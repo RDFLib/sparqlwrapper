@@ -4,7 +4,6 @@
 import inspect
 import os
 import sys
-import logging
 import unittest
 
 # prefer local copy to the one which is installed
@@ -24,12 +23,13 @@ try:
     from rdflib.graph import ConjunctiveGraph
 except ImportError:
     from rdflib import ConjunctiveGraph
-from SPARQLWrapper import SPARQLWrapper, XML, RDFXML, N3, TURTLE, JSONLD, JSON, CSV, TSV, POST, GET
+
+from SPARQLWrapper import SPARQLWrapper, XML, RDFXML, RDF, N3, TURTLE, JSONLD, JSON, CSV, TSV, POST, GET
 from SPARQLWrapper.Wrapper import _SPARQL_XML, _SPARQL_JSON, _XML, _RDF_XML, _RDF_N3, _RDF_TURTLE, _RDF_JSONLD, _CSV, _TSV
 from SPARQLWrapper.SPARQLExceptions import QueryBadFormed
 
 _SPARQL_SELECT_ASK_POSSIBLE = _SPARQL_XML + _SPARQL_JSON + _CSV + _TSV + _XML # only used in test
-_SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE = _RDF_XML + _RDF_N3 + _XML + _RDF_JSONLD# only used in test. Same as Wrapper._RDF_POSSIBLE
+_SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE = _RDF_XML + _RDF_N3 + _XML + _RDF_JSONLD # only used in test. Same as Wrapper._RDF_POSSIBLE
 
 try:
     from urllib.error import HTTPError   # Python 3
@@ -41,6 +41,7 @@ try:
 except NameError:
     bytes = str
 
+import logging
 logging.basicConfig()
 
 endpoint = "http://agrovoc.uniroma2.it:3030/agrovoc/sparql" # Fuseki 3.6.0 (Fuseki2)
@@ -569,7 +570,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), ConjunctiveGraph)
 
     # rdf+xml is not a valid alias
-    def testDescribeByGETinRDFXML(self):
+    def testDescribeByGETinRDFXMLConneg(self):
         result = self.__generic(describeQuery, RDFXML, GET, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_XML], ct
@@ -577,7 +578,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), ConjunctiveGraph)
 
     # rdf+xml is not a valid alias
-    def testDescribeByPOSTinRDFXML(self):
+    def testDescribeByPOSTinRDFXMLConneg(self):
         result = self.__generic(describeQuery, RDFXML, POST, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_XML], ct
@@ -585,7 +586,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), ConjunctiveGraph)
 
     # n3 is not a valid alias
-    def testDescribeByGETinN3(self):
+    def testDescribeByGETinN3Conneg(self):
         result = self.__generic(describeQuery, N3, GET, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_N3], ct
@@ -593,7 +594,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), bytes)
 
     # n3 is not a valid alias
-    def testDescribeByPOSTinN3(self):
+    def testDescribeByPOSTinN3Conneg(self):
         result = self.__generic(describeQuery, N3, POST, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_N3], ct
@@ -601,7 +602,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), bytes)
 
     # turtle is not a valid alias
-    def testDescribeByGETinTURTLE(self):
+    def testDescribeByGETinTURTLEConneg(self):
         result = self.__generic(describeQuery, TURTLE, GET, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_TURTLE], ct
@@ -609,7 +610,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), bytes)
 
     # turtle is not a valid alias
-    def testDescribeByPOSTinTURTLE(self):
+    def testDescribeByPOSTinTURTLEConneg(self):
         result = self.__generic(describeQuery, TURTLE, POST, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_TURTLE], ct

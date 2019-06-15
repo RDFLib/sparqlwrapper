@@ -4,7 +4,6 @@
 import inspect
 import os
 import sys
-import logging
 import unittest
 
 # prefer local copy to the one which is installed
@@ -24,7 +23,8 @@ try:
     from rdflib.graph import ConjunctiveGraph
 except ImportError:
     from rdflib import ConjunctiveGraph
-from SPARQLWrapper import SPARQLWrapper, XML, RDFXML, N3, TURTLE, JSONLD, JSON, CSV, TSV, POST, GET
+
+from SPARQLWrapper import SPARQLWrapper, XML, RDFXML, RDF, N3, TURTLE, JSONLD, JSON, CSV, TSV, POST, GET
 from SPARQLWrapper.Wrapper import _SPARQL_XML, _SPARQL_JSON, _XML, _RDF_XML, _RDF_N3, _RDF_TURTLE, _RDF_JSONLD, _CSV, _TSV
 from SPARQLWrapper.SPARQLExceptions import QueryBadFormed
 
@@ -41,6 +41,7 @@ try:
 except NameError:
     bytes = str
 
+import logging
 logging.basicConfig()
 
 endpoint = "http://sparql.agroportal.lirmm.fr/sparql/" # 4store SPARQL server v1.1.5-122-g1788d29

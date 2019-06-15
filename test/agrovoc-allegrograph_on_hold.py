@@ -4,7 +4,6 @@
 import inspect
 import os
 import sys
-import logging
 import unittest
 
 # prefer local copy to the one which is installed
@@ -24,12 +23,13 @@ try:
     from rdflib.graph import ConjunctiveGraph
 except ImportError:
     from rdflib import ConjunctiveGraph
-from SPARQLWrapper import SPARQLWrapper, XML, RDFXML, N3, JSONLD, JSON, CSV, TSV, POST, GET
-from SPARQLWrapper.Wrapper import _SPARQL_XML, _SPARQL_JSON, _XML, _RDF_XML, _RDF_N3, _RDF_JSONLD, _CSV, _TSV
+
+from SPARQLWrapper import SPARQLWrapper, XML, RDFXML, RDF, N3, TURTLE, JSONLD, JSON, CSV, TSV, POST, GET
+from SPARQLWrapper.Wrapper import _SPARQL_XML, _SPARQL_JSON, _XML, _RDF_XML, _RDF_N3, _RDF_TURTLE, _RDF_JSONLD, _CSV, _TSV
 from SPARQLWrapper.SPARQLExceptions import QueryBadFormed
 
 _SPARQL_SELECT_ASK_POSSIBLE = _SPARQL_XML + _SPARQL_JSON + _CSV + _TSV + _XML # only used in test
-_SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE = _RDF_XML + _RDF_N3 + _XML # only used in test. Same as Wrapper._RDF_POSSIBLE
+_SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE = _RDF_XML + _RDF_N3 + _XML + _RDF_JSONLD # only used in test. Same as Wrapper._RDF_POSSIBLE
 
 try:
     from urllib.error import HTTPError   # Python 3
@@ -41,6 +41,7 @@ try:
 except NameError:
     bytes = str
 
+import logging
 logging.basicConfig()
 
 endpoint = "http://202.45.139.84:10035/catalogs/fao/repositories/agrovoc"
