@@ -130,6 +130,14 @@ queryManyPrefixes = """
     } LIMIT 10
 """
 
+queryDuplicatedPrefix = """
+    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+    SELECT ?s ?p ?o WHERE {
+        ?s ?p ?o .
+    } LIMIT 10
+"""
 
 queryWithCommaInCurie_1 = """
     PREFIX dbpedia: <http://dbpedia.org/resource/>
@@ -156,7 +164,7 @@ queryWithCommaInUri = """
 
 class SPARQLWrapperTests(unittest.TestCase):
 
-    def __generic(self, query, returnFormat, method, onlyConneg=False):
+    def __generic(self, query, returnFormat, method, onlyConneg=False): # Blazegraph uses URL parameters or content negotiation.
         sparql = SPARQLWrapper(endpoint)
         sparql.setQuery(prefixes + query)
         sparql.setReturnFormat(returnFormat)
@@ -196,6 +204,15 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
+    def testSelectByGETinXML_Conneg(self):
+        result = self.__generic(selectQuery, XML, GET, onlyConneg=True)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_XML], ct
+        results = result.convert()
+        results.toxml()
+        self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
+        self.assertEqual(results.__class__.__name__, "Document")
+
     def testSelectByPOSTinXML(self):
         result = self.__generic(selectQuery, XML, POST)
         ct = result.info()["content-type"]
@@ -205,7 +222,16 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
-    @unittest.skip("blazegraph does not support receiving unexpected 'format' values")
+    def testSelectByPOSTinXML_Conneg(self):
+        result = self.__generic(selectQuery, XML, POST, onlyConneg=True)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_XML], ct
+        results = result.convert()
+        results.toxml()
+        self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
+        self.assertEqual(results.__class__.__name__, "Document")
+
+    @unittest.skip("Blazegraph does not support receiving unexpected 'format' values. csv is not a valid alias. Use content negotiation instead")
     def testSelectByGETinCSV(self):
         result = self.__generic(selectQueryCSV_TSV, CSV, GET)
         ct = result.info()["content-type"]
@@ -213,7 +239,14 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), bytes)
 
-    @unittest.skip("blazegraph does not support receiving unexpected 'format' values")
+    def testSelectByGETinCSV_Conneg(self):
+        result = self.__generic(selectQueryCSV_TSV, CSV, GET, onlyConneg=True)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _CSV], ct
+        results = result.convert()
+        self.assertEqual(type(results), bytes)
+
+    @unittest.skip("Blazegraph does not support receiving unexpected 'format' values. csv is not a valid alias. Use content negotiation instead")
     def testSelectByPOSTinCSV(self):
         result = self.__generic(selectQueryCSV_TSV, CSV, POST)
         ct = result.info()["content-type"]
@@ -221,21 +254,14 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), bytes)
 
-    def testSelectByGETinCSVConneg(self):
-        result = self.__generic(selectQueryCSV_TSV, CSV, GET, onlyConneg=True)
-        ct = result.info()["content-type"]
-        assert True in [one in ct for one in _CSV], ct
-        results = result.convert()
-        self.assertEqual(type(results), bytes)
-
-    def testSelectByPOSTinCSVConneg(self):
+    def testSelectByPOSTinCSV_Conneg(self):
         result = self.__generic(selectQueryCSV_TSV, CSV, POST, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _CSV], ct
         results = result.convert()
         self.assertEqual(type(results), bytes)
 
-    @unittest.skip("blazegraph does not support receiving unexpected 'format' values")
+    @unittest.skip("Blazegraph does not support receiving unexpected 'format' values. tsv is not a valid alias. Use content negotiation instead")
     def testSelectByGETinTSV(self):
         result = self.__generic(selectQueryCSV_TSV, TSV, GET)
         ct = result.info()["content-type"]
@@ -243,7 +269,14 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), bytes)
 
-    @unittest.skip("blazegraph does not support receiving unexpected 'format' values")
+    def testSelectByGETinTSV_Conneg(self):
+        result = self.__generic(selectQueryCSV_TSV, TSV, GET, onlyConneg=True)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _TSV], ct
+        results = result.convert()
+        self.assertEqual(type(results), bytes)
+
+    @unittest.skip("Blazegraph does not support receiving unexpected 'format' values. tsv is not a valid alias. Use content negotiation instead")
     def testSelectByPOSTinTSV(self):
         result = self.__generic(selectQueryCSV_TSV, TSV, POST)
         ct = result.info()["content-type"]
@@ -251,14 +284,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), bytes)
 
-    def testSelectByGETinTSVConneg(self):
-        result = self.__generic(selectQueryCSV_TSV, TSV, GET, onlyConneg=True)
-        ct = result.info()["content-type"]
-        assert True in [one in ct for one in _TSV], ct
-        results = result.convert()
-        self.assertEqual(type(results), bytes)
-
-    def testSelectByPOSTinTSVConneg(self):
+    def testSelectByPOSTinTSV_Conneg(self):
         result = self.__generic(selectQueryCSV_TSV, TSV, POST, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _TSV], ct
@@ -272,6 +298,13 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), dict)
 
+    def testSelectByGETinJSON_Conneg(self):
+        result = self.__generic(selectQuery, JSON, GET, onlyConneg=True)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_JSON], ct
+        results = result.convert()
+        self.assertEqual(type(results), dict)
+
     def testSelectByPOSTinJSON(self):
         result = self.__generic(selectQuery, JSON, POST)
         ct = result.info()["content-type"]
@@ -279,47 +312,103 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), dict)
 
-    # asking for an unexpected return format for SELECT queryType (n3 is not supported is an invalid alias). Set by the default None (and sending */*). For a SELECT query type, the default return mimetype (if Accept: */* is sent) is application/sparql-results+xml
-    def testSelectByGETinN3(self):
+    def testSelectByPOSTinJSON_Conneg(self):
+        result = self.__generic(selectQuery, JSON, POST, onlyConneg=True)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_JSON], ct
+        results = result.convert()
+        self.assertEqual(type(results), dict)
+
+    # Asking for an unexpected return format for SELECT queryType (n3 is not supported, and it is not a valid alias).
+    # Set by default None (and sending */*).
+    # For a SELECT query type, the default return mimetype (if Accept: */* is sent) is application/sparql-results+xml
+    def testSelectByGETinN3_Unexpected(self):
         result = self.__generic(selectQuery, N3, GET)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
         results = result.convert()
-        results.toxml()
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
-    # asking for an unexpected return format for SELECT queryType (n3 is not supported is an invalid alias). Set by the default None (and sending */*). For a SELECT query type, the default return mimetype (if Accept: */* is sent) is application/sparql-results+xml
-    def testSelectByPOSTinN3Conneg(self):
+    # Asking for an unexpected return format for SELECT queryType (n3 is not supported, and it is not a valid alias).
+    # Set by default None (and sending */*).
+    # For a SELECT query type, the default return mimetype (if Accept: */* is sent) is application/sparql-results+xml
+    def testSelectByGETinN3_Unexpected_Conneg(self):
+        result = self.__generic(selectQuery, N3, GET, onlyConneg=True)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
+        results = result.convert()
+        self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
+        self.assertEqual(results.__class__.__name__, "Document")
+
+    # Asking for an unexpected return format for SELECT queryType (n3 is not supported, and it is not a valid alias).
+    # Set by default None (and sending */*).
+    # For a SELECT query type, the default return mimetype (if Accept: */* is sent) is application/sparql-results+xml
+    def testSelectByPOSTinN3_Unexpected(self):
+        result = self.__generic(selectQuery, N3, POST)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
+        results = result.convert()
+        self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
+        self.assertEqual(results.__class__.__name__, "Document")
+
+    # Asking for an unexpected return format for SELECT queryType (n3 is not supported, and it is not a valid alias).
+    # Set by default None (and sending */*).
+    # For a SELECT query type, the default return mimetype (if Accept: */* is sent) is application/sparql-results+xml
+    def testSelectByPOSTinN3_Unexpected_Conneg(self):
         result = self.__generic(selectQuery, N3, POST, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
         results = result.convert()
-        results.toxml()
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
-    # asking for an unexpected return format for SELECT queryType (json-ld is not supported is an invalid alias). Set by the default None (and sending */*). For a SELECT query type, the default return mimetype (if Accept: */* is sent) is application/sparql-results+json
-    def testSelectByGETinJSONLDConneg(self):
+
+    # Asking for an unexpected return format for SELECT queryType (json-ld is not supported, and it is not a valid alias).
+    # Set by default None (and sending */*).
+    # For a SELECT query type, the default return mimetype (if Accept: */* is sent) is application/sparql-results+xml
+    def testSelectByGETinJSONLD_Unexpected(self):
+        result = self.__generic(selectQuery, JSONLD, GET)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
+        results = result.convert()
+        self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
+        self.assertEqual(results.__class__.__name__, "Document")
+
+    # Asking for an unexpected return format for SELECT queryType (json-ld is not supported, and it is not a valid alias).
+    # Set by default None (and sending */*).
+    # For a SELECT query type, the default return mimetype (if Accept: */* is sent) is application/sparql-results+xml
+    def testSelectByGETinJSONLD_Unexpected_Conneg(self):
         result = self.__generic(selectQuery, JSONLD, GET, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
         results = result.convert()
-        results.toxml()
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
-    # asking for an unexpected return format for SELECT queryType (json-ld is not supported is an invalid alias). Set by the default None (and sending */*). For a SELECT query type, the default return mimetype (if Accept: */* is sent) is application/sparql-results+json
-    def testSelectByPOSTinJSONLDConneg(self):
+    # Asking for an unexpected return format for SELECT queryType (json-ld is not supported, and it is not a valid alias).
+    # Set by default None (and sending */*).
+    # For a SELECT query type, the default return mimetype (if Accept: */* is sent) is application/sparql-results+xml
+    def testSelectByPOSTinJSONLD_Unexpected(self):
+        result = self.__generic(selectQuery, JSONLD, POST)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
+        results = result.convert()
+        self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
+        self.assertEqual(results.__class__.__name__, "Document")
+
+    # Asking for an unexpected return format for SELECT queryType (json-ld is not supported, and it is not a valid alias).
+    # Set by default None (and sending */*).
+    # For a SELECT query type, the default return mimetype (if Accept: */* is sent) is application/sparql-results+xml
+    def testSelectByPOSTinJSONLD_Unexpected_Conneg(self):
         result = self.__generic(selectQuery, JSONLD, POST, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
         results = result.convert()
-        results.toxml()
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
-    # asking for an unknown return format for SELECT queryType (XML is sent)
+    # Asking for an unknown return format for SELECT queryType (XML is sent)
     def testSelectByGETinUnknow(self):
         result = self.__generic(selectQuery, "foo", GET)
         ct = result.info()["content-type"]
@@ -329,9 +418,29 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
-    # asking for an unknown return format for SELECT queryType (XML is sent)
+    # Asking for an unknown return format for SELECT queryType (XML is sent)
+    def testSelectByGETinUnknow_Conneg(self):
+        result = self.__generic(selectQuery, "foo", GET, onlyConneg=True)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
+        results = result.convert()
+        results.toxml()
+        self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
+        self.assertEqual(results.__class__.__name__, "Document")
+
+    # Asking for an unknown return format for SELECT queryType (XML is sent)
     def testSelectByPOSTinUnknow(self):
         result = self.__generic(selectQuery, "bar", POST)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
+        results = result.convert()
+        results.toxml()
+        self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
+        self.assertEqual(results.__class__.__name__, "Document")
+
+    # Asking for an unknown return format for SELECT queryType (XML is sent)
+    def testSelectByPOSTinUnknow_Conneg(self):
+        result = self.__generic(selectQuery, "bar", POST, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
         results = result.convert()
@@ -355,8 +464,26 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
+    def testAskByGETinXML_Conneg(self):
+        result = self.__generic(askQuery, XML, GET, onlyConneg=True)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_XML], ct
+        results = result.convert()
+        results.toxml()
+        self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
+        self.assertEqual(results.__class__.__name__, "Document")
+
     def testAskByPOSTinXML(self):
         result = self.__generic(askQuery, XML, POST)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_XML], ct
+        results = result.convert()
+        results.toxml()
+        self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
+        self.assertEqual(results.__class__.__name__, "Document")
+
+    def testAskByPOSTinXML_Conneg(self):
+        result = self.__generic(askQuery, XML, POST, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_XML], ct
         results = result.convert()
@@ -370,6 +497,15 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _CSV], ct
         results = result.convert()
+        self.assertEqual(type(results), bytes)
+
+    @unittest.skip("CSV is not supported for ASK queries in Blazegraph")
+    def testAskByGETinCSV_Conneg(self):
+        result = self.__generic(askQuery, CSV, GET, onlyConneg=True)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _CSV], ct
+        results = result.convert()
+        self.assertEqual(type(results), bytes)
 
     @unittest.skip("CSV is not supported for ASK queries in Blazegraph")
     def testAskByPOSTinCSV(self):
@@ -377,20 +513,15 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _CSV], ct
         results = result.convert()
+        self.assertEqual(type(results), bytes)
 
     @unittest.skip("CSV is not supported for ASK queries in Blazegraph")
-    def testAskByGETinCSVConneg(self):
-        result = self.__generic(askQuery, CSV, GET, onlyConneg=True)
-        ct = result.info()["content-type"]
-        assert True in [one in ct for one in _CSV], ct
-        results = result.convert()
-
-    @unittest.skip("CSV is not supported for ASK queries in Blazegraph")
-    def testAskByPOSTinCSVConneg(self):
+    def testAskByPOSTinCSV_Conneg(self):
         result = self.__generic(askQuery, CSV, POST, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _CSV], ct
         results = result.convert()
+        self.assertEqual(type(results), bytes)
 
     @unittest.skip("TSV is not supported for ASK queries in Blazegraph")
     def testAskByGETinTSV(self):
@@ -398,16 +529,10 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _TSV], ct
         results = result.convert()
+        self.assertEqual(type(results), bytes)
 
     @unittest.skip("TSV is not supported for ASK queries in Blazegraph")
-    def testAskByPOSTinTSV(self):
-        result = self.__generic(askQuery, TSV, POST)
-        ct = result.info()["content-type"]
-        assert True in [one in ct for one in _TSV], ct
-        results = result.convert()
-
-    @unittest.skip("TSV is not supported for ASK queries in Blazegraph")
-    def testAskByGETinTSVConneg(self):
+    def testAskByGETinTSV_Conneg(self):
         result = self.__generic(askQuery, TSV, GET, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _TSV], ct
@@ -415,7 +540,15 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), bytes)
 
     @unittest.skip("TSV is not supported for ASK queries in Blazegraph")
-    def testAskByPOSTinTSVConneg(self):
+    def testAskByPOSTinTSV(self):
+        result = self.__generic(askQuery, TSV, POST)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _TSV], ct
+        results = result.convert()
+        self.assertEqual(type(results), bytes)
+
+    @unittest.skip("TSV is not supported for ASK queries in Blazegraph")
+    def testAskByPOSTinTSV_Conneg(self):
         result = self.__generic(askQuery, TSV, POST, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _TSV], ct
@@ -429,6 +562,13 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), dict)
 
+    def testAskByGETinJSON_Conneg(self):
+        result = self.__generic(askQuery, JSON, GET, onlyConneg=True)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_JSON], ct
+        results = result.convert()
+        self.assertEqual(type(results), dict)
+
     def testAskByPOSTinJSON(self):
         result = self.__generic(askQuery, JSON, POST)
         ct = result.info()["content-type"]
@@ -436,47 +576,102 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), dict)
 
-    # asking for an unexpected return format for ASK queryType (n3 is not supported is an invalid alias). Set by the default None (and sending */*). For a SELECT query type, the default return mimetype (if Accept: */* is sent) is application/sparql-results+xml
-    def testAskByGETinN3Conneg(self):
+    def testAskByPOSTinJSON_Conneg(self):
+        result = self.__generic(askQuery, JSON, POST, onlyConneg=True)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_JSON], ct
+        results = result.convert()
+        self.assertEqual(type(results), dict)
+
+    # Asking for an unexpected return format for ASK queryType (n3 is not supported, it is not a valid alias).
+    # Set by default None (and sending */*).
+    # For an ASK query type, the default return mimetype (if Accept: */* is sent) is application/sparql-results+xml
+    def testAskByGETinN3_Unexpected(self):
+        result = self.__generic(askQuery, N3, GET)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
+        results = result.convert()
+        self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
+        self.assertEqual(results.__class__.__name__, "Document")
+
+    # Asking for an unexpected return format for ASK queryType (n3 is not supported, it is not a valid alias).
+    # Set by default None (and sending */*).
+    # For an ASK query type, the default return mimetype (if Accept: */* is sent) is application/sparql-results+xml
+    def testAskByGETinN3_Unexpected_Conneg(self):
         result = self.__generic(askQuery, N3, GET, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
         results = result.convert()
-        results.toxml()
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
-    # asking for an unexpected return format for ASK queryType (n3 is not supported is an invalid alias). Set by the default None (and sending */*). For a SELECT query type, the default return mimetype (if Accept: */* is sent) is application/sparql-results+xml
-    def testAskByPOSTinN3Conneg(self):
+    # Asking for an unexpected return format for ASK queryType (n3 is not supported, it is not a valid alias).
+    # Set by default None (and sending */*).
+    # For an ASK query type, the default return mimetype (if Accept: */* is sent) is application/sparql-results+xml
+    def testAskByPOSTinN3_Unexpected(self):
+        result = self.__generic(askQuery, N3, POST)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
+        results = result.convert()
+        self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
+        self.assertEqual(results.__class__.__name__, "Document")
+
+    # Asking for an unexpected return format for ASK queryType (n3 is not supported, it is not a valid alias).
+    # Set by default None (and sending */*).
+    # For an ASK query type, the default return mimetype (if Accept: */* is sent) is application/sparql-results+xml
+    def testAskByPOSTinN3_Unexpected_Conneg(self):
         result = self.__generic(askQuery, N3, POST, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
         results = result.convert()
-        results.toxml()
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
-    # asking for an unexpected return format for ASK queryType (json-ld is not supported is an invalid alias). Set by the default None (and sending */*). For a SELECT query type, the default return mimetype (if Accept: */* is sent) is application/sparql-results+xml
-    def testAskByGETinJSONLDConneg(self):
+    # Asking for an unexpected return format for ASK queryType (json-ld is not supported, it is not a valid alias).
+    # Set by default None (and sending */*).
+    # For an ASK query type, the default return mimetype (if Accept: */* is sent) is application/sparql-results+xml
+    def testAskByGETinJSONLD_Unexpected(self):
+        result = self.__generic(askQuery, JSONLD, GET)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
+        results = result.convert()
+        self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
+        self.assertEqual(results.__class__.__name__, "Document")
+
+    # Asking for an unexpected return format for ASK queryType (json-ld is not supported, it is not a valid alias).
+    # Set by default None (and sending */*).
+    # For an ASK query type, the default return mimetype (if Accept: */* is sent) is application/sparql-results+xml
+    def testAskByGETinJSONLD_Unexpected_Conneg(self):
         result = self.__generic(askQuery, JSONLD, GET, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
         results = result.convert()
-        results.toxml()
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
-    # asking for an unexpected return format for ASK queryType (json-ld is not supported is an invalid alias). Set by the default None (and sending */*). For a SELECT query type, the default return mimetype (if Accept: */* is sent) is application/sparql-results+xml
-    def testAskByPOSTinJSONLDConneg(self):
+    # Asking for an unexpected return format for ASK queryType (json-ld is not supported, it is not a valid alias).
+    # Set by default None (and sending */*).
+    # For an ASK query type, the default return mimetype (if Accept: */* is sent) is application/sparql-results+xml
+    def testAskByPOSTinJSONLD_Unexpected(self):
+        result = self.__generic(askQuery, JSONLD, POST)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
+        results = result.convert()
+        self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
+        self.assertEqual(results.__class__.__name__, "Document")
+
+    # Asking for an unexpected return format for ASK queryType (json-ld is not supported, it is not a valid alias).
+    # Set by default None (and sending */*).
+    # For an ASK query type, the default return mimetype (if Accept: */* is sent) is application/sparql-results+xml
+    def testAskByPOSTinJSONLD_Unexpected_Conneg(self):
         result = self.__generic(askQuery, JSONLD, POST, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
         results = result.convert()
-        results.toxml()
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
-    # asking for an unknown return format for ASK queryType (XML is sent)
+    # Asking for an unknown return format for ASK queryType (XML is sent)
     def testAskByGETinUnknow(self):
         result = self.__generic(askQuery, "foo", GET)
         ct = result.info()["content-type"]
@@ -486,9 +681,29 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
-    # asking for an unknown return format for ASK queryType (XML is sent)
+    # Asking for an unknown return format for ASK queryType (XML is sent)
+    def testAskByGETinUnknow_Conneg(self):
+        result = self.__generic(askQuery, "foo", GET, onlyConneg=True)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
+        results = result.convert()
+        results.toxml()
+        self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
+        self.assertEqual(results.__class__.__name__, "Document")
+
+    # Asking for an unknown return format for ASK queryType (XML is sent)
     def testAskByPOSTinUnknow(self):
         result = self.__generic(askQuery, "bar", POST)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
+        results = result.convert()
+        results.toxml()
+        self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
+        self.assertEqual(results.__class__.__name__, "Document")
+
+    # Asking for an unknown return format for ASK queryType (XML is sent)
+    def testAskByPOSTinUnknow_Conneg(self):
+        result = self.__generic(askQuery, "bar", POST, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
         results = result.convert()
@@ -510,6 +725,13 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
+    def testConstructByGETinXML_Conneg(self):
+        result = self.__generic(constructQuery, XML, GET, onlyConneg=True)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _RDF_XML], ct
+        results = result.convert()
+        self.assertEqual(type(results), ConjunctiveGraph)
+
     def testConstructByPOSTinXML(self):
         result = self.__generic(constructQuery, XML, POST)
         ct = result.info()["content-type"]
@@ -517,8 +739,23 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
+    def testConstructByPOSTinXML_Conneg(self):
+        result = self.__generic(constructQuery, XML, POST, onlyConneg=True)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _RDF_XML], ct
+        results = result.convert()
+        self.assertEqual(type(results), ConjunctiveGraph)
+
     # rdf+xml is not a valid alias
-    def testConstructByGETinRDFXMLConneg(self):
+    def testConstructByGETinRDFXML(self):
+        result = self.__generic(constructQuery, RDFXML, GET)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _RDF_XML], ct
+        results = result.convert()
+        self.assertEqual(type(results), ConjunctiveGraph)
+
+    # rdf+xml is not a valid alias
+    def testConstructByGETinRDFXML_Conneg(self):
         result = self.__generic(constructQuery, RDFXML, GET, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_XML], ct
@@ -526,7 +763,15 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), ConjunctiveGraph)
 
     # rdf+xml is not a valid alias
-    def testConstructByPOSTinRDFXMLConneg(self):
+    def testConstructByPOSTinRDFXML(self):
+        result = self.__generic(constructQuery, RDFXML, POST)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _RDF_XML], ct
+        results = result.convert()
+        self.assertEqual(type(results), ConjunctiveGraph)
+
+    # rdf+xml is not a valid alias
+    def testConstructByPOSTinRDFXML_Conneg(self):
         result = self.__generic(constructQuery, RDFXML, POST, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_XML], ct
@@ -534,7 +779,16 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), ConjunctiveGraph)
 
     # turtle is not a valid alias
-    def testConstructByGETinTURTLEConneg(self):
+    @unittest.skip("Blazegraph does not support receiving unexpected 'format' values. turtle is not a valid alias. Use content negotiation instead")
+    def testConstructByGETinTURTLE(self):
+        result = self.__generic(constructQuery, TURTLE, GET)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _RDF_TURTLE], ct
+        results = result.convert()
+        self.assertEqual(type(results), bytes)
+
+    # turtle is not a valid alias
+    def testConstructByGETinTURTLE_Conneg(self):
         result = self.__generic(constructQuery, TURTLE, GET, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_TURTLE], ct
@@ -542,68 +796,163 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), bytes)
 
     # turtle is not a valid alias
-    def testConstructByPOSTinTURTLEConneg(self):
+    @unittest.skip("Blazegraph does not support receiving unexpected 'format' values. turtle is not a valid alias. Use content negotiation instead")
+    def testConstructByPOSTinTURTLE(self):
+        result = self.__generic(constructQuery, TURTLE, POST)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _RDF_TURTLE], ct
+        results = result.convert()
+        self.assertEqual(type(results), bytes)
+
+    # turtle is not a valid alias
+    def testConstructByPOSTinTURTLE_Conneg(self):
         result = self.__generic(constructQuery, TURTLE, POST, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_TURTLE], ct
         results = result.convert()
         self.assertEqual(type(results), bytes)
 
-    def testConstructByGETinN3Conneg(self):
+    # n3 is not a valid alias
+    @unittest.skip("Blazegraph does not support receiving unexpected 'format' values. n3 is not a valid alias. Use content negotiation instead")
+    def testConstructByGETinN3(self):
+        result = self.__generic(constructQuery, N3, GET)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _RDF_N3], ct
+        results = result.convert()
+        self.assertEqual(type(results), bytes)
+
+    # n3 is not a valid alias
+    def testConstructByGETinN3_Conneg(self):
         result = self.__generic(constructQuery, N3, GET, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_N3], ct
         results = result.convert()
         self.assertEqual(type(results), bytes)
 
-    def testConstructByPOSTinN3Conneg(self):
+    # n3 is not a valid alias
+    @unittest.skip("Blazegraph does not support receiving unexpected 'format' values. n3 is not a valid alias. Use content negotiation instead")
+    def testConstructByPOSTinN3(self):
+        result = self.__generic(constructQuery, N3, POST)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _RDF_N3], ct
+        results = result.convert()
+        self.assertEqual(type(results), bytes)
+
+    # n3 is not a valid alias
+    def testConstructByPOSTinN3_Conneg(self):
         result = self.__generic(constructQuery, N3, POST, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_N3], ct
         results = result.convert()
         self.assertEqual(type(results), bytes)
 
-    @unittest.skip('Blazegraph. json is valid alias but returns application/sparql-results+json')
-    def testConstructByGETinJSON(self):
-        result = self.__generic(constructQuery, JSON, GET)
+    # json-ld is not a valid alias. Use content negotiation instead
+    @unittest.skip("Blazegraph does not support receiving unexpected 'format' values. json-ld is not a valid alias. Use content negotiation instead")
+    def testConstructByGETinJSONLD(self):
+        result = self.__generic(constructQuery, JSONLD, GET)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_JSONLD], ct
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
-    # json-ld is not a valid alias
-    def testConstructByGETinJSONLDConneg(self):
+    # json-ld is not a valid alias. Use content negotiation instead
+    def testConstructByGETinJSONLD_Conneg(self):
         result = self.__generic(constructQuery, JSONLD, GET, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_JSONLD], ct
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
-    # json-ld is not a valid alias
-    def testConstructByPOSTinJSONLDConneg(self):
+    # json-ld is not a valid alias. Use content negotiation instead
+    @unittest.skip("Blazegraph does not support receiving unexpected 'format' values. json-ld is not a valid alias. Use content negotiation instead")
+    def testConstructByPOSTinJSONLD(self):
+        result = self.__generic(constructQuery, JSONLD, POST)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _RDF_JSONLD], ct
+        results = result.convert()
+        self.assertEqual(type(results), ConjunctiveGraph)
+
+    # json-ld is not a valid alias. Use content negotiation instead
+    def testConstructByPOSTinJSONLD_Conneg(self):
         result = self.__generic(constructQuery, JSONLD, POST, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_JSONLD], ct
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
-    # asking for an unexpected return format for CONSTRUCT queryType. For a CONSTRUCT query type, the default return mimetype (if Accept: */* is sent) is application/rdf+xml
-    def testConstructByGETinCSV(self):
+    # Asking for an unexpected return format for CONSTRUCT queryType.
+    # For a CONSTRUCT query type, the default return mimetype (if Accept: */* is sent) is application/rdf+xml
+    def testConstructByGETinCSV_Unexpected(self):
         result = self.__generic(constructQuery, CSV, GET)
         ct = result.info()["content-type"]
-        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], "returned Content-Type='%s'. Expected fail due to Virtuoso configuration" %(ct)
+        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE]
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
-    # asking for an unexpected return format for CONSTRUCT queryType. For a CONSTRUCT query type, the default return mimetype (if Accept: */* is sent) is application/rdf+xml
-    def testConstructByPOSTinCSV(self):
+    # Asking for an unexpected return format for CONSTRUCT queryType.
+    # For a CONSTRUCT query type, the default return mimetype (if Accept: */* is sent) is application/rdf+xml
+    def testConstructByGETinCSV_Unexpected_Conneg(self):
+        result = self.__generic(constructQuery, CSV, GET, onlyConneg=True)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE]
+        results = result.convert()
+        self.assertEqual(type(results), ConjunctiveGraph)
+
+    # Asking for an unexpected return format for CONSTRUCT queryType.
+    # For a CONSTRUCT query type, the default return mimetype (if Accept: */* is sent) is application/rdf+xml
+    def testConstructByPOSTinCSV_Unexpected(self):
         result = self.__generic(constructQuery, CSV, POST)
         ct = result.info()["content-type"]
-        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], "returned Content-Type='%s'. Expected fail due to Virtuoso configuration" %(ct)
+        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE]
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
-    # asking for an unknown return format for CONSTRUCT queryType (XML is sent)
+    # Asking for an unexpected return format for CONSTRUCT queryType.
+    # For a CONSTRUCT query type, the default return mimetype (if Accept: */* is sent) is application/rdf+xml
+    def testConstructByPOSTinCSV_Unexpected_Conneg(self):
+        result = self.__generic(constructQuery, CSV, POST, onlyConneg=True)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE]
+        results = result.convert()
+        self.assertEqual(type(results), ConjunctiveGraph)
+
+    # json is valid alias but returns application/sparql-results+json
+    @unittest.skip("Blazegraph returns application/sparql-results+json. It MUST return an RDF graph [RDF-CONCEPTS] serialized, for example, in the RDF/XML syntax [RDF-XML], or an equivalent RDF graph serialization, for SPARQL Query forms DESCRIBE and CONSTRUCT). See http://www.w3.org/TR/sparql11-protocol/#query-success")
+    def testConstructByGETinJSON_Unexpected(self):
+        result = self.__generic(constructQuery, JSON, GET)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE]
+        results = result.convert()
+        self.assertEqual(type(results), ConjunctiveGraph)
+
+    # Asking for an unexpected return format for CONSTRUCT queryType.
+    # For a CONSTRUCT query type, the default return mimetype (if Accept: */* is sent) is application/rdf+xml
+    def testConstructByGETinJSON_Unexpected_Conneg(self):
+        result = self.__generic(constructQuery, JSON, GET , onlyConneg=True)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE]
+        results = result.convert()
+        self.assertEqual(type(results), ConjunctiveGraph)
+
+    # json is valid alias but returns application/sparql-results+json
+    @unittest.skip("Blazegraph returns application/sparql-results+json. It MUST return an RDF graph [RDF-CONCEPTS] serialized, for example, in the RDF/XML syntax [RDF-XML], or an equivalent RDF graph serialization, for SPARQL Query forms DESCRIBE and CONSTRUCT). See http://www.w3.org/TR/sparql11-protocol/#query-success")
+    def testConstructByPOSTinJSON_Unexpected(self):
+        result = self.__generic(constructQuery, JSON, POST)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], ct
+        results = result.convert()
+        self.assertEqual(type(results), ConjunctiveGraph)
+
+    # Asking for an unexpected return format for CONSTRUCT queryType.
+    # For a CONSTRUCT query type, the default return mimetype (if Accept: */* is sent) is application/rdf+xml
+    def testConstructByPOSTinJSON_Unexpected_Conneg(self):
+        result = self.__generic(constructQuery, JSON, POST, onlyConneg=True)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], ct
+        results = result.convert()
+        self.assertEqual(type(results), ConjunctiveGraph)
+
+    # Asking for an unknown return format for CONSTRUCT queryType (XML is sent)
     def testConstructByGETinUnknow(self):
         result = self.__generic(constructQuery, "foo", GET)
         ct = result.info()["content-type"]
@@ -611,9 +960,25 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
-    # asking for an unknown return format for CONSTRUCT queryType (XML is sent)
+    # Asking for an unknown return format for CONSTRUCT queryType (XML is sent)
+    def testConstructByGETinUnknow_Conneg(self):
+        result = self.__generic(constructQuery, "foo", GET, onlyConneg=True)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], ct
+        results = result.convert()
+        self.assertEqual(type(results), ConjunctiveGraph)
+
+    # Asking for an unknown return format for CONSTRUCT queryType (XML is sent)
     def testConstructByPOSTinUnknow(self):
         result = self.__generic(constructQuery, "bar", POST)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], ct
+        results = result.convert()
+        self.assertEqual(type(results), ConjunctiveGraph)
+
+    # Asking for an unknown return format for CONSTRUCT queryType (XML is sent)
+    def testConstructByPOSTinUnknow_Conneg(self):
+        result = self.__generic(constructQuery, "bar", POST, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], ct
         results = result.convert()
@@ -633,6 +998,13 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
+    def testDescribeByGETinXML_Conneg(self):
+        result = self.__generic(describeQuery, XML, GET, onlyConneg=True)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _RDF_XML], ct
+        results = result.convert()
+        self.assertEqual(type(results), ConjunctiveGraph)
+
     def testDescribeByPOSTinXML(self):
         result = self.__generic(describeQuery, XML, POST)
         ct = result.info()["content-type"]
@@ -640,15 +1012,23 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
-    def testDescribeByPOSTinRDF(self):
-        result = self.__generic(describeQuery, RDF, POST)
+    def testDescribeByPOSTinXML_Conneg(self):
+        result = self.__generic(describeQuery, XML, POST, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_XML], ct
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
     # rdf+xml is not a valid alias
-    def testDescribeByGETinRDFXMLConneg(self):
+    def testDescribeByGETinRDFXML(self):
+        result = self.__generic(describeQuery, RDFXML, GET)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _RDF_XML], ct
+        results = result.convert()
+        self.assertEqual(type(results), ConjunctiveGraph)
+
+    # rdf+xml is not a valid alias
+    def testDescribeByGETinRDFXML_Conneg(self):
         result = self.__generic(describeQuery, RDFXML, GET, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_XML], ct
@@ -656,7 +1036,15 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), ConjunctiveGraph)
 
     # rdf+xml is not a valid alias
-    def testDescribeByPOSTinRDFXMLConneg(self):
+    def testDescribeByPOSTinRDFXML(self):
+        result = self.__generic(describeQuery, RDFXML, POST)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _RDF_XML], ct
+        results = result.convert()
+        self.assertEqual(type(results), ConjunctiveGraph)
+
+    # rdf+xml is not a valid alias
+    def testDescribeByPOSTinRDFXML_Conneg(self):
         result = self.__generic(describeQuery, RDFXML, POST, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_XML], ct
@@ -664,74 +1052,177 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), ConjunctiveGraph)
 
     # turtle is not a valid alias
-    def testDescribeByGETinTURTLEConneg(self):
-        result = self.__generic(describeQuery, TURTLE, GET, onlyConneg=True)
+    @unittest.skip("Blazegraph does not support receiving unexpected 'format' values. turtle is not a valid alias. Use content negotiation instead")
+    def testDescribeByGETinTURTLE(self):
+        result = self.__generic(describeQuery, TURTLE, GET)
         ct = result.info()["content-type"]
-        assert True in [one in ct for one in _RDF_N3], ct
+        assert True in [one in ct for one in _RDF_TURTLE], ct
         results = result.convert()
         self.assertEqual(type(results), bytes)
 
     # turtle is not a valid alias
-    def testDescribeByPOSTinTURTLEConneg(self):
+    def testDescribeByGETinTURTLE_Conneg(self):
+        result = self.__generic(describeQuery, TURTLE, GET, onlyConneg=True)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _RDF_TURTLE], ct
+        results = result.convert()
+        self.assertEqual(type(results), bytes)
+
+    # turtle is not a valid alias
+    @unittest.skip("Blazegraph does not support receiving unexpected 'format' values. turtle is not a valid alias. Use content negotiation instead")
+    def testDescribeByPOSTinTURTLE(self):
+        result = self.__generic(describeQuery, TURTLE, POST)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _RDF_TURTLE], ct
+        results = result.convert()
+        self.assertEqual(type(results), bytes)
+
+    # turtle is not a valid alias
+    def testDescribeByPOSTinTURTLE_Conneg(self):
         result = self.__generic(describeQuery, TURTLE, POST, onlyConneg=True)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _RDF_TURTLE], ct
+        results = result.convert()
+        self.assertEqual(type(results), bytes)
+
+    # n3 is not a valid alias
+    @unittest.skip("Blazegraph does not support receiving unexpected 'format' values. n3 is not a valid alias. Use content negotiation instead")
+    def testDescribeByGETinN3(self):
+        result = self.__generic(describeQuery, N3, GET)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_N3], ct
         results = result.convert()
         self.assertEqual(type(results), bytes)
 
-    def testDescribeByGETinN3Conneg(self):
+    # n3 is not a valid alias
+    def testDescribeByGETinN3_Conneg(self):
         result = self.__generic(describeQuery, N3, GET, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_N3], ct
         results = result.convert()
         self.assertEqual(type(results), bytes)
 
-    def testDescribeByPOSTinN3Conneg(self):
+    # n3 is not a valid alias
+    @unittest.skip("Blazegraph does not support receiving unexpected 'format' values. n3 is not a valid alias. Use content negotiation instead")
+    def testDescribeByPOSTinN3(self):
+        result = self.__generic(describeQuery, N3, POST)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _RDF_N3], ct
+        results = result.convert()
+        self.assertEqual(type(results), bytes)
+
+    # n3 is not a valid alias
+    def testDescribeByPOSTinN3_Conneg(self):
         result = self.__generic(describeQuery, N3, POST, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_N3], ct
         results = result.convert()
         self.assertEqual(type(results), bytes)
 
-    def testDescribeByGETinJSONLDConneg(self):
+    @unittest.skip("Blazegraph does not support receiving unexpected 'format' values. json-ld is not a valid alias. Use content negotiation instead")
+    def testDescribeByGETinJSONLD(self):
+        result = self.__generic(describeQuery, JSONLD, GET)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _RDF_JSONLD], ct
+        results = result.convert()
+        self.assertEqual(type(results), ConjunctiveGraph)
+
+    def testDescribeByGETinJSONLD_Conneg(self):
         result = self.__generic(describeQuery, JSONLD, GET, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_JSONLD], ct
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
-    @unittest.skip('Blazegraph. json is valid alias but returns application/sparql-results+json')
-    def testDescribeByGETinJSON(self):
-        result = self.__generic(describeQuery, JSON, GET)
+    @unittest.skip("Blazegraph does not support receiving unexpected 'format' values. json-ld is not a valid alias. Use content negotiation instead")
+    def testDescribeByPOSTinJSONLD(self):
+        result = self.__generic(describeQuery, JSONLD, POST)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_JSONLD], ct
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
-    def testDescribeByPOSTinJSONLDConneg(self):
+    def testDescribeByPOSTinJSONLD_Conneg(self):
         result = self.__generic(describeQuery, JSONLD, POST, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_JSONLD], ct
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
-    # asking for an unexpected return format for DESCRIBE queryType. For a DESCRIBE query type, the default return mimetype (if Accept: */* is sent) is text/turtle
-    def testDescribeByGETinCSV(self):
+    # Asking for an unexpected return format for DESCRIBE queryType.
+    # For a DESCRIBE query type, the default return mimetype (if Accept: */* is sent) is application/rdf+xml
+    def testDescribeByGETinCSV_Unexpected(self):
         result = self.__generic(describeQuery, CSV, GET)
         ct = result.info()["content-type"]
-        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], "returned Content-Type='%s'. Expected fail due to Virtuoso configuration" %(ct)
+        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE]
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
-    # asking for an unexpected return format for DESCRIBE queryType. For a DESCRIBE query type, the default return mimetype (if Accept: */* is sent) is text/turtle
-    def testDescribeByPOSTinCSV(self):
+    # Asking for an unexpected return format for DESCRIBE queryType.
+    # For a DESCRIBE query type, the default return mimetype (if Accept: */* is sent) is application/rdf+xml
+    # Returned application/rdf+xml
+    def testDescribeByGETinCSV_Unexpected_Conneg(self):
+        result = self.__generic(describeQuery, CSV, GET, onlyConneg=True)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE]
+        results = result.convert()
+        self.assertEqual(type(results), ConjunctiveGraph)
+
+    # Asking for an unexpected return format for DESCRIBE queryType.
+    # For a DESCRIBE query type, the default return mimetype (if Accept: */* is sent) is application/rdf+xml
+    def testDescribeByPOSTinCSV_Unexpected(self):
         result = self.__generic(describeQuery, CSV, POST)
         ct = result.info()["content-type"]
-        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], "returned Content-Type='%s'. Expected fail due to Virtuoso configuration" %(ct)
+        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE]
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
-    # asking for an unknown return format for DESCRIBE queryType (XML is sent)
+    # Asking for an unexpected return format for DESCRIBE queryType.
+    # For a DESCRIBE query type, the default return mimetype (if Accept: */* is sent) is application/rdf+xml
+    def testDescribeByPOSTinCSV_Unexpected_Conneg(self):
+        result = self.__generic(describeQuery, CSV, POST, onlyConneg=True)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE]
+        results = result.convert()
+        self.assertEqual(type(results), ConjunctiveGraph)
+
+    # json is valid alias but returns application/sparql-results+json
+    @unittest.skip("Blazegraph returns application/sparql-results+json. It MUST return an RDF graph [RDF-CONCEPTS] serialized, for example, in the RDF/XML syntax [RDF-XML], or an equivalent RDF graph serialization, for SPARQL Query forms DESCRIBE and CONSTRUCT). See http://www.w3.org/TR/sparql11-protocol/#query-success")
+    def testDescribeByGETinJSON_Unexpected(self):
+        result = self.__generic(describeQuery, JSON, GET)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE]
+        results = result.convert()
+        self.assertEqual(type(results), ConjunctiveGraph)
+
+    # Asking for an unexpected return format for DESCRIBE queryType.
+    # For a DESCRIBE query type, the default return mimetype (if Accept: */* is sent) is application/rdf+xml
+    def testDescribeByGETinJSON_Unexpected_Conneg(self):
+        result = self.__generic(describeQuery, JSON, GET, onlyConneg=True)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE]
+        results = result.convert()
+        self.assertEqual(type(results), ConjunctiveGraph)
+
+    # json is valid alias but returns application/sparql-results+json
+    @unittest.skip("Blazegraph returns application/sparql-results+json. It MUST return an RDF graph [RDF-CONCEPTS] serialized, for example, in the RDF/XML syntax [RDF-XML], or an equivalent RDF graph serialization, for SPARQL Query forms DESCRIBE and CONSTRUCT). See http://www.w3.org/TR/sparql11-protocol/#query-success")
+    def testDescribeByPOSTinJSON_Unexpected(self):
+        result = self.__generic(describeQuery, JSON, POST)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE]
+        results = result.convert()
+        self.assertEqual(type(results), ConjunctiveGraph)
+
+    # Asking for an unexpected return format for DESCRIBE queryType.
+    # For a DESCRIBE query type, the default return mimetype (if Accept: */* is sent) is application/rdf+xml
+    def testDescribeByPOSTinJSON_Unexpected_Conneg(self):
+        result = self.__generic(describeQuery, JSON, POST, onlyConneg=True)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE]
+        results = result.convert()
+        self.assertEqual(type(results), ConjunctiveGraph)
+
+    # Asking for an unknown return format for DESCRIBE queryType (XML is sent)
     def testDescribeByGETinUnknow(self):
         result = self.__generic(describeQuery, "foo", GET)
         ct = result.info()["content-type"]
@@ -739,9 +1230,25 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
-    # asking for an unknown return format for DESCRIBE queryType (XML is sent)
+    # Asking for an unknown return format for DESCRIBE queryType (XML is sent)
+    def testDescribeByGETinUnknow_Conneg(self):
+        result = self.__generic(describeQuery, "foo", GET, onlyConneg=True)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], ct
+        results = result.convert()
+        self.assertEqual(type(results), ConjunctiveGraph)
+
+    # Asking for an unknown return format for DESCRIBE queryType (XML is sent)
     def testDescribeByPOSTinUnknow(self):
         result = self.__generic(describeQuery, "bar", POST)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], ct
+        results = result.convert()
+        self.assertEqual(type(results), ConjunctiveGraph)
+
+    # Asking for an unknown return format for DESCRIBE queryType (XML is sent)
+    def testDescribeByPOSTinUnknow_Conneg(self):
+        result = self.__generic(describeQuery, "bar", POST, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], ct
         results = result.convert()
