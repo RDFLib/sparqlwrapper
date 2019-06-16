@@ -821,7 +821,6 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), bytes)
 
     # json-ld is not a valid alias. Use content negotiation instead
-    #@unittest.skip("json-ld is not a valid alias. Use content negotiation instead")
     def testConstructByGETinJSONLD(self):
         result = self.__generic(constructQuery, JSONLD, GET)
         ct = result.info()["content-type"]
