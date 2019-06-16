@@ -164,9 +164,11 @@ from SPARQLWrapper import __agent__
 #
 #
 #  - 4store. Code repository <https://github.com/4store/4store> documentation <https://4store.danielknoell.de/trac/wiki/SparqlServer/>
+#    * Uses: Parameters AND Content Negotiation
 #    * Parameter key: "output"
 #    * Parameter value: alias. If an unexpected alias is used, the server is not working properly
-#    * Also, it uses content negotiation
+#    * JSON-LD: NOT supported
+#
 #    ** SELECT
 #    *** application/sparql-results+xml (alias xml) (DEFAULT if Accept: */* is sent))
 #    *** application/sparql-results+json or application/json (alias json)
