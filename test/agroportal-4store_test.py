@@ -869,41 +869,6 @@ class SPARQLWrapperTests(unittest.TestCase):
     # Asking for an unexpected return format for CONSTRUCT queryType.
     # For a CONSTRUCT query type, the default return mimetype (if Accept: */* is sent) is application/rdf+xml
     @unittest.skip("4store returns text/turtle instead of the expected default application/rdf+xml")
-    def testConstructByGETinJSON_Unexpected(self):
-        result = self.__generic(constructQuery, JSON, GET)
-        ct = result.info()["content-type"]
-        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE]
-        results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
-
-    def testConstructByGETinJSON_Unexpected_Conneg(self):
-        result = self.__generic(constructQuery, JSON, GET , onlyConneg=True)
-        ct = result.info()["content-type"]
-        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE]
-        results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
-
-    # Asking for an unexpected return format for CONSTRUCT queryType.
-    # For a CONSTRUCT query type, the default return mimetype (if Accept: */* is sent) is application/rdf+xml
-    def testConstructByPOSTinJSON_Unexpected(self):
-        result = self.__generic(constructQuery, JSON, POST)
-        ct = result.info()["content-type"]
-        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE]
-        results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
-
-    # Asking for an unexpected return format for CONSTRUCT queryType.
-    # For a CONSTRUCT query type, the default return mimetype (if Accept: */* is sent) is application/rdf+xml
-    def testConstructByPOSTinJSON_Unexpected_Conneg(self):
-        result = self.__generic(constructQuery, JSON, POST, onlyConneg=True)
-        ct = result.info()["content-type"]
-        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE]
-        results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
-
-    # Asking for an unexpected return format for CONSTRUCT queryType.
-    # For a CONSTRUCT query type, the default return mimetype (if Accept: */* is sent) is application/rdf+xml
-    @unittest.skip("4store returns text/turtle instead of the expected default application/rdf+xml")
     def testConstructByGETinCSV_Unexpected(self):
         result = self.__generic(constructQuery, CSV, GET)
         ct = result.info()["content-type"]
@@ -933,6 +898,41 @@ class SPARQLWrapperTests(unittest.TestCase):
     # For a CONSTRUCT query type, the default return mimetype (if Accept: */* is sent) is application/rdf+xml
     def testConstructByPOSTinCSV_Unexpected_Conneg(self):
         result = self.__generic(constructQuery, CSV, POST, onlyConneg=True)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE]
+        results = result.convert()
+        self.assertEqual(type(results), ConjunctiveGraph)
+
+    # Asking for an unexpected return format for CONSTRUCT queryType.
+    # For a CONSTRUCT query type, the default return mimetype (if Accept: */* is sent) is application/rdf+xml
+    @unittest.skip("4store returns text/turtle instead of the expected default application/rdf+xml")
+    def testConstructByGETinJSON_Unexpected(self):
+        result = self.__generic(constructQuery, JSON, GET)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE]
+        results = result.convert()
+        self.assertEqual(type(results), ConjunctiveGraph)
+
+    def testConstructByGETinJSON_Unexpected_Conneg(self):
+        result = self.__generic(constructQuery, JSON, GET , onlyConneg=True)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE]
+        results = result.convert()
+        self.assertEqual(type(results), ConjunctiveGraph)
+
+    # Asking for an unexpected return format for CONSTRUCT queryType.
+    # For a CONSTRUCT query type, the default return mimetype (if Accept: */* is sent) is application/rdf+xml
+    def testConstructByPOSTinJSON_Unexpected(self):
+        result = self.__generic(constructQuery, JSON, POST)
+        ct = result.info()["content-type"]
+        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE]
+        results = result.convert()
+        self.assertEqual(type(results), ConjunctiveGraph)
+
+    # Asking for an unexpected return format for CONSTRUCT queryType.
+    # For a CONSTRUCT query type, the default return mimetype (if Accept: */* is sent) is application/rdf+xml
+    def testConstructByPOSTinJSON_Unexpected_Conneg(self):
+        result = self.__generic(constructQuery, JSON, POST, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE]
         results = result.convert()
