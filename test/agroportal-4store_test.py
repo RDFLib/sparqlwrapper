@@ -192,7 +192,6 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_XML], ct
         results = result.convert()
-        results.toxml()
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
@@ -201,7 +200,6 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_XML], ct
         results = result.convert()
-        results.toxml()
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
@@ -210,7 +208,6 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_XML], ct
         results = result.convert()
-        results.toxml()
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
@@ -219,7 +216,6 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_XML], ct
         results = result.convert()
-        results.toxml()
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
@@ -317,7 +313,6 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
         results = result.convert()
-        results.toxml()
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
@@ -329,7 +324,6 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
         results = result.convert()
-        results.toxml()
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
@@ -341,7 +335,6 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
         results = result.convert()
-        results.toxml()
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
@@ -353,7 +346,6 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
         results = result.convert()
-        results.toxml()
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
@@ -363,7 +355,6 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
         results = result.convert()
-        results.toxml()
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
@@ -375,7 +366,6 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
         results = result.convert()
-        results.toxml()
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
@@ -387,7 +377,6 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
         results = result.convert()
-        results.toxml()
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
@@ -399,7 +388,6 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
         results = result.convert()
-        results.toxml()
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
@@ -410,7 +398,6 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
         results = result.convert()
-        results.toxml()
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
@@ -421,7 +408,6 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
         results = result.convert()
-        results.toxml()
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
@@ -432,7 +418,6 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
         results = result.convert()
-        results.toxml()
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
@@ -443,7 +428,6 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
         results = result.convert()
-        results.toxml()
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
@@ -459,7 +443,6 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_XML], ct
         results = result.convert()
-        results.toxml()
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
@@ -468,7 +451,6 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_XML], ct
         results = result.convert()
-        results.toxml()
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
@@ -477,7 +459,6 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_XML], ct
         results = result.convert()
-        results.toxml()
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
@@ -486,7 +467,6 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_XML], ct
         results = result.convert()
-        results.toxml()
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
@@ -581,7 +561,6 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
         results = result.convert()
-        results.toxml()
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
@@ -593,7 +572,6 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
         results = result.convert()
-        results.toxml()
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
@@ -605,7 +583,6 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
         results = result.convert()
-        results.toxml()
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
@@ -617,7 +594,6 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
         results = result.convert()
-        results.toxml()
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
@@ -627,7 +603,6 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
         results = result.convert()
-        results.toxml()
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
@@ -639,7 +614,6 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
         results = result.convert()
-        results.toxml()
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
@@ -651,7 +625,6 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
         results = result.convert()
-        results.toxml()
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
@@ -663,7 +636,6 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
         results = result.convert()
-        results.toxml()
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
@@ -674,7 +646,6 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
         results = result.convert()
-        results.toxml()
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
@@ -685,7 +656,6 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
         results = result.convert()
-        results.toxml()
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
@@ -696,7 +666,6 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
         results = result.convert()
-        results.toxml()
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
@@ -707,7 +676,6 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
         results = result.convert()
-        results.toxml()
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
