@@ -308,6 +308,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), dict)
 
+    # Asking for an unexpected return format for SELECT queryType (n3 is not supported, and it is not a valid alias).
+    # Set by default None (and sending */*).
+    # For a SELECT query type, the default return mimetype (if Accept: */* is sent) is application/sparql-results+xml
     @unittest.skip("4store does not support receiving unexpected output values (n3 is not a valid alias)")
     def testSelectByGETinN3_Unexpected(self):
         result = self.__generic(selectQuery, N3, GET)
@@ -492,24 +495,28 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _CSV], ct
         results = result.convert()
+        self.assertEqual(type(results), bytes)
 
     def testAskByGETinCSV_Conneg(self):
         result = self.__generic(askQuery, CSV, GET, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _CSV], ct
         results = result.convert()
+        self.assertEqual(type(results), bytes)
 
     def testAskByPOSTinCSV(self):
         result = self.__generic(askQuery, CSV, POST)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _CSV], ct
         results = result.convert()
+        self.assertEqual(type(results), bytes)
 
     def testAskByPOSTinCSV_Conneg(self):
         result = self.__generic(askQuery, CSV, POST, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _CSV], ct
         results = result.convert()
+        self.assertEqual(type(results), bytes)
 
     @unittest.skip("TSV is supported for 4store, but it returns a text/plain instead of text/tab-separated-values")
     def testAskByGETinTSV(self):
@@ -517,6 +524,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _TSV], ct
         results = result.convert()
+        self.assertEqual(type(results), bytes)
 
     def testAskByGETinTSV_Conneg(self):
         result = self.__generic(askQuery, TSV, GET, onlyConneg=True)
@@ -530,12 +538,14 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _TSV], ct
         results = result.convert()
+        self.assertEqual(type(results), bytes)
 
     def testAskByPOSTinTSV_Conneg(self):
         result = self.__generic(askQuery, TSV, POST, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _TSV], ct
         results = result.convert()
+        self.assertEqual(type(results), bytes)
 
     def testAskByGETinJSON(self):
         result = self.__generic(askQuery, JSON, GET)
@@ -712,7 +722,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         result = self.__generic(constructQuery, XML, GET)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_XML], ct
-        reslts = result.convert()
+        results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
     def testConstructByGETinXML_Conneg(self):
