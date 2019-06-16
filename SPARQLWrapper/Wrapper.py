@@ -83,6 +83,10 @@ from SPARQLWrapper import __agent__
 #
 #
 #  - Fuseki (formerly there was Joseki) <https://jena.apache.org/documentation/serving_data/>
+#    * Uses: Parameters AND Content Negotiation
+#    * Parameter key: "format" or "output"
+#    * JSON-LD (application/ld+json): supported (in CONSTRUCT and DESCRIBE)
+#
 #    * Parameter key: "format" or "output"
 #      See Fuseki 1: https://github.com/apache/jena/blob/master/jena-fuseki1/src/main/java/org/apache/jena/fuseki/HttpNames.java
 #      See Fuseki 2: https://github.com/apache/jena/blob/master/jena-arq/src/main/java/org/apache/jena/riot/web/HttpNames.java
@@ -91,7 +95,6 @@ from SPARQLWrapper import __agent__
 #    * Fuseki 2 - Short names for "output=" : "json", "xml", "sparql", "text", "csv", "tsv", "thrift"
 #      See <https://github.com/apache/jena/blob/master/jena-fuseki2/jena-fuseki-core/src/main/java/org/apache/jena/fuseki/servlets/ResponseResultSet.java>
 #      If a non-expected short name is used, the server returns an "Error 400: Can't determine output serialization"
-#      application/ld+json supported in CONSTRUCT, DESCRIBE
 #      Valid alias for SELECT and ASK: "json", "xml", csv", "tsv"
 #      Valid alias for DESCRIBE and CONSTRUCT: "json" (alias for json-ld ONLY in Fuseki2), "xml"
 #      Valid mimetype for DESCRIBE and CONSTRUCT: "application/ld+json"
