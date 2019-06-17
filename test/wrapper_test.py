@@ -836,6 +836,7 @@ class QueryResult_Test(unittest.TestCase):
         self.assertEqual(0, _mime_vs_type("application/sparql-results+json", JSON))
         self.assertEqual(0, _mime_vs_type("text/n3", N3))
         self.assertEqual(0, _mime_vs_type("text/turtle", TURTLE))
+        self.assertEqual(0, _mime_vs_type("application/turtle", TURTLE))
         self.assertEqual(0, _mime_vs_type("application/ld+json", JSON)) # Warning
         self.assertEqual(0, _mime_vs_type("application/ld+json", JSONLD)) # Warning
         self.assertEqual(0, _mime_vs_type("application/rdf+xml", XML)) # Warning
