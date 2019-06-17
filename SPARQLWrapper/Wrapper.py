@@ -795,7 +795,9 @@ class SPARQLWrapper(object):
                 acceptHeader = ",".join(_ALL)
                 warnings.warn("Sending Accept header '*/*' because unexpected returned format '%s' in a '%s' SPARQL query form" % (self.returnFormat, self.queryType), RuntimeWarning)
         elif self.queryType in [CONSTRUCT, DESCRIBE]:
-            if self.returnFormat == N3 or self.returnFormat == TURTLE:
+            if self.returnFormat == TURTLE:
+                acceptHeader = ",".join(_RDF_TURTLE)
+            elif self.returnFormat == N3:
                 acceptHeader = ",".join(_RDF_N3)
             elif self.returnFormat == XML or self.returnFormat == RDFXML:
                 acceptHeader = ",".join(_RDF_XML)
