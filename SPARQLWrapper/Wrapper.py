@@ -65,6 +65,8 @@ from SPARQLWrapper import __agent__
 #    * Parameter key: "format" <http://cliopatria.swi-prolog.org/help/http>
 #    * Parameter value must have one of these values: "rdf+xml", "json", "csv", "application/sparql-results+xml" or "application/sparql-results+json".
 #
+################################################################################
+#
 #  - OpenLink Virtuoso  <http://virtuoso.openlinksw.com>
 #    * Parameter key: "format" or "output"
 #    * Parameter value, like directly:
@@ -81,6 +83,7 @@ from SPARQLWrapper import __agent__
 #      For a CONSTRUCT query type, the default return mimetype (if Accept: */* is sent) is text/turtle
 #      For a DESCRIBE query type, the default return mimetype (if Accept: */* is sent) is text/turtle
 #
+################################################################################
 #
 #  - Fuseki (formerly there was Joseki) <https://jena.apache.org/documentation/serving_data/>
 #    * Uses: Parameters AND Content Negotiation
@@ -102,9 +105,13 @@ from SPARQLWrapper import __agent__
 #      Default return mimetypes: For a DESCRIBE and CONTRUCT query types, the default return mimetype (if Accept: */* is sent) is text/turtle
 #      In case of a bad formed query, Fuseki1 returns 200 instead of 400.
 #
+################################################################################
+#
 #  - Eclipse RDF4J (formerly known as Sesame) <http://rdf4j.org/>
 #    * Uses only content negotiation (no URL parameters).
 #    * See <http://rdf4j.org/doc/the-rdf4j-server-rest-api/#The_QUERY_operation>
+#
+################################################################################
 #
 #  - RASQAL <http://librdf.org/rasqal/>
 #    * Parameter key: "results"
@@ -120,6 +127,8 @@ from SPARQLWrapper import __agent__
 #
 #      See <http://librdf.org/rasqal/roqet.html>
 #
+################################################################################
+#
 #  - Marklogic <http://marklogic.com>
 #    * Uses content negotiation (no URL parameters).
 #    * You can use following methods to query triples <https://docs.marklogic.com/guide/semantics/semantic-searches#chapter>:
@@ -133,6 +142,8 @@ from SPARQLWrapper import __agent__
 #        SELECT "application/sparql-results+xml", "application/sparql-results+json", "text/html", "text/csv"
 #        CONSTRUCT or DESCRIBE "application/n-triples", "application/rdf+json", "application/rdf+xml", "text/turtle", "text/n3", "application/n-quads", "application/trig"
 #        ASK queries return a boolean (true or false).
+#
+################################################################################
 #
 #  - AllegroGraph <https://franz.com/agraph/allegrograph/>
 #    * Uses only content negotiation (no URL parameters).
@@ -165,6 +176,7 @@ from SPARQLWrapper import __agent__
 #
 #      See <https://franz.com/agraph/support/documentation/current/http-protocol.html>
 #
+################################################################################
 #
 #  - 4store. Code repository <https://github.com/4store/4store> documentation <https://4store.danielknoell.de/trac/wiki/SparqlServer/>
 #    * Uses: Parameters AND Content Negotiation
@@ -200,10 +212,12 @@ from SPARQLWrapper import __agent__
 #      Default return mimetypes: For a DESCRIBE and CONTRUCT query types, the default return mimetype (if Accept: */* is sent) is application/rdf+xml
 #
 #
+################################################################################
+#
 #  - Blazegraph <https://www.blazegraph.com/> & NanoSparqlServer <https://wiki.blazegraph.com/wiki/index.php/NanoSparqlServer> <https://wiki.blazegraph.com/wiki/index.php/REST_API#SPARQL_End_Point>
+#    * Uses: Parameters AND Content Negotiation
 #    * Parameter key: "format" (available since version 1.4.0). Setting this parameter will override any Accept Header that is present. <https://wiki.blazegraph.com/wiki/index.php/REST_API#GET_or_POST>
 #    * Parameter value: alias. If an unexpected alias is used, the server is not working properly
-#    * Also, it uses content negotiation
 #    ** SELECT
 #    *** application/sparql-results+xml (alias xml) (DEFAULT if Accept: */* is sent))
 #    *** application/sparql-results+json or application/json (alias json)
@@ -229,6 +243,43 @@ from SPARQLWrapper import __agent__
 #      Valid alias for DESCRIBE and CONSTRUCT: "xml", "json" (but it returns unexpected "application/sparql-results+json")
 #      Default return mimetypes: For a SELECT and ASK query types, the default return mimetype (if Accept: */* is sent) is application/sparql-results+xml
 #      Default return mimetypes: For a DESCRIBE and CONTRUCT query types, the default return mimetype (if Accept: */* is sent) is application/rdf+xml
+#
+################################################################################
+#
+#  - GraphDB <http://graphdb.ontotext.com/> <http://graphdb.ontotext.com/documentation/free/> 
+#    * Uses: Only Content Negotiation.
+#    * If the Accept value is not within the expected ones, the server returns a 406 "No acceptable file format found."
+#
+#    ** SELECT
+#    *** DEFAULT (if Accept: */* is sent): text/csv
+#    *** application/sparql-results+xml, application/xml (.srx file)
+#    *** application/sparql-results+json, application/json (.srj file)
+#    *** text/csv (DEFAULT if Accept: */* is sent)
+#    *** text/tab-separated-values
+#
+#    ** ASK
+#    *** DEFAULT (if Accept: */* is sent): application/sparql-results+json
+#    *** application/sparql-results+xml, application/xml (.srx file)
+#    *** application/sparql-results+json (DEFAULT if Accept: */* is sent), application/json (.srj file)
+#    *** NOT supported: text/csv, text/tab-separated-values
+#
+#    ** CONSTRUCT
+#    *** DEFAULT (if Accept: */* is sent): application/n-triples
+#    *** application/rdf+xml, application/xml (.rdf file)
+#    *** text/turtle (.ttl file)
+#    *** application/n-triples (.nt file) (DEFAULT if Accept: */* is sent)
+#    *** text/n3, text/rdf+n3 (.n3 file)
+#    *** application/ld+json (.jsonld file)
+#
+#    ** DESCRIBE
+#    *** DEFAULT (if Accept: */* is sent): application/n-triples
+#    *** application/rdf+xml, application/xml (.rdf file)
+#    *** text/turtle (.ttl file)
+#    *** application/n-triples (.nt file) (DEFAULT if Accept: */* is sent)
+#    *** text/n3, text/rdf+n3 (.n3 file)
+#    *** application/ld+json (.jsonld file)
+#
+################################################################################
 
 # alias
 JSON   = "json"
