@@ -941,6 +941,7 @@ class SPARQLWrapper(object):
         @raise EndPointNotFound: If the C{HTTP return code} is C{404}.
         @raise URITooLong: If the C{HTTP return code} is C{414}.
         @raise EndPointInternalError: If the C{HTTP return code} is C{500}.
+        @raise urllib2.HTTPError: If the C{HTTP return code} is different to C{400}, C{401}, C{404}, C{414}, C{500}.
         """
         request = self._createRequest()
 
