@@ -44,7 +44,7 @@ except NameError:
 import logging
 logging.basicConfig()
 
-endpoint = "https://query.wikidata.org/sparql" # 4store SPARQL server v1.1.5-122-g1788d29
+endpoint = "https://query.wikidata.org/sparql"
 
 prefixes = """
     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
