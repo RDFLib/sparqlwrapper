@@ -1,6 +1,7 @@
 SPARQLWrapper's changelog:
 -------------------------
 2019-XX-XX  1.8.5   - Improve/tests for development (#131)
+                    - Changed. Be more strict on Accept Turtle header (#137)
 
 2019-04-18  1.8.4   - Added example
                     - hotfix: Added custom_fixers folder in MANIFEST, in order to be used in python3 (#129)
