@@ -107,7 +107,8 @@ from SPARQLWrapper import __agent__
 #
 ################################################################################
 #
-#  - Eclipse RDF4J (formerly known as Sesame) <http://rdf4j.org/>
+#  - Eclipse RDF4J <http://rdf4j.org/>
+#    * Formerly known as Sesame
 #    * Uses only content negotiation (no URL parameters).
 #    * See <http://rdf4j.org/doc/the-rdf4j-server-rest-api/#The_QUERY_operation>
 #
@@ -215,6 +216,7 @@ from SPARQLWrapper import __agent__
 ################################################################################
 #
 #  - Blazegraph <https://www.blazegraph.com/> & NanoSparqlServer <https://wiki.blazegraph.com/wiki/index.php/NanoSparqlServer> <https://wiki.blazegraph.com/wiki/index.php/REST_API#SPARQL_End_Point>
+#    * Formerly known as Bigdata
 #    * Uses: Parameters AND Content Negotiation
 #    * Parameter key: "format" (available since version 1.4.0). Setting this parameter will override any Accept Header that is present. <https://wiki.blazegraph.com/wiki/index.php/REST_API#GET_or_POST>
 #    * Parameter value: alias. If an unexpected alias is used, the server is not working properly
@@ -247,6 +249,7 @@ from SPARQLWrapper import __agent__
 ################################################################################
 #
 #  - GraphDB <http://graphdb.ontotext.com/> <http://graphdb.ontotext.com/documentation/free/> 
+#    * Formerly known as OWLIM (OWLIM-Lite, OWLIM-SE)
 #    * Uses: Only Content Negotiation.
 #    * If the Accept value is not within the expected ones, the server returns a 406 "No acceptable file format found."
 #
