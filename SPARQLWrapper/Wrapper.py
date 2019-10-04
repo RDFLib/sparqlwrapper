@@ -109,8 +109,50 @@ from SPARQLWrapper import __agent__
 #
 #  - Eclipse RDF4J <http://rdf4j.org/>
 #    * Formerly known as Sesame
-#    * Uses only content negotiation (no URL parameters).
-#    * See <http://rdf4j.org/doc/the-rdf4j-server-rest-api/#The_QUERY_operation>
+#    * Uses: ONLY Content Negotiation
+#    * See <https://rdf4j.eclipse.org/documentation/rest-api/#the-query-operation>
+#    * See <https://rdf4j.eclipse.org/documentation/rest-api/#content-types>
+#    * Parameter: If an unexpected parameter is used, the server ignores it.
+#
+#    ** SELECT
+#    *** application/sparql-results+xml (DEFAULT if Accept: */* is sent))
+#    *** application/sparql-results+json (also application/json)
+#    *** text/csv
+#    *** text/tab-separated-values
+#    *** Other values: application/x-binary-rdf-results-table
+#
+#    ** ASK
+#    *** application/sparql-results+xml (DEFAULT if Accept: */* is sent))
+#    *** application/sparql-results+json
+#    *** Other values: text/boolean
+#    *** Not supported: text/csv
+#    *** Not supported: text/tab-separated-values
+#
+#    ** CONSTRUCT
+#    *** application/rdf+xml
+#    *** application/n-triples (DEFAULT if Accept: */* is sent)
+#    *** text/turtle
+#    *** text/n3
+#    *** application/ld+json
+#    *** Other acceptable values: application/n-quads, application/rdf+json, application/trig, application/trix, application/x-binary-rdf
+#    *** text/plain (returns application/n-triples)
+#    *** text/rdf+n3 (returns text/n3)
+#    *** text/x-nquads (returns application/n-quads)
+#
+#    ** DESCRIBE
+#    *** application/rdf+xml
+#    *** application/n-triples (DEFAULT if Accept: */* is sent)
+#    *** text/turtle
+#    *** text/n3
+#    *** application/ld+json
+#    *** Other acceptable values: application/n-quads, application/rdf+json, application/trig, application/trix, application/x-binary-rdf
+#    *** text/plain (returns application/n-triples)
+#    *** text/rdf+n3 (returns text/n3)
+#    *** text/x-nquads (returns application/n-quads)
+#
+#      Default return mimetypes: For a SELECT and ASK query types, the default return mimetype (if Accept: */* is sent) is application/sparql-results+xml
+#      Default return mimetypes: For a DESCRIBE and CONTRUCT query types, the default return mimetype (if Accept: */* is sent) is application/n-triples
+#
 #
 ################################################################################
 #
@@ -220,6 +262,7 @@ from SPARQLWrapper import __agent__
 #    * Uses: Parameters AND Content Negotiation
 #    * Parameter key: "format" (available since version 1.4.0). Setting this parameter will override any Accept Header that is present. <https://wiki.blazegraph.com/wiki/index.php/REST_API#GET_or_POST>
 #    * Parameter value: alias. If an unexpected alias is used, the server is not working properly
+#
 #    ** SELECT
 #    *** application/sparql-results+xml (alias xml) (DEFAULT if Accept: */* is sent))
 #    *** application/sparql-results+json or application/json (alias json)
@@ -287,6 +330,7 @@ from SPARQLWrapper import __agent__
 #  - Stardog <https://www.stardog.com> <https://www.stardog.com/docs/#_http_headers_content_type_accept> (the doc looks outdated)
 #    * Uses: ONLY Content Negotiation
 #    * Parameter: If an unexpected parameter is used, the server ignores it.
+#
 #    ** SELECT
 #    *** application/sparql-results+xml (DEFAULT if Accept: */* is sent))
 #    *** application/sparql-results+json
@@ -298,6 +342,8 @@ from SPARQLWrapper import __agent__
 #    *** application/sparql-results+xml (DEFAULT if Accept: */* is sent))
 #    *** application/sparql-results+json
 #    *** Other values: text/boolean
+#    *** Not supported: text/csv
+#    *** Not supported: text/tab-separated-values
 #
 #    ** CONSTRUCT
 #    *** application/rdf+xml
