@@ -283,7 +283,41 @@ from SPARQLWrapper import __agent__
 #    *** application/ld+json (.jsonld file)
 #
 ################################################################################
-
+#
+#  - Stardog <https://www.stardog.com> <https://www.stardog.com/docs/#_http_headers_content_type_accept> (the doc looks outdated)
+#    * Uses: ONLY Content Negotiation
+#    * Parameter: If an unexpected parameter is used, the server ignores it.
+#    ** SELECT
+#    *** application/sparql-results+xml (DEFAULT if Accept: */* is sent))
+#    *** application/sparql-results+json
+#    *** text/csv
+#    *** text/tab-separated-values
+#    *** Other values: application/x-binary-rdf-results-table
+#
+#    ** ASK
+#    *** application/sparql-results+xml (DEFAULT if Accept: */* is sent))
+#    *** application/sparql-results+json
+#    *** Other values: text/boolean
+#
+#    ** CONSTRUCT
+#    *** application/rdf+xml
+#    *** text/turtle (DEFAULT if Accept: */* is sent)
+#    *** text/n3
+#    *** application/ld+json
+#    *** Other acceptable values: application/n-triples, application/x-turtle, application/trig, application/trix, application/n-quads
+#
+#    ** DESCRIBE
+#    *** application/rdf+xml
+#    *** text/turtle (DEFAULT if Accept: */* is sent)
+#    *** text/n3
+#    *** application/ld+json
+#    *** Other acceptable values: application/n-triples, application/x-turtle, application/trig, application/trix, application/n-quads
+#
+#      Default return mimetypes: For a SELECT and ASK query types, the default return mimetype (if Accept: */* is sent) is application/sparql-results+xml
+#      Default return mimetypes: For a DESCRIBE and CONTRUCT query types, the default return mimetype (if Accept: */* is sent) is text/turtle
+#
+################################################################################
+#
 # alias
 JSON   = "json"
 JSONLD = "json-ld"
