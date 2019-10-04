@@ -108,7 +108,7 @@ from SPARQLWrapper import __agent__
 ################################################################################
 #
 #  - Eclipse RDF4J <http://rdf4j.org/>
-#    * Formerly known as Sesame
+#    * Formerly known as OpenRDF Sesame
 #    * Uses: ONLY Content Negotiation
 #    * See <https://rdf4j.eclipse.org/documentation/rest-api/#the-query-operation>
 #    * See <https://rdf4j.eclipse.org/documentation/rest-api/#content-types>
