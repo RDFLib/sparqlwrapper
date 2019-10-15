@@ -138,11 +138,21 @@ for result in sparql.query().bindings:
 
 The source distribution contains:
 
-* `SPARQLWrapper`: the Python library. You should copy the directory somewhere into your `PYTHONPATH`. Alternatively, you can also run the distutils scripts:
-
-    python setup.py install
+* `SPARQLWrapper`: the Python library. You should copy the directory somewhere into your `PYTHONPATH`. 
+Alternatively, you can also run the distutils scripts:
+	```
+	python setup.py install
+	```
 
 * `test`: some unit and integrations tests
+
+	  In order to run the tests some packages have to be installed before. 
+	  So please install the packages in `requirements.development.txt` in addition:
+	  ```bash
+	  pip install -r requirements.development.txt
+	  ```
+	  
+
   
 * `script`: some scripts to run the library against some SPARQL endpoints.
 

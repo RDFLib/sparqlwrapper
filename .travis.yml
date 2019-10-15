@@ -12,15 +12,12 @@ python:
     - 2.7
     - 3.4
     - 3.5
+    - 3.6
     - pypy
 
 # Enable 3.7 and 3.8-dev without globally enabling sudo and dist: xenial for other build jobs
 matrix:
   include:
-    - python: 3.6
-      env: ENV=py36
-      before_install:
-         - pyenv global 3.6
     - python: 3.7
       dist: xenial
       sudo: true
