@@ -1034,7 +1034,7 @@ class SPARQLWrapper(object):
             else:
                 response = urlopener(request)
             return response, self.returnFormat
-        except urllib2.HTTPError, e:
+        except urllib2.HTTPError as e:
             if e.code == 400:
                 raise QueryBadFormed(e.read())
             elif e.code == 404:
