@@ -65,18 +65,18 @@ For example, in the code below::
      dict = ret.convert()
  except:
      deal_with_the_exception()
-the value of C{dict} is a Python dictionary of the query result, based on the U{JSON format<http://www.w3.org/TR/rdf-sparql-json-res/>}.
+the value of ``dict`` is a Python dictionary of the query result, based on the U{JSON format<http://www.w3.org/TR/rdf-sparql-json-res/>}.
 
-The L{SPARQLWrapper} class can be subclassed by overriding the conversion routines if the user wants to use something else.
+The :class:`SPARQLWrapper` class can be subclassed by overriding the conversion routines if the user wants to use something else.
 
 Partial interpretation of the results
 -------------------------------------
 
 A further help is to offer an extra, partial interpretation of the results, again to cover
 most of the practical use cases.
-Based on the  U{JSON format<http://www.w3.org/TR/rdf-sparql-json-res/>}, the L{SmartWrapper.Bindings} class
-can perform some simple steps in decoding the JSON return results. If L{SPARQLWrapper2}
-is used instead of L{SPARQLWrapper}, this result format is generated. Note that this relies on a JSON format only,
+Based on the  U{JSON format<http://www.w3.org/TR/rdf-sparql-json-res/>}, the :class:`SmartWrapper.Bindings` class
+can perform some simple steps in decoding the JSON return results. If :class:`SPARQLWrapper2`
+is used instead of :class:`SPARQLWrapper`, this result format is generated. Note that this relies on a JSON format only,
 ie, it has to be checked whether the SPARQL service can return JSON or not.
 
 Here is a simple code that makes use of this feature::
@@ -98,7 +98,7 @@ Here is a simple code that makes use of this feature::
      deal_with_the_exception()
 
 To make this type of code even easier to realize, the C{[]} and C{in} operators are also implemented
-on the result of L{SmartWrapper.Bindings}. This can be used to check and find a particular binding (ie, particular row
+on the result of :class:`SmartWrapper.Bindings`. This can be used to check and find a particular binding (ie, particular row
 in the return value). This features becomes particularly useful when the C{OPTIONAL} feature of SPARQL is used. For example::
 
  from SPARQLWrapper import SPARQLWrapper2

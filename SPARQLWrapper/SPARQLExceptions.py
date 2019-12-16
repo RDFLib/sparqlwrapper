@@ -52,7 +52,8 @@ class EndPointNotFound(SPARQLWrapperException):
 class Unauthorized(SPARQLWrapperException):
     """
     Access is denied due to invalid credentials (unauthorized). Usually HTTP response status code 401.
-    @since: 1.8.2
+
+    .. versionadded:: 1.8.2
     """
 
     msg = "access is denied due to invalid credentials (unauthorized). Check the credentials"
@@ -60,7 +61,8 @@ class Unauthorized(SPARQLWrapperException):
 class URITooLong(SPARQLWrapperException):
     """
     The URI requested by the client is longer than the server is willing to interpret. Usually HTTP response status code 414.
-    @since: 1.8.3
+
+    .. versionadded:: 1.8.3
     """
 
     msg = "the URI requested by the client is longer than the server is willing to interpret. Check if the request was sent using GET method instead of POST method."
