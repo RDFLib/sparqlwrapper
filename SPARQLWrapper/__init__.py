@@ -7,14 +7,14 @@ possibly, convert the result into a more manageable format.
 
 The following packages are used:
 
-  - for JSON, the U{simplejson<https://pypi.python.org/pypi/simplejson>} package
-  - for RDF/XML, the U{RDFLib<https://rdflib.readthedocs.io>}
+  * for JSON, the `simplejson <https://pypi.python.org/pypi/simplejson>`_ package
+  * for RDF/XML, the `RDFLib <https://rdflib.readthedocs.io>`_
 
 These packages are imported in a lazy fashion, ie, only when needed. Ie, if the user never intends to use the
-JSON format, the C{simplejson} package is not imported and the user does not have to install it.
+JSON format, the ``simplejson`` package is not imported and the user does not have to install it.
 
-The package can be downloaded in C{zip} and C{.tar.gz} formats from
-U{https://github.com/RDFLib/sparqlwrapper/releases<https://github.com/RDFLib/sparqlwrapper/releases>}.
+The package can be downloaded in ``zip`` and ``.tar.gz`` formats from
+`https://github.com/RDFLib/sparqlwrapper/releases <https://github.com/RDFLib/sparqlwrapper/releases>`_.
 Documentation is included in the distribution.
 
 
@@ -24,7 +24,7 @@ Basic QUERY Usage (SELECT)
 Simple query
 ------------
 
-The simplest usage of this module looks as follows (using the default, ie, U{XML return format<http://www.w3.org/TR/rdf-sparql-XMLres/>}, and special URI for the
+The simplest usage of this module looks as follows (using the default, ie, `XML return format <http://www.w3.org/TR/rdf-sparql-XMLres/>`_, and special URI for the
 SPARQL Service)::
 
  from SPARQLWrapper import SPARQLWrapper
@@ -39,33 +39,37 @@ SPARQL Service)::
  except :
     deal_with_the_exception()
 
-If C{SPARQLWrapper("http://example.org/sparql",returnFormat=SPARQLWrapper.JSON)} was used, the result would be in
-U{JSON format<http://www.w3.org/TR/rdf-sparql-json-res/>} instead of XML (provided the sparql
+If ``SPARQLWrapper("http://example.org/sparql",returnFormat=SPARQLWrapper.JSON)`` was used, the result would be in
+`JSON format <http://www.w3.org/TR/rdf-sparql-json-res/>`_ instead of XML (provided the sparql
 processor can return JSON).
+
 
 Automatic conversion of the results
 -----------------------------------
 
 To make processing somewhat easier, the package can do some conversions automatically from the return result. These are:
 
-  - for XML, the U{xml.dom.minidom<http://docs.python.org/library/xml.dom.minidom.html>} (C{http://docs.python.org/library/xml.dom.minidom.html}) is
+  * for XML, the `xml.dom.minidom <http://docs.python.org/library/xml.dom.minidom.html>`_ (``http://docs.python.org/library/xml.dom.minidom.html``) is\
   used to convert the result stream into a Python representation of a DOM tree
-  - for JSON, the U{simplejson<https://pypi.python.org/pypi/simplejson>} package (C{https://pypi.python.org/pypi/simplejson}) to generate a Python dictionary
-  - for CSV/TSV, a simple C{string}
+  * for JSON, the `simplejson <https://pypi.python.org/pypi/simplejson>`_ package (``https://pypi.python.org/pypi/simplejson``) to generate a Python dictionary
+  * for CSV/TSV, a simple ``string``
 
 There are two ways to generate this conversion:
 
- - use C{ret.convert()} in the return result from C{sparql.query()} in the code above
- - use C{sparql.queryAndConvert()} to get the converted result right away if the intermediate stream is not used
+  * use ``ret.convert()`` in the return result from ``sparql.query()`` in the code above
+  * use ``sparql.queryAndConvert()`` to get the converted result right away if the intermediate stream is not used
 
 For example, in the code below::
+
  try :
      sparql.setReturnFormat(SPARQLWrapper.JSON)
      ret = sparql.query()
      dict = ret.convert()
  except:
      deal_with_the_exception()
-the value of ``dict`` is a Python dictionary of the query result, based on the U{JSON format<http://www.w3.org/TR/rdf-sparql-json-res/>}.
+
+
+the value of ``dict`` is a Python dictionary of the query result, based on the `JSON format <http://www.w3.org/TR/rdf-sparql-json-res/>`_.
 
 The :class:`SPARQLWrapper` class can be subclassed by overriding the conversion routines if the user wants to use something else.
 
@@ -74,7 +78,7 @@ Partial interpretation of the results
 
 A further help is to offer an extra, partial interpretation of the results, again to cover
 most of the practical use cases.
-Based on the  U{JSON format<http://www.w3.org/TR/rdf-sparql-json-res/>}, the :class:`SmartWrapper.Bindings` class
+Based on the  `JSON format <http://www.w3.org/TR/rdf-sparql-json-res/>`_, the :class:`SmartWrapper.Bindings` class
 can perform some simple steps in decoding the JSON return results. If :class:`SPARQLWrapper2`
 is used instead of :class:`SPARQLWrapper`, this result format is generated. Note that this relies on a JSON format only,
 ie, it has to be checked whether the SPARQL service can return JSON or not.
@@ -97,9 +101,9 @@ Here is a simple code that makes use of this feature::
  except:
      deal_with_the_exception()
 
-To make this type of code even easier to realize, the C{[]} and C{in} operators are also implemented
+To make this type of code even easier to realize, the ``[]`` and ``in`` operators are also implemented
 on the result of :class:`SmartWrapper.Bindings`. This can be used to check and find a particular binding (ie, particular row
-in the return value). This features becomes particularly useful when the C{OPTIONAL} feature of SPARQL is used. For example::
+in the return value). This features becomes particularly useful when the ``OPTIONAL`` feature of SPARQL is used. For example::
 
  from SPARQLWrapper import SPARQLWrapper2
  queryString = "SELECT ?subj ?o ?opt WHERE { ?subj <http://a.b.c> ?o. OPTIONAL { ?subj <http://d.e.f> ?opt }}"
@@ -130,13 +134,13 @@ in the return value). This features becomes particularly useful when the C{OPTIO
 CONSTRUCT, ASK, DESCRIBE
 ========================
 
-All the examples so far were based on the SELECT queries. If the query includes, eg, the C{CONSTRUCT} keyword then the accepted
-return formats should be different: eg, C{SPARQLWrapper.XML} means C{RDF/XML} and most of the SPARQL engines can also return the
-results in C{Turtle}. The package, though it does not contain a full SPARQL parser, makes an attempt to determine the query type
+All the examples so far were based on the SELECT queries. If the query includes, eg, the ``CONSTRUCT`` keyword then the accepted
+return formats should be different: eg, ``SPARQLWrapper.XML`` means ``RDF/XML`` and most of the SPARQL engines can also return the
+results in ``Turtle``. The package, though it does not contain a full SPARQL parser, makes an attempt to determine the query type
 when the query is set. This should work in most of the cases (but there is a possibility to set this manually, in case something
 goes wrong).
 
-For RDF/XML and JSON-LD, the U{RDFLib<https://rdflib.readthedocs.io>} package is used to convert the result into a C{Graph} instance.
+For RDF/XML and JSON-LD, the `RDFLib <https://rdflib.readthedocs.io>`_ package is used to convert the result into a ``Graph`` instance.
 For Turtle, a string is returned.
 
 GET or POST
@@ -151,15 +155,18 @@ Note that some combination may not work yet with all SPARQL processors
 Acknowledgement
 ===============
 
-The package was greatly inspired by U{Lee Feigenbaum's similar package for Javascript<http://thefigtrees.net/lee/blog/2006/04/sparql_calendar_demo_a_sparql.html>}.
+The package was greatly inspired by `Lee Feigenbaum's similar package for Javascript <http://thefigtrees.net/lee/blog/2006/04/sparql_calendar_demo_a_sparql.html>`_.
 
-@summary: Python interface to SPARQL services
-@see: U{SPARQL Specification<http://www.w3.org/TR/rdf-sparql-query/>}
-@authors: U{Ivan Herman<http://www.ivan-herman.net>}, U{Sergio Fernández<http://www.wikier.org>}, U{Carlos Tejo Alonso<http://www.dayures.net>}, U{Alexey Zakhlestin<https://indeyets.ru/>}
-@organization: U{World Wide Web Consortium<http://www.w3.org>}, U{Salzburg Research<http://www.salzburgresearch.at>} and U{Foundation CTIC<http://www.fundacionctic.org/>}.
-@license: U{W3C® SOFTWARE NOTICE AND LICENSE<href="http://www.w3.org/Consortium/Legal/copyright-software">}
-@requires: U{simplejson<https://pypi.python.org/pypi/simplejson>} package.
-@requires: U{RDFLib<https://rdflib.readthedocs.io>} package.
+.. seealso:: `SPARQL Specification <http://www.w3.org/TR/rdf-sparql-query/>`_
+
+:author: Ivan Herman <http://www.ivan-herman.net>
+:author: Sergio Fernández <http://www.wikier.org>
+:author: Carlos Tejo Alonso <http://www.dayures.net>
+:author: Alexey Zakhlestin <https://indeyets.ru/>
+:license: `W3C® Software notice and license <http://www.w3.org/Consortium/Legal/copyright-software>`_
+:organization: `World Wide Web Consortium <http://www.w3.org>`_, `Salzburg Research <http://www.salzburgresearch.at>`_ and `Foundation CTIC <http://www.fundacionctic.org/>`_.
+:requires: `simplejson <https://pypi.python.org/pypi/simplejson>`_ package.
+:requires: `RDFLib <https://rdflib.readthedocs.io>`_ package.
 """
 
 __version__ = "1.8.5.dev0"

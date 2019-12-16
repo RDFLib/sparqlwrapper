@@ -17,6 +17,9 @@ import sys
 sys.path.insert(0, os.path.abspath('../..'))
 sys.path.insert(0, os.path.abspath('../../SPARQLWrapper')) # from https://stackoverflow.com/questions/10324393/sphinx-build-fail-autodoc-cant-import-find-module
 
+from SPARQLWrapper import __version__
+
+
 
 # -- Project information -----------------------------------------------------
 
@@ -28,9 +31,9 @@ author = u'Carlos Tejo Alonso'
 author = u'Alexey Zakhlestin'
 
 # The short X.Y version
-version = u'1.8.5'
+version = __version__
 # The full version, including alpha/beta/rc tags
-release = u'1.8.5.dev0'
+#release = u'1.8.5.dev0'
 
 
 # -- General configuration ---------------------------------------------------
@@ -80,6 +83,8 @@ exclude_patterns = []
 pygments_style = None
 
 
+autodoc_default_flags = ['members', 'private-members']
+
 # -- Options for HTML output -------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
@@ -114,6 +119,7 @@ html_static_path = ['_static']
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'SPARQLWrapperdoc'
 html_show_copyright = False
+html_show_sphinx = False
 
 # -- Options for LaTeX output ------------------------------------------------
 

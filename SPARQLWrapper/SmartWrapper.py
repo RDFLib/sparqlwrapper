@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
 
 """
-@see: U{SPARQL Specification<http://www.w3.org/TR/rdf-sparql-query/>}
-@authors: U{Ivan Herman<http://www.ivan-herman.net>}, U{Sergio Fernández<http://www.wikier.org>}, U{Carlos Tejo Alonso<http://www.dayures.net>}
-@organization: U{World Wide Web Consortium<http://www.w3.org>} and U{Foundation CTIC<http://www.fundacionctic.org/>}.
-@license: U{W3C® SOFTWARE NOTICE AND LICENSE<href="http://www.w3.org/Consortium/Legal/copyright-software">}
-@requires: U{RDFLib<http://rdflib.net>} package.
+.. seealso:: `SPARQL Specification <http://www.w3.org/TR/rdf-sparql-query/>`_
+
+:author: Ivan Herman <http://www.ivan-herman.net>
+:author: Sergio Fernández <http://www.wikier.org>
+:author: Carlos Tejo Alonso <http://www.dayures.net>
+:author: Alexey Zakhlestin <https://indeyets.ru/>
+:organization: `World Wide Web Consortium <http://www.w3.org>`_ and `Foundation CTIC <http://www.fundacionctic.org/>`_.
+:license: `W3C® Software notice and license <http://www.w3.org/Consortium/Legal/copyright-software>`_
+:requires: `RDFLib <https://rdflib.readthedocs.io>`_ package.
 """
 
 import urllib2
@@ -74,19 +78,19 @@ class Bindings(object):
     return value and instantiates a number of attributes that can be consulted directly. See
     the list of variables.
 
-    The U{Serializing SPARQL Query Results in JSON<http://www.w3.org/TR/rdf-sparql-json-res/>} explains the details of the
-    JSON return structures. Very succintly: the return data has "bindings", which means a list of dictionaries. Each
+    The `Serializing SPARQL Query Results in JSON <http://www.w3.org/TR/rdf-sparql-json-res/>`_ explains the details of the
+    JSON return structures. Very succinctly: the return data has "bindings", which means a list of dictionaries. Each
     dictionary is a possible binding of the SELECT variables to :class:`Value` instances. This structure is made a bit
     more usable by this class.
 
     :ivar fullResult: The original dictionary of the results, stored for an easier reference
     :ivar head: Header part of the return, see the JSON return format document for details
     :ivar variables: List of unbounds (variables) of the original query. It is an array of strings. None in the case of an ASK query
-    :ivar bindings: The final bindings: array of dictionaries, mapping variables to :class:`Value` instances.
-    (If unbound, then no value is set in the dictionary; that can be easily checked with
-    C{var in res.bindings[..]}, for example.)
+    :ivar bindings: The final bindings: array of dictionaries, mapping variables to :class:`Value` instances. \
+    (If unbound, then no value is set in the dictionary; that can be easily checked with \
+    ``var in res.bindings[..]``, for example.)
     :ivar askResult: by default, set to False; in case of an ASK query, the result of the query
-    :type askResult: Boolean
+    :type askResult: bool
     """
     def __init__(self, retval):
         """
@@ -122,7 +126,7 @@ class Bindings(object):
 
     def getValues(self, key):
         """A shorthand for the retrieval of all bindings for a single key. It is
-        equivalent to "C{[b[key] for b in self[key]]}"
+        equivalent to "``[b[key] for b in self[key]]``"
 
         :param key: possible variable
         :return: list of :class:`Value` instances
@@ -133,12 +137,12 @@ class Bindings(object):
             return []
 
     def __contains__(self, key):
-        """Emulation of the "C{key in obj}" operator. Key can be a string for a variable or an array/tuple
+        """Emulation of the "``key in obj``" operator. Key can be a string for a variable or an array/tuple
         of strings.
 
-        If C{key} is a variable, the return value is C{True} if there is at least one binding where C{key} is
-        bound. If C{key} is an array or tuple, the return value is C{True} if there is at least one binding
-        where I{all} variables in C{key} are bound.
+        If ``key`` is a variable, the return value is ``True`` if there is at least one binding where ``key`` is
+        bound. If ``key`` is an array or tuple, the return value is ``True`` if there is at least one binding
+        where *all* variables in ``key`` are bound.
 
         :param key: possible variable, or array/tuple of variables
         :return: whether there is a binding of the variable in the return
@@ -168,16 +172,16 @@ class Bindings(object):
             return False
 
     def __getitem__(self, key):
-        """Emulation of the C{obj[key]} operator.  Slice notation is also available.
+        """Emulation of the ``obj[key]`` operator.  Slice notation is also available.
         The goal is to choose the right bindings among the available ones. The return values are always
         arrays  of bindings, ie, arrays of dictionaries mapping variable keys to :class:`Value` instances.
         The different value settings mean the followings:
 
-         - C{obj[key]} returns the bindings where C{key} has a valid value
-         - C{obj[key1,key2,...]} returns the bindings where I{all} C{key1,key2,...} have valid values
-         - C{obj[(key1,key2,...):(nkey1,nkey2,...)]} returns the bindings where all C{key1,key2,...} have
-         valid values and I{none} of the C{nkey1,nkey2,...} have valid values
-         - C{obj[:(nkey1,nkey2,...)]} returns the bindings where I{none} of the C{nkey1,nkey2,...} have valid values
+         - ``obj[key]`` returns the bindings where ``key`` has a valid value
+         - ``obj[key1,key2,...]`` returns the bindings where *all* ``key1,key2,...`` have valid values
+         - ``obj[(key1,key2,...):(nkey1,nkey2,...)]`` returns the bindings where all ``key1,key2,...`` have
+         valid values and *none* of the ``nkey1,nkey2,...`` have valid values
+         - ``obj[:(nkey1,nkey2,...)]`` returns the bindings where *none* of the ``nkey1,nkey2,...`` have valid values
 
         In all cases complete bindings are returned, ie, the values for other variables, not present among
         the keys in the call, may or may not be present depending on the query results.
@@ -235,12 +239,12 @@ class Bindings(object):
         return retval
 
     def convert(self):
-        """This is just a convenience method, returns C{self}.
+        """This is just a convenience method, returns ``self``.
 
-        Although C{Binding} is not a subclass of :class:`QueryResult<SPARQLWrapper.Wrapper.QueryResult>`, it is returned as a result by
+        Although ``Binding`` is not a subclass of :class:`QueryResult<SPARQLWrapper.Wrapper.QueryResult>`, it is returned as a result by
         :class:`SPARQLWrapper2.query`, just like :class:`QueryResult<SPARQLWrapper.Wrapper.QueryResult>` is returned by
         :class:`SPARQLWrapper.SPARQLWrapper.query`. Consequently,
-        having an empty C{convert} method to imitate :class:`QueryResult's convert method<SPARQLWrapper.Wrapper.QueryResult.convert>` may avoid unnecessary problems.
+        having an empty ``convert`` method to imitate :class:`QueryResult's convert method<SPARQLWrapper.Wrapper.QueryResult.convert>` may avoid unnecessary problems.
         """
         return self
 
@@ -279,7 +283,7 @@ class SPARQLWrapper2(SPARQLWrapper.SPARQLWrapper):
             Exceptions can be raised if either the URI is wrong or the HTTP sends back an error.
             The usual urllib2 exceptions are raised, which cover possible SPARQL errors, too.
 
-            If the query type is I{not} SELECT, the method falls back to the
+            If the query type is *not* SELECT, the method falls back to the
             :class:`corresponding method in the superclass<SPARQLWrapper.query>`.
 
             :return: query result
@@ -295,7 +299,7 @@ class SPARQLWrapper2(SPARQLWrapper.SPARQLWrapper):
     def queryAndConvert(self):
         """This is here to override the inherited method; it is equivalent to :class:`query`.
 
-        If the query type is I{not} SELECT, the method falls back to the
+        If the query type is *not* SELECT, the method falls back to the
         :class:`corresponding method in the superclass<SPARQLWrapper.queryAndConvert>`.
 
         :return: the converted query result.
