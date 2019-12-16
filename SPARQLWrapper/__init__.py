@@ -7,11 +7,10 @@ possibly, convert the result into a more manageable format.
 
 The following packages are used:
 
-  * for JSON, the `simplejson <https://pypi.python.org/pypi/simplejson>`_ package
   * for RDF/XML, the `RDFLib <https://rdflib.readthedocs.io>`_
 
 These packages are imported in a lazy fashion, ie, only when needed. Ie, if the user never intends to use the
-JSON format, the ``simplejson`` package is not imported and the user does not have to install it.
+RDF/XML format, the ``RDFLib`` package is not imported and the user does not have to install it.
 
 The package can be downloaded in ``zip`` and ``.tar.gz`` formats from
 `https://github.com/RDFLib/sparqlwrapper/releases <https://github.com/RDFLib/sparqlwrapper/releases>`_.
@@ -51,7 +50,7 @@ To make processing somewhat easier, the package can do some conversions automati
 
   * for XML, the `xml.dom.minidom <http://docs.python.org/library/xml.dom.minidom.html>`_ (``http://docs.python.org/library/xml.dom.minidom.html``) is\
   used to convert the result stream into a Python representation of a DOM tree
-  * for JSON, the `simplejson <https://pypi.python.org/pypi/simplejson>`_ package (``https://pypi.python.org/pypi/simplejson``) to generate a Python dictionary
+  * for JSON, the `json <https://docs.python.org/library/json.html>`_ package to generate a Python dictionary. Until version 1.3.1, the `simplejson <https://pypi.python.org/pypi/simplejson>`_ package was used.
   * for CSV/TSV, a simple ``string``
 
 There are two ways to generate this conversion:
@@ -165,7 +164,6 @@ The package was greatly inspired by `Lee Feigenbaum's similar package for Javasc
 :author: Alexey Zakhlestin <https://indeyets.ru/>
 :license: `W3C® Software notice and license <http://www.w3.org/Consortium/Legal/copyright-software>`_
 :organization: `World Wide Web Consortium <http://www.w3.org>`_, `Salzburg Research <http://www.salzburgresearch.at>`_ and `Foundation CTIC <http://www.fundacionctic.org/>`_.
-:requires: `simplejson <https://pypi.python.org/pypi/simplejson>`_ package.
 :requires: `RDFLib <https://rdflib.readthedocs.io>`_ package.
 """
 

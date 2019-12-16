@@ -1269,7 +1269,7 @@ class QueryResult(object):
         Encode the return value depending on the return format:
 
             * in the case of XML, a DOM top element is returned
-            * in the case of JSON, a simplejson conversion will return a dictionary
+            * in the case of JSON, a json conversion will return a dictionary
             * in the case of RDF/XML, the value is converted via RDFLib into a ``Graph`` instance
             * in the case of JSON-LD, the value is converted via RDFLib into a ``Graph`` instance
             * in the case of RDF Turtle/N3, a string is returned
