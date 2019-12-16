@@ -84,6 +84,8 @@ pygments_style = None
 
 
 autodoc_default_flags = ['members', 'private-members']
+autoclass_content = 'both'
+
 
 # -- Options for HTML output -------------------------------------------------
 
@@ -120,6 +122,7 @@ html_static_path = ['_static']
 htmlhelp_basename = 'SPARQLWrapperdoc'
 html_show_copyright = False
 html_show_sphinx = False
+
 
 # -- Options for LaTeX output ------------------------------------------------
 

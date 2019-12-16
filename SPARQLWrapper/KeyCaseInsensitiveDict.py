@@ -17,6 +17,9 @@ class KeyCaseInsensitiveDict(dict):
     """
 
     def __init__(self, d={}):
+        """
+        :param dict d: The source dictionary.
+        """
         for k, v in d.items():
             self[k] = v
 

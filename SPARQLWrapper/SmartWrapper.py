@@ -267,10 +267,14 @@ class SPARQLWrapper2(SPARQLWrapper.SPARQLWrapper):
         super(SPARQLWrapper2, self).__init__(baseURI, returnFormat=JSON, defaultGraph=defaultGraph)
 
     def setReturnFormat(self, format):
-        """Set the return format (overriding the :class:`inherited method<SPARQLWrapper.SPARQLWrapper.setReturnFormat>`).
-        This method does nothing; this class instance should work with JSON only. The method is defined
-        just to avoid possible errors by erroneously setting the return format.
-        When using this class, the user can safely ignore this call.
+        """
+        Set the return format (overriding the inherited method :meth:`SPARQLWrapper.Wrapper.SPARQLWrapper.setReturnFormat`).
+
+        .. warning::
+
+           This method does nothing; this class instance should work with JSON only. The method is defined \
+           just to avoid possible errors by erroneously setting the return format. \
+           When using this class, the user can safely ignore this call.
 
         :param format: return format
         """

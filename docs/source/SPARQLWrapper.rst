@@ -1,6 +1,11 @@
 SPARQLWrapper package
 =====================
 
+.. automodule:: SPARQLWrapper
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Submodules
 ----------
 
@@ -37,10 +42,3 @@ SPARQLWrapper.Wrapper module
     :show-inheritance:
 
 
-Module contents
----------------
-
-.. automodule:: SPARQLWrapper
-    :members:
-    :undoc-members:
-    :show-inheritance:
