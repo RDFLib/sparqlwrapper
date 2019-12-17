@@ -47,6 +47,7 @@ version = __version__
 # ones.
 extensions = [
     'sphinx.ext.autodoc',
+    'sphinx.ext.autosummary',
     'sphinx.ext.doctest',
     'sphinx.ext.intersphinx',
     'sphinx.ext.todo',
@@ -85,7 +86,7 @@ pygments_style = None
 
 autodoc_default_flags = ['members', 'private-members']
 autoclass_content = 'both'
-
+autosummary_generate = True
 
 # -- Options for HTML output -------------------------------------------------
 

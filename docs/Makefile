@@ -17,3 +17,8 @@ help:
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
 %: Makefile
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+
+buildapi:
+    sphinx-apidoc -fMe ../SPARQLWrapper/ -o source/
+    @echo "Auto-generation of SPARQLWrapper documentation finished. " \
+          "The generated files are in 'source/'"

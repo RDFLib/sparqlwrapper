@@ -9,36 +9,10 @@ SPARQLWrapper package
 Submodules
 ----------
 
-SPARQLWrapper.KeyCaseInsensitiveDict module
--------------------------------------------
+.. toctree::
 
-.. automodule:: SPARQLWrapper.KeyCaseInsensitiveDict
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-SPARQLWrapper.SPARQLExceptions module
--------------------------------------
-
-.. automodule:: SPARQLWrapper.SPARQLExceptions
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-SPARQLWrapper.SmartWrapper module
----------------------------------
-
-.. automodule:: SPARQLWrapper.SmartWrapper
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-SPARQLWrapper.Wrapper module
-----------------------------
-
-.. automodule:: SPARQLWrapper.Wrapper
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
+   SPARQLWrapper.KeyCaseInsensitiveDict
+   SPARQLWrapper.SPARQLExceptions
+   SPARQLWrapper.SmartWrapper
+   SPARQLWrapper.Wrapper
 
