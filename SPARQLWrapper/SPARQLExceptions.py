@@ -4,12 +4,20 @@
 
 SPARQL Wrapper exceptions
 
-:author: Ivan Herman <http://www.ivan-herman.net>
-:author: Sergio Fernández <http://www.wikier.org>
-:author: Carlos Tejo Alonso <http://www.dayures.net>
-:author: Alexey Zakhlestin <https://indeyets.ru/>
-:organization: `World Wide Web Consortium <http://www.w3.org>`_ and `Foundation CTIC <http://www.fundacionctic.org/>`_.
-:license: `W3C® Software notice and license <http://www.w3.org/Consortium/Legal/copyright-software>`_
+..
+  Developers involved:
+
+  * Ivan Herman <http://www.ivan-herman.net>
+  * Sergio Fernández <http://www.wikier.org>
+  * Carlos Tejo Alonso <http://www.dayures.net>
+  * Alexey Zakhlestin <https://indeyets.ru/>
+
+  Organizations involved:
+
+  * `World Wide Web Consortium <http://www.w3.org>`_
+  * `Foundation CTIC <http://www.fundacionctic.org/>`_
+
+  :license: `W3C® Software notice and license <http://www.w3.org/Consortium/Legal/copyright-software>`_
 
 """
 

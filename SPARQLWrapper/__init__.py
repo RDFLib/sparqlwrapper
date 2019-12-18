@@ -151,20 +151,6 @@ extends a reasonable size; this can be set in the query instance.
 Note that some combination may not work yet with all SPARQL processors
 (eg, there are implementations where POST+JSON return does not work). Hopefully, this problem will eventually disappear.
 
-Acknowledgement
-===============
-
-The package was greatly inspired by `Lee Feigenbaum's similar package for Javascript <http://thefigtrees.net/lee/blog/2006/04/sparql_calendar_demo_a_sparql.html>`_.
-
-.. seealso:: `SPARQL Specification <http://www.w3.org/TR/rdf-sparql-query/>`_
-
-:author: Ivan Herman <http://www.ivan-herman.net>
-:author: Sergio Fernández <http://www.wikier.org>
-:author: Carlos Tejo Alonso <http://www.dayures.net>
-:author: Alexey Zakhlestin <https://indeyets.ru/>
-:license: `W3C® Software notice and license <http://www.w3.org/Consortium/Legal/copyright-software>`_
-:organization: `World Wide Web Consortium <http://www.w3.org>`_, `Salzburg Research <http://www.salzburgresearch.at>`_ and `Foundation CTIC <http://www.fundacionctic.org/>`_.
-:requires: `RDFLib <https://rdflib.readthedocs.io>`_ package.
 """
 
 __version__ = "1.8.5.dev0"

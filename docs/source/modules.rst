@@ -1,7 +1,10 @@
-SPARQLWrapper
-=============
+SPARQLWrapper package
+=====================
 
 .. toctree::
-   :maxdepth: 4
 
-   SPARQLWrapper
+   SPARQLWrapper.KeyCaseInsensitiveDict
+   SPARQLWrapper.SPARQLExceptions
+   SPARQLWrapper.SmartWrapper
+   SPARQLWrapper.Wrapper
+
