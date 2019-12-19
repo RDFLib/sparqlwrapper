@@ -83,10 +83,18 @@ exclude_patterns = []
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = None
 
+autodoc_member_order = 'bysource'
 
-autodoc_default_flags = ['members', 'private-members']
-autoclass_content = 'both'
-autosummary_generate = True
+autodoc_default_options = {
+    'members': None,
+    'private-members': None,
+    'show-inheritance': None,
+    'special-members': '__init__'
+}
+
+autoclass_content = 'class'
+#autosummary_generate = True
+
 
 # -- Options for HTML output -------------------------------------------------
 
