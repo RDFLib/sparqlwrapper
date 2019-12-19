@@ -11,11 +11,13 @@ invokation and, possibly, convert the result into a more manageable
 format.
 
 .. toctree::
+   :hidden:
    :caption: Basic steps
 
    main
    
 .. toctree::
+   :hidden:
    :caption: Python Package
 
    modules
