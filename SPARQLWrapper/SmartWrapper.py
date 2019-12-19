@@ -30,21 +30,25 @@ class Value(object):
     """
     Class encapsulating a single binding for a variable.
 
-    :cvar URI: the string denoting a URI variable
-    :cvar Literal: the string denoting a Literal variable
-    :cvar TypedLiteral: the string denoting a typed literal variable
-    :cvar BNODE: the string denoting a blank node variable
+    :cvar URI: the string denoting a URI variable.
+    :vartype URI: string
+    :cvar Literal: the string denoting a Literal variable.
+    :vartype Literal: string
+    :cvar TypedLiteral: the string denoting a typed literal variable.
+    :vartype TypedLiteral: string
+    :cvar BNODE: the string denoting a blank node variable.
+    :vartype BNODE: string
 
-    :ivar variable: The original variable, stored for an easier reference
-    :type variable: string
-    :ivar value: Value of the binding
-    :type value: string
-    :ivar type: Type of the binding
-    :type type: string; one of  :class:`Value.URI`, :class:`Value.Literal`, :class:`Value.TypedLiteral`, or :class:`Value.BNODE`
-    :ivar lang: Language tag of the binding, or ``None`` if not set
-    :type lang: string
-    :ivar datatype: Datatype of the binding, or ``None`` if not set
-    :type datatype: string (URI)
+    :ivar variable: The original variable, stored for an easier reference.
+    :vartype variable: string
+    :ivar value: Value of the binding.
+    :vartype value: string
+    :ivar type: Type of the binding. One of :attr:`Value.URI`, :attr:`Value.Literal`, :attr:`Value.TypedLiteral`, or :attr:`Value.BNODE`.
+    :vartype type: string
+    :ivar lang: Language tag of the binding, or ``None`` if not set.
+    :vartype lang: string
+    :ivar datatype: Datatype of the binding, or ``None`` if not set. It is an URI.
+    :vartype datatype: string
     """
     URI = "uri"
     Literal = "literal"
@@ -53,8 +57,10 @@ class Value(object):
 
     def __init__(self, variable, binding):
         """
-        :param variable: the variable for that binding. Stored for an easier reference
-        :param binding: the binding dictionary part of the return result for a specific binding
+        :param variable: the variable for that binding. Stored for an easier reference.
+        :type variable: string
+        :param binding: the binding dictionary part of the return result for a specific binding.
+        :type binding: dict
         """
         self.variable = variable
         self.value = binding['value']
@@ -90,18 +96,23 @@ class Bindings(object):
     dictionary is a possible binding of the SELECT variables to :class:`Value` instances. This structure is made a bit
     more usable by this class.
 
-    :ivar fullResult: The original dictionary of the results, stored for an easier reference
-    :ivar head: Header part of the return, see the JSON return format document for details
-    :ivar variables: List of unbounds (variables) of the original query. It is an array of strings. None in the case of an ASK query
-    :ivar bindings: The final bindings: array of dictionaries, mapping variables to :class:`Value` instances. \
-    (If unbound, then no value is set in the dictionary; that can be easily checked with \
-    ``var in res.bindings[..]``, for example.)
-    :ivar askResult: by default, set to False; in case of an ASK query, the result of the query
-    :type askResult: bool
+    :ivar fullResult: The original dictionary of the results, stored for an easier reference.
+    :vartype fullResult: dict
+    :ivar head: Header part of the return, see the JSON return format document for details.
+    :vartype head: dict
+    :ivar variables: List of unbounds (variables) of the original query. It is a list of strings. ``None`` in the case of an ASK query.
+    :vartype variables: list
+    :ivar bindings: The final bindings: list of dictionaries, mapping variables to :class:`Value` instances. \
+    If unbound, then no value is set in the dictionary; that can be easily checked with \
+    ``var in res.bindings[..]``, for example.
+    :vartype bindings: list
+    :ivar askResult: by default, set to **False**; in case of an ASK query, the result of the query.
+    :vartype askResult: bool
     """
     def __init__(self, retval):
         """
-        :param retval: the query result, instance of a :class:`Wrapper.QueryResult`
+        :param retval: the query result.
+        :type retval: :class:`QueryResult<SPARQLWrapper.Wrapper.QueryResult>`
         """
         self.fullResult = retval._convertJSON()
         self.head = self.fullResult['head']
@@ -133,10 +144,12 @@ class Bindings(object):
 
     def getValues(self, key):
         """A shorthand for the retrieval of all bindings for a single key. It is
-        equivalent to "``[b[key] for b in self[key]]``"
+        equivalent to ``[b[key] for b in self[key]]``
 
-        :param key: possible variable
-        :return: list of :class:`Value` instances
+        :param key: possible variable name.
+        :type key: string
+        :return: list of :class:`Value` instances.
+        :rtype: list
         """
         try:
             return [b[key] for b in self[key]]
@@ -248,10 +261,10 @@ class Bindings(object):
     def convert(self):
         """This is just a convenience method, returns ``self``.
 
-        Although ``Binding`` is not a subclass of :class:`QueryResult<SPARQLWrapper.Wrapper.QueryResult>`, it is returned as a result by
-        :class:`SPARQLWrapper2.query`, just like :class:`QueryResult<SPARQLWrapper.Wrapper.QueryResult>` is returned by
-        :class:`SPARQLWrapper.SPARQLWrapper.query`. Consequently,
-        having an empty ``convert`` method to imitate :class:`QueryResult's convert method<SPARQLWrapper.Wrapper.QueryResult.convert>` may avoid unnecessary problems.
+        Although :class:`SPARQLWrapper2.Bindings` is not a subclass of :class:`SPARQLWrapper.QueryResult<SPARQLWrapper.Wrapper.QueryResult>`, it is returned as a result by
+        :func:`SPARQLWrapper2.query`, just like :class:`QueryResult<SPARQLWrapper.Wrapper.QueryResult>` is returned by
+        :func:`SPARQLWrapper.query()<SPARQLWrapper.Wrapper.SPARQLWrapper.query>`. Consequently,
+        having an empty :func:`convert` method to imitate :class:`QueryResult's convert() method<SPARQLWrapper.Wrapper.QueryResult.convert>` may avoid unnecessary problems.
         """
         return self
 
@@ -259,23 +272,23 @@ class Bindings(object):
 
 
 class SPARQLWrapper2(SPARQLWrapper.SPARQLWrapper):
-    """Subclass of :class:`Wrapper<SPARQLWrapper.SPARQLWrapper>` that works with a JSON SELECT return result only. The query result
+    """Subclass of :class:`~SPARQLWrapper.Wrapper.SPARQLWrapper` that works with a JSON SELECT return result only. The query result
     is automatically set to a :class:`Bindings` instance. Makes the average query processing a bit simpler..."""
     def __init__(self, baseURI, defaultGraph=None):
         """
-        Class encapsulating a full SPARQL call. In contrast to the :class:`SPARQLWrapper<SPARQLWrapper.SPARQLWrapper>` superclass, the return format
-        cannot be set (it is defaulted to :class:`JSON<Wrapper.JSON>`).
+        Class encapsulating a full SPARQL call. In contrast to the :class:`~SPARQLWrapper.Wrapper.SPARQLWrapper` superclass, the return format
+        cannot be set (it is defaulted to :attr:`~SPARQLWrapper.Wrapper.SPARQLWrapper.JSON`).
 
-        :param baseURI: string of the SPARQL endpoint's URI
+        :param baseURI: string of the SPARQL endpoint's URI.
         :type baseURI: string
-        :param defaultGraph: URI for the default graph. Default is None, can be set via an explicit call, too
+        :param defaultGraph: URI for the default graph. Default is ``None``, can be set via an explicit call, too.
         :type defaultGraph: string
         """
         super(SPARQLWrapper2, self).__init__(baseURI, returnFormat=JSON, defaultGraph=defaultGraph)
 
     def setReturnFormat(self, format):
         """
-        Set the return format (overriding the inherited method :meth:`SPARQLWrapper.Wrapper.SPARQLWrapper.setReturnFormat`).
+        Set the return format (:meth:`overriding the inherited method <SPARQLWrapper.Wrapper.SPARQLWrapper.setReturnFormat>`).
 
         .. warning::
 
@@ -284,6 +297,7 @@ class SPARQLWrapper2(SPARQLWrapper.SPARQLWrapper):
            When using this class, the user can safely ignore this call.
 
         :param format: return format
+        :type format: string
         """
         pass
 
@@ -295,7 +309,7 @@ class SPARQLWrapper2(SPARQLWrapper.SPARQLWrapper):
             The usual urllib2 exceptions are raised, which cover possible SPARQL errors, too.
 
             If the query type is *not* SELECT, the method falls back to the
-            :class:`corresponding method in the superclass<SPARQLWrapper.query>`.
+            :meth:`corresponding method in the superclass<SPARQLWrapper.Wrapper.SPARQLWrapper.query>`.
 
             :return: query result
             :rtype: :class:`Bindings` instance
@@ -311,7 +325,7 @@ class SPARQLWrapper2(SPARQLWrapper.SPARQLWrapper):
         """This is here to override the inherited method; it is equivalent to :class:`query`.
 
         If the query type is *not* SELECT, the method falls back to the
-        :class:`corresponding method in the superclass<SPARQLWrapper.queryAndConvert>`.
+        :meth:`corresponding method in the superclass<SPARQLWrapper.Wrapper.SPARQLWrapper.queryAndConvert>`.
 
         :return: the converted query result.
         """
