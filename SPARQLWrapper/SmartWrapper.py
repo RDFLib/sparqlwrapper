@@ -30,15 +30,6 @@ class Value(object):
     """
     Class encapsulating a single binding for a variable.
 
-    :cvar URI: the string denoting a URI variable.
-    :vartype URI: string
-    :cvar Literal: the string denoting a Literal variable.
-    :vartype Literal: string
-    :cvar TypedLiteral: the string denoting a typed literal variable.
-    :vartype TypedLiteral: string
-    :cvar BNODE: the string denoting a blank node variable.
-    :vartype BNODE: string
-
     :ivar variable: The original variable, stored for an easier reference.
     :vartype variable: string
     :ivar value: Value of the binding.
@@ -51,9 +42,13 @@ class Value(object):
     :vartype datatype: string
     """
     URI = "uri"
+    """the string denoting a URI variable."""
     Literal = "literal"
+    """the string denoting a Literal variable."""
     TypedLiteral = "typed-literal"
+    """the string denoting a typed literal variable."""
     BNODE = "bnode"
+    """the string denoting a blank node variable."""
 
     def __init__(self, variable, binding):
         """
