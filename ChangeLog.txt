@@ -5,6 +5,7 @@ SPARQLWrapper's changelog
 -----------------
 - Improve/tests for development (#131)
 - Changed. Be more strict on Accept Turtle header (#137)
+- Migrated documentation from epydoc to sphinx and readthedocs
 
 2019-04-18  1.8.4
 -----------------
