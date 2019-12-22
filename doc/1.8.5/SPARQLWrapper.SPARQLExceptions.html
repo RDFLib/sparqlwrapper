@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>SPARQL Endpoint interface to Python &mdash; SPARQLWrapper  documentation</title>
+  <title>SPARQLWrapper.SPARQLExceptions module &mdash; SPARQLWrapper  documentation</title>
   
 
   
@@ -35,7 +35,8 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="SPARQL Endpoint interface to Python" href="main.html" /> 
+    <link rel="next" title="SPARQLWrapper.KeyCaseInsensitiveDict module" href="SPARQLWrapper.KeyCaseInsensitiveDict.html" />
+    <link rel="prev" title="SPARQLWrapper.SmartWrapper module" href="SPARQLWrapper.SmartWrapper.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -49,7 +50,7 @@
           
 
           
-            <a href="#" class="icon icon-home"> SPARQLWrapper
+            <a href="index.html" class="icon icon-home"> SPARQLWrapper
           
 
           
@@ -116,11 +117,11 @@
 </li>
 </ul>
 <p class="caption"><span class="caption-text">Python Package</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">SPARQLWrapper package</a><ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">SPARQLWrapper package</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="SPARQLWrapper.Wrapper.html">SPARQLWrapper.Wrapper module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="SPARQLWrapper.SmartWrapper.html">SPARQLWrapper.SmartWrapper module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="SPARQLWrapper.SPARQLExceptions.html">SPARQLWrapper.SPARQLExceptions module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">SPARQLWrapper.SPARQLExceptions module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="SPARQLWrapper.KeyCaseInsensitiveDict.html">SPARQLWrapper.KeyCaseInsensitiveDict module</a></li>
 </ul>
 </li>
@@ -174,7 +175,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="#">SPARQLWrapper</a>
+          <a href="index.html">SPARQLWrapper</a>
         
       </nav>
 
@@ -203,15 +204,17 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="#">Docs</a> &raquo;</li>
+      <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>SPARQL Endpoint interface to Python</li>
+          <li><a href="modules.html">SPARQLWrapper package</a> &raquo;</li>
+        
+      <li>SPARQLWrapper.SPARQLExceptions module</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/SPARQLWrapper.SPARQLExceptions.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -224,25 +227,70 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="sparql-endpoint-interface-to-python">
-<h1>SPARQL Endpoint interface to Python<a class="headerlink" href="#sparql-endpoint-interface-to-python" title="Permalink to this headline">¶</a></h1>
-<p><a class="reference external" href="https://travis-ci.org/RDFLib/sparqlwrapper"><img alt="Build Status" src="https://secure.travis-ci.org/RDFLib/sparqlwrapper.svg?branch=master" /></a> <a class="reference external" href="https://pypi.python.org/pypi/SPARQLWrapper"><img alt="PyPi version" src="https://badge.fury.io/py/SPARQLWrapper.svg" /></a></p>
-<p><strong>SPARQLWrapper</strong> is a simple Python wrapper around a <a class="reference external" href="https://www.w3.org/TR/sparql11-overview/">SPARQL</a> service to
-remotelly execute your queries. It helps in creating the query
-invokation and, possibly, convert the result into a more manageable
-format.</p>
-<div class="toctree-wrapper compound">
+  <div class="section" id="module-SPARQLWrapper.SPARQLExceptions">
+<span id="sparqlwrapper-sparqlexceptions-module"></span><h1>SPARQLWrapper.SPARQLExceptions module<a class="headerlink" href="#module-SPARQLWrapper.SPARQLExceptions" title="Permalink to this headline">¶</a></h1>
+<p>SPARQL Wrapper exceptions</p>
+<dl class="exception">
+<dt id="SPARQLWrapper.SPARQLExceptions.SPARQLWrapperException">
+<em class="property">exception </em><code class="descclassname">SPARQLWrapper.SPARQLExceptions.</code><code class="descname">SPARQLWrapperException</code><span class="sig-paren">(</span><em>response=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/SPARQLExceptions.html#SPARQLWrapperException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.SPARQLExceptions.SPARQLWrapperException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/exceptions.html#exceptions.Exception" title="(in Python v2.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">exceptions.Exception</span></code></a></p>
+<p>Base class for SPARQL Wrapper exceptions</p>
+<dl class="method">
+<dt id="SPARQLWrapper.SPARQLExceptions.SPARQLWrapperException.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>response=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/SPARQLExceptions.html#SPARQLWrapperException.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.SPARQLExceptions.SPARQLWrapperException.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>response</strong> (<em>string</em>) – The server response</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="SPARQLWrapper.SPARQLExceptions.EndPointInternalError">
+<em class="property">exception </em><code class="descclassname">SPARQLWrapper.SPARQLExceptions.</code><code class="descname">EndPointInternalError</code><span class="sig-paren">(</span><em>response=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/SPARQLExceptions.html#EndPointInternalError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.SPARQLExceptions.EndPointInternalError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#SPARQLWrapper.SPARQLExceptions.SPARQLWrapperException" title="SPARQLWrapper.SPARQLExceptions.SPARQLWrapperException"><code class="xref py py-class docutils literal notranslate"><span class="pre">SPARQLWrapper.SPARQLExceptions.SPARQLWrapperException</span></code></a></p>
+<p>Exception type for Internal Server Error responses. Usually HTTP response status code <code class="docutils literal notranslate"><span class="pre">500</span></code>.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="SPARQLWrapper.SPARQLExceptions.QueryBadFormed">
+<em class="property">exception </em><code class="descclassname">SPARQLWrapper.SPARQLExceptions.</code><code class="descname">QueryBadFormed</code><span class="sig-paren">(</span><em>response=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/SPARQLExceptions.html#QueryBadFormed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.SPARQLExceptions.QueryBadFormed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#SPARQLWrapper.SPARQLExceptions.SPARQLWrapperException" title="SPARQLWrapper.SPARQLExceptions.SPARQLWrapperException"><code class="xref py py-class docutils literal notranslate"><span class="pre">SPARQLWrapper.SPARQLExceptions.SPARQLWrapperException</span></code></a></p>
+<p>Query Bad Formed exception. Usually HTTP response status code <code class="docutils literal notranslate"><span class="pre">400</span></code>.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="SPARQLWrapper.SPARQLExceptions.EndPointNotFound">
+<em class="property">exception </em><code class="descclassname">SPARQLWrapper.SPARQLExceptions.</code><code class="descname">EndPointNotFound</code><span class="sig-paren">(</span><em>response=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/SPARQLExceptions.html#EndPointNotFound"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.SPARQLExceptions.EndPointNotFound" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#SPARQLWrapper.SPARQLExceptions.SPARQLWrapperException" title="SPARQLWrapper.SPARQLExceptions.SPARQLWrapperException"><code class="xref py py-class docutils literal notranslate"><span class="pre">SPARQLWrapper.SPARQLExceptions.SPARQLWrapperException</span></code></a></p>
+<p>End Point Not Found exception. Usually HTTP response status code <code class="docutils literal notranslate"><span class="pre">404</span></code>.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="SPARQLWrapper.SPARQLExceptions.Unauthorized">
+<em class="property">exception </em><code class="descclassname">SPARQLWrapper.SPARQLExceptions.</code><code class="descname">Unauthorized</code><span class="sig-paren">(</span><em>response=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/SPARQLExceptions.html#Unauthorized"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.SPARQLExceptions.Unauthorized" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#SPARQLWrapper.SPARQLExceptions.SPARQLWrapperException" title="SPARQLWrapper.SPARQLExceptions.SPARQLWrapperException"><code class="xref py py-class docutils literal notranslate"><span class="pre">SPARQLWrapper.SPARQLExceptions.SPARQLWrapperException</span></code></a></p>
+<p>Access is denied due to invalid credentials (unauthorized). Usually HTTP response status code <code class="docutils literal notranslate"><span class="pre">401</span></code>.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 1.8.2.</span></p>
 </div>
-<div class="toctree-wrapper compound">
+</dd></dl>
+
+<dl class="exception">
+<dt id="SPARQLWrapper.SPARQLExceptions.URITooLong">
+<em class="property">exception </em><code class="descclassname">SPARQLWrapper.SPARQLExceptions.</code><code class="descname">URITooLong</code><span class="sig-paren">(</span><em>response=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/SPARQLExceptions.html#URITooLong"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.SPARQLExceptions.URITooLong" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#SPARQLWrapper.SPARQLExceptions.SPARQLWrapperException" title="SPARQLWrapper.SPARQLExceptions.SPARQLWrapperException"><code class="xref py py-class docutils literal notranslate"><span class="pre">SPARQLWrapper.SPARQLExceptions.SPARQLWrapperException</span></code></a></p>
+<p>The URI requested by the client is longer than the server is willing to interpret. Usually HTTP response status code <code class="docutils literal notranslate"><span class="pre">414</span></code>.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 1.8.3.</span></p>
 </div>
-<div class="section" id="indices-and-tables">
-<h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
-<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
-<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
-</ul>
-</div>
+</dd></dl>
+
 </div>
 
 
@@ -253,8 +301,10 @@ format.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="main.html" class="btn btn-neutral float-right" title="SPARQL Endpoint interface to Python" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="SPARQLWrapper.KeyCaseInsensitiveDict.html" class="btn btn-neutral float-right" title="SPARQLWrapper.KeyCaseInsensitiveDict module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
+      
+        <a href="SPARQLWrapper.SmartWrapper.html" class="btn btn-neutral float-left" title="SPARQLWrapper.SmartWrapper module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

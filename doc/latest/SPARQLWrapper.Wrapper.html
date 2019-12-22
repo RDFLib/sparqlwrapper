@@ -1,0 +1,1315 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>SPARQLWrapper.Wrapper module &mdash; SPARQLWrapper  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="SPARQLWrapper.SmartWrapper module" href="SPARQLWrapper.SmartWrapper.html" />
+    <link rel="prev" title="SPARQLWrapper package" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> SPARQLWrapper
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.8.5
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Basic steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="main.html">SPARQL Endpoint interface to Python</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="main.html#about">About</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#installation-distribution">Installation &amp; Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#how-to-use">How to use</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="main.html#first-steps">First steps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="main.html#select-example">SELECT example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="main.html#ask-example">ASK example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="main.html#construct-example">CONSTRUCT example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="main.html#describe-example">DESCRIBE example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="main.html#sparql-update-example">SPARQL UPDATE example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="main.html#sparqlwrapper2-example">SPARQLWrapper2 example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="main.html#return-formats">Return formats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="main.html#automatic-conversion-of-the-results">Automatic conversion of the results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="main.html#partial-interpretation-of-the-results">Partial interpretation of the results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="main.html#get-or-post">GET or POST</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#development">Development</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="main.html#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="main.html#source-code">Source code</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#community">Community</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#issues">Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#documentation">Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#license">License</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#acknowledgement">Acknowledgement</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Python Package</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">SPARQLWrapper package</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">SPARQLWrapper.Wrapper module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SPARQLWrapper.SmartWrapper.html">SPARQLWrapper.SmartWrapper module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SPARQLWrapper.SPARQLExceptions.html">SPARQLWrapper.SPARQLExceptions module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SPARQLWrapper.KeyCaseInsensitiveDict.html">SPARQLWrapper.KeyCaseInsensitiveDict module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">ChangeLog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id1">2019-12-22  1.8.5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id2">2019-04-18  1.8.4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id3">2019-04-17  1.8.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id4">2018-05-26  1.8.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id5">2018-02-25  1.8.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id6">2016-12-07  1.8.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id7">2015-12-18  1.7.6</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id8">2015-11-19  1.7.5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id9">2015-11-05  1.7.4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id10">2015-11-05  1.7.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id11">2015-11-03  1.7.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id12">2015-10-29  1.7.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id13">2015-10-29  1.7.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id14">2014-08-26  1.6.4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id15">2014-08-26  1.6.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id16">2014-07-24  1.6.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id17">2014-07-21  1.6.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id18">2014-05-09  1.6.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id19">2012-08-28  1.5.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id20">2012-07-10  1.5.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id21">2012-02-01  1.5.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id22">2011-01-28  1.4.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id23">2010-01-11  1.4.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id24">2009-12-14  1.4.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id25">2009-09-23  1.3.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id26">2009-09-11  1.3.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id27">2009-05-06  1.3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id28">2009-04-27  1.2.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id29">2008-07-10  1.2.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id30">2008-03-24  1.1.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id31">2008-03-07  1.0.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id32">2008-02-14  1.0.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id33">2007-07-06  0.2.0</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">SPARQLWrapper</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="modules.html">SPARQLWrapper package</a> &raquo;</li>
+        
+      <li>SPARQLWrapper.Wrapper module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/SPARQLWrapper.Wrapper.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-SPARQLWrapper.Wrapper">
+<span id="sparqlwrapper-wrapper-module"></span><h1>SPARQLWrapper.Wrapper module<a class="headerlink" href="#module-SPARQLWrapper.Wrapper" title="Permalink to this headline">¶</a></h1>
+<dl class="data">
+<dt id="SPARQLWrapper.Wrapper.XML">
+<code class="descclassname">SPARQLWrapper.Wrapper.</code><code class="descname">XML</code><em class="property"> = 'xml'</em><a class="headerlink" href="#SPARQLWrapper.Wrapper.XML" title="Permalink to this definition">¶</a></dt>
+<dd><p>to be used to set the return format to <code class="docutils literal notranslate"><span class="pre">XML</span></code> (<code class="docutils literal notranslate"><span class="pre">SPARQL</span> <span class="pre">Query</span> <span class="pre">Results</span> <span class="pre">XML</span></code> format or <code class="docutils literal notranslate"><span class="pre">RDF/XML</span></code>, depending on the query type). <strong>This is the default</strong>.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="SPARQLWrapper.Wrapper.JSON">
+<code class="descclassname">SPARQLWrapper.Wrapper.</code><code class="descname">JSON</code><em class="property"> = 'json'</em><a class="headerlink" href="#SPARQLWrapper.Wrapper.JSON" title="Permalink to this definition">¶</a></dt>
+<dd><p>to be used to set the return format to <code class="docutils literal notranslate"><span class="pre">JSON</span></code>.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="SPARQLWrapper.Wrapper.JSONLD">
+<code class="descclassname">SPARQLWrapper.Wrapper.</code><code class="descname">JSONLD</code><em class="property"> = 'json-ld'</em><a class="headerlink" href="#SPARQLWrapper.Wrapper.JSONLD" title="Permalink to this definition">¶</a></dt>
+<dd><p>to be used to set the return format to <code class="docutils literal notranslate"><span class="pre">JSON-LD</span></code>.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="SPARQLWrapper.Wrapper.TURTLE">
+<code class="descclassname">SPARQLWrapper.Wrapper.</code><code class="descname">TURTLE</code><em class="property"> = 'turtle'</em><a class="headerlink" href="#SPARQLWrapper.Wrapper.TURTLE" title="Permalink to this definition">¶</a></dt>
+<dd><p>to be used to set the return format to <code class="docutils literal notranslate"><span class="pre">Turtle</span></code>.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="SPARQLWrapper.Wrapper.N3">
+<code class="descclassname">SPARQLWrapper.Wrapper.</code><code class="descname">N3</code><em class="property"> = 'n3'</em><a class="headerlink" href="#SPARQLWrapper.Wrapper.N3" title="Permalink to this definition">¶</a></dt>
+<dd><p>to be used to set the return format to <code class="docutils literal notranslate"><span class="pre">N3</span></code> (for most of the SPARQL services this is equivalent to Turtle).</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="SPARQLWrapper.Wrapper.RDF">
+<code class="descclassname">SPARQLWrapper.Wrapper.</code><code class="descname">RDF</code><em class="property"> = 'rdf'</em><a class="headerlink" href="#SPARQLWrapper.Wrapper.RDF" title="Permalink to this definition">¶</a></dt>
+<dd><p>to be used to set the return <code class="docutils literal notranslate"><span class="pre">RDF</span> <span class="pre">Graph</span></code>.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="SPARQLWrapper.Wrapper.RDFXML">
+<code class="descclassname">SPARQLWrapper.Wrapper.</code><code class="descname">RDFXML</code><em class="property"> = 'rdf+xml'</em><a class="headerlink" href="#SPARQLWrapper.Wrapper.RDFXML" title="Permalink to this definition">¶</a></dt>
+<dd><p>to be used to set the return format to <code class="docutils literal notranslate"><span class="pre">RDF/XML</span></code> explicitly.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="SPARQLWrapper.Wrapper.CSV">
+<code class="descclassname">SPARQLWrapper.Wrapper.</code><code class="descname">CSV</code><em class="property"> = 'csv'</em><a class="headerlink" href="#SPARQLWrapper.Wrapper.CSV" title="Permalink to this definition">¶</a></dt>
+<dd><p>to be used to set the return format to <code class="docutils literal notranslate"><span class="pre">CSV</span></code></p>
+</dd></dl>
+
+<dl class="data">
+<dt id="SPARQLWrapper.Wrapper.TSV">
+<code class="descclassname">SPARQLWrapper.Wrapper.</code><code class="descname">TSV</code><em class="property"> = 'tsv'</em><a class="headerlink" href="#SPARQLWrapper.Wrapper.TSV" title="Permalink to this definition">¶</a></dt>
+<dd><p>to be used to set the return format to <code class="docutils literal notranslate"><span class="pre">TSV</span></code></p>
+</dd></dl>
+
+<dl class="data">
+<dt id="SPARQLWrapper.Wrapper.GET">
+<code class="descclassname">SPARQLWrapper.Wrapper.</code><code class="descname">GET</code><em class="property"> = 'GET'</em><a class="headerlink" href="#SPARQLWrapper.Wrapper.GET" title="Permalink to this definition">¶</a></dt>
+<dd><p>to be used to set HTTP method <code class="docutils literal notranslate"><span class="pre">GET</span></code>. <strong>This is the default</strong>.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="SPARQLWrapper.Wrapper.POST">
+<code class="descclassname">SPARQLWrapper.Wrapper.</code><code class="descname">POST</code><em class="property"> = 'POST'</em><a class="headerlink" href="#SPARQLWrapper.Wrapper.POST" title="Permalink to this definition">¶</a></dt>
+<dd><p>to be used to set HTTP method <code class="docutils literal notranslate"><span class="pre">POST</span></code>.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="SPARQLWrapper.Wrapper.BASIC">
+<code class="descclassname">SPARQLWrapper.Wrapper.</code><code class="descname">BASIC</code><em class="property"> = 'BASIC'</em><a class="headerlink" href="#SPARQLWrapper.Wrapper.BASIC" title="Permalink to this definition">¶</a></dt>
+<dd><p>to be used to set <code class="docutils literal notranslate"><span class="pre">BASIC</span></code> HTTP Authentication method.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="SPARQLWrapper.Wrapper.DIGEST">
+<code class="descclassname">SPARQLWrapper.Wrapper.</code><code class="descname">DIGEST</code><em class="property"> = 'DIGEST'</em><a class="headerlink" href="#SPARQLWrapper.Wrapper.DIGEST" title="Permalink to this definition">¶</a></dt>
+<dd><p>to be used to set <code class="docutils literal notranslate"><span class="pre">DIGEST</span></code> HTTP Authentication method.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="SPARQLWrapper.Wrapper.SELECT">
+<code class="descclassname">SPARQLWrapper.Wrapper.</code><code class="descname">SELECT</code><em class="property"> = 'SELECT'</em><a class="headerlink" href="#SPARQLWrapper.Wrapper.SELECT" title="Permalink to this definition">¶</a></dt>
+<dd><p>to be used to set the query type to <code class="docutils literal notranslate"><span class="pre">SELECT</span></code>. This is, usually, determined automatically.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="SPARQLWrapper.Wrapper.CONSTRUCT">
+<code class="descclassname">SPARQLWrapper.Wrapper.</code><code class="descname">CONSTRUCT</code><em class="property"> = 'CONSTRUCT'</em><a class="headerlink" href="#SPARQLWrapper.Wrapper.CONSTRUCT" title="Permalink to this definition">¶</a></dt>
+<dd><p>to be used to set the query type to <code class="docutils literal notranslate"><span class="pre">CONSTRUCT</span></code>. This is, usually, determined automatically.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="SPARQLWrapper.Wrapper.ASK">
+<code class="descclassname">SPARQLWrapper.Wrapper.</code><code class="descname">ASK</code><em class="property"> = 'ASK'</em><a class="headerlink" href="#SPARQLWrapper.Wrapper.ASK" title="Permalink to this definition">¶</a></dt>
+<dd><p>to be used to set the query type to <code class="docutils literal notranslate"><span class="pre">ASK</span></code>. This is, usually, determined automatically.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="SPARQLWrapper.Wrapper.DESCRIBE">
+<code class="descclassname">SPARQLWrapper.Wrapper.</code><code class="descname">DESCRIBE</code><em class="property"> = 'DESCRIBE'</em><a class="headerlink" href="#SPARQLWrapper.Wrapper.DESCRIBE" title="Permalink to this definition">¶</a></dt>
+<dd><p>to be used to set the query type to <code class="docutils literal notranslate"><span class="pre">DESCRIBE</span></code>. This is, usually, determined automatically.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="SPARQLWrapper.Wrapper.INSERT">
+<code class="descclassname">SPARQLWrapper.Wrapper.</code><code class="descname">INSERT</code><em class="property"> = 'INSERT'</em><a class="headerlink" href="#SPARQLWrapper.Wrapper.INSERT" title="Permalink to this definition">¶</a></dt>
+<dd><p>to be used to set the query type to <code class="docutils literal notranslate"><span class="pre">INSERT</span></code>. This is, usually, determined automatically.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="SPARQLWrapper.Wrapper.DELETE">
+<code class="descclassname">SPARQLWrapper.Wrapper.</code><code class="descname">DELETE</code><em class="property"> = 'DELETE'</em><a class="headerlink" href="#SPARQLWrapper.Wrapper.DELETE" title="Permalink to this definition">¶</a></dt>
+<dd><p>to be used to set the query type to <code class="docutils literal notranslate"><span class="pre">DELETE</span></code>. This is, usually, determined automatically.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="SPARQLWrapper.Wrapper.CREATE">
+<code class="descclassname">SPARQLWrapper.Wrapper.</code><code class="descname">CREATE</code><em class="property"> = 'CREATE'</em><a class="headerlink" href="#SPARQLWrapper.Wrapper.CREATE" title="Permalink to this definition">¶</a></dt>
+<dd><p>to be used to set the query type to <code class="docutils literal notranslate"><span class="pre">CREATE</span></code>. This is, usually, determined automatically.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="SPARQLWrapper.Wrapper.CLEAR">
+<code class="descclassname">SPARQLWrapper.Wrapper.</code><code class="descname">CLEAR</code><em class="property"> = 'CLEAR'</em><a class="headerlink" href="#SPARQLWrapper.Wrapper.CLEAR" title="Permalink to this definition">¶</a></dt>
+<dd><p>to be used to set the query type to <code class="docutils literal notranslate"><span class="pre">CLEAR</span></code>. This is, usually, determined automatically.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="SPARQLWrapper.Wrapper.DROP">
+<code class="descclassname">SPARQLWrapper.Wrapper.</code><code class="descname">DROP</code><em class="property"> = 'DROP'</em><a class="headerlink" href="#SPARQLWrapper.Wrapper.DROP" title="Permalink to this definition">¶</a></dt>
+<dd><p>to be used to set the query type to <code class="docutils literal notranslate"><span class="pre">DROP</span></code>. This is, usually, determined automatically.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="SPARQLWrapper.Wrapper.LOAD">
+<code class="descclassname">SPARQLWrapper.Wrapper.</code><code class="descname">LOAD</code><em class="property"> = 'LOAD'</em><a class="headerlink" href="#SPARQLWrapper.Wrapper.LOAD" title="Permalink to this definition">¶</a></dt>
+<dd><p>to be used to set the query type to <code class="docutils literal notranslate"><span class="pre">LOAD</span></code>. This is, usually, determined automatically.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="SPARQLWrapper.Wrapper.COPY">
+<code class="descclassname">SPARQLWrapper.Wrapper.</code><code class="descname">COPY</code><em class="property"> = 'COPY'</em><a class="headerlink" href="#SPARQLWrapper.Wrapper.COPY" title="Permalink to this definition">¶</a></dt>
+<dd><p>to be used to set the query type to <code class="docutils literal notranslate"><span class="pre">COPY</span></code>. This is, usually, determined automatically.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="SPARQLWrapper.Wrapper.MOVE">
+<code class="descclassname">SPARQLWrapper.Wrapper.</code><code class="descname">MOVE</code><em class="property"> = 'MOVE'</em><a class="headerlink" href="#SPARQLWrapper.Wrapper.MOVE" title="Permalink to this definition">¶</a></dt>
+<dd><p>to be used to set the query type to <code class="docutils literal notranslate"><span class="pre">MOVE</span></code>. This is, usually, determined automatically.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="SPARQLWrapper.Wrapper.ADD">
+<code class="descclassname">SPARQLWrapper.Wrapper.</code><code class="descname">ADD</code><em class="property"> = 'ADD'</em><a class="headerlink" href="#SPARQLWrapper.Wrapper.ADD" title="Permalink to this definition">¶</a></dt>
+<dd><p>to be used to set the query type to <code class="docutils literal notranslate"><span class="pre">ADD</span></code>. This is, usually, determined automatically.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="SPARQLWrapper.Wrapper.URLENCODED">
+<code class="descclassname">SPARQLWrapper.Wrapper.</code><code class="descname">URLENCODED</code><em class="property"> = 'urlencoded'</em><a class="headerlink" href="#SPARQLWrapper.Wrapper.URLENCODED" title="Permalink to this definition">¶</a></dt>
+<dd><p>to be used to set <strong>URL encode</strong> as the encoding method for the request. This is, usually, determined automatically.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="SPARQLWrapper.Wrapper.POSTDIRECTLY">
+<code class="descclassname">SPARQLWrapper.Wrapper.</code><code class="descname">POSTDIRECTLY</code><em class="property"> = 'postdirectly'</em><a class="headerlink" href="#SPARQLWrapper.Wrapper.POSTDIRECTLY" title="Permalink to this definition">¶</a></dt>
+<dd><p>to be used to set <strong>POST directly</strong> as the encoding method for the request. This is, usually, determined automatically.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="SPARQLWrapper.Wrapper.SPARQLWrapper">
+<em class="property">class </em><code class="descclassname">SPARQLWrapper.Wrapper.</code><code class="descname">SPARQLWrapper</code><span class="sig-paren">(</span><em>endpoint</em>, <em>updateEndpoint=None</em>, <em>returnFormat='xml'</em>, <em>defaultGraph=None</em>, <em>agent='sparqlwrapper 1.8.5 (rdflib.github.io/sparqlwrapper)'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/Wrapper.html#SPARQLWrapper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.Wrapper.SPARQLWrapper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrapper around an online access to a SPARQL Web entry point.</p>
+<p>The same class instance can be reused for subsequent queries. The values of the base Graph URI, return formats, etc,
+are retained from one query to the next (in other words, only the query string changes). The instance can also be
+reset to its initial values using the <a class="reference internal" href="#SPARQLWrapper.Wrapper.SPARQLWrapper.resetQuery" title="SPARQLWrapper.Wrapper.SPARQLWrapper.resetQuery"><code class="xref py py-meth docutils literal notranslate"><span class="pre">resetQuery()</span></code></a> method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Variables:</th><td class="field-body"><ul class="first last simple">
+<li><strong>endpoint</strong> (<em>string</em>) – SPARQL endpoint’s URI.</li>
+<li><strong>updateEndpoint</strong> (<em>string</em>) – SPARQL endpoint’s URI for SPARQL Update operations (if it’s a different one). The <strong>default</strong> value is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</li>
+<li><strong>agent</strong> (<em>string</em>) – The User-Agent for the HTTP request header. The <strong>default</strong> value is an autogenerated string using the SPARQLWrapper version code.</li>
+<li><strong>_defaultGraph</strong> (<em>string</em>) – URI for the default graph. The value can be set either via an explicit call <a class="reference internal" href="#SPARQLWrapper.Wrapper.SPARQLWrapper.addParameter" title="SPARQLWrapper.Wrapper.SPARQLWrapper.addParameter"><code class="xref py py-func docutils literal notranslate"><span class="pre">addParameter(&quot;default-graph-uri&quot;,</span> <span class="pre">uri)</span></code></a> or as part of the query string. The <strong>default</strong> value is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</li>
+<li><a class="reference external" href="https://docs.python.org/2/library/user.html#module-user" title="(in Python v2.7)"><strong>user</strong></a> (<em>string</em>) – The username of the credentials for querying the current endpoint. The value can be set an explicit call <a class="reference internal" href="#SPARQLWrapper.Wrapper.SPARQLWrapper.setCredentials" title="SPARQLWrapper.Wrapper.SPARQLWrapper.setCredentials"><code class="xref py py-func docutils literal notranslate"><span class="pre">setCredentials()</span></code></a>. The <strong>default</strong> value is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</li>
+<li><strong>passwd</strong> (<em>string</em>) – The password of the credentials for querying the current endpoint. The value can be set an explicit call <a class="reference internal" href="#SPARQLWrapper.Wrapper.SPARQLWrapper.setCredentials" title="SPARQLWrapper.Wrapper.SPARQLWrapper.setCredentials"><code class="xref py py-func docutils literal notranslate"><span class="pre">setCredentials()</span></code></a>. The <strong>default</strong> value is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</li>
+<li><strong>http_auth</strong> (<em>string</em>) – HTTP Authentication type. The <strong>default</strong> value is <a class="reference internal" href="#SPARQLWrapper.Wrapper.BASIC" title="SPARQLWrapper.Wrapper.BASIC"><code class="xref py py-data docutils literal notranslate"><span class="pre">BASIC</span></code></a>. Possible values are <a class="reference internal" href="#SPARQLWrapper.Wrapper.BASIC" title="SPARQLWrapper.Wrapper.BASIC"><code class="xref py py-data docutils literal notranslate"><span class="pre">BASIC</span></code></a> or <a class="reference internal" href="#SPARQLWrapper.Wrapper.DIGEST" title="SPARQLWrapper.Wrapper.DIGEST"><code class="xref py py-data docutils literal notranslate"><span class="pre">DIGEST</span></code></a>. It is used only in case the credentials are set.</li>
+<li><strong>onlyConneg</strong> (<em>boolean</em>) – Option for allowing (or not) <strong>only</strong> HTTP Content Negotiation (so dismiss the use of HTTP parameters). The default value is <code class="docutils literal notranslate"><span class="pre">False</span></code>.</li>
+<li><strong>customHttpHeaders</strong> (<a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) – Custom HTTP Headers to be included in the request. It is a dictionary where keys are the header field and values are the header values. <strong>Important</strong>: These headers override previous values (including <code class="docutils literal notranslate"><span class="pre">Content-Type</span></code>, <code class="docutils literal notranslate"><span class="pre">User-Agent</span></code>, <code class="docutils literal notranslate"><span class="pre">Accept</span></code> and <code class="docutils literal notranslate"><span class="pre">Authorization</span></code> if they are present).</li>
+<li><strong>timeout</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) – The timeout (in seconds) to use for querying the endpoint.</li>
+<li><strong>queryString</strong> (<em>string</em>) – The SPARQL query text.</li>
+<li><strong>queryType</strong> (<em>string</em>) – The type of SPARQL query (aka SPARQL query form), like <a class="reference internal" href="#SPARQLWrapper.Wrapper.CONSTRUCT" title="SPARQLWrapper.Wrapper.CONSTRUCT"><code class="xref py py-data docutils literal notranslate"><span class="pre">CONSTRUCT</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.SELECT" title="SPARQLWrapper.Wrapper.SELECT"><code class="xref py py-data docutils literal notranslate"><span class="pre">SELECT</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.ASK" title="SPARQLWrapper.Wrapper.ASK"><code class="xref py py-data docutils literal notranslate"><span class="pre">ASK</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.DESCRIBE" title="SPARQLWrapper.Wrapper.DESCRIBE"><code class="xref py py-data docutils literal notranslate"><span class="pre">DESCRIBE</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.INSERT" title="SPARQLWrapper.Wrapper.INSERT"><code class="xref py py-data docutils literal notranslate"><span class="pre">INSERT</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.DELETE" title="SPARQLWrapper.Wrapper.DELETE"><code class="xref py py-data docutils literal notranslate"><span class="pre">DELETE</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.CREATE" title="SPARQLWrapper.Wrapper.CREATE"><code class="xref py py-data docutils literal notranslate"><span class="pre">CREATE</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.CLEAR" title="SPARQLWrapper.Wrapper.CLEAR"><code class="xref py py-data docutils literal notranslate"><span class="pre">CLEAR</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.DROP" title="SPARQLWrapper.Wrapper.DROP"><code class="xref py py-data docutils literal notranslate"><span class="pre">DROP</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.LOAD" title="SPARQLWrapper.Wrapper.LOAD"><code class="xref py py-data docutils literal notranslate"><span class="pre">LOAD</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.COPY" title="SPARQLWrapper.Wrapper.COPY"><code class="xref py py-data docutils literal notranslate"><span class="pre">COPY</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.MOVE" title="SPARQLWrapper.Wrapper.MOVE"><code class="xref py py-data docutils literal notranslate"><span class="pre">MOVE</span></code></a> or <a class="reference internal" href="#SPARQLWrapper.Wrapper.ADD" title="SPARQLWrapper.Wrapper.ADD"><code class="xref py py-data docutils literal notranslate"><span class="pre">ADD</span></code></a> (constants in this module).</li>
+<li><strong>returnFormat</strong> (<em>string</em>) – The return format.    No local check is done, so the parameter is simply sent to the endpoint. Eg, if the value is set to <a class="reference internal" href="#SPARQLWrapper.Wrapper.JSON" title="SPARQLWrapper.Wrapper.JSON"><code class="xref py py-data docutils literal notranslate"><span class="pre">JSON</span></code></a> and a construct query is issued, it is up to the endpoint to react or not, this wrapper does not check.    The possible values are <a class="reference internal" href="#SPARQLWrapper.Wrapper.JSON" title="SPARQLWrapper.Wrapper.JSON"><code class="xref py py-data docutils literal notranslate"><span class="pre">JSON</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.XML" title="SPARQLWrapper.Wrapper.XML"><code class="xref py py-data docutils literal notranslate"><span class="pre">XML</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.TURTLE" title="SPARQLWrapper.Wrapper.TURTLE"><code class="xref py py-data docutils literal notranslate"><span class="pre">TURTLE</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.N3" title="SPARQLWrapper.Wrapper.N3"><code class="xref py py-data docutils literal notranslate"><span class="pre">N3</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.RDF" title="SPARQLWrapper.Wrapper.RDF"><code class="xref py py-data docutils literal notranslate"><span class="pre">RDF</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.RDFXML" title="SPARQLWrapper.Wrapper.RDFXML"><code class="xref py py-data docutils literal notranslate"><span class="pre">RDFXML</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.CSV" title="SPARQLWrapper.Wrapper.CSV"><code class="xref py py-data docutils literal notranslate"><span class="pre">CSV</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.TSV" title="SPARQLWrapper.Wrapper.TSV"><code class="xref py py-data docutils literal notranslate"><span class="pre">TSV</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.JSONLD" title="SPARQLWrapper.Wrapper.JSONLD"><code class="xref py py-data docutils literal notranslate"><span class="pre">JSONLD</span></code></a> (constants in this module).    The <strong>default</strong> value is <a class="reference internal" href="#SPARQLWrapper.Wrapper.XML" title="SPARQLWrapper.Wrapper.XML"><code class="xref py py-data docutils literal notranslate"><span class="pre">XML</span></code></a>.</li>
+<li><strong>requestMethod</strong> (<em>string</em>) – The request method for query or update operations. The possibles values are URL-encoded (<a class="reference internal" href="#SPARQLWrapper.Wrapper.URLENCODED" title="SPARQLWrapper.Wrapper.URLENCODED"><code class="xref py py-data docutils literal notranslate"><span class="pre">URLENCODED</span></code></a>) or POST directly (<a class="reference internal" href="#SPARQLWrapper.Wrapper.POSTDIRECTLY" title="SPARQLWrapper.Wrapper.POSTDIRECTLY"><code class="xref py py-data docutils literal notranslate"><span class="pre">POSTDIRECTLY</span></code></a>).</li>
+<li><strong>method</strong> (<em>string</em>) – The invocation method (HTTP verb).  The <strong>default</strong> value is <a class="reference internal" href="#SPARQLWrapper.Wrapper.GET" title="SPARQLWrapper.Wrapper.GET"><code class="xref py py-data docutils literal notranslate"><span class="pre">GET</span></code></a>, but it can be set to <a class="reference internal" href="#SPARQLWrapper.Wrapper.POST" title="SPARQLWrapper.Wrapper.POST"><code class="xref py py-data docutils literal notranslate"><span class="pre">POST</span></code></a>.</li>
+<li><strong>parameters</strong> (<a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) – The parameters of the request (key/value pairs in a dictionary).</li>
+<li><strong>_defaultReturnFormat</strong> (<em>string</em>) – The default return format. It is used in case the same class instance is reused for subsequent queries.</li>
+<li><strong>prefix_pattern</strong> (<a class="reference external" href="https://docs.python.org/2/library/re.html#re.RegexObject" title="(in Python v2.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">re.RegexObject</span></code></a>, a compiled regular expression. See the <a class="reference external" href="https://docs.python.org/2/library/re.html#module-re" title="(in Python v2.7)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">re</span></code></a> module of Python) – regular expression used to remove base/prefixes in the process of determining the query type.</li>
+<li><strong>pattern</strong> (<a class="reference external" href="https://docs.python.org/2/library/re.html#re.RegexObject" title="(in Python v2.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">re.RegexObject</span></code></a>, a compiled regular expression. See the <a class="reference external" href="https://docs.python.org/2/library/re.html#module-re" title="(in Python v2.7)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">re</span></code></a> module of Python) – regular expression used to determine whether a query (without base/prefixes) is of type <a class="reference internal" href="#SPARQLWrapper.Wrapper.CONSTRUCT" title="SPARQLWrapper.Wrapper.CONSTRUCT"><code class="xref py py-data docutils literal notranslate"><span class="pre">CONSTRUCT</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.SELECT" title="SPARQLWrapper.Wrapper.SELECT"><code class="xref py py-data docutils literal notranslate"><span class="pre">SELECT</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.ASK" title="SPARQLWrapper.Wrapper.ASK"><code class="xref py py-data docutils literal notranslate"><span class="pre">ASK</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.DESCRIBE" title="SPARQLWrapper.Wrapper.DESCRIBE"><code class="xref py py-data docutils literal notranslate"><span class="pre">DESCRIBE</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.INSERT" title="SPARQLWrapper.Wrapper.INSERT"><code class="xref py py-data docutils literal notranslate"><span class="pre">INSERT</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.DELETE" title="SPARQLWrapper.Wrapper.DELETE"><code class="xref py py-data docutils literal notranslate"><span class="pre">DELETE</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.CREATE" title="SPARQLWrapper.Wrapper.CREATE"><code class="xref py py-data docutils literal notranslate"><span class="pre">CREATE</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.CLEAR" title="SPARQLWrapper.Wrapper.CLEAR"><code class="xref py py-data docutils literal notranslate"><span class="pre">CLEAR</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.DROP" title="SPARQLWrapper.Wrapper.DROP"><code class="xref py py-data docutils literal notranslate"><span class="pre">DROP</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.LOAD" title="SPARQLWrapper.Wrapper.LOAD"><code class="xref py py-data docutils literal notranslate"><span class="pre">LOAD</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.COPY" title="SPARQLWrapper.Wrapper.COPY"><code class="xref py py-data docutils literal notranslate"><span class="pre">COPY</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.MOVE" title="SPARQLWrapper.Wrapper.MOVE"><code class="xref py py-data docutils literal notranslate"><span class="pre">MOVE</span></code></a> or <a class="reference internal" href="#SPARQLWrapper.Wrapper.ADD" title="SPARQLWrapper.Wrapper.ADD"><code class="xref py py-data docutils literal notranslate"><span class="pre">ADD</span></code></a>.</li>
+<li><strong>comments_pattern</strong> (<a class="reference external" href="https://docs.python.org/2/library/re.html#re.RegexObject" title="(in Python v2.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">re.RegexObject</span></code></a>, a compiled regular expression. See the <a class="reference external" href="https://docs.python.org/2/library/re.html#module-re" title="(in Python v2.7)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">re</span></code></a> module of Python) – regular expression used to remove comments from a query.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="SPARQLWrapper.Wrapper.SPARQLWrapper.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>endpoint</em>, <em>updateEndpoint=None</em>, <em>returnFormat='xml'</em>, <em>defaultGraph=None</em>, <em>agent='sparqlwrapper 1.8.5 (rdflib.github.io/sparqlwrapper)'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/Wrapper.html#SPARQLWrapper.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.Wrapper.SPARQLWrapper.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class encapsulating a full SPARQL call.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>endpoint</strong> (<em>string</em>) – SPARQL endpoint’s URI.</li>
+<li><strong>updateEndpoint</strong> (<em>string</em>) – SPARQL endpoint’s URI for update operations (if it’s a different one). The <strong>default</strong> value is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</li>
+<li><strong>returnFormat</strong> – The return format.        No local check is done, so the parameter is simply sent to the endpoint. Eg, if the value is set to <a class="reference internal" href="#SPARQLWrapper.Wrapper.JSON" title="SPARQLWrapper.Wrapper.JSON"><code class="xref py py-data docutils literal notranslate"><span class="pre">JSON</span></code></a> and a construct query is issued, it is up to the endpoint to react or not, this wrapper does not check.        The possible values are <a class="reference internal" href="#SPARQLWrapper.Wrapper.JSON" title="SPARQLWrapper.Wrapper.JSON"><code class="xref py py-data docutils literal notranslate"><span class="pre">JSON</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.XML" title="SPARQLWrapper.Wrapper.XML"><code class="xref py py-data docutils literal notranslate"><span class="pre">XML</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.TURTLE" title="SPARQLWrapper.Wrapper.TURTLE"><code class="xref py py-data docutils literal notranslate"><span class="pre">TURTLE</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.N3" title="SPARQLWrapper.Wrapper.N3"><code class="xref py py-data docutils literal notranslate"><span class="pre">N3</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.RDF" title="SPARQLWrapper.Wrapper.RDF"><code class="xref py py-data docutils literal notranslate"><span class="pre">RDF</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.RDFXML" title="SPARQLWrapper.Wrapper.RDFXML"><code class="xref py py-data docutils literal notranslate"><span class="pre">RDFXML</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.CSV" title="SPARQLWrapper.Wrapper.CSV"><code class="xref py py-data docutils literal notranslate"><span class="pre">CSV</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.TSV" title="SPARQLWrapper.Wrapper.TSV"><code class="xref py py-data docutils literal notranslate"><span class="pre">TSV</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.JSONLD" title="SPARQLWrapper.Wrapper.JSONLD"><code class="xref py py-data docutils literal notranslate"><span class="pre">JSONLD</span></code></a> (constants in this module).        The <strong>default</strong> value is <a class="reference internal" href="#SPARQLWrapper.Wrapper.XML" title="SPARQLWrapper.Wrapper.XML"><code class="xref py py-data docutils literal notranslate"><span class="pre">XML</span></code></a>.</li>
+<li><strong>defaultGraph</strong> (<em>string</em>) – URI for the default graph. The value can be set either via an explicit call <a class="reference internal" href="#SPARQLWrapper.Wrapper.SPARQLWrapper.addParameter" title="SPARQLWrapper.Wrapper.SPARQLWrapper.addParameter"><code class="xref py py-func docutils literal notranslate"><span class="pre">addParameter(&quot;default-graph-uri&quot;,</span> <span class="pre">uri)</span></code></a> or as part of the query string. The <strong>default</strong> value is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</li>
+<li><strong>agent</strong> (<em>string</em>) – The User-Agent for the HTTP request header. The <strong>default</strong> value is an autogenerated string using the SPARQLWrapper version number.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SPARQLWrapper.Wrapper.SPARQLWrapper.resetQuery">
+<code class="descname">resetQuery</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/Wrapper.html#SPARQLWrapper.resetQuery"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.Wrapper.SPARQLWrapper.resetQuery" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset the query, ie, return format, method, query, default or named graph settings, etc,
+are reset to their default values. This includes the default values for parameters, method, timeout or requestMethod.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SPARQLWrapper.Wrapper.SPARQLWrapper.setReturnFormat">
+<code class="descname">setReturnFormat</code><span class="sig-paren">(</span><em>format</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/Wrapper.html#SPARQLWrapper.setReturnFormat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.Wrapper.SPARQLWrapper.setReturnFormat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the return format. If the one set is not an allowed value, the setting is ignored.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>format</strong> (<em>string</em>) – Possible values are <a class="reference internal" href="#SPARQLWrapper.Wrapper.JSON" title="SPARQLWrapper.Wrapper.JSON"><code class="xref py py-data docutils literal notranslate"><span class="pre">JSON</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.XML" title="SPARQLWrapper.Wrapper.XML"><code class="xref py py-data docutils literal notranslate"><span class="pre">XML</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.TURTLE" title="SPARQLWrapper.Wrapper.TURTLE"><code class="xref py py-data docutils literal notranslate"><span class="pre">TURTLE</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.N3" title="SPARQLWrapper.Wrapper.N3"><code class="xref py py-data docutils literal notranslate"><span class="pre">N3</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.RDF" title="SPARQLWrapper.Wrapper.RDF"><code class="xref py py-data docutils literal notranslate"><span class="pre">RDF</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.RDFXML" title="SPARQLWrapper.Wrapper.RDFXML"><code class="xref py py-data docutils literal notranslate"><span class="pre">RDFXML</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.CSV" title="SPARQLWrapper.Wrapper.CSV"><code class="xref py py-data docutils literal notranslate"><span class="pre">CSV</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.TSV" title="SPARQLWrapper.Wrapper.TSV"><code class="xref py py-data docutils literal notranslate"><span class="pre">TSV</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.JSONLD" title="SPARQLWrapper.Wrapper.JSONLD"><code class="xref py py-data docutils literal notranslate"><span class="pre">JSONLD</span></code></a> (constants in this module). All other cases are ignored.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><strong>ValueError</strong> – If <a class="reference internal" href="#SPARQLWrapper.Wrapper.JSONLD" title="SPARQLWrapper.Wrapper.JSONLD"><code class="xref py py-data docutils literal notranslate"><span class="pre">JSONLD</span></code></a> is tried to set and the current instance does not support <code class="docutils literal notranslate"><span class="pre">JSON-LD</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SPARQLWrapper.Wrapper.SPARQLWrapper.supportsReturnFormat">
+<code class="descname">supportsReturnFormat</code><span class="sig-paren">(</span><em>format</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/Wrapper.html#SPARQLWrapper.supportsReturnFormat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.Wrapper.SPARQLWrapper.supportsReturnFormat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if a return format is supported.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>format</strong> (<em>string</em>) – Possible values are <a class="reference internal" href="#SPARQLWrapper.Wrapper.JSON" title="SPARQLWrapper.Wrapper.JSON"><code class="xref py py-data docutils literal notranslate"><span class="pre">JSON</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.XML" title="SPARQLWrapper.Wrapper.XML"><code class="xref py py-data docutils literal notranslate"><span class="pre">XML</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.TURTLE" title="SPARQLWrapper.Wrapper.TURTLE"><code class="xref py py-data docutils literal notranslate"><span class="pre">TURTLE</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.N3" title="SPARQLWrapper.Wrapper.N3"><code class="xref py py-data docutils literal notranslate"><span class="pre">N3</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.RDF" title="SPARQLWrapper.Wrapper.RDF"><code class="xref py py-data docutils literal notranslate"><span class="pre">RDF</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.RDFXML" title="SPARQLWrapper.Wrapper.RDFXML"><code class="xref py py-data docutils literal notranslate"><span class="pre">RDFXML</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.CSV" title="SPARQLWrapper.Wrapper.CSV"><code class="xref py py-data docutils literal notranslate"><span class="pre">CSV</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.TSV" title="SPARQLWrapper.Wrapper.TSV"><code class="xref py py-data docutils literal notranslate"><span class="pre">TSV</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.JSONLD" title="SPARQLWrapper.Wrapper.JSONLD"><code class="xref py py-data docutils literal notranslate"><span class="pre">JSONLD</span></code></a> (constants in this module). All other cases are ignored.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Returns <code class="docutils literal notranslate"><span class="pre">True</span></code> if the return format is supported, otherwise <code class="docutils literal notranslate"><span class="pre">False</span></code>.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)">bool</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SPARQLWrapper.Wrapper.SPARQLWrapper.setTimeout">
+<code class="descname">setTimeout</code><span class="sig-paren">(</span><em>timeout</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/Wrapper.html#SPARQLWrapper.setTimeout"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.Wrapper.SPARQLWrapper.setTimeout" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the timeout (in seconds) to use for querying the endpoint.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>timeout</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) – Timeout in seconds.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SPARQLWrapper.Wrapper.SPARQLWrapper.setOnlyConneg">
+<code class="descname">setOnlyConneg</code><span class="sig-paren">(</span><em>onlyConneg</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/Wrapper.html#SPARQLWrapper.setOnlyConneg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.Wrapper.SPARQLWrapper.setOnlyConneg" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set this option for allowing (or not) only HTTP Content Negotiation (so dismiss the use of HTTP parameters).</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 1.8.1.</span></p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>onlyConneg</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) – <code class="docutils literal notranslate"><span class="pre">True</span></code> if <strong>only</strong> HTTP Content Negotiation is allowed; <code class="docutils literal notranslate"><span class="pre">False</span></code> if HTTP parameters are used.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SPARQLWrapper.Wrapper.SPARQLWrapper.setRequestMethod">
+<code class="descname">setRequestMethod</code><span class="sig-paren">(</span><em>method</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/Wrapper.html#SPARQLWrapper.setRequestMethod"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.Wrapper.SPARQLWrapper.setRequestMethod" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the internal method to use to perform the request for query or
+update operations, either URL-encoded (<a class="reference internal" href="#SPARQLWrapper.Wrapper.URLENCODED" title="SPARQLWrapper.Wrapper.URLENCODED"><code class="xref py py-data docutils literal notranslate"><span class="pre">URLENCODED</span></code></a>) or
+POST directly (<a class="reference internal" href="#SPARQLWrapper.Wrapper.POSTDIRECTLY" title="SPARQLWrapper.Wrapper.POSTDIRECTLY"><code class="xref py py-data docutils literal notranslate"><span class="pre">POSTDIRECTLY</span></code></a>).
+Further details at <a class="reference external" href="http://www.w3.org/TR/sparql11-protocol/#query-operation">query operation in SPARQL</a>
+and <a class="reference external" href="http://www.w3.org/TR/sparql11-protocol/#update-operation">update operation in SPARQL Update</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>method</strong> (<em>string</em>) – Possible values are <a class="reference internal" href="#SPARQLWrapper.Wrapper.URLENCODED" title="SPARQLWrapper.Wrapper.URLENCODED"><code class="xref py py-data docutils literal notranslate"><span class="pre">URLENCODED</span></code></a> (URL-encoded) or <a class="reference internal" href="#SPARQLWrapper.Wrapper.POSTDIRECTLY" title="SPARQLWrapper.Wrapper.POSTDIRECTLY"><code class="xref py py-data docutils literal notranslate"><span class="pre">POSTDIRECTLY</span></code></a> (POST directly). All other cases are ignored.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SPARQLWrapper.Wrapper.SPARQLWrapper.addDefaultGraph">
+<code class="descname">addDefaultGraph</code><span class="sig-paren">(</span><em>uri</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/Wrapper.html#SPARQLWrapper.addDefaultGraph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.Wrapper.SPARQLWrapper.addDefaultGraph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a default graph URI.</p>
+<div class="deprecated">
+<p><span class="versionmodified">Deprecated since version 1.6.0: </span>Use <a class="reference internal" href="#SPARQLWrapper.Wrapper.SPARQLWrapper.addParameter" title="SPARQLWrapper.Wrapper.SPARQLWrapper.addParameter"><code class="xref py py-func docutils literal notranslate"><span class="pre">addParameter(&quot;default-graph-uri&quot;,</span> <span class="pre">uri)</span></code></a> instead of this method.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>uri</strong> (<em>string</em>) – URI of the default graph.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SPARQLWrapper.Wrapper.SPARQLWrapper.addNamedGraph">
+<code class="descname">addNamedGraph</code><span class="sig-paren">(</span><em>uri</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/Wrapper.html#SPARQLWrapper.addNamedGraph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.Wrapper.SPARQLWrapper.addNamedGraph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a named graph URI.</p>
+<div class="deprecated">
+<p><span class="versionmodified">Deprecated since version 1.6.0: </span>Use <a class="reference internal" href="#SPARQLWrapper.Wrapper.SPARQLWrapper.addParameter" title="SPARQLWrapper.Wrapper.SPARQLWrapper.addParameter"><code class="xref py py-func docutils literal notranslate"><span class="pre">addParameter(&quot;named-graph-uri&quot;,</span> <span class="pre">uri)</span></code></a> instead of this method.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>uri</strong> (<em>string</em>) – URI of the named graph.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SPARQLWrapper.Wrapper.SPARQLWrapper.addExtraURITag">
+<code class="descname">addExtraURITag</code><span class="sig-paren">(</span><em>key</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/Wrapper.html#SPARQLWrapper.addExtraURITag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.Wrapper.SPARQLWrapper.addExtraURITag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Some SPARQL endpoints require extra key value pairs.
+E.g., in virtuoso, one would add <code class="docutils literal notranslate"><span class="pre">should-sponge=soft</span></code> to the query forcing
+virtuoso to retrieve graphs that are not stored in its local database.
+Alias of <a class="reference internal" href="#SPARQLWrapper.Wrapper.SPARQLWrapper.addParameter" title="SPARQLWrapper.Wrapper.SPARQLWrapper.addParameter"><code class="xref py py-func docutils literal notranslate"><span class="pre">addParameter()</span></code></a> method.</p>
+<div class="deprecated">
+<p><span class="versionmodified">Deprecated since version 1.6.0: </span>Use <a class="reference internal" href="#SPARQLWrapper.Wrapper.SPARQLWrapper.addParameter" title="SPARQLWrapper.Wrapper.SPARQLWrapper.addParameter"><code class="xref py py-func docutils literal notranslate"><span class="pre">addParameter(key,</span> <span class="pre">value)</span></code></a> instead of this method</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>key</strong> (<em>string</em>) – key of the query part.</li>
+<li><strong>value</strong> (<em>string</em>) – value of the query part.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SPARQLWrapper.Wrapper.SPARQLWrapper.addCustomParameter">
+<code class="descname">addCustomParameter</code><span class="sig-paren">(</span><em>name</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/Wrapper.html#SPARQLWrapper.addCustomParameter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.Wrapper.SPARQLWrapper.addCustomParameter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method is kept for backwards compatibility. Historically, it “replaces” parameters instead of adding.</p>
+<div class="deprecated">
+<p><span class="versionmodified">Deprecated since version 1.6.0: </span>Use <a class="reference internal" href="#SPARQLWrapper.Wrapper.SPARQLWrapper.addParameter" title="SPARQLWrapper.Wrapper.SPARQLWrapper.addParameter"><code class="xref py py-func docutils literal notranslate"><span class="pre">addParameter(key,</span> <span class="pre">value)</span></code></a> instead of this method</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>name</strong> (<em>string</em>) – name.</li>
+<li><strong>value</strong> (<em>string</em>) – value.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Returns <code class="docutils literal notranslate"><span class="pre">True</span></code> if the adding has been accomplished, otherwise <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)">bool</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SPARQLWrapper.Wrapper.SPARQLWrapper.addParameter">
+<code class="descname">addParameter</code><span class="sig-paren">(</span><em>name</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/Wrapper.html#SPARQLWrapper.addParameter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.Wrapper.SPARQLWrapper.addParameter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Some SPARQL endpoints allow extra key value pairs.
+E.g., in virtuoso, one would add <code class="docutils literal notranslate"><span class="pre">should-sponge=soft</span></code> to the query forcing
+virtuoso to retrieve graphs that are not stored in its local database.
+If the parameter <a class="reference internal" href="#SPARQLWrapper.Wrapper.SPARQLWrapper.query" title="SPARQLWrapper.Wrapper.SPARQLWrapper.query"><code class="xref py py-attr docutils literal notranslate"><span class="pre">query</span></code></a> is tried to be set, this intent is dismissed.
+Returns a boolean indicating if the set has been accomplished.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>name</strong> (<em>string</em>) – name.</li>
+<li><strong>value</strong> (<em>string</em>) – value.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Returns <code class="docutils literal notranslate"><span class="pre">True</span></code> if the adding has been accomplished, otherwise <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)">bool</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SPARQLWrapper.Wrapper.SPARQLWrapper.addCustomHttpHeader">
+<code class="descname">addCustomHttpHeader</code><span class="sig-paren">(</span><em>httpHeaderName</em>, <em>httpHeaderValue</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/Wrapper.html#SPARQLWrapper.addCustomHttpHeader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.Wrapper.SPARQLWrapper.addCustomHttpHeader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a custom HTTP header (this method can override all HTTP headers).</p>
+<p><strong>Important</strong>: Take into account that each previous value for the header field names
+<code class="docutils literal notranslate"><span class="pre">Content-Type</span></code>, <code class="docutils literal notranslate"><span class="pre">User-Agent</span></code>, <code class="docutils literal notranslate"><span class="pre">Accept</span></code> and <code class="docutils literal notranslate"><span class="pre">Authorization</span></code> would be overriden
+if the header field name is present as value of the parameter <code class="xref py py-attr docutils literal notranslate"><span class="pre">httpHeaderName</span></code>.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 1.8.2.</span></p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>httpHeaderName</strong> (<em>string</em>) – The header field name.</li>
+<li><strong>httpHeaderValue</strong> (<em>string</em>) – The header field value.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SPARQLWrapper.Wrapper.SPARQLWrapper.clearCustomHttpHeader">
+<code class="descname">clearCustomHttpHeader</code><span class="sig-paren">(</span><em>httpHeaderName</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/Wrapper.html#SPARQLWrapper.clearCustomHttpHeader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.Wrapper.SPARQLWrapper.clearCustomHttpHeader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear the values of a custom HTTP Header previously set.
+Returns a boolean indicating if the clearing has been accomplished.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 1.8.2.</span></p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>httpHeaderName</strong> (<em>string</em>) – HTTP header name.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Returns <code class="docutils literal notranslate"><span class="pre">True</span></code> if the clearing has been accomplished, otherwise <code class="docutils literal notranslate"><span class="pre">False</span></code>.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)">bool</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SPARQLWrapper.Wrapper.SPARQLWrapper.clearParameter">
+<code class="descname">clearParameter</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/Wrapper.html#SPARQLWrapper.clearParameter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.Wrapper.SPARQLWrapper.clearParameter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear the values of a concrete parameter.
+Returns a boolean indicating if the clearing has been accomplished.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> (<em>string</em>) – name</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Returns <code class="docutils literal notranslate"><span class="pre">True</span></code> if the clearing has been accomplished, otherwise <code class="docutils literal notranslate"><span class="pre">False</span></code>.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)">bool</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SPARQLWrapper.Wrapper.SPARQLWrapper.setCredentials">
+<code class="descname">setCredentials</code><span class="sig-paren">(</span><em>user</em>, <em>passwd</em>, <em>realm='SPARQL'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/Wrapper.html#SPARQLWrapper.setCredentials"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.Wrapper.SPARQLWrapper.setCredentials" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the credentials for querying the current endpoint.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>user</strong> (<em>string</em>) – username.</li>
+<li><strong>passwd</strong> (<em>string</em>) – password.</li>
+<li><strong>realm</strong> (<em>string</em>) – realm. Only used for <a class="reference internal" href="#SPARQLWrapper.Wrapper.DIGEST" title="SPARQLWrapper.Wrapper.DIGEST"><code class="xref py py-data docutils literal notranslate"><span class="pre">DIGEST</span></code></a> authentication. The <strong>default</strong> value is <code class="docutils literal notranslate"><span class="pre">SPARQL</span></code></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 1.8.3: </span>Added <code class="xref py py-attr docutils literal notranslate"><span class="pre">realm</span></code> parameter.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="SPARQLWrapper.Wrapper.SPARQLWrapper.setHTTPAuth">
+<code class="descname">setHTTPAuth</code><span class="sig-paren">(</span><em>auth</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/Wrapper.html#SPARQLWrapper.setHTTPAuth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.Wrapper.SPARQLWrapper.setHTTPAuth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the HTTP Authentication type. Possible values are <a class="reference internal" href="#SPARQLWrapper.Wrapper.BASIC" title="SPARQLWrapper.Wrapper.BASIC"><code class="xref py py-class docutils literal notranslate"><span class="pre">BASIC</span></code></a> or <a class="reference internal" href="#SPARQLWrapper.Wrapper.DIGEST" title="SPARQLWrapper.Wrapper.DIGEST"><code class="xref py py-class docutils literal notranslate"><span class="pre">DIGEST</span></code></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>auth</strong> (<em>string</em>) – auth type.</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
+<li><strong>TypeError</strong> – If the <code class="xref py py-attr docutils literal notranslate"><span class="pre">auth</span></code> parameter is not an string.</li>
+<li><strong>ValueError</strong> – If the <code class="xref py py-attr docutils literal notranslate"><span class="pre">auth</span></code> parameter has not one of the valid values: <a class="reference internal" href="#SPARQLWrapper.Wrapper.BASIC" title="SPARQLWrapper.Wrapper.BASIC"><code class="xref py py-class docutils literal notranslate"><span class="pre">BASIC</span></code></a> or <a class="reference internal" href="#SPARQLWrapper.Wrapper.DIGEST" title="SPARQLWrapper.Wrapper.DIGEST"><code class="xref py py-class docutils literal notranslate"><span class="pre">DIGEST</span></code></a>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SPARQLWrapper.Wrapper.SPARQLWrapper.setQuery">
+<code class="descname">setQuery</code><span class="sig-paren">(</span><em>query</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/Wrapper.html#SPARQLWrapper.setQuery"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.Wrapper.SPARQLWrapper.setQuery" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the SPARQL query text.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">No check is done on the validity of the query
+(syntax or otherwise) by this module, except for testing the query type (SELECT,
+ASK, etc). Syntax and validity checking is done by the SPARQL service itself.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>query</strong> (<em>string</em>) – query text.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><strong>TypeError</strong> – If the <a class="reference internal" href="#SPARQLWrapper.Wrapper.SPARQLWrapper.query" title="SPARQLWrapper.Wrapper.SPARQLWrapper.query"><code class="xref py py-attr docutils literal notranslate"><span class="pre">query</span></code></a> parameter is not an unicode-string or utf-8 encoded byte-string.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SPARQLWrapper.Wrapper.SPARQLWrapper._parseQueryType">
+<code class="descname">_parseQueryType</code><span class="sig-paren">(</span><em>query</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/Wrapper.html#SPARQLWrapper._parseQueryType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.Wrapper.SPARQLWrapper._parseQueryType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Internal method for parsing the SPARQL query and return its type (ie, <a class="reference internal" href="#SPARQLWrapper.Wrapper.SELECT" title="SPARQLWrapper.Wrapper.SELECT"><code class="xref py py-data docutils literal notranslate"><span class="pre">SELECT</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.ASK" title="SPARQLWrapper.Wrapper.ASK"><code class="xref py py-data docutils literal notranslate"><span class="pre">ASK</span></code></a>, etc).</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The method returns <a class="reference internal" href="#SPARQLWrapper.Wrapper.SELECT" title="SPARQLWrapper.Wrapper.SELECT"><code class="xref py py-data docutils literal notranslate"><span class="pre">SELECT</span></code></a> if nothing is specified. This is just to get all other
+methods running; in fact, this means that the query is erroneous, because the query must be,
+according to the SPARQL specification. The
+SPARQL endpoint should raise an exception (via <a class="reference external" href="https://docs.python.org/2/library/urllib.html#module-urllib" title="(in Python v2.7)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">urllib</span></code></a>) for such syntax error.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>query</strong> (<em>string</em>) – query text.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the type of SPARQL query (aka SPARQL query form).</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">string</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SPARQLWrapper.Wrapper.SPARQLWrapper.setMethod">
+<code class="descname">setMethod</code><span class="sig-paren">(</span><em>method</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/Wrapper.html#SPARQLWrapper.setMethod"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.Wrapper.SPARQLWrapper.setMethod" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the invocation method. By default, this is <a class="reference internal" href="#SPARQLWrapper.Wrapper.GET" title="SPARQLWrapper.Wrapper.GET"><code class="xref py py-data docutils literal notranslate"><span class="pre">GET</span></code></a>, but can be set to <a class="reference internal" href="#SPARQLWrapper.Wrapper.POST" title="SPARQLWrapper.Wrapper.POST"><code class="xref py py-data docutils literal notranslate"><span class="pre">POST</span></code></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>method</strong> (<em>string</em>) – should be either <a class="reference internal" href="#SPARQLWrapper.Wrapper.GET" title="SPARQLWrapper.Wrapper.GET"><code class="xref py py-data docutils literal notranslate"><span class="pre">GET</span></code></a> or <a class="reference internal" href="#SPARQLWrapper.Wrapper.POST" title="SPARQLWrapper.Wrapper.POST"><code class="xref py py-data docutils literal notranslate"><span class="pre">POST</span></code></a>. Other cases are ignored.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SPARQLWrapper.Wrapper.SPARQLWrapper.setUseKeepAlive">
+<code class="descname">setUseKeepAlive</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/Wrapper.html#SPARQLWrapper.setUseKeepAlive"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.Wrapper.SPARQLWrapper.setUseKeepAlive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make <a class="reference external" href="https://docs.python.org/2/library/urllib2.html#module-urllib2" title="(in Python v2.7)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">urllib2</span></code></a> use keep-alive.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><strong>ImportError</strong> – when could not be imported <code class="docutils literal notranslate"><span class="pre">keepalive.HTTPHandler</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SPARQLWrapper.Wrapper.SPARQLWrapper.isSparqlUpdateRequest">
+<code class="descname">isSparqlUpdateRequest</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/Wrapper.html#SPARQLWrapper.isSparqlUpdateRequest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.Wrapper.SPARQLWrapper.isSparqlUpdateRequest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns <code class="docutils literal notranslate"><span class="pre">True</span></code> if SPARQLWrapper is configured for executing SPARQL Update request.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Returns <code class="docutils literal notranslate"><span class="pre">True</span></code> if SPARQLWrapper is configured for executing SPARQL Update request.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)">bool</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SPARQLWrapper.Wrapper.SPARQLWrapper.isSparqlQueryRequest">
+<code class="descname">isSparqlQueryRequest</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/Wrapper.html#SPARQLWrapper.isSparqlQueryRequest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.Wrapper.SPARQLWrapper.isSparqlQueryRequest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns <code class="docutils literal notranslate"><span class="pre">True</span></code> if SPARQLWrapper is configured for executing SPARQL Query request.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Returns <code class="docutils literal notranslate"><span class="pre">True</span></code> if SPARQLWrapper is configured for executing SPARQL Query request.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)">bool</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SPARQLWrapper.Wrapper.SPARQLWrapper._cleanComments">
+<code class="descname">_cleanComments</code><span class="sig-paren">(</span><em>query</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/Wrapper.html#SPARQLWrapper._cleanComments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.Wrapper.SPARQLWrapper._cleanComments" title="Permalink to this definition">¶</a></dt>
+<dd><p>Internal method for returning the query after all occurrence of singleline comments are removed (issues #32 and #77).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>query</strong> (<em>string</em>) – The query.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the query after all occurrence of singleline comments are removed.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">string</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SPARQLWrapper.Wrapper.SPARQLWrapper._getRequestEncodedParameters">
+<code class="descname">_getRequestEncodedParameters</code><span class="sig-paren">(</span><em>query=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/Wrapper.html#SPARQLWrapper._getRequestEncodedParameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.Wrapper.SPARQLWrapper._getRequestEncodedParameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Internal method for getting the request encoded parameters.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>query</strong> (<em>tuple</em>) – a tuple of two items. The first item can be the string         <code class="docutils literal notranslate"><span class="pre">query</span></code> (for <a class="reference internal" href="#SPARQLWrapper.Wrapper.SELECT" title="SPARQLWrapper.Wrapper.SELECT"><code class="xref py py-data docutils literal notranslate"><span class="pre">SELECT</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.DESCRIBE" title="SPARQLWrapper.Wrapper.DESCRIBE"><code class="xref py py-data docutils literal notranslate"><span class="pre">DESCRIBE</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.ASK" title="SPARQLWrapper.Wrapper.ASK"><code class="xref py py-data docutils literal notranslate"><span class="pre">ASK</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.CONSTRUCT" title="SPARQLWrapper.Wrapper.CONSTRUCT"><code class="xref py py-data docutils literal notranslate"><span class="pre">CONSTRUCT</span></code></a> query) or the string <code class="docutils literal notranslate"><span class="pre">update</span></code>         (for SPARQL Update queries, like <a class="reference internal" href="#SPARQLWrapper.Wrapper.DELETE" title="SPARQLWrapper.Wrapper.DELETE"><code class="xref py py-data docutils literal notranslate"><span class="pre">DELETE</span></code></a> or <a class="reference internal" href="#SPARQLWrapper.Wrapper.INSERT" title="SPARQLWrapper.Wrapper.INSERT"><code class="xref py py-data docutils literal notranslate"><span class="pre">INSERT</span></code></a>). The second item of the tuple         is the query string itself.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the request encoded parameters.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">string</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SPARQLWrapper.Wrapper.SPARQLWrapper._getAcceptHeader">
+<code class="descname">_getAcceptHeader</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/Wrapper.html#SPARQLWrapper._getAcceptHeader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.Wrapper.SPARQLWrapper._getAcceptHeader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Internal method for getting the HTTP Accept Header.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference external" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.1">Hypertext Transfer Protocol – HTTP/1.1 - Header Field Definitions</a></p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="SPARQLWrapper.Wrapper.SPARQLWrapper._createRequest">
+<code class="descname">_createRequest</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/Wrapper.html#SPARQLWrapper._createRequest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.Wrapper.SPARQLWrapper._createRequest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Internal method to create request according a HTTP method. Returns a
+<a class="reference external" href="https://docs.python.org/2/library/urllib2.html#urllib2.Request" title="(in Python v2.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">urllib2.Request</span></code></a> object of the <a class="reference external" href="https://docs.python.org/2/library/urllib2.html#module-urllib2" title="(in Python v2.7)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">urllib2</span></code></a> Python library</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><strong>NotImplementedError</strong> – If the HTTP authentification method is not one of the valid values: <a class="reference internal" href="#SPARQLWrapper.Wrapper.BASIC" title="SPARQLWrapper.Wrapper.BASIC"><code class="xref py py-data docutils literal notranslate"><span class="pre">BASIC</span></code></a> or <a class="reference internal" href="#SPARQLWrapper.Wrapper.DIGEST" title="SPARQLWrapper.Wrapper.DIGEST"><code class="xref py py-data docutils literal notranslate"><span class="pre">DIGEST</span></code></a>.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">request a <a class="reference external" href="https://docs.python.org/2/library/urllib2.html#urllib2.Request" title="(in Python v2.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">urllib2.Request</span></code></a> object of the <a class="reference external" href="https://docs.python.org/2/library/urllib2.html#module-urllib2" title="(in Python v2.7)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">urllib2</span></code></a> Python library</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SPARQLWrapper.Wrapper.SPARQLWrapper._query">
+<code class="descname">_query</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/Wrapper.html#SPARQLWrapper._query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.Wrapper.SPARQLWrapper._query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Internal method to execute the query. Returns the output of the
+<a class="reference external" href="https://docs.python.org/2/library/urllib2.html#urllib2.urlopen" title="(in Python v2.7)"><code class="xref py py-func docutils literal notranslate"><span class="pre">urllib2.urlopen()</span></code></a> method of the <a class="reference external" href="https://docs.python.org/2/library/urllib2.html#module-urllib2" title="(in Python v2.7)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">urllib2</span></code></a> Python library</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">tuples with the raw request plus the expected format.</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
+<li><a class="reference internal" href="SPARQLWrapper.SPARQLExceptions.html#SPARQLWrapper.SPARQLExceptions.QueryBadFormed" title="SPARQLWrapper.SPARQLExceptions.QueryBadFormed"><strong>QueryBadFormed</strong></a> – If the HTTP return code is <code class="docutils literal notranslate"><span class="pre">400</span></code>.</li>
+<li><a class="reference internal" href="SPARQLWrapper.SPARQLExceptions.html#SPARQLWrapper.SPARQLExceptions.Unauthorized" title="SPARQLWrapper.SPARQLExceptions.Unauthorized"><strong>Unauthorized</strong></a> – If the HTTP return code is <code class="docutils literal notranslate"><span class="pre">401</span></code>.</li>
+<li><a class="reference internal" href="SPARQLWrapper.SPARQLExceptions.html#SPARQLWrapper.SPARQLExceptions.EndPointNotFound" title="SPARQLWrapper.SPARQLExceptions.EndPointNotFound"><strong>EndPointNotFound</strong></a> – If the HTTP return code is <code class="docutils literal notranslate"><span class="pre">404</span></code>.</li>
+<li><a class="reference internal" href="SPARQLWrapper.SPARQLExceptions.html#SPARQLWrapper.SPARQLExceptions.URITooLong" title="SPARQLWrapper.SPARQLExceptions.URITooLong"><strong>URITooLong</strong></a> – If the HTTP return code is <code class="docutils literal notranslate"><span class="pre">414</span></code>.</li>
+<li><a class="reference internal" href="SPARQLWrapper.SPARQLExceptions.html#SPARQLWrapper.SPARQLExceptions.EndPointInternalError" title="SPARQLWrapper.SPARQLExceptions.EndPointInternalError"><strong>EndPointInternalError</strong></a> – If the HTTP return code is <code class="docutils literal notranslate"><span class="pre">500</span></code>.</li>
+<li><a class="reference external" href="https://docs.python.org/2/library/urllib2.html#urllib2.HTTPError" title="(in Python v2.7)"><strong>urllib2.HTTPError</strong></a> – If the HTTP return code is different to <code class="docutils literal notranslate"><span class="pre">400</span></code>, <code class="docutils literal notranslate"><span class="pre">401</span></code>, <code class="docutils literal notranslate"><span class="pre">404</span></code>, <code class="docutils literal notranslate"><span class="pre">414</span></code>, <code class="docutils literal notranslate"><span class="pre">500</span></code>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SPARQLWrapper.Wrapper.SPARQLWrapper.query">
+<code class="descname">query</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/Wrapper.html#SPARQLWrapper.query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.Wrapper.SPARQLWrapper.query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute the query.
+Exceptions can be raised if either the URI is wrong or the HTTP sends back an error (this is also the
+case when the query is syntactically incorrect, leading to an HTTP error sent back by the SPARQL endpoint).
+The usual urllib2 exceptions are raised, which therefore cover possible SPARQL errors, too.</p>
+<p>Note that some combinations of return formats and query types may not make sense. For example,
+a SELECT query with Turtle response is meaningless (the output of a SELECT is not a Graph), or a CONSTRUCT
+query with JSON output may be a problem because, at the moment, there is no accepted JSON serialization
+of RDF (let alone one implemented by SPARQL endpoints). In such cases the returned media type of the result is
+unpredictable and may differ from one SPARQL endpoint implementation to the other. (Endpoints usually fall
+back to one of the “meaningful” formats, but it is up to the specific implementation to choose which
+one that is.)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">query result</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#SPARQLWrapper.Wrapper.QueryResult" title="SPARQLWrapper.Wrapper.QueryResult"><code class="xref py py-class docutils literal notranslate"><span class="pre">QueryResult</span></code></a> instance</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SPARQLWrapper.Wrapper.SPARQLWrapper.queryAndConvert">
+<code class="descname">queryAndConvert</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/Wrapper.html#SPARQLWrapper.queryAndConvert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.Wrapper.SPARQLWrapper.queryAndConvert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Macro like method: issue a query and return the converted results.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the converted query result. See the conversion methods for more details.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="SPARQLWrapper.Wrapper.QueryResult">
+<em class="property">class </em><code class="descclassname">SPARQLWrapper.Wrapper.</code><code class="descname">QueryResult</code><span class="sig-paren">(</span><em>result</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/Wrapper.html#QueryResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.Wrapper.QueryResult" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrapper around an a query result. Users should not create instances of this class, it is
+generated by a <a class="reference internal" href="#SPARQLWrapper.Wrapper.SPARQLWrapper.query" title="SPARQLWrapper.Wrapper.SPARQLWrapper.query"><code class="xref py py-func docutils literal notranslate"><span class="pre">SPARQLWrapper.query()</span></code></a> call. The results can be
+converted to various formats, or used directly.</p>
+<p>If used directly: the class gives access to the direct HTTP request results
+<code class="docutils literal notranslate"><span class="pre">response</span></code> obtained from the call to <a class="reference external" href="https://docs.python.org/2/library/urllib.html#urllib.urlopen" title="(in Python v2.7)"><code class="xref py py-func docutils literal notranslate"><span class="pre">urllib.urlopen()</span></code></a>.
+It is a file-like object with two additional methods:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">geturl()</span></code> to return the URL of the resource retrieved</li>
+<li><code class="docutils literal notranslate"><span class="pre">info()</span></code> that returns the meta-information of the HTTP result as a dictionary-like object.</li>
+</ul>
+<p>For convenience, these methods are also available on the <a class="reference internal" href="#SPARQLWrapper.Wrapper.QueryResult" title="SPARQLWrapper.Wrapper.QueryResult"><code class="xref py py-class docutils literal notranslate"><span class="pre">QueryResult</span></code></a> instance.</p>
+<p>The <code class="xref py py-func docutils literal notranslate"><span class="pre">__iter__()</span></code> and <a class="reference internal" href="#SPARQLWrapper.Wrapper.QueryResult.next" title="SPARQLWrapper.Wrapper.QueryResult.next"><code class="xref py py-func docutils literal notranslate"><span class="pre">next()</span></code></a> methods are also implemented (by mapping them to <code class="xref py py-attr docutils literal notranslate"><span class="pre">response</span></code>). This means that the
+common idiom <code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">l</span> <span class="pre">in</span> <span class="pre">obj</span> <span class="pre">:</span> <span class="pre">do_something_with_line(l)</span></code> would work, too.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Variables:</th><td class="field-body"><ul class="first last simple">
+<li><strong>response</strong> – the direct HTTP response; a file-like object, as return by the <a class="reference external" href="https://docs.python.org/2/library/urllib2.html#urllib2.urlopen" title="(in Python v2.7)"><code class="xref py py-func docutils literal notranslate"><span class="pre">urllib2.urlopen()</span></code></a> library call.</li>
+<li><strong>requestedFormat</strong> – The requested format. The possible values are: <a class="reference internal" href="#SPARQLWrapper.Wrapper.JSON" title="SPARQLWrapper.Wrapper.JSON"><code class="xref py py-data docutils literal notranslate"><span class="pre">JSON</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.XML" title="SPARQLWrapper.Wrapper.XML"><code class="xref py py-data docutils literal notranslate"><span class="pre">XML</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.RDFXML" title="SPARQLWrapper.Wrapper.RDFXML"><code class="xref py py-data docutils literal notranslate"><span class="pre">RDFXML</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.TURTLE" title="SPARQLWrapper.Wrapper.TURTLE"><code class="xref py py-data docutils literal notranslate"><span class="pre">TURTLE</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.N3" title="SPARQLWrapper.Wrapper.N3"><code class="xref py py-data docutils literal notranslate"><span class="pre">N3</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.RDF" title="SPARQLWrapper.Wrapper.RDF"><code class="xref py py-data docutils literal notranslate"><span class="pre">RDF</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.CSV" title="SPARQLWrapper.Wrapper.CSV"><code class="xref py py-data docutils literal notranslate"><span class="pre">CSV</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.TSV" title="SPARQLWrapper.Wrapper.TSV"><code class="xref py py-data docutils literal notranslate"><span class="pre">TSV</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.JSONLD" title="SPARQLWrapper.Wrapper.JSONLD"><code class="xref py py-data docutils literal notranslate"><span class="pre">JSONLD</span></code></a>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="SPARQLWrapper.Wrapper.QueryResult.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>result</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/Wrapper.html#QueryResult.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.Wrapper.QueryResult.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>result</strong> – HTTP response stemming from a <a class="reference internal" href="#SPARQLWrapper.Wrapper.SPARQLWrapper.query" title="SPARQLWrapper.Wrapper.SPARQLWrapper.query"><code class="xref py py-func docutils literal notranslate"><span class="pre">SPARQLWrapper.query()</span></code></a> call, or a tuple with the expected format: (response, format).</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SPARQLWrapper.Wrapper.QueryResult.geturl">
+<code class="descname">geturl</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/Wrapper.html#QueryResult.geturl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.Wrapper.QueryResult.geturl" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the URL of the original call.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">URL of the original call.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">string</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SPARQLWrapper.Wrapper.QueryResult.info">
+<code class="descname">info</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/Wrapper.html#QueryResult.info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.Wrapper.QueryResult.info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the meta-information of the HTTP result.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">meta-information of the HTTP result.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)">dict</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SPARQLWrapper.Wrapper.QueryResult.next">
+<code class="descname">next</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/Wrapper.html#QueryResult.next"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.Wrapper.QueryResult.next" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method for the standard iterator.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SPARQLWrapper.Wrapper.QueryResult._convertJSON">
+<code class="descname">_convertJSON</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/Wrapper.html#QueryResult._convertJSON"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.Wrapper.QueryResult._convertJSON" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a JSON result into a Python dict. This method can be overwritten in a subclass
+for a different conversion method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">converted result.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)">dict</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SPARQLWrapper.Wrapper.QueryResult._convertXML">
+<code class="descname">_convertXML</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/Wrapper.html#QueryResult._convertXML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.Wrapper.QueryResult._convertXML" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert an XML result into a Python dom tree. This method can be overwritten in a
+subclass for a different conversion method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">converted result.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal notranslate"><span class="pre">xml.dom.minidom.Document</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SPARQLWrapper.Wrapper.QueryResult._convertRDF">
+<code class="descname">_convertRDF</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/Wrapper.html#QueryResult._convertRDF"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.Wrapper.QueryResult._convertRDF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a RDF/XML result into an RDFLib Graph. This method can be overwritten
+in a subclass for a different conversion method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">converted result.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal notranslate"><span class="pre">rdflib.graph.Graph</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SPARQLWrapper.Wrapper.QueryResult._convertN3">
+<code class="descname">_convertN3</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/Wrapper.html#QueryResult._convertN3"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.Wrapper.QueryResult._convertN3" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a RDF Turtle/N3 result into a string. This method can be overwritten in a subclass
+for a different conversion method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">converted result.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">string</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SPARQLWrapper.Wrapper.QueryResult._convertCSV">
+<code class="descname">_convertCSV</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/Wrapper.html#QueryResult._convertCSV"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.Wrapper.QueryResult._convertCSV" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a CSV result into a string. This method can be overwritten in a subclass
+for a different conversion method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">converted result.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">string</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SPARQLWrapper.Wrapper.QueryResult._convertTSV">
+<code class="descname">_convertTSV</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/Wrapper.html#QueryResult._convertTSV"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.Wrapper.QueryResult._convertTSV" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a TSV result into a string. This method can be overwritten in a subclass
+for a different conversion method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">converted result.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">string</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SPARQLWrapper.Wrapper.QueryResult._convertJSONLD">
+<code class="descname">_convertJSONLD</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/Wrapper.html#QueryResult._convertJSONLD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.Wrapper.QueryResult._convertJSONLD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a RDF JSON-LD result into an RDFLib Graph. This method can be overwritten
+in a subclass for a different conversion method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">converted result</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal notranslate"><span class="pre">rdflib.graph.Graph</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SPARQLWrapper.Wrapper.QueryResult.convert">
+<code class="descname">convert</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/Wrapper.html#QueryResult.convert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.Wrapper.QueryResult.convert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encode the return value depending on the return format:</p>
+<blockquote>
+<div><ul class="simple">
+<li>in the case of <a class="reference internal" href="#SPARQLWrapper.Wrapper.XML" title="SPARQLWrapper.Wrapper.XML"><code class="xref py py-data docutils literal notranslate"><span class="pre">XML</span></code></a>, a DOM top element is returned</li>
+<li>in the case of <a class="reference internal" href="#SPARQLWrapper.Wrapper.JSON" title="SPARQLWrapper.Wrapper.JSON"><code class="xref py py-data docutils literal notranslate"><span class="pre">JSON</span></code></a>, a json conversion will return a dictionary</li>
+<li>in the case of <a class="reference internal" href="#SPARQLWrapper.Wrapper.RDFXML" title="SPARQLWrapper.Wrapper.RDFXML"><code class="xref py py-data docutils literal notranslate"><span class="pre">RDF/XML</span></code></a>, the value is converted via RDFLib into a <code class="docutils literal notranslate"><span class="pre">RDFLib</span> <span class="pre">Graph</span></code> instance</li>
+<li>in the case of <a class="reference internal" href="#SPARQLWrapper.Wrapper.JSONLD" title="SPARQLWrapper.Wrapper.JSONLD"><code class="xref py py-data docutils literal notranslate"><span class="pre">JSON-LD</span></code></a>, the value is converted via RDFLib into a <code class="docutils literal notranslate"><span class="pre">RDFLib</span> <span class="pre">Graph</span></code> instance</li>
+<li>in the case of RDF <a class="reference internal" href="#SPARQLWrapper.Wrapper.TURTLE" title="SPARQLWrapper.Wrapper.TURTLE"><code class="xref py py-data docutils literal notranslate"><span class="pre">Turtle</span></code></a>/<a class="reference internal" href="#SPARQLWrapper.Wrapper.N3" title="SPARQLWrapper.Wrapper.N3"><code class="xref py py-data docutils literal notranslate"><span class="pre">N3</span></code></a>, a string is returned</li>
+<li>in the case of <a class="reference internal" href="#SPARQLWrapper.Wrapper.CSV" title="SPARQLWrapper.Wrapper.CSV"><code class="xref py py-data docutils literal notranslate"><span class="pre">CSV</span></code></a>/<a class="reference internal" href="#SPARQLWrapper.Wrapper.TSV" title="SPARQLWrapper.Wrapper.TSV"><code class="xref py py-data docutils literal notranslate"><span class="pre">TSV</span></code></a>, a string is returned</li>
+<li>In all other cases the input simply returned.</li>
+</ul>
+</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the converted query result. See the conversion methods for more details.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SPARQLWrapper.Wrapper.QueryResult._get_responseFormat">
+<code class="descname">_get_responseFormat</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/Wrapper.html#QueryResult._get_responseFormat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.Wrapper.QueryResult._get_responseFormat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the response (return) format. The possible values are: <a class="reference internal" href="#SPARQLWrapper.Wrapper.JSON" title="SPARQLWrapper.Wrapper.JSON"><code class="xref py py-data docutils literal notranslate"><span class="pre">JSON</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.XML" title="SPARQLWrapper.Wrapper.XML"><code class="xref py py-data docutils literal notranslate"><span class="pre">XML</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.RDFXML" title="SPARQLWrapper.Wrapper.RDFXML"><code class="xref py py-data docutils literal notranslate"><span class="pre">RDFXML</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.TURTLE" title="SPARQLWrapper.Wrapper.TURTLE"><code class="xref py py-data docutils literal notranslate"><span class="pre">TURTLE</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.N3" title="SPARQLWrapper.Wrapper.N3"><code class="xref py py-data docutils literal notranslate"><span class="pre">N3</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.CSV" title="SPARQLWrapper.Wrapper.CSV"><code class="xref py py-data docutils literal notranslate"><span class="pre">CSV</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.TSV" title="SPARQLWrapper.Wrapper.TSV"><code class="xref py py-data docutils literal notranslate"><span class="pre">TSV</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.JSONLD" title="SPARQLWrapper.Wrapper.JSONLD"><code class="xref py py-data docutils literal notranslate"><span class="pre">JSONLD</span></code></a>.
+In case there is no Content-Type, <code class="docutils literal notranslate"><span class="pre">None</span></code> is return. In all other cases, the raw Content-Type is return.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 1.8.3.</span></p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the response format. The possible values are: <a class="reference internal" href="#SPARQLWrapper.Wrapper.JSON" title="SPARQLWrapper.Wrapper.JSON"><code class="xref py py-data docutils literal notranslate"><span class="pre">JSON</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.XML" title="SPARQLWrapper.Wrapper.XML"><code class="xref py py-data docutils literal notranslate"><span class="pre">XML</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.RDFXML" title="SPARQLWrapper.Wrapper.RDFXML"><code class="xref py py-data docutils literal notranslate"><span class="pre">RDFXML</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.TURTLE" title="SPARQLWrapper.Wrapper.TURTLE"><code class="xref py py-data docutils literal notranslate"><span class="pre">TURTLE</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.N3" title="SPARQLWrapper.Wrapper.N3"><code class="xref py py-data docutils literal notranslate"><span class="pre">N3</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.CSV" title="SPARQLWrapper.Wrapper.CSV"><code class="xref py py-data docutils literal notranslate"><span class="pre">CSV</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.TSV" title="SPARQLWrapper.Wrapper.TSV"><code class="xref py py-data docutils literal notranslate"><span class="pre">TSV</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.Wrapper.JSONLD" title="SPARQLWrapper.Wrapper.JSONLD"><code class="xref py py-data docutils literal notranslate"><span class="pre">JSONLD</span></code></a>.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">string</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SPARQLWrapper.Wrapper.QueryResult.print_results">
+<code class="descname">print_results</code><span class="sig-paren">(</span><em>minWidth=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/Wrapper.html#QueryResult.print_results"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.Wrapper.QueryResult.print_results" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method prints a representation of a <a class="reference internal" href="#SPARQLWrapper.Wrapper.QueryResult" title="SPARQLWrapper.Wrapper.QueryResult"><code class="xref py py-class docutils literal notranslate"><span class="pre">QueryResult</span></code></a> object that MUST has as response format <a class="reference internal" href="#SPARQLWrapper.Wrapper.JSON" title="SPARQLWrapper.Wrapper.JSON"><code class="xref py py-data docutils literal notranslate"><span class="pre">JSON</span></code></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>minWidth</strong> (<em>string</em>) – The minimum width, counting as characters. The default value is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="SPARQLWrapper.SmartWrapper.html" class="btn btn-neutral float-right" title="SPARQLWrapper.SmartWrapper module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="modules.html" class="btn btn-neutral float-left" title="SPARQLWrapper package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

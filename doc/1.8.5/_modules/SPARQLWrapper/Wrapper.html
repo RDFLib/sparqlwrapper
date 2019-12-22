@@ -1,0 +1,1730 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>SPARQLWrapper.Wrapper &mdash; SPARQLWrapper  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> SPARQLWrapper
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.8.5
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Basic steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../main.html">SPARQL Endpoint interface to Python</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../main.html#about">About</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../main.html#installation-distribution">Installation &amp; Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../main.html#how-to-use">How to use</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../main.html#first-steps">First steps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../main.html#select-example">SELECT example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../main.html#ask-example">ASK example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../main.html#construct-example">CONSTRUCT example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../main.html#describe-example">DESCRIBE example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../main.html#sparql-update-example">SPARQL UPDATE example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../main.html#sparqlwrapper2-example">SPARQLWrapper2 example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../main.html#return-formats">Return formats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../main.html#automatic-conversion-of-the-results">Automatic conversion of the results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../main.html#partial-interpretation-of-the-results">Partial interpretation of the results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../main.html#get-or-post">GET or POST</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../main.html#development">Development</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../main.html#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../main.html#source-code">Source code</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../main.html#community">Community</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../main.html#issues">Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../main.html#documentation">Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../main.html#license">License</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../main.html#acknowledgement">Acknowledgement</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Python Package</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">SPARQLWrapper package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../SPARQLWrapper.Wrapper.html">SPARQLWrapper.Wrapper module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../SPARQLWrapper.SmartWrapper.html">SPARQLWrapper.SmartWrapper module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../SPARQLWrapper.SPARQLExceptions.html">SPARQLWrapper.SPARQLExceptions module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../SPARQLWrapper.KeyCaseInsensitiveDict.html">SPARQLWrapper.KeyCaseInsensitiveDict module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">ChangeLog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id1">2019-12-22  1.8.5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id2">2019-04-18  1.8.4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id3">2019-04-17  1.8.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id4">2018-05-26  1.8.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id5">2018-02-25  1.8.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id6">2016-12-07  1.8.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id7">2015-12-18  1.7.6</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id8">2015-11-19  1.7.5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id9">2015-11-05  1.7.4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id10">2015-11-05  1.7.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id11">2015-11-03  1.7.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id12">2015-10-29  1.7.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id13">2015-10-29  1.7.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id14">2014-08-26  1.6.4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id15">2014-08-26  1.6.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id16">2014-07-24  1.6.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id17">2014-07-21  1.6.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id18">2014-05-09  1.6.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id19">2012-08-28  1.5.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id20">2012-07-10  1.5.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id21">2012-02-01  1.5.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id22">2011-01-28  1.4.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id23">2010-01-11  1.4.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id24">2009-12-14  1.4.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id25">2009-09-23  1.3.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id26">2009-09-11  1.3.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id27">2009-05-06  1.3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id28">2009-04-27  1.2.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id29">2008-07-10  1.2.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id30">2008-03-24  1.1.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id31">2008-03-07  1.0.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id32">2008-02-14  1.0.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id33">2007-07-06  0.2.0</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">SPARQLWrapper</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>SPARQLWrapper.Wrapper</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for SPARQLWrapper.Wrapper</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">..</span>
+<span class="sd">  .. seealso:: `SPARQL Specification &lt;http://www.w3.org/TR/rdf-sparql-query/&gt;`_</span>
+
+<span class="sd">  Developers involved:</span>
+
+<span class="sd">  * Ivan Herman &lt;http://www.ivan-herman.net&gt;</span>
+<span class="sd">  * Sergio Fernández &lt;http://www.wikier.org&gt;</span>
+<span class="sd">  * Carlos Tejo Alonso &lt;http://www.dayures.net&gt;</span>
+<span class="sd">  * Alexey Zakhlestin &lt;https://indeyets.ru/&gt;</span>
+
+<span class="sd">  Organizations involved:</span>
+
+<span class="sd">  * `World Wide Web Consortium &lt;http://www.w3.org&gt;`_</span>
+<span class="sd">  * `Salzburg Research &lt;http://www.salzburgresearch.at&gt;`_</span>
+<span class="sd">  * `Foundation CTIC &lt;http://www.fundacionctic.org/&gt;`_</span>
+
+<span class="sd">  :license: `W3C® Software notice and license &lt;http://www.w3.org/Consortium/Legal/copyright-software&gt;`_</span>
+
+<span class="sd">  :requires: `RDFLib &lt;https://rdflib.readthedocs.io&gt;`_ package.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">urllib</span>
+<span class="kn">import</span> <span class="nn">urllib2</span>
+<span class="kn">from</span> <span class="nn">urllib2</span> <span class="k">import</span> <span class="n">urlopen</span> <span class="k">as</span> <span class="n">urlopener</span>  <span class="c1"># don&#39;t change the name: tests override it</span>
+<span class="kn">import</span> <span class="nn">base64</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">KeyCaseInsensitiveDict</span> <span class="k">import</span> <span class="n">KeyCaseInsensitiveDict</span>
+<span class="kn">from</span> <span class="nn">SPARQLExceptions</span> <span class="k">import</span> <span class="n">QueryBadFormed</span><span class="p">,</span> <span class="n">EndPointNotFound</span><span class="p">,</span> <span class="n">EndPointInternalError</span><span class="p">,</span> <span class="n">Unauthorized</span><span class="p">,</span> <span class="n">URITooLong</span>
+<span class="kn">from</span> <span class="nn">SPARQLWrapper</span> <span class="k">import</span> <span class="n">__agent__</span>
+
+<span class="c1">#  From &lt;https://www.w3.org/TR/sparql11-protocol/#query-success&gt;</span>
+<span class="c1">#  The response body of a successful query operation with a 2XX response is either:</span>
+<span class="c1">#  * SELECT and ASK: a SPARQL Results Document in XML, JSON, or CSV/TSV format.</span>
+<span class="c1">#  * DESCRIBE and CONSTRUCT: an RDF graph serialized, for example, in the RDF/XML syntax, or an equivalent RDF graph serialization.</span>
+<span class="c1">#</span>
+<span class="c1">#  Possible parameter keys and values...</span>
+<span class="c1">#  Examples:</span>
+<span class="c1">#  - ClioPatria: the SWI-Prolog Semantic Web Server &lt;http://cliopatria.swi-prolog.org/home&gt;</span>
+<span class="c1">#    * Parameter key: &quot;format&quot; &lt;http://cliopatria.swi-prolog.org/help/http&gt;</span>
+<span class="c1">#    * Parameter value must have one of these values: &quot;rdf+xml&quot;, &quot;json&quot;, &quot;csv&quot;, &quot;application/sparql-results+xml&quot; or &quot;application/sparql-results+json&quot;.</span>
+<span class="c1">#</span>
+<span class="c1">################################################################################</span>
+<span class="c1">#</span>
+<span class="c1">#  - OpenLink Virtuoso  &lt;http://virtuoso.openlinksw.com&gt;</span>
+<span class="c1">#    * Parameter key: &quot;format&quot; or &quot;output&quot;</span>
+<span class="c1">#    * Parameter value, like directly:</span>
+<span class="c1">#      &quot;text/html&quot; (HTML), &quot;text/x-html+tr&quot; (HTML (Faceted Browsing Links)), &quot;application/vnd.ms-excel&quot;</span>
+<span class="c1">#      &quot;application/sparql-results+xml&quot; (XML), &quot;application/sparql-results+json&quot;, (JSON)</span>
+<span class="c1">#      &quot;application/javascript&quot; (Javascript), &quot;text/turtle&quot; (Turtle), &quot;application/rdf+xml&quot; (RDF/XML)</span>
+<span class="c1">#      &quot;text/plain&quot; (N-Triples), &quot;text/csv&quot; (CSV), &quot;text/tab-separated-values&quot; (TSV)</span>
+<span class="c1">#    * Parameter value, like indirectly:</span>
+<span class="c1">#      &quot;HTML&quot; (alias text/html), &quot;JSON&quot; (alias application/sparql-results+json), &quot;XML&quot; (alias application/sparql-results+xml), &quot;TURTLE&quot; (alias text/rdf+n3), JavaScript (alias application/javascript)</span>
+<span class="c1">#       See  &lt;http://virtuoso.openlinksw.com/dataspace/doc/dav/wiki/Main/VOSSparqlProtocol#Additional HTTP Response Formats -- SELECT&gt;</span>
+<span class="c1">#</span>
+<span class="c1">#      For a SELECT query type, the default return mimetype (if Accept: */* is sent) is application/sparql-results+xml</span>
+<span class="c1">#      For a ASK query type, the default return mimetype (if Accept: */* is sent) is text/html</span>
+<span class="c1">#      For a CONSTRUCT query type, the default return mimetype (if Accept: */* is sent) is text/turtle</span>
+<span class="c1">#      For a DESCRIBE query type, the default return mimetype (if Accept: */* is sent) is text/turtle</span>
+<span class="c1">#</span>
+<span class="c1">################################################################################</span>
+<span class="c1">#</span>
+<span class="c1">#  - Fuseki (formerly there was Joseki) &lt;https://jena.apache.org/documentation/serving_data/&gt;</span>
+<span class="c1">#    * Uses: Parameters AND Content Negotiation</span>
+<span class="c1">#    * Parameter key: &quot;format&quot; or &quot;output&quot;</span>
+<span class="c1">#    * JSON-LD (application/ld+json): supported (in CONSTRUCT and DESCRIBE)</span>
+<span class="c1">#</span>
+<span class="c1">#    * Parameter key: &quot;format&quot; or &quot;output&quot;</span>
+<span class="c1">#      See Fuseki 1: https://github.com/apache/jena/blob/master/jena-fuseki1/src/main/java/org/apache/jena/fuseki/HttpNames.java</span>
+<span class="c1">#      See Fuseki 2: https://github.com/apache/jena/blob/master/jena-arq/src/main/java/org/apache/jena/riot/web/HttpNames.java</span>
+<span class="c1">#    * Fuseki 1 - Short names for &quot;output=&quot; : &quot;json&quot;, &quot;xml&quot;, &quot;sparql&quot;, &quot;text&quot;, &quot;csv&quot;, &quot;tsv&quot;, &quot;thrift&quot;</span>
+<span class="c1">#      See &lt;https://github.com/apache/jena/blob/master/jena-fuseki1/src/main/java/org/apache/jena/fuseki/servlets/ResponseResultSet.java&gt;</span>
+<span class="c1">#    * Fuseki 2 - Short names for &quot;output=&quot; : &quot;json&quot;, &quot;xml&quot;, &quot;sparql&quot;, &quot;text&quot;, &quot;csv&quot;, &quot;tsv&quot;, &quot;thrift&quot;</span>
+<span class="c1">#      See &lt;https://github.com/apache/jena/blob/master/jena-fuseki2/jena-fuseki-core/src/main/java/org/apache/jena/fuseki/servlets/ResponseResultSet.java&gt;</span>
+<span class="c1">#      If a non-expected short name is used, the server returns an &quot;Error 400: Can&#39;t determine output serialization&quot;</span>
+<span class="c1">#      Valid alias for SELECT and ASK: &quot;json&quot;, &quot;xml&quot;, csv&quot;, &quot;tsv&quot;</span>
+<span class="c1">#      Valid alias for DESCRIBE and CONSTRUCT: &quot;json&quot; (alias for json-ld ONLY in Fuseki2), &quot;xml&quot;</span>
+<span class="c1">#      Valid mimetype for DESCRIBE and CONSTRUCT: &quot;application/ld+json&quot;</span>
+<span class="c1">#      Default return mimetypes: For a SELECT and ASK query types, the default return mimetype (if Accept: */* is sent) is application/sparql-results+json</span>
+<span class="c1">#      Default return mimetypes: For a DESCRIBE and CONTRUCT query types, the default return mimetype (if Accept: */* is sent) is text/turtle</span>
+<span class="c1">#      In case of a bad formed query, Fuseki1 returns 200 instead of 400.</span>
+<span class="c1">#</span>
+<span class="c1">################################################################################</span>
+<span class="c1">#</span>
+<span class="c1">#  - Eclipse RDF4J &lt;http://rdf4j.org/&gt;</span>
+<span class="c1">#    * Formerly known as OpenRDF Sesame</span>
+<span class="c1">#    * Uses: ONLY Content Negotiation</span>
+<span class="c1">#    * See &lt;https://rdf4j.eclipse.org/documentation/rest-api/#the-query-operation&gt;</span>
+<span class="c1">#    * See &lt;https://rdf4j.eclipse.org/documentation/rest-api/#content-types&gt;</span>
+<span class="c1">#    * Parameter: If an unexpected parameter is used, the server ignores it.</span>
+<span class="c1">#</span>
+<span class="c1">#    ** SELECT</span>
+<span class="c1">#    *** application/sparql-results+xml (DEFAULT if Accept: */* is sent))</span>
+<span class="c1">#    *** application/sparql-results+json (also application/json)</span>
+<span class="c1">#    *** text/csv</span>
+<span class="c1">#    *** text/tab-separated-values</span>
+<span class="c1">#    *** Other values: application/x-binary-rdf-results-table</span>
+<span class="c1">#</span>
+<span class="c1">#    ** ASK</span>
+<span class="c1">#    *** application/sparql-results+xml (DEFAULT if Accept: */* is sent))</span>
+<span class="c1">#    *** application/sparql-results+json</span>
+<span class="c1">#    *** Other values: text/boolean</span>
+<span class="c1">#    *** Not supported: text/csv</span>
+<span class="c1">#    *** Not supported: text/tab-separated-values</span>
+<span class="c1">#</span>
+<span class="c1">#    ** CONSTRUCT</span>
+<span class="c1">#    *** application/rdf+xml</span>
+<span class="c1">#    *** application/n-triples (DEFAULT if Accept: */* is sent)</span>
+<span class="c1">#    *** text/turtle</span>
+<span class="c1">#    *** text/n3</span>
+<span class="c1">#    *** application/ld+json</span>
+<span class="c1">#    *** Other acceptable values: application/n-quads, application/rdf+json, application/trig, application/trix, application/x-binary-rdf</span>
+<span class="c1">#    *** text/plain (returns application/n-triples)</span>
+<span class="c1">#    *** text/rdf+n3 (returns text/n3)</span>
+<span class="c1">#    *** text/x-nquads (returns application/n-quads)</span>
+<span class="c1">#</span>
+<span class="c1">#    ** DESCRIBE</span>
+<span class="c1">#    *** application/rdf+xml</span>
+<span class="c1">#    *** application/n-triples (DEFAULT if Accept: */* is sent)</span>
+<span class="c1">#    *** text/turtle</span>
+<span class="c1">#    *** text/n3</span>
+<span class="c1">#    *** application/ld+json</span>
+<span class="c1">#    *** Other acceptable values: application/n-quads, application/rdf+json, application/trig, application/trix, application/x-binary-rdf</span>
+<span class="c1">#    *** text/plain (returns application/n-triples)</span>
+<span class="c1">#    *** text/rdf+n3 (returns text/n3)</span>
+<span class="c1">#    *** text/x-nquads (returns application/n-quads)</span>
+<span class="c1">#</span>
+<span class="c1">#      Default return mimetypes: For a SELECT and ASK query types, the default return mimetype (if Accept: */* is sent) is application/sparql-results+xml</span>
+<span class="c1">#      Default return mimetypes: For a DESCRIBE and CONTRUCT query types, the default return mimetype (if Accept: */* is sent) is application/n-triples</span>
+<span class="c1">#</span>
+<span class="c1">#</span>
+<span class="c1">################################################################################</span>
+<span class="c1">#</span>
+<span class="c1">#  - RASQAL &lt;http://librdf.org/rasqal/&gt;</span>
+<span class="c1">#    * Parameter key: &quot;results&quot;</span>
+<span class="c1">#    * Uses roqet as RDF query utility</span>
+<span class="c1">#      For variable bindings, the values of FORMAT vary upon what Rasqal supports but include simple</span>
+<span class="c1">#      for a simple text format (default), xml for the SPARQL Query Results XML format, csv for SPARQL CSV,</span>
+<span class="c1">#      tsv for SPARQL TSV, rdfxml and turtle for RDF syntax formats, and json for a JSON version of the results.</span>
+<span class="c1">#</span>
+<span class="c1">#      For RDF graph results, the values of FORMAT are ntriples (N-Triples, default),</span>
+<span class="c1">#      rdfxml-abbrev (RDF/XML Abbreviated), rdfxml (RDF/XML), turtle (Turtle),</span>
+<span class="c1">#      json (RDF/JSON resource centric), json-triples (RDF/JSON triples) or</span>
+<span class="c1">#      rss-1.0 (RSS 1.0, also an RDF/XML syntax).</span>
+<span class="c1">#</span>
+<span class="c1">#      See &lt;http://librdf.org/rasqal/roqet.html&gt;</span>
+<span class="c1">#</span>
+<span class="c1">################################################################################</span>
+<span class="c1">#</span>
+<span class="c1">#  - Marklogic &lt;http://marklogic.com&gt;</span>
+<span class="c1">#    * Uses content negotiation (no URL parameters).</span>
+<span class="c1">#    * You can use following methods to query triples &lt;https://docs.marklogic.com/guide/semantics/semantic-searches#chapter&gt;:</span>
+<span class="c1">#      - SPARQL mode in Query Console. For details, see Querying Triples with SPARQL</span>
+<span class="c1">#      - XQuery using the semantics functions, and Search API, or a combination of XQuery and SPARQL. For details, see Querying Triples with XQuery or JavaScript.</span>
+<span class="c1">#      - HTTP via a SPARQL endpoint. For details, see Using Semantics with the REST Client API.</span>
+<span class="c1">#    * Formats are specified as part of the HTTP Accept headers of the REST request. &lt;https://docs.marklogic.com/guide/semantics/REST#id_92428&gt;</span>
+<span class="c1">#      - When you query the SPARQL endpoint with REST Client APIs, you can specify the result output format.  &lt;https://docs.marklogic.com/guide/semantics/REST#id_54258&gt;</span>
+<span class="c1">#        The response type format depends on the type of query and the MIME type in the HTTP Accept header.</span>
+<span class="c1">#      - This table describes the MIME types and Accept Header/Output formats (MIME type) for different types of SPARQL queries. See &lt;https://docs.marklogic.com/guide/semantics/REST#id_54258&gt; and &lt;https://docs.marklogic.com/guide/semantics/loading#id_70682&gt;</span>
+<span class="c1">#        SELECT &quot;application/sparql-results+xml&quot;, &quot;application/sparql-results+json&quot;, &quot;text/html&quot;, &quot;text/csv&quot;</span>
+<span class="c1">#        CONSTRUCT or DESCRIBE &quot;application/n-triples&quot;, &quot;application/rdf+json&quot;, &quot;application/rdf+xml&quot;, &quot;text/turtle&quot;, &quot;text/n3&quot;, &quot;application/n-quads&quot;, &quot;application/trig&quot;</span>
+<span class="c1">#        ASK queries return a boolean (true or false).</span>
+<span class="c1">#</span>
+<span class="c1">################################################################################</span>
+<span class="c1">#</span>
+<span class="c1">#  - AllegroGraph &lt;https://franz.com/agraph/allegrograph/&gt;</span>
+<span class="c1">#    * Uses only content negotiation (no URL parameters).</span>
+<span class="c1">#    * The server always looks at the Accept header of a request, and tries to</span>
+<span class="c1">#      generate a response in the format that the client asks for. If this fails,</span>
+<span class="c1">#      a 406 response is returned. When no Accept, or an Accept of */* is specified,</span>
+<span class="c1">#      the server prefers text/plain, in order to make it easy to explore the interface from a web browser.</span>
+<span class="c1">#    * Accept header expected (values returned by server when a wrong header is sent):</span>
+<span class="c1">#    ** SELECT</span>
+<span class="c1">#    *** application/sparql-results+xml (DEFAULT if Accept: */* is sent)</span>
+<span class="c1">#    *** application/sparql-results+json (and application/json)</span>
+<span class="c1">#    *** text/csv</span>
+<span class="c1">#    *** text/tab-separated-values</span>
+<span class="c1">#    *** OTHERS: application/sparql-results+ttl, text/integer, application/x-lisp-structured-expression, text/table, application/processed-csv, text/simple-csv, application/x-direct-upis</span>
+<span class="c1">#</span>
+<span class="c1">#    ** ASK</span>
+<span class="c1">#    *** application/sparql-results+xml (DEFAULT if Accept: */* is sent)</span>
+<span class="c1">#    *** application/sparql-results+json (and application/json)</span>
+<span class="c1">#    *** Not supported: text/csv</span>
+<span class="c1">#    *** Not supported: text/tab-separated-values</span>
+<span class="c1">#</span>
+<span class="c1">#    ** CONSTRUCT</span>
+<span class="c1">#    *** application/rdf+xml (DEFAULT if Accept: */* is sent)</span>
+<span class="c1">#    *** text/rdf+n3</span>
+<span class="c1">#    *** OTHERS: text/integer, application/json, text/plain, text/x-nquads, application/trix, text/table, application/x-direct-upis</span>
+<span class="c1">#</span>
+<span class="c1">#    ** DESCRIBE</span>
+<span class="c1">#    *** application/rdf+xml (DEFAULT if Accept: */* is sent)</span>
+<span class="c1">#    *** text/rdf+n3</span>
+<span class="c1">#</span>
+<span class="c1">#      See &lt;https://franz.com/agraph/support/documentation/current/http-protocol.html&gt;</span>
+<span class="c1">#</span>
+<span class="c1">################################################################################</span>
+<span class="c1">#</span>
+<span class="c1">#  - 4store. Code repository &lt;https://github.com/4store/4store&gt; documentation &lt;https://4store.danielknoell.de/trac/wiki/SparqlServer/&gt;</span>
+<span class="c1">#    * Uses: Parameters AND Content Negotiation</span>
+<span class="c1">#    * Parameter key: &quot;output&quot;</span>
+<span class="c1">#    * Parameter value: alias. If an unexpected alias is used, the server is not working properly</span>
+<span class="c1">#    * JSON-LD: NOT supported</span>
+<span class="c1">#</span>
+<span class="c1">#    ** SELECT</span>
+<span class="c1">#    *** application/sparql-results+xml (alias xml) (DEFAULT if Accept: */* is sent))</span>
+<span class="c1">#    *** application/sparql-results+json or application/json (alias json)</span>
+<span class="c1">#    *** text/csv (alias csv)</span>
+<span class="c1">#    *** text/tab-separated-values (alias tsv). Returns &quot;text/plain&quot; in GET.</span>
+<span class="c1">#    *** Other values: text/plain, application/n-triples</span>
+<span class="c1">#</span>
+<span class="c1">#    ** ASK</span>
+<span class="c1">#    *** application/sparql-results+xml (alias xml) (DEFAULT if Accept: */* is sent))</span>
+<span class="c1">#    *** application/sparql-results+json or application/json (alias json)</span>
+<span class="c1">#    *** text/csv (alias csv)</span>
+<span class="c1">#    *** text/tab-separated-values (alias tsv). Returns &quot;text/plain&quot; in GET.</span>
+<span class="c1">#    *** Other values: text/plain, application/n-triples</span>
+<span class="c1">#</span>
+<span class="c1">#    ** CONSTRUCT</span>
+<span class="c1">#    *** application/rdf+xml (alias xml) (DEFAULT if Accept: */* is sent)</span>
+<span class="c1">#    *** text/turtle (alias &quot;text&quot;)</span>
+<span class="c1">#</span>
+<span class="c1">#    ** DESCRIBE</span>
+<span class="c1">#    *** application/rdf+xml (alias xml) (DEFAULT if Accept: */* is sent)</span>
+<span class="c1">#    *** text/turtle (alias &quot;text&quot;)</span>
+<span class="c1">#</span>
+<span class="c1">#      Valid alias for SELECT and ASK: &quot;json&quot;, &quot;xml&quot;, csv&quot;, &quot;tsv&quot; (also &quot;text&quot; and &quot;ascii&quot;)</span>
+<span class="c1">#      Valid alias for DESCRIBE and CONSTRUCT: &quot;xml&quot;, &quot;text&quot; (for turtle)</span>
+<span class="c1">#      Default return mimetypes: For a SELECT and ASK query types, the default return mimetype (if Accept: */* is sent) is application/sparql-results+xml</span>
+<span class="c1">#      Default return mimetypes: For a DESCRIBE and CONTRUCT query types, the default return mimetype (if Accept: */* is sent) is application/rdf+xml</span>
+<span class="c1">#</span>
+<span class="c1">#</span>
+<span class="c1">################################################################################</span>
+<span class="c1">#</span>
+<span class="c1">#  - Blazegraph &lt;https://www.blazegraph.com/&gt; &amp; NanoSparqlServer &lt;https://wiki.blazegraph.com/wiki/index.php/NanoSparqlServer&gt; &lt;https://wiki.blazegraph.com/wiki/index.php/REST_API#SPARQL_End_Point&gt;</span>
+<span class="c1">#    * Formerly known as Bigdata</span>
+<span class="c1">#    * Uses: Parameters AND Content Negotiation</span>
+<span class="c1">#    * Parameter key: &quot;format&quot; (available since version 1.4.0). Setting this parameter will override any Accept Header that is present. &lt;https://wiki.blazegraph.com/wiki/index.php/REST_API#GET_or_POST&gt;</span>
+<span class="c1">#    * Parameter value: alias. If an unexpected alias is used, the server is not working properly</span>
+<span class="c1">#</span>
+<span class="c1">#    ** SELECT</span>
+<span class="c1">#    *** application/sparql-results+xml (alias xml) (DEFAULT if Accept: */* is sent))</span>
+<span class="c1">#    *** application/sparql-results+json or application/json (alias json)</span>
+<span class="c1">#    *** text/csv</span>
+<span class="c1">#    *** text/tab-separated-values</span>
+<span class="c1">#    *** Other values: application/x-binary-rdf-results-table</span>
+<span class="c1">#</span>
+<span class="c1">#    ** ASK</span>
+<span class="c1">#    *** application/sparql-results+xml (alias xml) (DEFAULT if Accept: */* is sent))</span>
+<span class="c1">#    *** application/sparql-results+json or application/json (alias json)</span>
+<span class="c1">#</span>
+<span class="c1">#    ** CONSTRUCT</span>
+<span class="c1">#    *** application/rdf+xml (alias xml) (DEFAULT if Accept: */* is sent)</span>
+<span class="c1">#    *** text/turtle (returns text/n3)</span>
+<span class="c1">#    *** text/n3</span>
+<span class="c1">#</span>
+<span class="c1">#    ** DESCRIBE</span>
+<span class="c1">#    *** application/rdf+xml (alias xml) (DEFAULT if Accept: */* is sent)</span>
+<span class="c1">#    *** text/turtle (returns text/n3)</span>
+<span class="c1">#    *** text/n3</span>
+<span class="c1">#</span>
+<span class="c1">#      Valid alias for SELECT and ASK: &quot;xml&quot;, &quot;json&quot;</span>
+<span class="c1">#      Valid alias for DESCRIBE and CONSTRUCT: &quot;xml&quot;, &quot;json&quot; (but it returns unexpected &quot;application/sparql-results+json&quot;)</span>
+<span class="c1">#      Default return mimetypes: For a SELECT and ASK query types, the default return mimetype (if Accept: */* is sent) is application/sparql-results+xml</span>
+<span class="c1">#      Default return mimetypes: For a DESCRIBE and CONTRUCT query types, the default return mimetype (if Accept: */* is sent) is application/rdf+xml</span>
+<span class="c1">#</span>
+<span class="c1">################################################################################</span>
+<span class="c1">#</span>
+<span class="c1">#  - GraphDB &lt;http://graphdb.ontotext.com/&gt; &lt;http://graphdb.ontotext.com/documentation/free/&gt; </span>
+<span class="c1">#    * Formerly known as OWLIM (OWLIM-Lite, OWLIM-SE)</span>
+<span class="c1">#    * Uses: Only Content Negotiation.</span>
+<span class="c1">#    * If the Accept value is not within the expected ones, the server returns a 406 &quot;No acceptable file format found.&quot;</span>
+<span class="c1">#</span>
+<span class="c1">#    ** SELECT</span>
+<span class="c1">#    *** DEFAULT (if Accept: */* is sent): text/csv</span>
+<span class="c1">#    *** application/sparql-results+xml, application/xml (.srx file)</span>
+<span class="c1">#    *** application/sparql-results+json, application/json (.srj file)</span>
+<span class="c1">#    *** text/csv (DEFAULT if Accept: */* is sent)</span>
+<span class="c1">#    *** text/tab-separated-values</span>
+<span class="c1">#</span>
+<span class="c1">#    ** ASK</span>
+<span class="c1">#    *** DEFAULT (if Accept: */* is sent): application/sparql-results+json</span>
+<span class="c1">#    *** application/sparql-results+xml, application/xml (.srx file)</span>
+<span class="c1">#    *** application/sparql-results+json (DEFAULT if Accept: */* is sent), application/json (.srj file)</span>
+<span class="c1">#    *** NOT supported: text/csv, text/tab-separated-values</span>
+<span class="c1">#</span>
+<span class="c1">#    ** CONSTRUCT</span>
+<span class="c1">#    *** DEFAULT (if Accept: */* is sent): application/n-triples</span>
+<span class="c1">#    *** application/rdf+xml, application/xml (.rdf file)</span>
+<span class="c1">#    *** text/turtle (.ttl file)</span>
+<span class="c1">#    *** application/n-triples (.nt file) (DEFAULT if Accept: */* is sent)</span>
+<span class="c1">#    *** text/n3, text/rdf+n3 (.n3 file)</span>
+<span class="c1">#    *** application/ld+json (.jsonld file)</span>
+<span class="c1">#</span>
+<span class="c1">#    ** DESCRIBE</span>
+<span class="c1">#    *** DEFAULT (if Accept: */* is sent): application/n-triples</span>
+<span class="c1">#    *** application/rdf+xml, application/xml (.rdf file)</span>
+<span class="c1">#    *** text/turtle (.ttl file)</span>
+<span class="c1">#    *** application/n-triples (.nt file) (DEFAULT if Accept: */* is sent)</span>
+<span class="c1">#    *** text/n3, text/rdf+n3 (.n3 file)</span>
+<span class="c1">#    *** application/ld+json (.jsonld file)</span>
+<span class="c1">#</span>
+<span class="c1">################################################################################</span>
+<span class="c1">#</span>
+<span class="c1">#  - Stardog &lt;https://www.stardog.com&gt; &lt;https://www.stardog.com/docs/#_http_headers_content_type_accept&gt; (the doc looks outdated)</span>
+<span class="c1">#    * Uses: ONLY Content Negotiation</span>
+<span class="c1">#    * Parameter: If an unexpected parameter is used, the server ignores it.</span>
+<span class="c1">#</span>
+<span class="c1">#    ** SELECT</span>
+<span class="c1">#    *** application/sparql-results+xml (DEFAULT if Accept: */* is sent))</span>
+<span class="c1">#    *** application/sparql-results+json</span>
+<span class="c1">#    *** text/csv</span>
+<span class="c1">#    *** text/tab-separated-values</span>
+<span class="c1">#    *** Other values: application/x-binary-rdf-results-table</span>
+<span class="c1">#</span>
+<span class="c1">#    ** ASK</span>
+<span class="c1">#    *** application/sparql-results+xml (DEFAULT if Accept: */* is sent))</span>
+<span class="c1">#    *** application/sparql-results+json</span>
+<span class="c1">#    *** Other values: text/boolean</span>
+<span class="c1">#    *** Not supported: text/csv</span>
+<span class="c1">#    *** Not supported: text/tab-separated-values</span>
+<span class="c1">#</span>
+<span class="c1">#    ** CONSTRUCT</span>
+<span class="c1">#    *** application/rdf+xml</span>
+<span class="c1">#    *** text/turtle (DEFAULT if Accept: */* is sent)</span>
+<span class="c1">#    *** text/n3</span>
+<span class="c1">#    *** application/ld+json</span>
+<span class="c1">#    *** Other acceptable values: application/n-triples, application/x-turtle, application/trig, application/trix, application/n-quads</span>
+<span class="c1">#</span>
+<span class="c1">#    ** DESCRIBE</span>
+<span class="c1">#    *** application/rdf+xml</span>
+<span class="c1">#    *** text/turtle (DEFAULT if Accept: */* is sent)</span>
+<span class="c1">#    *** text/n3</span>
+<span class="c1">#    *** application/ld+json</span>
+<span class="c1">#    *** Other acceptable values: application/n-triples, application/x-turtle, application/trig, application/trix, application/n-quads</span>
+<span class="c1">#</span>
+<span class="c1">#      Default return mimetypes: For a SELECT and ASK query types, the default return mimetype (if Accept: */* is sent) is application/sparql-results+xml</span>
+<span class="c1">#      Default return mimetypes: For a DESCRIBE and CONTRUCT query types, the default return mimetype (if Accept: */* is sent) is text/turtle</span>
+<span class="c1">#</span>
+<span class="c1">################################################################################</span>
+
+<span class="c1"># alias</span>
+
+<span class="n">XML</span>    <span class="o">=</span> <span class="s2">&quot;xml&quot;</span>
+<span class="sd">&quot;&quot;&quot;to be used to set the return format to ``XML`` (``SPARQL Query Results XML`` format or ``RDF/XML``, depending on the query type). **This is the default**.&quot;&quot;&quot;</span>
+<span class="n">JSON</span>   <span class="o">=</span> <span class="s2">&quot;json&quot;</span>
+<span class="sd">&quot;&quot;&quot;to be used to set the return format to ``JSON``.&quot;&quot;&quot;</span>
+<span class="n">JSONLD</span> <span class="o">=</span> <span class="s2">&quot;json-ld&quot;</span>
+<span class="sd">&quot;&quot;&quot;to be used to set the return format to ``JSON-LD``.&quot;&quot;&quot;</span>
+<span class="n">TURTLE</span> <span class="o">=</span> <span class="s2">&quot;turtle&quot;</span>
+<span class="sd">&quot;&quot;&quot;to be used to set the return format to ``Turtle``.&quot;&quot;&quot;</span>
+<span class="n">N3</span>     <span class="o">=</span> <span class="s2">&quot;n3&quot;</span>
+<span class="sd">&quot;&quot;&quot;to be used to set the return format to ``N3`` (for most of the SPARQL services this is equivalent to Turtle).&quot;&quot;&quot;</span>
+<span class="n">RDF</span>    <span class="o">=</span> <span class="s2">&quot;rdf&quot;</span>
+<span class="sd">&quot;&quot;&quot;to be used to set the return ``RDF Graph``.&quot;&quot;&quot;</span>
+<span class="n">RDFXML</span> <span class="o">=</span> <span class="s2">&quot;rdf+xml&quot;</span>
+<span class="sd">&quot;&quot;&quot;to be used to set the return format to ``RDF/XML`` explicitly.&quot;&quot;&quot;</span>
+<span class="n">CSV</span>    <span class="o">=</span> <span class="s2">&quot;csv&quot;</span>
+<span class="sd">&quot;&quot;&quot;to be used to set the return format to ``CSV``&quot;&quot;&quot;</span>
+<span class="n">TSV</span>    <span class="o">=</span> <span class="s2">&quot;tsv&quot;</span>
+<span class="sd">&quot;&quot;&quot;to be used to set the return format to ``TSV``&quot;&quot;&quot;</span>
+<span class="n">_allowedFormats</span> <span class="o">=</span> <span class="p">[</span><span class="n">JSON</span><span class="p">,</span> <span class="n">XML</span><span class="p">,</span> <span class="n">TURTLE</span><span class="p">,</span> <span class="n">N3</span><span class="p">,</span> <span class="n">RDF</span><span class="p">,</span> <span class="n">RDFXML</span><span class="p">,</span> <span class="n">CSV</span><span class="p">,</span> <span class="n">TSV</span><span class="p">]</span>
+
+<span class="c1"># Possible HTTP methods</span>
+<span class="n">GET</span> <span class="o">=</span> <span class="s2">&quot;GET&quot;</span>
+<span class="sd">&quot;&quot;&quot;to be used to set HTTP method ``GET``. **This is the default**.&quot;&quot;&quot;</span>
+<span class="n">POST</span> <span class="o">=</span> <span class="s2">&quot;POST&quot;</span>
+<span class="sd">&quot;&quot;&quot;to be used to set HTTP method ``POST``.&quot;&quot;&quot;</span>
+<span class="n">_allowedRequests</span> <span class="o">=</span> <span class="p">[</span><span class="n">POST</span><span class="p">,</span> <span class="n">GET</span><span class="p">]</span>
+
+<span class="c1"># Possible HTTP Authentication methods</span>
+<span class="n">BASIC</span> <span class="o">=</span> <span class="s2">&quot;BASIC&quot;</span>
+<span class="sd">&quot;&quot;&quot;to be used to set ``BASIC`` HTTP Authentication method.&quot;&quot;&quot;</span>
+<span class="n">DIGEST</span> <span class="o">=</span> <span class="s2">&quot;DIGEST&quot;</span>
+<span class="sd">&quot;&quot;&quot;to be used to set ``DIGEST`` HTTP Authentication method.&quot;&quot;&quot;</span>
+<span class="n">_allowedAuth</span> <span class="o">=</span> <span class="p">[</span><span class="n">BASIC</span><span class="p">,</span> <span class="n">DIGEST</span><span class="p">]</span>
+
+<span class="c1"># Possible SPARQL/SPARUL query type (aka SPARQL Query forms)</span>
+<span class="n">SELECT</span>     <span class="o">=</span> <span class="s2">&quot;SELECT&quot;</span>
+<span class="sd">&quot;&quot;&quot;to be used to set the query type to ``SELECT``. This is, usually, determined automatically.&quot;&quot;&quot;</span>
+<span class="n">CONSTRUCT</span>  <span class="o">=</span> <span class="s2">&quot;CONSTRUCT&quot;</span>
+<span class="sd">&quot;&quot;&quot;to be used to set the query type to ``CONSTRUCT``. This is, usually, determined automatically.&quot;&quot;&quot;</span>
+<span class="n">ASK</span>        <span class="o">=</span> <span class="s2">&quot;ASK&quot;</span>
+<span class="sd">&quot;&quot;&quot;to be used to set the query type to ``ASK``. This is, usually, determined automatically.&quot;&quot;&quot;</span>
+<span class="n">DESCRIBE</span>   <span class="o">=</span> <span class="s2">&quot;DESCRIBE&quot;</span>
+<span class="sd">&quot;&quot;&quot;to be used to set the query type to ``DESCRIBE``. This is, usually, determined automatically.&quot;&quot;&quot;</span>
+<span class="n">INSERT</span>     <span class="o">=</span> <span class="s2">&quot;INSERT&quot;</span>
+<span class="sd">&quot;&quot;&quot;to be used to set the query type to ``INSERT``. This is, usually, determined automatically.&quot;&quot;&quot;</span>
+<span class="n">DELETE</span>     <span class="o">=</span> <span class="s2">&quot;DELETE&quot;</span>
+<span class="sd">&quot;&quot;&quot;to be used to set the query type to ``DELETE``. This is, usually, determined automatically.&quot;&quot;&quot;</span>
+<span class="n">CREATE</span>     <span class="o">=</span> <span class="s2">&quot;CREATE&quot;</span>
+<span class="sd">&quot;&quot;&quot;to be used to set the query type to ``CREATE``. This is, usually, determined automatically.&quot;&quot;&quot;</span>
+<span class="n">CLEAR</span>      <span class="o">=</span> <span class="s2">&quot;CLEAR&quot;</span>
+<span class="sd">&quot;&quot;&quot;to be used to set the query type to ``CLEAR``. This is, usually, determined automatically.&quot;&quot;&quot;</span>
+<span class="n">DROP</span>       <span class="o">=</span> <span class="s2">&quot;DROP&quot;</span>
+<span class="sd">&quot;&quot;&quot;to be used to set the query type to ``DROP``. This is, usually, determined automatically.&quot;&quot;&quot;</span>
+<span class="n">LOAD</span>       <span class="o">=</span> <span class="s2">&quot;LOAD&quot;</span>
+<span class="sd">&quot;&quot;&quot;to be used to set the query type to ``LOAD``. This is, usually, determined automatically.&quot;&quot;&quot;</span>
+<span class="n">COPY</span>       <span class="o">=</span> <span class="s2">&quot;COPY&quot;</span>
+<span class="sd">&quot;&quot;&quot;to be used to set the query type to ``COPY``. This is, usually, determined automatically.&quot;&quot;&quot;</span>
+<span class="n">MOVE</span>       <span class="o">=</span> <span class="s2">&quot;MOVE&quot;</span>
+<span class="sd">&quot;&quot;&quot;to be used to set the query type to ``MOVE``. This is, usually, determined automatically.&quot;&quot;&quot;</span>
+<span class="n">ADD</span>        <span class="o">=</span> <span class="s2">&quot;ADD&quot;</span>
+<span class="sd">&quot;&quot;&quot;to be used to set the query type to ``ADD``. This is, usually, determined automatically.&quot;&quot;&quot;</span>
+<span class="n">_allowedQueryTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">SELECT</span><span class="p">,</span> <span class="n">CONSTRUCT</span><span class="p">,</span> <span class="n">ASK</span><span class="p">,</span> <span class="n">DESCRIBE</span><span class="p">,</span> <span class="n">INSERT</span><span class="p">,</span> <span class="n">DELETE</span><span class="p">,</span> <span class="n">CREATE</span><span class="p">,</span> <span class="n">CLEAR</span><span class="p">,</span> <span class="n">DROP</span><span class="p">,</span>
+                      <span class="n">LOAD</span><span class="p">,</span> <span class="n">COPY</span><span class="p">,</span> <span class="n">MOVE</span><span class="p">,</span> <span class="n">ADD</span><span class="p">]</span>
+
+<span class="c1"># Possible methods to perform requests</span>
+<span class="n">URLENCODED</span> <span class="o">=</span> <span class="s2">&quot;urlencoded&quot;</span>
+<span class="sd">&quot;&quot;&quot;to be used to set **URL encode** as the encoding method for the request. This is, usually, determined automatically.&quot;&quot;&quot;</span>
+<span class="n">POSTDIRECTLY</span> <span class="o">=</span> <span class="s2">&quot;postdirectly&quot;</span>
+<span class="sd">&quot;&quot;&quot;to be used to set **POST directly** as the encoding method for the request. This is, usually, determined automatically.&quot;&quot;&quot;</span>
+<span class="n">_REQUEST_METHODS</span> <span class="o">=</span> <span class="p">[</span><span class="n">URLENCODED</span><span class="p">,</span> <span class="n">POSTDIRECTLY</span><span class="p">]</span>
+
+<span class="c1"># Possible output format (mime types) that can be converted by the local script. Unfortunately,</span>
+<span class="c1"># it does not work by simply setting the return format, because there is still a certain level of confusion</span>
+<span class="c1"># among implementations.</span>
+<span class="c1"># For example, Joseki returns application/javascript and not the sparql-results+json thing that is required...</span>
+<span class="c1"># Ie, alternatives should be given...</span>
+<span class="c1"># Andy Seaborne told me (June 2007) that the right return format is now added to his CVS, ie, future releases of</span>
+<span class="c1"># joseki will be o.k., too. The situation with turtle and n3 is even more confusing because the text/n3 and text/turtle</span>
+<span class="c1"># mime types have just been proposed and not yet widely used...</span>
+<span class="n">_SPARQL_DEFAULT</span>  <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;application/sparql-results+xml&quot;</span><span class="p">,</span> <span class="s2">&quot;application/rdf+xml&quot;</span><span class="p">,</span> <span class="s2">&quot;*/*&quot;</span><span class="p">]</span>
+<span class="n">_SPARQL_XML</span>      <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;application/sparql-results+xml&quot;</span><span class="p">]</span>
+<span class="n">_SPARQL_JSON</span>     <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;application/sparql-results+json&quot;</span><span class="p">,</span> <span class="s2">&quot;application/json&quot;</span><span class="p">,</span> <span class="s2">&quot;text/javascript&quot;</span><span class="p">,</span> <span class="s2">&quot;application/javascript&quot;</span><span class="p">]</span> <span class="c1"># VIVO server returns &quot;application/javascript&quot;</span>
+<span class="n">_RDF_XML</span>         <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;application/rdf+xml&quot;</span><span class="p">]</span>
+<span class="n">_RDF_TURTLE</span>      <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;application/turtle&quot;</span><span class="p">,</span> <span class="s2">&quot;text/turtle&quot;</span><span class="p">]</span>
+<span class="n">_RDF_N3</span>          <span class="o">=</span> <span class="n">_RDF_TURTLE</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;text/rdf+n3&quot;</span><span class="p">,</span> <span class="s2">&quot;application/n-triples&quot;</span><span class="p">,</span> <span class="s2">&quot;application/n3&quot;</span><span class="p">,</span> <span class="s2">&quot;text/n3&quot;</span><span class="p">]</span>
+<span class="n">_RDF_JSONLD</span>      <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;application/ld+json&quot;</span><span class="p">,</span> <span class="s2">&quot;application/x-json+ld&quot;</span><span class="p">]</span>
+<span class="n">_CSV</span>             <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;text/csv&quot;</span><span class="p">]</span>
+<span class="n">_TSV</span>             <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;text/tab-separated-values&quot;</span><span class="p">]</span>
+<span class="n">_XML</span>             <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;application/xml&quot;</span><span class="p">]</span>
+<span class="n">_ALL</span>             <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;*/*&quot;</span><span class="p">]</span>
+<span class="n">_RDF_POSSIBLE</span>    <span class="o">=</span> <span class="n">_RDF_XML</span> <span class="o">+</span> <span class="n">_RDF_N3</span> <span class="o">+</span> <span class="n">_XML</span>
+
+<span class="n">_SPARQL_PARAMS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;query&quot;</span><span class="p">]</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">rdflib_jsonld</span>
+    <span class="n">_allowedFormats</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">JSONLD</span><span class="p">)</span>
+    <span class="n">_RDF_POSSIBLE</span> <span class="o">=</span> <span class="n">_RDF_POSSIBLE</span> <span class="o">+</span> <span class="n">_RDF_JSONLD</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="c1">#warnings.warn(&quot;JSON-LD disabled because no suitable support has been found&quot;, RuntimeWarning)</span>
+    <span class="k">pass</span>
+
+<span class="c1"># This is very ugly. The fact is that the key for the choice of the output format is not defined.</span>
+<span class="c1"># Virtuoso uses &#39;format&#39;, joseki uses &#39;output&#39;, rasqual seems to use &quot;results&quot;, etc. Lee Feigenbaum</span>
+<span class="c1"># told me that virtuoso also understand &#39;output&#39; these days, so I removed &#39;format&#39;. I do not have</span>
+<span class="c1"># info about the others yet, ie, for the time being I keep the general mechanism. Hopefully, in a</span>
+<span class="c1"># future release, I can get rid of that. However, these processors are (hopefully) oblivious to the</span>
+<span class="c1"># parameters they do not understand. So: just repeat all possibilities in the final URI. UGLY!!!!!!!</span>
+<span class="n">_returnFormatSetting</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;format&quot;</span><span class="p">,</span> <span class="s2">&quot;output&quot;</span><span class="p">,</span> <span class="s2">&quot;results&quot;</span><span class="p">]</span>
+
+<span class="c1">#######################################################################################################</span>
+
+
+<div class="viewcode-block" id="SPARQLWrapper"><a class="viewcode-back" href="../../SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.SPARQLWrapper">[docs]</a><span class="k">class</span> <span class="nc">SPARQLWrapper</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Wrapper around an online access to a SPARQL Web entry point.</span>
+
+<span class="sd">    The same class instance can be reused for subsequent queries. The values of the base Graph URI, return formats, etc,</span>
+<span class="sd">    are retained from one query to the next (in other words, only the query string changes). The instance can also be</span>
+<span class="sd">    reset to its initial values using the :meth:`resetQuery` method.</span>
+
+<span class="sd">    :ivar endpoint: SPARQL endpoint&#39;s URI.</span>
+<span class="sd">    :vartype endpoint: string</span>
+<span class="sd">    :ivar updateEndpoint: SPARQL endpoint&#39;s URI for SPARQL Update operations (if it&#39;s a different one). The **default** value is ``None``.</span>
+<span class="sd">    :vartype updateEndpoint: string</span>
+<span class="sd">    :ivar agent: The User-Agent for the HTTP request header. The **default** value is an autogenerated string using the SPARQLWrapper version code.</span>
+<span class="sd">    :vartype agent: string</span>
+<span class="sd">    :ivar _defaultGraph: URI for the default graph. The value can be set either via an explicit call :func:`addParameter(&quot;default-graph-uri&quot;, uri)&lt;addParameter&gt;` or as part of the query string. The **default** value is ``None``.</span>
+<span class="sd">    :vartype _defaultGraph: string</span>
+<span class="sd">    :ivar user: The username of the credentials for querying the current endpoint. The value can be set an explicit call :func:`setCredentials`. The **default** value is ``None``.</span>
+<span class="sd">    :vartype user: string</span>
+<span class="sd">    :ivar passwd: The password of the credentials for querying the current endpoint. The value can be set an explicit call :func:`setCredentials`. The **default** value is ``None``.</span>
+<span class="sd">    :vartype passwd: string</span>
+<span class="sd">    :ivar http_auth: HTTP Authentication type. The **default** value is :data:`BASIC`. Possible values are :data:`BASIC` or :data:`DIGEST`. It is used only in case the credentials are set.</span>
+<span class="sd">    :vartype http_auth: string</span>
+<span class="sd">    :ivar onlyConneg: Option for allowing (or not) **only** HTTP Content Negotiation (so dismiss the use of HTTP parameters). The default value is ``False``.</span>
+<span class="sd">    :vartype onlyConneg: boolean</span>
+<span class="sd">    :ivar customHttpHeaders: Custom HTTP Headers to be included in the request. It is a dictionary where keys are the header field and values are the header values. **Important**: These headers override previous values (including ``Content-Type``, ``User-Agent``, ``Accept`` and ``Authorization`` if they are present).</span>
+<span class="sd">    :vartype customHttpHeaders: dict</span>
+<span class="sd">    :ivar timeout: The timeout (in seconds) to use for querying the endpoint.</span>
+<span class="sd">    :vartype timeout: int</span>
+<span class="sd">    :ivar queryString: The SPARQL query text.</span>
+<span class="sd">    :vartype queryString: string</span>
+<span class="sd">    :ivar queryType: The type of SPARQL query (aka SPARQL query form), like :data:`CONSTRUCT`, :data:`SELECT`, :data:`ASK`, :data:`DESCRIBE`, :data:`INSERT`, :data:`DELETE`, :data:`CREATE`, :data:`CLEAR`, :data:`DROP`, :data:`LOAD`, :data:`COPY`, :data:`MOVE` or :data:`ADD` (constants in this module).</span>
+<span class="sd">    :vartype queryType: string</span>
+<span class="sd">    :ivar returnFormat: The return format.\</span>
+<span class="sd">    No local check is done, so the parameter is simply sent to the endpoint. Eg, if the value is set to :data:`JSON` and a construct query is issued, it is up to the endpoint to react or not, this wrapper does not check.\</span>
+<span class="sd">    The possible values are :data:`JSON`, :data:`XML`, :data:`TURTLE`, :data:`N3`, :data:`RDF`, :data:`RDFXML`, :data:`CSV`, :data:`TSV`, :data:`JSONLD` (constants in this module).\</span>
+<span class="sd">    The **default** value is :data:`XML`.</span>
+<span class="sd">    :vartype returnFormat: string</span>
+<span class="sd">    :ivar requestMethod: The request method for query or update operations. The possibles values are URL-encoded (:data:`URLENCODED`) or POST directly (:data:`POSTDIRECTLY`).</span>
+<span class="sd">    :vartype requestMethod: string</span>
+<span class="sd">    :ivar method: The invocation method (HTTP verb).  The **default** value is :data:`GET`, but it can be set to :data:`POST`.</span>
+<span class="sd">    :vartype method: string</span>
+<span class="sd">    :ivar parameters: The parameters of the request (key/value pairs in a dictionary).</span>
+<span class="sd">    :vartype parameters: dict</span>
+<span class="sd">    :ivar _defaultReturnFormat: The default return format. It is used in case the same class instance is reused for subsequent queries.</span>
+<span class="sd">    :vartype _defaultReturnFormat: string</span>
+
+<span class="sd">    :cvar prefix_pattern: regular expression used to remove base/prefixes in the process of determining the query type.</span>
+<span class="sd">    :vartype prefix_pattern: :class:`re.RegexObject`, a compiled regular expression. See the :mod:`re` module of Python</span>
+<span class="sd">    :cvar pattern: regular expression used to determine whether a query (without base/prefixes) is of type :data:`CONSTRUCT`, :data:`SELECT`, :data:`ASK`, :data:`DESCRIBE`, :data:`INSERT`, :data:`DELETE`, :data:`CREATE`, :data:`CLEAR`, :data:`DROP`, :data:`LOAD`, :data:`COPY`, :data:`MOVE` or :data:`ADD`.</span>
+<span class="sd">    :vartype pattern: :class:`re.RegexObject`, a compiled regular expression. See the :mod:`re` module of Python</span>
+<span class="sd">    :cvar comments_pattern: regular expression used to remove comments from a query.</span>
+<span class="sd">    :vartype comments_pattern: :class:`re.RegexObject`, a compiled regular expression. See the :mod:`re` module of Python</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">prefix_pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;((?P&lt;base&gt;(\s*BASE\s*&lt;.*?&gt;)\s*)|(?P&lt;prefixes&gt;(\s*PREFIX\s+.+:\s*&lt;.*?&gt;)\s*))*&quot;</span><span class="p">)</span>
+    <span class="c1"># Maybe the future name could be queryType_pattern</span>
+    <span class="n">pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?P&lt;queryType&gt;(CONSTRUCT|SELECT|ASK|DESCRIBE|INSERT|DELETE|CREATE|CLEAR|DROP|LOAD|COPY|MOVE|ADD))&quot;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">VERBOSE</span> <span class="o">|</span> <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span>
+    <span class="n">comments_pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(^|\n)\s*#.*?\n&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="SPARQLWrapper.__init__"><a class="viewcode-back" href="../../SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.SPARQLWrapper.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">updateEndpoint</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">returnFormat</span><span class="o">=</span><span class="n">XML</span><span class="p">,</span> <span class="n">defaultGraph</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">agent</span><span class="o">=</span><span class="n">__agent__</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Class encapsulating a full SPARQL call.</span>
+
+<span class="sd">        :param endpoint: SPARQL endpoint&#39;s URI.</span>
+<span class="sd">        :type endpoint: string</span>
+<span class="sd">        :param updateEndpoint: SPARQL endpoint&#39;s URI for update operations (if it&#39;s a different one). The **default** value is ``None``.</span>
+<span class="sd">        :type updateEndpoint: string</span>
+<span class="sd">        :param returnFormat: The return format.\</span>
+<span class="sd">        No local check is done, so the parameter is simply sent to the endpoint. Eg, if the value is set to :data:`JSON` and a construct query is issued, it is up to the endpoint to react or not, this wrapper does not check.\</span>
+<span class="sd">        The possible values are :data:`JSON`, :data:`XML`, :data:`TURTLE`, :data:`N3`, :data:`RDF`, :data:`RDFXML`, :data:`CSV`, :data:`TSV`, :data:`JSONLD` (constants in this module).\</span>
+<span class="sd">        The **default** value is :data:`XML`.</span>
+<span class="sd">        :param defaultGraph: URI for the default graph. The value can be set either via an explicit call :func:`addParameter(&quot;default-graph-uri&quot;, uri)&lt;addParameter&gt;` or as part of the query string. The **default** value is ``None``.</span>
+<span class="sd">        :type defaultGraph: string</span>
+<span class="sd">        :param agent: The User-Agent for the HTTP request header. The **default** value is an autogenerated string using the SPARQLWrapper version number.</span>
+<span class="sd">        :type agent: string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">endpoint</span> <span class="o">=</span> <span class="n">endpoint</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">updateEndpoint</span> <span class="o">=</span> <span class="n">updateEndpoint</span> <span class="k">if</span> <span class="n">updateEndpoint</span> <span class="k">else</span> <span class="n">endpoint</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">agent</span> <span class="o">=</span> <span class="n">agent</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">passwd</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">http_auth</span> <span class="o">=</span> <span class="n">BASIC</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_defaultGraph</span> <span class="o">=</span> <span class="n">defaultGraph</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">onlyConneg</span> <span class="o">=</span> <span class="kc">False</span> <span class="c1"># Only Content Negotiation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">customHttpHeaders</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">if</span> <span class="n">returnFormat</span> <span class="ow">in</span> <span class="n">_allowedFormats</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_defaultReturnFormat</span> <span class="o">=</span> <span class="n">returnFormat</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_defaultReturnFormat</span> <span class="o">=</span> <span class="n">XML</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">resetQuery</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="SPARQLWrapper.resetQuery"><a class="viewcode-back" href="../../SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.SPARQLWrapper.resetQuery">[docs]</a>    <span class="k">def</span> <span class="nf">resetQuery</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Reset the query, ie, return format, method, query, default or named graph settings, etc,</span>
+<span class="sd">        are reset to their default values. This includes the default values for parameters, method, timeout or requestMethod.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_defaultGraph</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">addParameter</span><span class="p">(</span><span class="s2">&quot;default-graph-uri&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_defaultGraph</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">returnFormat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_defaultReturnFormat</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">method</span> <span class="o">=</span> <span class="n">GET</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setQuery</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;SELECT * WHERE{ ?s ?p ?o }&quot;&quot;&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timeout</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">requestMethod</span> <span class="o">=</span> <span class="n">URLENCODED</span></div>
+
+
+<div class="viewcode-block" id="SPARQLWrapper.setReturnFormat"><a class="viewcode-back" href="../../SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.SPARQLWrapper.setReturnFormat">[docs]</a>    <span class="k">def</span> <span class="nf">setReturnFormat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">format</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set the return format. If the one set is not an allowed value, the setting is ignored.</span>
+
+<span class="sd">        :param format: Possible values are :data:`JSON`, :data:`XML`, :data:`TURTLE`, :data:`N3`, :data:`RDF`, :data:`RDFXML`, :data:`CSV`, :data:`TSV`, :data:`JSONLD` (constants in this module). All other cases are ignored.</span>
+<span class="sd">        :type format: string</span>
+<span class="sd">        :raises ValueError: If :data:`JSONLD` is tried to set and the current instance does not support ``JSON-LD``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">format</span> <span class="ow">in</span> <span class="n">_allowedFormats</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">returnFormat</span> <span class="o">=</span> <span class="nb">format</span>
+        <span class="k">elif</span> <span class="nb">format</span> <span class="o">==</span> <span class="n">JSONLD</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Current instance does not support JSON-LD; you might want to install the rdflib-jsonld package.&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Ignore format &#39;</span><span class="si">%s</span><span class="s2">&#39;; current instance supports: </span><span class="si">%s</span><span class="s2">.&quot;</span> <span class="o">%</span><span class="p">(</span><span class="nb">format</span><span class="p">,</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_allowedFormats</span><span class="p">)),</span> <span class="ne">SyntaxWarning</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SPARQLWrapper.supportsReturnFormat"><a class="viewcode-back" href="../../SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.SPARQLWrapper.supportsReturnFormat">[docs]</a>    <span class="k">def</span> <span class="nf">supportsReturnFormat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">format</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Check if a return format is supported.</span>
+
+<span class="sd">        :param format: Possible values are :data:`JSON`, :data:`XML`, :data:`TURTLE`, :data:`N3`, :data:`RDF`, :data:`RDFXML`, :data:`CSV`, :data:`TSV`, :data:`JSONLD` (constants in this module). All other cases are ignored.</span>
+<span class="sd">        :type format: string</span>
+<span class="sd">        :return: Returns ``True`` if the return format is supported, otherwise ``False``.</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="nb">format</span> <span class="ow">in</span> <span class="n">_allowedFormats</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SPARQLWrapper.setTimeout"><a class="viewcode-back" href="../../SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.SPARQLWrapper.setTimeout">[docs]</a>    <span class="k">def</span> <span class="nf">setTimeout</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timeout</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set the timeout (in seconds) to use for querying the endpoint.</span>
+
+<span class="sd">        :param timeout: Timeout in seconds.</span>
+<span class="sd">        :type timeout: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timeout</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">timeout</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SPARQLWrapper.setOnlyConneg"><a class="viewcode-back" href="../../SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.SPARQLWrapper.setOnlyConneg">[docs]</a>    <span class="k">def</span> <span class="nf">setOnlyConneg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">onlyConneg</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set this option for allowing (or not) only HTTP Content Negotiation (so dismiss the use of HTTP parameters).</span>
+
+<span class="sd">        .. versionadded:: 1.8.1</span>
+
+<span class="sd">        :param onlyConneg: ``True`` if **only** HTTP Content Negotiation is allowed; ``False`` if HTTP parameters are used.</span>
+<span class="sd">        :type onlyConneg: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">onlyConneg</span> <span class="o">=</span> <span class="n">onlyConneg</span></div>
+
+<div class="viewcode-block" id="SPARQLWrapper.setRequestMethod"><a class="viewcode-back" href="../../SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.SPARQLWrapper.setRequestMethod">[docs]</a>    <span class="k">def</span> <span class="nf">setRequestMethod</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set the internal method to use to perform the request for query or</span>
+<span class="sd">        update operations, either URL-encoded (:data:`URLENCODED`) or</span>
+<span class="sd">        POST directly (:data:`POSTDIRECTLY`).</span>
+<span class="sd">        Further details at `query operation in SPARQL &lt;http://www.w3.org/TR/sparql11-protocol/#query-operation&gt;`_</span>
+<span class="sd">        and `update operation in SPARQL Update &lt;http://www.w3.org/TR/sparql11-protocol/#update-operation&gt;`_.</span>
+
+<span class="sd">        :param method: Possible values are :data:`URLENCODED` (URL-encoded) or :data:`POSTDIRECTLY` (POST directly). All other cases are ignored.</span>
+<span class="sd">        :type method: string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">_REQUEST_METHODS</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">requestMethod</span> <span class="o">=</span> <span class="n">method</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;invalid update method &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="n">method</span><span class="p">,</span> <span class="ne">RuntimeWarning</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SPARQLWrapper.addDefaultGraph"><a class="viewcode-back" href="../../SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.SPARQLWrapper.addDefaultGraph">[docs]</a>    <span class="k">def</span> <span class="nf">addDefaultGraph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uri</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Add a default graph URI.</span>
+
+<span class="sd">            .. deprecated:: 1.6.0 Use :func:`addParameter(&quot;default-graph-uri&quot;, uri)&lt;addParameter&gt;` instead of this method.</span>
+
+<span class="sd">            :param uri: URI of the default graph.</span>
+<span class="sd">            :type uri: string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">addParameter</span><span class="p">(</span><span class="s2">&quot;default-graph-uri&quot;</span><span class="p">,</span> <span class="n">uri</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SPARQLWrapper.addNamedGraph"><a class="viewcode-back" href="../../SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.SPARQLWrapper.addNamedGraph">[docs]</a>    <span class="k">def</span> <span class="nf">addNamedGraph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uri</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Add a named graph URI.</span>
+
+<span class="sd">            .. deprecated:: 1.6.0 Use :func:`addParameter(&quot;named-graph-uri&quot;, uri)&lt;addParameter&gt;` instead of this method.</span>
+
+<span class="sd">            :param uri: URI of the named graph.</span>
+<span class="sd">            :type uri: string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">addParameter</span><span class="p">(</span><span class="s2">&quot;named-graph-uri&quot;</span><span class="p">,</span> <span class="n">uri</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SPARQLWrapper.addExtraURITag"><a class="viewcode-back" href="../../SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.SPARQLWrapper.addExtraURITag">[docs]</a>    <span class="k">def</span> <span class="nf">addExtraURITag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Some SPARQL endpoints require extra key value pairs.</span>
+<span class="sd">            E.g., in virtuoso, one would add ``should-sponge=soft`` to the query forcing</span>
+<span class="sd">            virtuoso to retrieve graphs that are not stored in its local database.</span>
+<span class="sd">            Alias of :func:`addParameter` method.</span>
+
+<span class="sd">            .. deprecated:: 1.6.0 Use :func:`addParameter(key, value)&lt;addParameter&gt;` instead of this method</span>
+
+<span class="sd">            :param key: key of the query part.</span>
+<span class="sd">            :type key: string</span>
+<span class="sd">            :param value: value of the query part.</span>
+<span class="sd">            :type value: string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">addParameter</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SPARQLWrapper.addCustomParameter"><a class="viewcode-back" href="../../SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.SPARQLWrapper.addCustomParameter">[docs]</a>    <span class="k">def</span> <span class="nf">addCustomParameter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Method is kept for backwards compatibility. Historically, it &quot;replaces&quot; parameters instead of adding.</span>
+
+<span class="sd">            .. deprecated:: 1.6.0 Use :func:`addParameter(key, value)&lt;addParameter&gt;` instead of this method</span>
+
+<span class="sd">            :param name: name.</span>
+<span class="sd">            :type name: string</span>
+<span class="sd">            :param value: value.</span>
+<span class="sd">            :type value: string</span>
+<span class="sd">            :return: Returns ``True`` if the adding has been accomplished, otherwise ``False``.</span>
+<span class="sd">            :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clearParameter</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">addParameter</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SPARQLWrapper.addParameter"><a class="viewcode-back" href="../../SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.SPARQLWrapper.addParameter">[docs]</a>    <span class="k">def</span> <span class="nf">addParameter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Some SPARQL endpoints allow extra key value pairs.</span>
+<span class="sd">            E.g., in virtuoso, one would add ``should-sponge=soft`` to the query forcing</span>
+<span class="sd">            virtuoso to retrieve graphs that are not stored in its local database.</span>
+<span class="sd">            If the parameter :attr:`query` is tried to be set, this intent is dismissed.</span>
+<span class="sd">            Returns a boolean indicating if the set has been accomplished.</span>
+
+<span class="sd">            :param name: name.</span>
+<span class="sd">            :type name: string</span>
+<span class="sd">            :param value: value.</span>
+<span class="sd">            :type value: string</span>
+<span class="sd">            :return: Returns ``True`` if the adding has been accomplished, otherwise ``False``.</span>
+<span class="sd">            :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">_SPARQL_PARAMS</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="SPARQLWrapper.addCustomHttpHeader"><a class="viewcode-back" href="../../SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.SPARQLWrapper.addCustomHttpHeader">[docs]</a>    <span class="k">def</span> <span class="nf">addCustomHttpHeader</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">httpHeaderName</span><span class="p">,</span> <span class="n">httpHeaderValue</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Add a custom HTTP header (this method can override all HTTP headers).</span>
+
+<span class="sd">            **Important**: Take into account that each previous value for the header field names</span>
+<span class="sd">            ``Content-Type``, ``User-Agent``, ``Accept`` and ``Authorization`` would be overriden</span>
+<span class="sd">            if the header field name is present as value of the parameter :attr:`httpHeaderName`.</span>
+
+<span class="sd">            .. versionadded:: 1.8.2</span>
+
+<span class="sd">            :param httpHeaderName: The header field name.</span>
+<span class="sd">            :type httpHeaderName: string</span>
+<span class="sd">            :param httpHeaderValue: The header field value.</span>
+<span class="sd">            :type httpHeaderValue: string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">customHttpHeaders</span><span class="p">[</span><span class="n">httpHeaderName</span><span class="p">]</span> <span class="o">=</span> <span class="n">httpHeaderValue</span></div>
+
+<div class="viewcode-block" id="SPARQLWrapper.clearCustomHttpHeader"><a class="viewcode-back" href="../../SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.SPARQLWrapper.clearCustomHttpHeader">[docs]</a>    <span class="k">def</span> <span class="nf">clearCustomHttpHeader</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">httpHeaderName</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Clear the values of a custom HTTP Header previously set.</span>
+<span class="sd">            Returns a boolean indicating if the clearing has been accomplished.</span>
+
+<span class="sd">            .. versionadded:: 1.8.2</span>
+
+<span class="sd">            :param httpHeaderName: HTTP header name.</span>
+<span class="sd">            :type httpHeaderName: string</span>
+<span class="sd">            :return: Returns ``True`` if the clearing has been accomplished, otherwise ``False``.</span>
+<span class="sd">            :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">customHttpHeaders</span><span class="p">[</span><span class="n">httpHeaderName</span><span class="p">]</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="SPARQLWrapper.clearParameter"><a class="viewcode-back" href="../../SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.SPARQLWrapper.clearParameter">[docs]</a>    <span class="k">def</span> <span class="nf">clearParameter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Clear the values of a concrete parameter.</span>
+<span class="sd">            Returns a boolean indicating if the clearing has been accomplished.</span>
+
+<span class="sd">            :param name: name</span>
+<span class="sd">            :type name: string</span>
+<span class="sd">            :return: Returns ``True`` if the clearing has been accomplished, otherwise ``False``.</span>
+<span class="sd">            :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">_SPARQL_PARAMS</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+                <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="SPARQLWrapper.setCredentials"><a class="viewcode-back" href="../../SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.SPARQLWrapper.setCredentials">[docs]</a>    <span class="k">def</span> <span class="nf">setCredentials</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">passwd</span><span class="p">,</span> <span class="n">realm</span><span class="o">=</span><span class="s2">&quot;SPARQL&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Set the credentials for querying the current endpoint.</span>
+
+<span class="sd">            :param user: username.</span>
+<span class="sd">            :type user: string</span>
+<span class="sd">            :param passwd: password.</span>
+<span class="sd">            :type passwd: string</span>
+<span class="sd">            :param realm: realm. Only used for :data:`DIGEST` authentication. The **default** value is ``SPARQL``</span>
+<span class="sd">            :type realm: string</span>
+
+<span class="sd">            .. versionchanged:: 1.8.3 </span>
+<span class="sd">               Added :attr:`realm` parameter.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="n">user</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">passwd</span> <span class="o">=</span> <span class="n">passwd</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">realm</span> <span class="o">=</span> <span class="n">realm</span></div>
+
+<div class="viewcode-block" id="SPARQLWrapper.setHTTPAuth"><a class="viewcode-back" href="../../SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.SPARQLWrapper.setHTTPAuth">[docs]</a>    <span class="k">def</span> <span class="nf">setHTTPAuth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">auth</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Set the HTTP Authentication type. Possible values are :class:`BASIC` or :class:`DIGEST`.</span>
+
+<span class="sd">            :param auth: auth type.</span>
+<span class="sd">            :type auth: string</span>
+<span class="sd">            :raises TypeError: If the :attr:`auth` parameter is not an string.</span>
+<span class="sd">            :raises ValueError: If the :attr:`auth` parameter has not one of the valid values: :class:`BASIC` or :class:`DIGEST`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">auth</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;setHTTPAuth takes a string&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">auth</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="ow">in</span> <span class="n">_allowedAuth</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">http_auth</span> <span class="o">=</span> <span class="n">auth</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">valid_types</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_allowedAuth</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Value should be one of </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">valid_types</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="SPARQLWrapper.setQuery"><a class="viewcode-back" href="../../SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.SPARQLWrapper.setQuery">[docs]</a>    <span class="k">def</span> <span class="nf">setQuery</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Set the SPARQL query text. </span>
+
+<span class="sd">            .. note::</span>
+<span class="sd">              No check is done on the validity of the query</span>
+<span class="sd">              (syntax or otherwise) by this module, except for testing the query type (SELECT,</span>
+<span class="sd">              ASK, etc). Syntax and validity checking is done by the SPARQL service itself.</span>
+
+<span class="sd">            :param query: query text.</span>
+<span class="sd">            :type query: string</span>
+<span class="sd">            :raises TypeError: If the :attr:`query` parameter is not an unicode-string or utf-8 encoded byte-string.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version</span> <span class="o">&lt;</span> <span class="s1">&#39;3&#39;</span><span class="p">:</span>  <span class="c1"># have to write it like this, for 2to3 compatibility</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">unicode</span><span class="p">):</span>
+                <span class="k">pass</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;setQuery takes either unicode-strings or utf-8 encoded byte-strings&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="k">pass</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">):</span>
+                <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;setQuery takes either unicode-strings or utf-8 encoded byte-strings&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">queryString</span> <span class="o">=</span> <span class="n">query</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">queryType</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parseQueryType</span><span class="p">(</span><span class="n">query</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SPARQLWrapper._parseQueryType"><a class="viewcode-back" href="../../SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.SPARQLWrapper._parseQueryType">[docs]</a>    <span class="k">def</span> <span class="nf">_parseQueryType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Internal method for parsing the SPARQL query and return its type (ie, :data:`SELECT`, :data:`ASK`, etc).</span>
+
+<span class="sd">            .. note::</span>
+<span class="sd">              The method returns :data:`SELECT` if nothing is specified. This is just to get all other</span>
+<span class="sd">              methods running; in fact, this means that the query is erroneous, because the query must be,</span>
+<span class="sd">              according to the SPARQL specification. The</span>
+<span class="sd">              SPARQL endpoint should raise an exception (via :mod:`urllib`) for such syntax error.</span>
+
+<span class="sd">            :param query: query text.</span>
+<span class="sd">            :type query: string</span>
+<span class="sd">            :return: the type of SPARQL query (aka SPARQL query form).</span>
+<span class="sd">            :rtype: string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">query</span> <span class="o">=</span> <span class="n">query</span> <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="nb">str</span><span class="p">))</span> <span class="k">else</span> <span class="n">query</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">,</span> <span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+            <span class="n">query</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cleanComments</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+            <span class="n">query_for_queryType</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prefix_pattern</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">query</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+            <span class="n">r_queryType</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pattern</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">query_for_queryType</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;queryType&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;not detected query type for query &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="n">query</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">),</span> <span class="ne">RuntimeWarning</span><span class="p">)</span>
+            <span class="n">r_queryType</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">r_queryType</span> <span class="ow">in</span> <span class="n">_allowedQueryTypes</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">r_queryType</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1">#raise Exception(&quot;Illegal SPARQL Query; must be one of SELECT, ASK, DESCRIBE, or CONSTRUCT&quot;)</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;unknown query type &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="n">r_queryType</span><span class="p">,</span> <span class="ne">RuntimeWarning</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">SELECT</span></div>
+
+<div class="viewcode-block" id="SPARQLWrapper.setMethod"><a class="viewcode-back" href="../../SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.SPARQLWrapper.setMethod">[docs]</a>    <span class="k">def</span> <span class="nf">setMethod</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set the invocation method. By default, this is :data:`GET`, but can be set to :data:`POST`.</span>
+
+<span class="sd">        :param method: should be either :data:`GET` or :data:`POST`. Other cases are ignored.</span>
+<span class="sd">        :type method: string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">_allowedRequests</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">method</span> <span class="o">=</span> <span class="n">method</span></div>
+
+<div class="viewcode-block" id="SPARQLWrapper.setUseKeepAlive"><a class="viewcode-back" href="../../SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.SPARQLWrapper.setUseKeepAlive">[docs]</a>    <span class="k">def</span> <span class="nf">setUseKeepAlive</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Make :mod:`urllib2` use keep-alive.</span>
+
+<span class="sd">        :raises ImportError: when could not be imported ``keepalive.HTTPHandler``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">keepalive</span> <span class="k">import</span> <span class="n">HTTPHandler</span>
+
+            <span class="k">if</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">_opener</span> <span class="ow">and</span> <span class="nb">any</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">HTTPHandler</span><span class="p">)</span> <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">_opener</span><span class="o">.</span><span class="n">handlers</span><span class="p">):</span>
+                <span class="c1"># already installed</span>
+                <span class="k">return</span>
+
+            <span class="n">keepalive_handler</span> <span class="o">=</span> <span class="n">HTTPHandler</span><span class="p">()</span>
+            <span class="n">opener</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">build_opener</span><span class="p">(</span><span class="n">keepalive_handler</span><span class="p">)</span>
+            <span class="n">urllib2</span><span class="o">.</span><span class="n">install_opener</span><span class="p">(</span><span class="n">opener</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;keepalive support not available, so the execution of this method has no effect&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SPARQLWrapper.isSparqlUpdateRequest"><a class="viewcode-back" href="../../SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.SPARQLWrapper.isSparqlUpdateRequest">[docs]</a>    <span class="k">def</span> <span class="nf">isSparqlUpdateRequest</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Returns ``True`` if SPARQLWrapper is configured for executing SPARQL Update request.</span>
+
+<span class="sd">        :return: Returns ``True`` if SPARQLWrapper is configured for executing SPARQL Update request.</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">queryType</span> <span class="ow">in</span> <span class="p">[</span><span class="n">INSERT</span><span class="p">,</span> <span class="n">DELETE</span><span class="p">,</span> <span class="n">CREATE</span><span class="p">,</span> <span class="n">CLEAR</span><span class="p">,</span> <span class="n">DROP</span><span class="p">,</span> <span class="n">LOAD</span><span class="p">,</span> <span class="n">COPY</span><span class="p">,</span> <span class="n">MOVE</span><span class="p">,</span> <span class="n">ADD</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="SPARQLWrapper.isSparqlQueryRequest"><a class="viewcode-back" href="../../SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.SPARQLWrapper.isSparqlQueryRequest">[docs]</a>    <span class="k">def</span> <span class="nf">isSparqlQueryRequest</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Returns ``True`` if SPARQLWrapper is configured for executing SPARQL Query request.</span>
+
+<span class="sd">        :return: Returns ``True`` if SPARQLWrapper is configured for executing SPARQL Query request.</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">isSparqlUpdateRequest</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="SPARQLWrapper._cleanComments"><a class="viewcode-back" href="../../SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.SPARQLWrapper._cleanComments">[docs]</a>    <span class="k">def</span> <span class="nf">_cleanComments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Internal method for returning the query after all occurrence of singleline comments are removed (issues #32 and #77).</span>
+
+<span class="sd">        :param query: The query.</span>
+<span class="sd">        :type query: string</span>
+<span class="sd">        :return: the query after all occurrence of singleline comments are removed.</span>
+<span class="sd">        :rtype: string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">comments_pattern</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">query</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SPARQLWrapper._getRequestEncodedParameters"><a class="viewcode-back" href="../../SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.SPARQLWrapper._getRequestEncodedParameters">[docs]</a>    <span class="k">def</span> <span class="nf">_getRequestEncodedParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Internal method for getting the request encoded parameters.</span>
+
+<span class="sd">        :param query: a tuple of two items. The first item can be the string \</span>
+<span class="sd">        ``query`` (for :data:`SELECT`, :data:`DESCRIBE`, :data:`ASK`, :data:`CONSTRUCT` query) or the string ``update`` \</span>
+<span class="sd">        (for SPARQL Update queries, like :data:`DELETE` or :data:`INSERT`). The second item of the tuple \</span>
+<span class="sd">        is the query string itself.</span>
+<span class="sd">        :type query: tuple</span>
+<span class="sd">        :return: the request encoded parameters.</span>
+<span class="sd">        :rtype: string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">query_parameters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="c1"># in case of query = tuple(&quot;query&quot;/&quot;update&quot;, queryString)</span>
+        <span class="k">if</span> <span class="n">query</span> <span class="ow">and</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">))</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">query</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">query_parameters</span><span class="p">[</span><span class="n">query</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="n">query</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">isSparqlUpdateRequest</span><span class="p">():</span>
+            <span class="c1"># This is very ugly. The fact is that the key for the choice of the output format is not defined.</span>
+            <span class="c1"># Virtuoso uses &#39;format&#39;,sparqler uses &#39;output&#39;</span>
+            <span class="c1"># However, these processors are (hopefully) oblivious to the parameters they do not understand.</span>
+            <span class="c1"># So: just repeat all possibilities in the final URI. UGLY!!!!!!!</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">onlyConneg</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">_returnFormatSetting</span><span class="p">:</span>
+                    <span class="n">query_parameters</span><span class="p">[</span><span class="n">f</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">returnFormat</span><span class="p">]</span>
+                    <span class="c1"># Virtuoso is not supporting a correct Accept header and an unexpected &quot;output&quot;/&quot;format&quot; parameter value. It returns a 406.</span>
+                    <span class="c1"># &quot;tsv&quot;, &quot;rdf+xml&quot; and &quot;json-ld&quot; are not supported as a correct &quot;output&quot;/&quot;format&quot; parameter value but &quot;text/tab-separated-values&quot; or &quot;application/rdf+xml&quot; are a valid values,</span>
+                    <span class="c1"># and there is no problem to send both (4store does not support unexpected values).</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">returnFormat</span> <span class="ow">in</span> <span class="p">[</span><span class="n">TSV</span><span class="p">,</span> <span class="n">JSONLD</span><span class="p">,</span> <span class="n">RDFXML</span><span class="p">]:</span>
+                        <span class="n">acceptHeader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getAcceptHeader</span><span class="p">()</span> <span class="c1"># to obtain the mime-type &quot;text/tab-separated-values&quot; or &quot;application/rdf+xml&quot;</span>
+                        <span class="k">if</span> <span class="s2">&quot;*/*&quot;</span> <span class="ow">in</span> <span class="n">acceptHeader</span><span class="p">:</span>
+                            <span class="n">acceptHeader</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span> <span class="c1"># clear the value in case of &quot;*/*&quot;</span>
+                        <span class="n">query_parameters</span><span class="p">[</span><span class="n">f</span><span class="p">]</span> <span class="o">+=</span> <span class="p">[</span><span class="n">acceptHeader</span><span class="p">]</span>
+
+        <span class="n">pairs</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span>
+                <span class="n">urllib</span><span class="o">.</span><span class="n">quote_plus</span><span class="p">(</span><span class="n">param</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;UTF-8&#39;</span><span class="p">),</span> <span class="n">safe</span><span class="o">=</span><span class="s1">&#39;/&#39;</span><span class="p">),</span>
+                <span class="n">urllib</span><span class="o">.</span><span class="n">quote_plus</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;UTF-8&#39;</span><span class="p">),</span> <span class="n">safe</span><span class="o">=</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="n">param</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">query_parameters</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">values</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="s1">&#39;&amp;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pairs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SPARQLWrapper._getAcceptHeader"><a class="viewcode-back" href="../../SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.SPARQLWrapper._getAcceptHeader">[docs]</a>    <span class="k">def</span> <span class="nf">_getAcceptHeader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Internal method for getting the HTTP Accept Header.</span>
+
+<span class="sd">        .. seealso:: `Hypertext Transfer Protocol -- HTTP/1.1 - Header Field Definitions &lt;https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.1&gt;`_</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">queryType</span> <span class="ow">in</span> <span class="p">[</span><span class="n">SELECT</span><span class="p">,</span> <span class="n">ASK</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">returnFormat</span> <span class="o">==</span> <span class="n">XML</span><span class="p">:</span>
+                <span class="n">acceptHeader</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_SPARQL_XML</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">returnFormat</span> <span class="o">==</span> <span class="n">JSON</span><span class="p">:</span>
+                <span class="n">acceptHeader</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_SPARQL_JSON</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">returnFormat</span> <span class="o">==</span> <span class="n">CSV</span><span class="p">:</span> <span class="c1"># Allowed for SELECT and ASK (https://www.w3.org/TR/2013/REC-sparql11-protocol-20130321/#query-success) but only described for SELECT (https://www.w3.org/TR/sparql11-results-csv-tsv/)</span>
+                <span class="n">acceptHeader</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_CSV</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">returnFormat</span> <span class="o">==</span> <span class="n">TSV</span><span class="p">:</span> <span class="c1"># Allowed for SELECT and ASK (https://www.w3.org/TR/2013/REC-sparql11-protocol-20130321/#query-success) but only described for SELECT (https://www.w3.org/TR/sparql11-results-csv-tsv/)</span>
+                <span class="n">acceptHeader</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_TSV</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">acceptHeader</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_ALL</span><span class="p">)</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Sending Accept header &#39;*/*&#39; because unexpected returned format &#39;</span><span class="si">%s</span><span class="s2">&#39; in a &#39;</span><span class="si">%s</span><span class="s2">&#39; SPARQL query form&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">returnFormat</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">queryType</span><span class="p">),</span> <span class="ne">RuntimeWarning</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">queryType</span> <span class="ow">in</span> <span class="p">[</span><span class="n">CONSTRUCT</span><span class="p">,</span> <span class="n">DESCRIBE</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">returnFormat</span> <span class="o">==</span> <span class="n">TURTLE</span><span class="p">:</span>
+                <span class="n">acceptHeader</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_RDF_TURTLE</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">returnFormat</span> <span class="o">==</span> <span class="n">N3</span><span class="p">:</span>
+                <span class="n">acceptHeader</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_RDF_N3</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">returnFormat</span> <span class="o">==</span> <span class="n">XML</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">returnFormat</span> <span class="o">==</span> <span class="n">RDFXML</span><span class="p">:</span>
+                <span class="n">acceptHeader</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_RDF_XML</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">returnFormat</span> <span class="o">==</span> <span class="n">JSONLD</span> <span class="ow">and</span> <span class="n">JSONLD</span> <span class="ow">in</span> <span class="n">_allowedFormats</span><span class="p">:</span>
+                <span class="n">acceptHeader</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_RDF_JSONLD</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">acceptHeader</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_ALL</span><span class="p">)</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Sending Accept header &#39;*/*&#39; because unexpected returned format &#39;</span><span class="si">%s</span><span class="s2">&#39; in a &#39;</span><span class="si">%s</span><span class="s2">&#39; SPARQL query form&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">returnFormat</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">queryType</span><span class="p">),</span> <span class="ne">RuntimeWarning</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">queryType</span> <span class="ow">in</span> <span class="p">[</span><span class="n">INSERT</span><span class="p">,</span> <span class="n">DELETE</span><span class="p">,</span> <span class="n">CREATE</span><span class="p">,</span> <span class="n">CLEAR</span><span class="p">,</span> <span class="n">DROP</span><span class="p">,</span> <span class="n">LOAD</span><span class="p">,</span> <span class="n">COPY</span><span class="p">,</span> <span class="n">MOVE</span><span class="p">,</span> <span class="n">ADD</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">returnFormat</span> <span class="o">==</span> <span class="n">XML</span><span class="p">:</span>
+                <span class="n">acceptHeader</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_SPARQL_XML</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">returnFormat</span> <span class="o">==</span> <span class="n">JSON</span><span class="p">:</span>
+                <span class="n">acceptHeader</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_SPARQL_JSON</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">acceptHeader</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_ALL</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">acceptHeader</span> <span class="o">=</span> <span class="s2">&quot;*/*&quot;</span>
+        <span class="k">return</span> <span class="n">acceptHeader</span></div>
+
+<div class="viewcode-block" id="SPARQLWrapper._createRequest"><a class="viewcode-back" href="../../SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.SPARQLWrapper._createRequest">[docs]</a>    <span class="k">def</span> <span class="nf">_createRequest</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Internal method to create request according a HTTP method. Returns a</span>
+<span class="sd">        :class:`urllib2.Request` object of the :mod:`urllib2` Python library</span>
+
+<span class="sd">        :raises NotImplementedError: If the HTTP authentification method is not one of the valid values: :data:`BASIC` or :data:`DIGEST`.</span>
+<span class="sd">        :return: request a :class:`urllib2.Request` object of the :mod:`urllib2` Python library</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">request</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">isSparqlUpdateRequest</span><span class="p">():</span>
+            <span class="c1">#protocol details at http://www.w3.org/TR/sparql11-protocol/#update-operation</span>
+            <span class="n">uri</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">updateEndpoint</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">method</span> <span class="o">!=</span> <span class="n">POST</span><span class="p">:</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;update operations MUST be done by POST&quot;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">requestMethod</span> <span class="o">==</span> <span class="n">POSTDIRECTLY</span><span class="p">:</span>
+                <span class="n">request</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="n">uri</span> <span class="o">+</span> <span class="s2">&quot;?&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getRequestEncodedParameters</span><span class="p">())</span>
+                <span class="n">request</span><span class="o">.</span><span class="n">add_header</span><span class="p">(</span><span class="s2">&quot;Content-Type&quot;</span><span class="p">,</span> <span class="s2">&quot;application/sparql-update&quot;</span><span class="p">)</span>
+                <span class="n">request</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">queryString</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;UTF-8&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>  <span class="c1"># URL-encoded</span>
+                <span class="n">request</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="n">uri</span><span class="p">)</span>
+                <span class="n">request</span><span class="o">.</span><span class="n">add_header</span><span class="p">(</span><span class="s2">&quot;Content-Type&quot;</span><span class="p">,</span> <span class="s2">&quot;application/x-www-form-urlencoded&quot;</span><span class="p">)</span>
+                <span class="n">request</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getRequestEncodedParameters</span><span class="p">((</span><span class="s2">&quot;update&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">queryString</span><span class="p">))</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1">#protocol details at http://www.w3.org/TR/sparql11-protocol/#query-operation</span>
+            <span class="n">uri</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">endpoint</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="n">POST</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">requestMethod</span> <span class="o">==</span> <span class="n">POSTDIRECTLY</span><span class="p">:</span>
+                    <span class="n">request</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="n">uri</span> <span class="o">+</span> <span class="s2">&quot;?&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getRequestEncodedParameters</span><span class="p">())</span>
+                    <span class="n">request</span><span class="o">.</span><span class="n">add_header</span><span class="p">(</span><span class="s2">&quot;Content-Type&quot;</span><span class="p">,</span> <span class="s2">&quot;application/sparql-query&quot;</span><span class="p">)</span>
+                    <span class="n">request</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">queryString</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;UTF-8&#39;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>  <span class="c1"># URL-encoded</span>
+                    <span class="n">request</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="n">uri</span><span class="p">)</span>
+                    <span class="n">request</span><span class="o">.</span><span class="n">add_header</span><span class="p">(</span><span class="s2">&quot;Content-Type&quot;</span><span class="p">,</span> <span class="s2">&quot;application/x-www-form-urlencoded&quot;</span><span class="p">)</span>
+                    <span class="n">request</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getRequestEncodedParameters</span><span class="p">((</span><span class="s2">&quot;query&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">queryString</span><span class="p">))</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>  <span class="c1"># GET</span>
+                <span class="n">request</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="n">uri</span> <span class="o">+</span> <span class="s2">&quot;?&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getRequestEncodedParameters</span><span class="p">((</span><span class="s2">&quot;query&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">queryString</span><span class="p">)))</span>
+
+        <span class="n">request</span><span class="o">.</span><span class="n">add_header</span><span class="p">(</span><span class="s2">&quot;User-Agent&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="p">)</span>
+        <span class="n">request</span><span class="o">.</span><span class="n">add_header</span><span class="p">(</span><span class="s2">&quot;Accept&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getAcceptHeader</span><span class="p">())</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">user</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">passwd</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">http_auth</span> <span class="o">==</span> <span class="n">BASIC</span><span class="p">:</span>
+                <span class="n">credentials</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">:</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">passwd</span><span class="p">)</span>
+                <span class="n">request</span><span class="o">.</span><span class="n">add_header</span><span class="p">(</span><span class="s2">&quot;Authorization&quot;</span><span class="p">,</span> <span class="s2">&quot;Basic </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">credentials</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">http_auth</span> <span class="o">==</span> <span class="n">DIGEST</span><span class="p">:</span>
+                <span class="n">realm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">realm</span>
+                <span class="n">pwd_mgr</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">HTTPPasswordMgr</span><span class="p">()</span>
+                <span class="n">pwd_mgr</span><span class="o">.</span><span class="n">add_password</span><span class="p">(</span><span class="n">realm</span><span class="p">,</span> <span class="n">uri</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">passwd</span><span class="p">)</span>
+                <span class="n">opener</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">build_opener</span><span class="p">()</span>
+                <span class="n">opener</span><span class="o">.</span><span class="n">add_handler</span><span class="p">(</span><span class="n">urllib2</span><span class="o">.</span><span class="n">HTTPDigestAuthHandler</span><span class="p">(</span><span class="n">pwd_mgr</span><span class="p">))</span>
+                <span class="n">urllib2</span><span class="o">.</span><span class="n">install_opener</span><span class="p">(</span><span class="n">opener</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">valid_types</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_allowedAuth</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Expecting one of: </span><span class="si">{0}</span><span class="s2">, but received: </span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">valid_types</span><span class="p">,</span>
+                                                                                            <span class="bp">self</span><span class="o">.</span><span class="n">http_auth</span><span class="p">))</span>
+
+        <span class="c1"># The header field name is capitalized in the request.add_header method.</span>
+        <span class="k">for</span> <span class="n">customHttpHeader</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">customHttpHeaders</span><span class="p">:</span>
+            <span class="n">request</span><span class="o">.</span><span class="n">add_header</span><span class="p">(</span><span class="n">customHttpHeader</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">customHttpHeaders</span><span class="p">[</span><span class="n">customHttpHeader</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="n">request</span></div>
+
+<div class="viewcode-block" id="SPARQLWrapper._query"><a class="viewcode-back" href="../../SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.SPARQLWrapper._query">[docs]</a>    <span class="k">def</span> <span class="nf">_query</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Internal method to execute the query. Returns the output of the</span>
+<span class="sd">        :func:`urllib2.urlopen` method of the :mod:`urllib2` Python library</span>
+
+<span class="sd">        :return: tuples with the raw request plus the expected format.</span>
+<span class="sd">        :raises QueryBadFormed: If the HTTP return code is ``400``.</span>
+<span class="sd">        :raises Unauthorized: If the HTTP return code is ``401``.</span>
+<span class="sd">        :raises EndPointNotFound: If the HTTP return code is ``404``.</span>
+<span class="sd">        :raises URITooLong: If the HTTP return code is ``414``.</span>
+<span class="sd">        :raises EndPointInternalError: If the HTTP return code is ``500``.</span>
+<span class="sd">        :raises urllib2.HTTPError: If the HTTP return code is different to ``400``, ``401``, ``404``, ``414``, ``500``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">request</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_createRequest</span><span class="p">()</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">timeout</span><span class="p">:</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="n">urlopener</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">timeout</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="n">urlopener</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">returnFormat</span>
+        <span class="k">except</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">HTTPError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">code</span> <span class="o">==</span> <span class="mi">400</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">QueryBadFormed</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+            <span class="k">elif</span> <span class="n">e</span><span class="o">.</span><span class="n">code</span> <span class="o">==</span> <span class="mi">404</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">EndPointNotFound</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+            <span class="k">elif</span> <span class="n">e</span><span class="o">.</span><span class="n">code</span> <span class="o">==</span> <span class="mi">401</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">Unauthorized</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+            <span class="k">elif</span> <span class="n">e</span><span class="o">.</span><span class="n">code</span> <span class="o">==</span> <span class="mi">414</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">URITooLong</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+            <span class="k">elif</span> <span class="n">e</span><span class="o">.</span><span class="n">code</span> <span class="o">==</span> <span class="mi">500</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">EndPointInternalError</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">e</span></div>
+
+<div class="viewcode-block" id="SPARQLWrapper.query"><a class="viewcode-back" href="../../SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.SPARQLWrapper.query">[docs]</a>    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Execute the query.</span>
+<span class="sd">            Exceptions can be raised if either the URI is wrong or the HTTP sends back an error (this is also the</span>
+<span class="sd">            case when the query is syntactically incorrect, leading to an HTTP error sent back by the SPARQL endpoint).</span>
+<span class="sd">            The usual urllib2 exceptions are raised, which therefore cover possible SPARQL errors, too.</span>
+
+<span class="sd">            Note that some combinations of return formats and query types may not make sense. For example,</span>
+<span class="sd">            a SELECT query with Turtle response is meaningless (the output of a SELECT is not a Graph), or a CONSTRUCT</span>
+<span class="sd">            query with JSON output may be a problem because, at the moment, there is no accepted JSON serialization</span>
+<span class="sd">            of RDF (let alone one implemented by SPARQL endpoints). In such cases the returned media type of the result is</span>
+<span class="sd">            unpredictable and may differ from one SPARQL endpoint implementation to the other. (Endpoints usually fall</span>
+<span class="sd">            back to one of the &quot;meaningful&quot; formats, but it is up to the specific implementation to choose which</span>
+<span class="sd">            one that is.)</span>
+
+<span class="sd">            :return: query result</span>
+<span class="sd">            :rtype: :class:`QueryResult` instance</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">QueryResult</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_query</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="SPARQLWrapper.queryAndConvert"><a class="viewcode-back" href="../../SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.SPARQLWrapper.queryAndConvert">[docs]</a>    <span class="k">def</span> <span class="nf">queryAndConvert</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Macro like method: issue a query and return the converted results.</span>
+
+<span class="sd">        :return: the converted query result. See the conversion methods for more details.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">convert</span><span class="p">()</span></div>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This method returns the string representation of a :class:`SPARQLWrapper` object.</span>
+
+<span class="sd">        .. versionadded:: 1.8.3</span>
+
+<span class="sd">        :return: A human-readable string of the object.</span>
+<span class="sd">        :rtype: string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fullname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__module__</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;&quot;</span><span class="si">%s</span><span class="s1">&quot; : </span><span class="si">%r</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
+        <span class="n">str_dict_items</span> <span class="o">=</span> <span class="s2">&quot;{</span><span class="si">%s</span><span class="s2">}&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="s1">&#39;,</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">items</span><span class="p">))</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;</span><span class="si">%s</span><span class="s2"> object at 0x</span><span class="si">%016X</span><span class="s2">&gt;</span><span class="se">\n</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">fullname</span><span class="p">,</span> <span class="nb">id</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span> <span class="n">str_dict_items</span><span class="p">)</span></div>
+
+
+<span class="c1">#######################################################################################################</span>
+
+
+<div class="viewcode-block" id="QueryResult"><a class="viewcode-back" href="../../SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.QueryResult">[docs]</a><span class="k">class</span> <span class="nc">QueryResult</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Wrapper around an a query result. Users should not create instances of this class, it is</span>
+<span class="sd">    generated by a :func:`SPARQLWrapper.query` call. The results can be</span>
+<span class="sd">    converted to various formats, or used directly.</span>
+
+<span class="sd">    If used directly: the class gives access to the direct HTTP request results</span>
+<span class="sd">    ``response`` obtained from the call to :func:`urllib.urlopen`.</span>
+<span class="sd">    It is a file-like object with two additional methods: </span>
+
+<span class="sd">    * ``geturl()`` to return the URL of the resource retrieved</span>
+<span class="sd">    * ``info()`` that returns the meta-information of the HTTP result as a dictionary-like object.</span>
+
+<span class="sd">    For convenience, these methods are also available on the :class:`QueryResult` instance.</span>
+
+<span class="sd">    The :func:`__iter__` and :func:`next` methods are also implemented (by mapping them to :attr:`response`). This means that the</span>
+<span class="sd">    common idiom ``for l in obj : do_something_with_line(l)`` would work, too.</span>
+
+<span class="sd">    :ivar response: the direct HTTP response; a file-like object, as return by the :func:`urllib2.urlopen` library call.</span>
+<span class="sd">    :ivar requestedFormat: The requested format. The possible values are: :data:`JSON`, :data:`XML`, :data:`RDFXML`, :data:`TURTLE`, :data:`N3`, :data:`RDF`, :data:`CSV`, :data:`TSV`, :data:`JSONLD`.</span>
+<span class="sd">    :type requestedFormat: string</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="QueryResult.__init__"><a class="viewcode-back" href="../../SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.QueryResult.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param result: HTTP response stemming from a :func:`SPARQLWrapper.query` call, or a tuple with the expected format: (response, format).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">response</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">requestedFormat</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">response</span> <span class="o">=</span> <span class="n">result</span></div>
+
+<div class="viewcode-block" id="QueryResult.geturl"><a class="viewcode-back" href="../../SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.QueryResult.geturl">[docs]</a>    <span class="k">def</span> <span class="nf">geturl</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the URL of the original call.</span>
+
+<span class="sd">        :return: URL of the original call.</span>
+<span class="sd">        :rtype: string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">response</span><span class="o">.</span><span class="n">geturl</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="QueryResult.info"><a class="viewcode-back" href="../../SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.QueryResult.info">[docs]</a>    <span class="k">def</span> <span class="nf">info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the meta-information of the HTTP result.</span>
+
+<span class="sd">        :return: meta-information of the HTTP result.</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">KeyCaseInsensitiveDict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">response</span><span class="o">.</span><span class="n">info</span><span class="p">())</span></div>
+
+    <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return an iterator object. This method is expected for the inclusion</span>
+<span class="sd">        of the object in a standard ``for`` loop.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">response</span><span class="o">.</span><span class="fm">__iter__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="QueryResult.next"><a class="viewcode-back" href="../../SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.QueryResult.next">[docs]</a>    <span class="k">def</span> <span class="nf">next</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Method for the standard iterator.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">response</span><span class="o">.</span><span class="n">next</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="QueryResult._convertJSON"><a class="viewcode-back" href="../../SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.QueryResult._convertJSON">[docs]</a>    <span class="k">def</span> <span class="nf">_convertJSON</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert a JSON result into a Python dict. This method can be overwritten in a subclass</span>
+<span class="sd">        for a different conversion method.</span>
+
+<span class="sd">        :return: converted result.</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">response</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="QueryResult._convertXML"><a class="viewcode-back" href="../../SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.QueryResult._convertXML">[docs]</a>    <span class="k">def</span> <span class="nf">_convertXML</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert an XML result into a Python dom tree. This method can be overwritten in a</span>
+<span class="sd">        subclass for a different conversion method.</span>
+
+<span class="sd">        :return: converted result.</span>
+<span class="sd">        :rtype: :class:`xml.dom.minidom.Document`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">xml.dom.minidom</span> <span class="k">import</span> <span class="n">parse</span>
+        <span class="k">return</span> <span class="n">parse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">response</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="QueryResult._convertRDF"><a class="viewcode-back" href="../../SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.QueryResult._convertRDF">[docs]</a>    <span class="k">def</span> <span class="nf">_convertRDF</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert a RDF/XML result into an RDFLib Graph. This method can be overwritten</span>
+<span class="sd">        in a subclass for a different conversion method.</span>
+
+<span class="sd">        :return: converted result.</span>
+<span class="sd">        :rtype: :class:`rdflib.graph.Graph`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">rdflib.graph</span> <span class="k">import</span> <span class="n">ConjunctiveGraph</span>
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">rdflib</span> <span class="k">import</span> <span class="n">ConjunctiveGraph</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="n">ConjunctiveGraph</span><span class="p">()</span>
+        <span class="c1"># (DEPRECATED) this is a strange hack. If the publicID is not set, rdflib (or the underlying xml parser) makes a funny</span>
+        <span class="c1"># (DEPRECATED) (and, as far as I could see, meaningless) error message...</span>
+        <span class="n">retval</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">response</span><span class="p">)</span> <span class="c1"># (DEPRECATED) publicID=&#39; &#39;)</span>
+        <span class="k">return</span> <span class="n">retval</span></div>
+
+<div class="viewcode-block" id="QueryResult._convertN3"><a class="viewcode-back" href="../../SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.QueryResult._convertN3">[docs]</a>    <span class="k">def</span> <span class="nf">_convertN3</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert a RDF Turtle/N3 result into a string. This method can be overwritten in a subclass</span>
+<span class="sd">        for a different conversion method.</span>
+
+<span class="sd">        :return: converted result.</span>
+<span class="sd">        :rtype: string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">response</span><span class="o">.</span><span class="n">read</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="QueryResult._convertCSV"><a class="viewcode-back" href="../../SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.QueryResult._convertCSV">[docs]</a>    <span class="k">def</span> <span class="nf">_convertCSV</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert a CSV result into a string. This method can be overwritten in a subclass</span>
+<span class="sd">        for a different conversion method.</span>
+
+<span class="sd">        :return: converted result.</span>
+<span class="sd">        :rtype: string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">response</span><span class="o">.</span><span class="n">read</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="QueryResult._convertTSV"><a class="viewcode-back" href="../../SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.QueryResult._convertTSV">[docs]</a>    <span class="k">def</span> <span class="nf">_convertTSV</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert a TSV result into a string. This method can be overwritten in a subclass</span>
+<span class="sd">        for a different conversion method.</span>
+
+<span class="sd">        :return: converted result.</span>
+<span class="sd">        :rtype: string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">response</span><span class="o">.</span><span class="n">read</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="QueryResult._convertJSONLD"><a class="viewcode-back" href="../../SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.QueryResult._convertJSONLD">[docs]</a>    <span class="k">def</span> <span class="nf">_convertJSONLD</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert a RDF JSON-LD result into an RDFLib Graph. This method can be overwritten</span>
+<span class="sd">        in a subclass for a different conversion method.</span>
+
+<span class="sd">        :return: converted result</span>
+<span class="sd">        :rtype: :class:`rdflib.graph.Graph`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">rdflib</span> <span class="k">import</span> <span class="n">ConjunctiveGraph</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="n">ConjunctiveGraph</span><span class="p">()</span>
+        <span class="n">retval</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">response</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;json-ld&#39;</span><span class="p">)</span><span class="c1"># (DEPRECATED), publicID=&#39; &#39;)</span>
+        <span class="k">return</span> <span class="n">retval</span></div>
+
+<div class="viewcode-block" id="QueryResult.convert"><a class="viewcode-back" href="../../SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.QueryResult.convert">[docs]</a>    <span class="k">def</span> <span class="nf">convert</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Encode the return value depending on the return format:</span>
+
+<span class="sd">            * in the case of :data:`XML`, a DOM top element is returned</span>
+<span class="sd">            * in the case of :data:`JSON`, a json conversion will return a dictionary</span>
+<span class="sd">            * in the case of :data:`RDF/XML&lt;RDFXML&gt;`, the value is converted via RDFLib into a ``RDFLib Graph`` instance</span>
+<span class="sd">            * in the case of :data:`JSON-LD&lt;JSONLD&gt;`, the value is converted via RDFLib into a ``RDFLib Graph`` instance</span>
+<span class="sd">            * in the case of RDF :data:`Turtle&lt;TURTLE&gt;`/:data:`N3`, a string is returned</span>
+<span class="sd">            * in the case of :data:`CSV`/:data:`TSV`, a string is returned</span>
+<span class="sd">            * In all other cases the input simply returned.</span>
+
+<span class="sd">        :return: the converted query result. See the conversion methods for more details.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">def</span> <span class="nf">_content_type_in_list</span><span class="p">(</span><span class="n">real</span><span class="p">,</span> <span class="n">expected</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot; Internal method for checking if the content-type header received matches any of the content types of the expected list.</span>
+
+<span class="sd">            :param real: The content-type header received.</span>
+<span class="sd">            :type real: string</span>
+<span class="sd">            :param expected: A list of expected content types.</span>
+<span class="sd">            :type expected: list</span>
+<span class="sd">            :return: Returns a boolean after checking if the content-type header received matches any of the content types of the expected list.</span>
+<span class="sd">            :rtype: boolean</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">return</span> <span class="kc">True</span> <span class="ow">in</span> <span class="p">[</span><span class="n">real</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">mime</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span> <span class="k">for</span> <span class="n">mime</span> <span class="ow">in</span> <span class="n">expected</span><span class="p">]</span>
+
+        <span class="k">def</span> <span class="nf">_validate_format</span><span class="p">(</span><span class="n">format_name</span><span class="p">,</span> <span class="n">allowed</span><span class="p">,</span> <span class="n">mime</span><span class="p">,</span> <span class="n">requested</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot; Internal method for validating if the requested format is one of the allowed formats.</span>
+
+<span class="sd">            :param format_name: The format name (to be used in the warning message).</span>
+<span class="sd">            :type format_name: string</span>
+<span class="sd">            :param allowed: A list of allowed content types.</span>
+<span class="sd">            :type allowed: list</span>
+<span class="sd">            :param mime: The content-type header received (to be used in the warning message).</span>
+<span class="sd">            :type mime: string</span>
+<span class="sd">            :param requested: the requested format.</span>
+<span class="sd">            :type requested: string</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">if</span> <span class="n">requested</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">allowed</span><span class="p">:</span>
+                <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;Format requested was </span><span class="si">%s</span><span class="s2">, but </span><span class="si">%s</span><span class="s2"> (</span><span class="si">%s</span><span class="s2">) has been returned by the endpoint&quot;</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">message</span> <span class="o">%</span> <span class="p">(</span><span class="n">requested</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">format_name</span><span class="p">,</span> <span class="n">mime</span><span class="p">),</span> <span class="ne">RuntimeWarning</span><span class="p">)</span>
+
+        <span class="c1"># TODO. In order to compare properly, the requested QueryType (SPARQL Query Form) is needed. For instance, the unexpected N3 requested for a SELECT would return XML</span>
+        <span class="k">if</span> <span class="s2">&quot;content-type&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">():</span>
+            <span class="n">ct</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">()[</span><span class="s2">&quot;content-type&quot;</span><span class="p">]</span> <span class="c1"># returned Content-Type value</span>
+
+            <span class="k">if</span> <span class="n">_content_type_in_list</span><span class="p">(</span><span class="n">ct</span><span class="p">,</span> <span class="n">_SPARQL_XML</span><span class="p">):</span>
+                <span class="n">_validate_format</span><span class="p">(</span><span class="s2">&quot;XML&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">XML</span><span class="p">],</span> <span class="n">ct</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">requestedFormat</span><span class="p">)</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convertXML</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="n">_content_type_in_list</span><span class="p">(</span><span class="n">ct</span><span class="p">,</span> <span class="n">_XML</span><span class="p">):</span>
+                <span class="n">_validate_format</span><span class="p">(</span><span class="s2">&quot;XML&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">XML</span><span class="p">],</span> <span class="n">ct</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">requestedFormat</span><span class="p">)</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convertXML</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="n">_content_type_in_list</span><span class="p">(</span><span class="n">ct</span><span class="p">,</span> <span class="n">_SPARQL_JSON</span><span class="p">):</span>
+                <span class="n">_validate_format</span><span class="p">(</span><span class="s2">&quot;JSON&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">JSON</span><span class="p">],</span> <span class="n">ct</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">requestedFormat</span><span class="p">)</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convertJSON</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="n">_content_type_in_list</span><span class="p">(</span><span class="n">ct</span><span class="p">,</span> <span class="n">_RDF_XML</span><span class="p">):</span>
+                <span class="n">_validate_format</span><span class="p">(</span><span class="s2">&quot;RDF/XML&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">RDF</span><span class="p">,</span> <span class="n">XML</span><span class="p">,</span> <span class="n">RDFXML</span><span class="p">],</span> <span class="n">ct</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">requestedFormat</span><span class="p">)</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convertRDF</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="n">_content_type_in_list</span><span class="p">(</span><span class="n">ct</span><span class="p">,</span> <span class="n">_RDF_N3</span><span class="p">):</span>
+                <span class="n">_validate_format</span><span class="p">(</span><span class="s2">&quot;N3&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">N3</span><span class="p">,</span> <span class="n">TURTLE</span><span class="p">],</span> <span class="n">ct</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">requestedFormat</span><span class="p">)</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convertN3</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="n">_content_type_in_list</span><span class="p">(</span><span class="n">ct</span><span class="p">,</span> <span class="n">_CSV</span><span class="p">):</span>
+                <span class="n">_validate_format</span><span class="p">(</span><span class="s2">&quot;CSV&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">CSV</span><span class="p">],</span> <span class="n">ct</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">requestedFormat</span><span class="p">)</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convertCSV</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="n">_content_type_in_list</span><span class="p">(</span><span class="n">ct</span><span class="p">,</span> <span class="n">_TSV</span><span class="p">):</span>
+                <span class="n">_validate_format</span><span class="p">(</span><span class="s2">&quot;TSV&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">TSV</span><span class="p">],</span> <span class="n">ct</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">requestedFormat</span><span class="p">)</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convertTSV</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="n">_content_type_in_list</span><span class="p">(</span><span class="n">ct</span><span class="p">,</span> <span class="n">_RDF_JSONLD</span><span class="p">):</span>
+                <span class="n">_validate_format</span><span class="p">(</span><span class="s2">&quot;JSON(-LD)&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">JSONLD</span><span class="p">,</span> <span class="n">JSON</span><span class="p">],</span> <span class="n">ct</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">requestedFormat</span><span class="p">)</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convertJSONLD</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;unknown response content type &#39;</span><span class="si">%s</span><span class="s2">&#39; returning raw response...&quot;</span> <span class="o">%</span><span class="p">(</span><span class="n">ct</span><span class="p">),</span> <span class="ne">RuntimeWarning</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">response</span><span class="o">.</span><span class="n">read</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="QueryResult._get_responseFormat"><a class="viewcode-back" href="../../SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.QueryResult._get_responseFormat">[docs]</a>    <span class="k">def</span> <span class="nf">_get_responseFormat</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the response (return) format. The possible values are: :data:`JSON`, :data:`XML`, :data:`RDFXML`, :data:`TURTLE`, :data:`N3`, :data:`CSV`, :data:`TSV`, :data:`JSONLD`.</span>
+<span class="sd">        In case there is no Content-Type, ``None`` is return. In all other cases, the raw Content-Type is return.</span>
+
+<span class="sd">        .. versionadded:: 1.8.3</span>
+
+<span class="sd">        :return: the response format. The possible values are: :data:`JSON`, :data:`XML`, :data:`RDFXML`, :data:`TURTLE`, :data:`N3`, :data:`CSV`, :data:`TSV`, :data:`JSONLD`.</span>
+<span class="sd">        :rtype: string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">def</span> <span class="nf">_content_type_in_list</span><span class="p">(</span><span class="n">real</span><span class="p">,</span> <span class="n">expected</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot; Internal method for checking if the content-type header received matches any of the content types of the expected list.</span>
+
+<span class="sd">            :param real: The content-type header received.</span>
+<span class="sd">            :type real: string</span>
+<span class="sd">            :param expected: A list of expected content types.</span>
+<span class="sd">            :type expected: list</span>
+<span class="sd">            :return: Returns a boolean after checking if the content-type header received matches any of the content types of the expected list.</span>
+<span class="sd">            :rtype: boolean</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">return</span> <span class="kc">True</span> <span class="ow">in</span> <span class="p">[</span><span class="n">real</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">mime</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span> <span class="k">for</span> <span class="n">mime</span> <span class="ow">in</span> <span class="n">expected</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="s2">&quot;content-type&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">():</span>
+            <span class="n">ct</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">()[</span><span class="s2">&quot;content-type&quot;</span><span class="p">]</span> <span class="c1"># returned Content-Type value</span>
+
+            <span class="k">if</span> <span class="n">_content_type_in_list</span><span class="p">(</span><span class="n">ct</span><span class="p">,</span> <span class="n">_SPARQL_XML</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">XML</span>
+            <span class="k">elif</span> <span class="n">_content_type_in_list</span><span class="p">(</span><span class="n">ct</span><span class="p">,</span> <span class="n">_XML</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">XML</span>
+            <span class="k">elif</span> <span class="n">_content_type_in_list</span><span class="p">(</span><span class="n">ct</span><span class="p">,</span> <span class="n">_SPARQL_JSON</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">JSON</span>
+            <span class="k">elif</span> <span class="n">_content_type_in_list</span><span class="p">(</span><span class="n">ct</span><span class="p">,</span> <span class="n">_RDF_XML</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">RDFXML</span>
+            <span class="k">elif</span> <span class="n">_content_type_in_list</span><span class="p">(</span><span class="n">ct</span><span class="p">,</span> <span class="n">_RDF_TURTLE</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">TURTLE</span>
+            <span class="k">elif</span> <span class="n">_content_type_in_list</span><span class="p">(</span><span class="n">ct</span><span class="p">,</span> <span class="n">_RDF_N3</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">N3</span>
+            <span class="k">elif</span> <span class="n">_content_type_in_list</span><span class="p">(</span><span class="n">ct</span><span class="p">,</span> <span class="n">_CSV</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">CSV</span>
+            <span class="k">elif</span> <span class="n">_content_type_in_list</span><span class="p">(</span><span class="n">ct</span><span class="p">,</span> <span class="n">_TSV</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">TSV</span>
+            <span class="k">elif</span> <span class="n">_content_type_in_list</span><span class="p">(</span><span class="n">ct</span><span class="p">,</span> <span class="n">_RDF_JSONLD</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">JSONLD</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Unknown response content type. Returning raw content-type (&#39;</span><span class="si">%s</span><span class="s2">&#39;).&quot;</span> <span class="o">%</span><span class="p">(</span><span class="n">ct</span><span class="p">),</span> <span class="ne">RuntimeWarning</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">ct</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="QueryResult.print_results"><a class="viewcode-back" href="../../SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.QueryResult.print_results">[docs]</a>    <span class="k">def</span> <span class="nf">print_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">minWidth</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This method prints a representation of a :class:`QueryResult` object that MUST has as response format :data:`JSON`.</span>
+
+<span class="sd">        :param minWidth: The minimum width, counting as characters. The default value is ``None``.</span>
+<span class="sd">        :type minWidth: string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check if the requested format was JSON. If not, exit.</span>
+        <span class="n">responseFormat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_responseFormat</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">responseFormat</span> <span class="o">!=</span> <span class="n">JSON</span><span class="p">:</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;Format return was </span><span class="si">%s</span><span class="s2">, but JSON was expected. No printing.&quot;</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">message</span> <span class="o">%</span> <span class="p">(</span><span class="n">responseFormat</span><span class="p">),</span> <span class="ne">RuntimeWarning</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convertJSON</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">minWidth</span><span class="p">:</span>
+            <span class="n">width</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_results_width</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">minWidth</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">width</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_results_width</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">results</span><span class="p">[</span><span class="s2">&quot;head&quot;</span><span class="p">][</span><span class="s2">&quot;vars&quot;</span><span class="p">]:</span>
+            <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;?&quot;</span> <span class="o">+</span> <span class="n">var</span><span class="p">)</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="n">width</span><span class="p">[</span><span class="n">index</span><span class="p">]),</span> <span class="s2">&quot;|&quot;</span><span class="p">,</span>
+            <span class="n">index</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="nb">print</span>
+        <span class="nb">print</span> <span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">width</span><span class="p">)</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">width</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="p">[</span><span class="s2">&quot;results&quot;</span><span class="p">][</span><span class="s2">&quot;bindings&quot;</span><span class="p">]:</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">results</span><span class="p">[</span><span class="s2">&quot;head&quot;</span><span class="p">][</span><span class="s2">&quot;vars&quot;</span><span class="p">]:</span>
+                <span class="n">result_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_prettyprint_string_sparql_var_result</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="n">var</span><span class="p">])</span>
+                <span class="nb">print</span> <span class="n">result_value</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="n">width</span><span class="p">[</span><span class="n">index</span><span class="p">]),</span> <span class="s2">&quot;|&quot;</span><span class="p">,</span>
+                <span class="n">index</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="nb">print</span></div>
+
+    <span class="k">def</span> <span class="nf">__get_results_width</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">results</span><span class="p">,</span> <span class="n">minWidth</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+        <span class="n">width</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">results</span><span class="p">[</span><span class="s2">&quot;head&quot;</span><span class="p">][</span><span class="s2">&quot;vars&quot;</span><span class="p">]:</span>
+            <span class="n">width</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">minWidth</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">var</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="p">[</span><span class="s2">&quot;results&quot;</span><span class="p">][</span><span class="s2">&quot;bindings&quot;</span><span class="p">]:</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">results</span><span class="p">[</span><span class="s2">&quot;head&quot;</span><span class="p">][</span><span class="s2">&quot;vars&quot;</span><span class="p">]:</span>
+                <span class="n">result_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_prettyprint_string_sparql_var_result</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="n">var</span><span class="p">])</span>
+                <span class="n">width</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">width</span><span class="p">[</span><span class="n">index</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="n">result_value</span><span class="p">))</span>
+                <span class="n">index</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">width</span>
+
+    <span class="k">def</span> <span class="nf">__get_prettyprint_string_sparql_var_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
+        <span class="n">lang</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;xml:lang&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">datatype</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;datatype&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">lang</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">+=</span> <span class="s2">&quot;@&quot;</span><span class="o">+</span><span class="n">lang</span>
+        <span class="k">if</span> <span class="n">datatype</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">+=</span> <span class="s2">&quot; [&quot;</span><span class="o">+</span><span class="n">datatype</span><span class="o">+</span><span class="s2">&quot;]&quot;</span>
+        <span class="k">return</span> <span class="n">value</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This method returns the string representation of a :class:`QueryResult` object.</span>
+
+<span class="sd">        :return: A human-readable string of the object.</span>
+<span class="sd">        :rtype: string</span>
+<span class="sd">        .. versionadded:: 1.8.3</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fullname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__module__</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="n">str_requestedFormat</span> <span class="o">=</span> <span class="s1">&#39;&quot;requestedFormat&quot; : &#39;</span><span class="o">+</span><span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">requestedFormat</span><span class="p">)</span>
+        <span class="n">str_url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">response</span><span class="o">.</span><span class="n">url</span>
+        <span class="n">str_code</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">response</span><span class="o">.</span><span class="n">code</span>
+        <span class="n">str_headers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">response</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+        <span class="n">str_response</span> <span class="o">=</span> <span class="s1">&#39;&quot;response (a file-like object, as return by the urllib2.urlopen library call)&quot; : {</span><span class="se">\n\t</span><span class="s1">&quot;url&quot; : &quot;</span><span class="si">%s</span><span class="s1">&quot;,</span><span class="se">\n\t</span><span class="s1">&quot;code&quot; : &quot;</span><span class="si">%s</span><span class="s1">&quot;,</span><span class="se">\n\t</span><span class="s1">&quot;headers&quot; : </span><span class="si">%s</span><span class="s1">}&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">str_url</span><span class="p">,</span> <span class="n">str_code</span><span class="p">,</span> <span class="n">str_headers</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;</span><span class="si">%s</span><span class="s2"> object at 0x</span><span class="si">%016X</span><span class="s2">&gt;</span><span class="se">\n</span><span class="s2">{</span><span class="si">%s</span><span class="s2">,</span><span class="se">\n</span><span class="si">%s</span><span class="s2">}&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">fullname</span><span class="p">,</span> <span class="nb">id</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span> <span class="n">str_requestedFormat</span><span class="p">,</span> <span class="n">str_response</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

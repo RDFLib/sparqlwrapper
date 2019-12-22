@@ -1,0 +1,496 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>SPARQLWrapper.SmartWrapper module &mdash; SPARQLWrapper  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="SPARQLWrapper.SPARQLExceptions module" href="SPARQLWrapper.SPARQLExceptions.html" />
+    <link rel="prev" title="SPARQLWrapper.Wrapper module" href="SPARQLWrapper.Wrapper.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> SPARQLWrapper
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.8.5
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Basic steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="main.html">SPARQL Endpoint interface to Python</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="main.html#about">About</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#installation-distribution">Installation &amp; Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#how-to-use">How to use</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="main.html#first-steps">First steps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="main.html#select-example">SELECT example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="main.html#ask-example">ASK example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="main.html#construct-example">CONSTRUCT example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="main.html#describe-example">DESCRIBE example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="main.html#sparql-update-example">SPARQL UPDATE example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="main.html#sparqlwrapper2-example">SPARQLWrapper2 example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="main.html#return-formats">Return formats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="main.html#automatic-conversion-of-the-results">Automatic conversion of the results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="main.html#partial-interpretation-of-the-results">Partial interpretation of the results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="main.html#get-or-post">GET or POST</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#development">Development</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="main.html#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="main.html#source-code">Source code</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#community">Community</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#issues">Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#documentation">Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#license">License</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#acknowledgement">Acknowledgement</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Python Package</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">SPARQLWrapper package</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="SPARQLWrapper.Wrapper.html">SPARQLWrapper.Wrapper module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">SPARQLWrapper.SmartWrapper module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SPARQLWrapper.SPARQLExceptions.html">SPARQLWrapper.SPARQLExceptions module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SPARQLWrapper.KeyCaseInsensitiveDict.html">SPARQLWrapper.KeyCaseInsensitiveDict module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">ChangeLog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id1">2019-12-22  1.8.5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id2">2019-04-18  1.8.4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id3">2019-04-17  1.8.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id4">2018-05-26  1.8.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id5">2018-02-25  1.8.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id6">2016-12-07  1.8.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id7">2015-12-18  1.7.6</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id8">2015-11-19  1.7.5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id9">2015-11-05  1.7.4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id10">2015-11-05  1.7.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id11">2015-11-03  1.7.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id12">2015-10-29  1.7.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id13">2015-10-29  1.7.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id14">2014-08-26  1.6.4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id15">2014-08-26  1.6.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id16">2014-07-24  1.6.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id17">2014-07-21  1.6.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id18">2014-05-09  1.6.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id19">2012-08-28  1.5.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id20">2012-07-10  1.5.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id21">2012-02-01  1.5.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id22">2011-01-28  1.4.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id23">2010-01-11  1.4.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id24">2009-12-14  1.4.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id25">2009-09-23  1.3.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id26">2009-09-11  1.3.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id27">2009-05-06  1.3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id28">2009-04-27  1.2.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id29">2008-07-10  1.2.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id30">2008-03-24  1.1.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id31">2008-03-07  1.0.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id32">2008-02-14  1.0.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id33">2007-07-06  0.2.0</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">SPARQLWrapper</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="modules.html">SPARQLWrapper package</a> &raquo;</li>
+        
+      <li>SPARQLWrapper.SmartWrapper module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/SPARQLWrapper.SmartWrapper.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-SPARQLWrapper.SmartWrapper">
+<span id="sparqlwrapper-smartwrapper-module"></span><h1>SPARQLWrapper.SmartWrapper module<a class="headerlink" href="#module-SPARQLWrapper.SmartWrapper" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="SPARQLWrapper.SmartWrapper.Bindings">
+<em class="property">class </em><code class="descclassname">SPARQLWrapper.SmartWrapper.</code><code class="descname">Bindings</code><span class="sig-paren">(</span><em>retval</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/SmartWrapper.html#Bindings"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.SmartWrapper.Bindings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Class encapsulating one query result, based on the JSON return format. It decodes the
+return values to make it a bit more usable for a standard usage. The class consumes the
+return value and instantiates a number of attributes that can be consulted directly. See
+the list of variables.</p>
+<p>The <a class="reference external" href="http://www.w3.org/TR/rdf-sparql-json-res/">Serializing SPARQL Query Results in JSON</a> explains the details of the
+JSON return structures. Very succinctly: the return data has “bindings”, which means a list of dictionaries. Each
+dictionary is a possible binding of the SELECT variables to <a class="reference internal" href="#SPARQLWrapper.SmartWrapper.Value" title="SPARQLWrapper.SmartWrapper.Value"><code class="xref py py-class docutils literal notranslate"><span class="pre">Value</span></code></a> instances. This structure is made a bit
+more usable by this class.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Variables:</th><td class="field-body"><ul class="first last simple">
+<li><strong>fullResult</strong> (<a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) – The original dictionary of the results, stored for an easier reference.</li>
+<li><strong>head</strong> (<a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) – Header part of the return, see the JSON return format document for details.</li>
+<li><strong>variables</strong> (<em>list</em>) – List of unbounds (variables) of the original query. It is a list of strings. <code class="docutils literal notranslate"><span class="pre">None</span></code> in the case of an ASK query.</li>
+<li><strong>bindings</strong> (<em>list</em>) – The final bindings: list of dictionaries, mapping variables to <a class="reference internal" href="#SPARQLWrapper.SmartWrapper.Value" title="SPARQLWrapper.SmartWrapper.Value"><code class="xref py py-class docutils literal notranslate"><span class="pre">Value</span></code></a> instances.     If unbound, then no value is set in the dictionary; that can be easily checked with     <code class="docutils literal notranslate"><span class="pre">var</span> <span class="pre">in</span> <span class="pre">res.bindings[..]</span></code>, for example.</li>
+<li><strong>askResult</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) – by default, set to <strong>False</strong>; in case of an ASK query, the result of the query.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="SPARQLWrapper.SmartWrapper.Bindings.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>retval</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/SmartWrapper.html#Bindings.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.SmartWrapper.Bindings.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>retval</strong> (<a class="reference internal" href="SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.QueryResult" title="SPARQLWrapper.Wrapper.QueryResult"><code class="xref py py-class docutils literal notranslate"><span class="pre">QueryResult</span></code></a>) – the query result.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SPARQLWrapper.SmartWrapper.Bindings.convert">
+<code class="descname">convert</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/SmartWrapper.html#Bindings.convert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.SmartWrapper.Bindings.convert" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is just a convenience method, returns <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
+<p>Although <code class="xref py py-class docutils literal notranslate"><span class="pre">SPARQLWrapper2.Bindings</span></code> is not a subclass of <a class="reference internal" href="SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.QueryResult" title="SPARQLWrapper.Wrapper.QueryResult"><code class="xref py py-class docutils literal notranslate"><span class="pre">SPARQLWrapper.QueryResult</span></code></a>, it is returned as a result by
+<a class="reference internal" href="#SPARQLWrapper.SmartWrapper.SPARQLWrapper2.query" title="SPARQLWrapper.SmartWrapper.SPARQLWrapper2.query"><code class="xref py py-func docutils literal notranslate"><span class="pre">SPARQLWrapper2.query()</span></code></a>, just like <a class="reference internal" href="SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.QueryResult" title="SPARQLWrapper.Wrapper.QueryResult"><code class="xref py py-class docutils literal notranslate"><span class="pre">QueryResult</span></code></a> is returned by
+<a class="reference internal" href="SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.SPARQLWrapper.query" title="SPARQLWrapper.Wrapper.SPARQLWrapper.query"><code class="xref py py-func docutils literal notranslate"><span class="pre">SPARQLWrapper.query()</span></code></a>. Consequently,
+having an empty <a class="reference internal" href="#SPARQLWrapper.SmartWrapper.Bindings.convert" title="SPARQLWrapper.SmartWrapper.Bindings.convert"><code class="xref py py-func docutils literal notranslate"><span class="pre">convert()</span></code></a> method to imitate <a class="reference internal" href="SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.QueryResult.convert" title="SPARQLWrapper.Wrapper.QueryResult.convert"><code class="xref py py-class docutils literal notranslate"><span class="pre">QueryResult's</span> <span class="pre">convert()</span> <span class="pre">method</span></code></a> may avoid unnecessary problems.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SPARQLWrapper.SmartWrapper.Bindings.getValues">
+<code class="descname">getValues</code><span class="sig-paren">(</span><em>key</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/SmartWrapper.html#Bindings.getValues"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.SmartWrapper.Bindings.getValues" title="Permalink to this definition">¶</a></dt>
+<dd><p>A shorthand for the retrieval of all bindings for a single key. It is
+equivalent to <code class="docutils literal notranslate"><span class="pre">[b[key]</span> <span class="pre">for</span> <span class="pre">b</span> <span class="pre">in</span> <span class="pre">self[key]]</span></code></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>key</strong> (<em>string</em>) – possible variable name.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">list of <a class="reference internal" href="#SPARQLWrapper.SmartWrapper.Value" title="SPARQLWrapper.SmartWrapper.Value"><code class="xref py py-class docutils literal notranslate"><span class="pre">Value</span></code></a> instances.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">list</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="SPARQLWrapper.SmartWrapper.SPARQLWrapper2">
+<em class="property">class </em><code class="descclassname">SPARQLWrapper.SmartWrapper.</code><code class="descname">SPARQLWrapper2</code><span class="sig-paren">(</span><em>baseURI</em>, <em>defaultGraph=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/SmartWrapper.html#SPARQLWrapper2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.SmartWrapper.SPARQLWrapper2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.SPARQLWrapper" title="SPARQLWrapper.Wrapper.SPARQLWrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">SPARQLWrapper.Wrapper.SPARQLWrapper</span></code></a></p>
+<p>Subclass of <a class="reference internal" href="SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.SPARQLWrapper" title="SPARQLWrapper.Wrapper.SPARQLWrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">SPARQLWrapper</span></code></a> that works with a JSON SELECT return result only. The query result
+is automatically set to a <a class="reference internal" href="#SPARQLWrapper.SmartWrapper.Bindings" title="SPARQLWrapper.SmartWrapper.Bindings"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bindings</span></code></a> instance. Makes the average query processing a bit simpler…</p>
+<dl class="method">
+<dt id="SPARQLWrapper.SmartWrapper.SPARQLWrapper2.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>baseURI</em>, <em>defaultGraph=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/SmartWrapper.html#SPARQLWrapper2.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.SmartWrapper.SPARQLWrapper2.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class encapsulating a full SPARQL call. In contrast to the <a class="reference internal" href="SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.SPARQLWrapper" title="SPARQLWrapper.Wrapper.SPARQLWrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">SPARQLWrapper</span></code></a> superclass, the return format
+cannot be set (it is defaulted to <code class="xref py py-attr docutils literal notranslate"><span class="pre">JSON</span></code>).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>baseURI</strong> (<em>string</em>) – string of the SPARQL endpoint’s URI.</li>
+<li><strong>defaultGraph</strong> (<em>string</em>) – URI for the default graph. Default is <code class="docutils literal notranslate"><span class="pre">None</span></code>, can be set via an explicit call, too.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SPARQLWrapper.SmartWrapper.SPARQLWrapper2.query">
+<code class="descname">query</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/SmartWrapper.html#SPARQLWrapper2.query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.SmartWrapper.SPARQLWrapper2.query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute the query and do an automatic conversion.</p>
+<p>Exceptions can be raised if either the URI is wrong or the HTTP sends back an error.
+The usual urllib2 exceptions are raised, which cover possible SPARQL errors, too.</p>
+<p>If the query type is <em>not</em> SELECT, the method falls back to the
+<a class="reference internal" href="SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.SPARQLWrapper.query" title="SPARQLWrapper.Wrapper.SPARQLWrapper.query"><code class="xref py py-meth docutils literal notranslate"><span class="pre">corresponding</span> <span class="pre">method</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">superclass</span></code></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">query result</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#SPARQLWrapper.SmartWrapper.Bindings" title="SPARQLWrapper.SmartWrapper.Bindings"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bindings</span></code></a> instance</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SPARQLWrapper.SmartWrapper.SPARQLWrapper2.queryAndConvert">
+<code class="descname">queryAndConvert</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/SmartWrapper.html#SPARQLWrapper2.queryAndConvert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.SmartWrapper.SPARQLWrapper2.queryAndConvert" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is here to override the inherited method; it is equivalent to <a class="reference internal" href="#SPARQLWrapper.SmartWrapper.SPARQLWrapper2.query" title="SPARQLWrapper.SmartWrapper.SPARQLWrapper2.query"><code class="xref py py-class docutils literal notranslate"><span class="pre">query</span></code></a>.</p>
+<p>If the query type is <em>not</em> SELECT, the method falls back to the
+<a class="reference internal" href="SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.SPARQLWrapper.queryAndConvert" title="SPARQLWrapper.Wrapper.SPARQLWrapper.queryAndConvert"><code class="xref py py-meth docutils literal notranslate"><span class="pre">corresponding</span> <span class="pre">method</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">superclass</span></code></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the converted query result.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="SPARQLWrapper.SmartWrapper.SPARQLWrapper2.setReturnFormat">
+<code class="descname">setReturnFormat</code><span class="sig-paren">(</span><em>format</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/SmartWrapper.html#SPARQLWrapper2.setReturnFormat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.SmartWrapper.SPARQLWrapper2.setReturnFormat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the return format (<a class="reference internal" href="SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.SPARQLWrapper.setReturnFormat" title="SPARQLWrapper.Wrapper.SPARQLWrapper.setReturnFormat"><code class="xref py py-meth docutils literal notranslate"><span class="pre">overriding</span> <span class="pre">the</span> <span class="pre">inherited</span> <span class="pre">method</span></code></a>).</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This method does nothing; this class instance should work with JSON only. The method is defined            just to avoid possible errors by erroneously setting the return format.            When using this class, the user can safely ignore this call.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>format</strong> (<em>string</em>) – return format</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="SPARQLWrapper.SmartWrapper.Value">
+<em class="property">class </em><code class="descclassname">SPARQLWrapper.SmartWrapper.</code><code class="descname">Value</code><span class="sig-paren">(</span><em>variable</em>, <em>binding</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/SmartWrapper.html#Value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.SmartWrapper.Value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Class encapsulating a single binding for a variable.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Variables:</th><td class="field-body"><ul class="first last simple">
+<li><strong>variable</strong> (<em>string</em>) – The original variable, stored for an easier reference.</li>
+<li><strong>value</strong> (<em>string</em>) – Value of the binding.</li>
+<li><a class="reference external" href="https://docs.python.org/2/library/functions.html#type" title="(in Python v2.7)"><strong>type</strong></a> (<em>string</em>) – Type of the binding. One of <a class="reference internal" href="#SPARQLWrapper.SmartWrapper.Value.URI" title="SPARQLWrapper.SmartWrapper.Value.URI"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Value.URI</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.SmartWrapper.Value.Literal" title="SPARQLWrapper.SmartWrapper.Value.Literal"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Value.Literal</span></code></a>, <a class="reference internal" href="#SPARQLWrapper.SmartWrapper.Value.TypedLiteral" title="SPARQLWrapper.SmartWrapper.Value.TypedLiteral"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Value.TypedLiteral</span></code></a>, or <a class="reference internal" href="#SPARQLWrapper.SmartWrapper.Value.BNODE" title="SPARQLWrapper.SmartWrapper.Value.BNODE"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Value.BNODE</span></code></a>.</li>
+<li><strong>lang</strong> (<em>string</em>) – Language tag of the binding, or <code class="docutils literal notranslate"><span class="pre">None</span></code> if not set.</li>
+<li><strong>datatype</strong> (<em>string</em>) – Datatype of the binding, or <code class="docutils literal notranslate"><span class="pre">None</span></code> if not set. It is an URI.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="SPARQLWrapper.SmartWrapper.Value.BNODE">
+<code class="descname">BNODE</code><em class="property"> = 'bnode'</em><a class="headerlink" href="#SPARQLWrapper.SmartWrapper.Value.BNODE" title="Permalink to this definition">¶</a></dt>
+<dd><p>the string denoting a blank node variable.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="SPARQLWrapper.SmartWrapper.Value.Literal">
+<code class="descname">Literal</code><em class="property"> = 'literal'</em><a class="headerlink" href="#SPARQLWrapper.SmartWrapper.Value.Literal" title="Permalink to this definition">¶</a></dt>
+<dd><p>the string denoting a Literal variable.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="SPARQLWrapper.SmartWrapper.Value.TypedLiteral">
+<code class="descname">TypedLiteral</code><em class="property"> = 'typed-literal'</em><a class="headerlink" href="#SPARQLWrapper.SmartWrapper.Value.TypedLiteral" title="Permalink to this definition">¶</a></dt>
+<dd><p>the string denoting a typed literal variable.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="SPARQLWrapper.SmartWrapper.Value.URI">
+<code class="descname">URI</code><em class="property"> = 'uri'</em><a class="headerlink" href="#SPARQLWrapper.SmartWrapper.Value.URI" title="Permalink to this definition">¶</a></dt>
+<dd><p>the string denoting a URI variable.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SPARQLWrapper.SmartWrapper.Value.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>variable</em>, <em>binding</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SPARQLWrapper/SmartWrapper.html#Value.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SPARQLWrapper.SmartWrapper.Value.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>variable</strong> (<em>string</em>) – the variable for that binding. Stored for an easier reference.</li>
+<li><strong>binding</strong> (<a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) – the binding dictionary part of the return result for a specific binding.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="SPARQLWrapper.SPARQLExceptions.html" class="btn btn-neutral float-right" title="SPARQLWrapper.SPARQLExceptions module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="SPARQLWrapper.Wrapper.html" class="btn btn-neutral float-left" title="SPARQLWrapper.Wrapper module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

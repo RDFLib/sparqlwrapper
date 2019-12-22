@@ -1,0 +1,534 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>SPARQLWrapper’s changelog &mdash; SPARQLWrapper  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="SPARQLWrapper.KeyCaseInsensitiveDict module" href="SPARQLWrapper.KeyCaseInsensitiveDict.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> SPARQLWrapper
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.8.5
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Basic steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="main.html">SPARQL Endpoint interface to Python</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="main.html#about">About</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#installation-distribution">Installation &amp; Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#how-to-use">How to use</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="main.html#first-steps">First steps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="main.html#select-example">SELECT example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="main.html#ask-example">ASK example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="main.html#construct-example">CONSTRUCT example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="main.html#describe-example">DESCRIBE example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="main.html#sparql-update-example">SPARQL UPDATE example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="main.html#sparqlwrapper2-example">SPARQLWrapper2 example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="main.html#return-formats">Return formats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="main.html#automatic-conversion-of-the-results">Automatic conversion of the results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="main.html#partial-interpretation-of-the-results">Partial interpretation of the results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="main.html#get-or-post">GET or POST</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#development">Development</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="main.html#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="main.html#source-code">Source code</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#community">Community</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#issues">Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#documentation">Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#license">License</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#acknowledgement">Acknowledgement</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Python Package</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="modules.html">SPARQLWrapper package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="SPARQLWrapper.Wrapper.html">SPARQLWrapper.Wrapper module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SPARQLWrapper.SmartWrapper.html">SPARQLWrapper.SmartWrapper module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SPARQLWrapper.SPARQLExceptions.html">SPARQLWrapper.SPARQLExceptions module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SPARQLWrapper.KeyCaseInsensitiveDict.html">SPARQLWrapper.KeyCaseInsensitiveDict module</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">ChangeLog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">2019-12-22  1.8.5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">2019-04-18  1.8.4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">2019-04-17  1.8.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">2018-05-26  1.8.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">2018-02-25  1.8.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">2016-12-07  1.8.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">2015-12-18  1.7.6</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">2015-11-19  1.7.5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id9">2015-11-05  1.7.4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id10">2015-11-05  1.7.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id11">2015-11-03  1.7.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id12">2015-10-29  1.7.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id13">2015-10-29  1.7.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id14">2014-08-26  1.6.4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id15">2014-08-26  1.6.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id16">2014-07-24  1.6.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id17">2014-07-21  1.6.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id18">2014-05-09  1.6.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id19">2012-08-28  1.5.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id20">2012-07-10  1.5.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id21">2012-02-01  1.5.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id22">2011-01-28  1.4.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id23">2010-01-11  1.4.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id24">2009-12-14  1.4.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id25">2009-09-23  1.3.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id26">2009-09-11  1.3.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id27">2009-05-06  1.3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id28">2009-04-27  1.2.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id29">2008-07-10  1.2.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id30">2008-03-24  1.1.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id31">2008-03-07  1.0.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id32">2008-02-14  1.0.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id33">2007-07-06  0.2.0</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">SPARQLWrapper</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>SPARQLWrapper’s changelog</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/changelog.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="sparqlwrapper-s-changelog">
+<h1>SPARQLWrapper’s changelog<a class="headerlink" href="#sparqlwrapper-s-changelog" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>2019-12-22  1.8.5<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Improve/tests for development (#131)</li>
+<li>Changed. Be more strict on Accept Turtle header (#137)</li>
+<li>Migrated documentation from epydoc to sphinx and readthedocs</li>
+</ul>
+</div>
+<div class="section" id="id2">
+<h2>2019-04-18  1.8.4<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Added example</li>
+<li>hotfix: Added custom_fixers folder in MANIFEST, in order to be used in python3 (#129)</li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h2>2019-04-17  1.8.3<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Include ChangeLog.txt in the distribution</li>
+<li>Removed import of SPARQLWrapper in setup.py (fixed #113 and closed #115)</li>
+<li>Added support for querying RDF/XML in a CONSTRUCT query type</li>
+<li>Updated the procedure for determining the query type (#120)</li>
+<li>Do not send format parameter for the results ([format, output, results]) when the query is a SPARQL Update query</li>
+<li>Added test for new agrovoc SPARQL endpoint (using Fuseki2)</li>
+<li>Added test for 4store SPARQL endpoint (used by agroportal)</li>
+<li>Added/Updated tests</li>
+<li>Added examples</li>
+<li>Updated doc</li>
+<li>Fixed code generated for python3 using 2to3, adding a custom fixer (#109)</li>
+</ul>
+</div>
+<div class="section" id="id4">
+<h2>2018-05-26  1.8.2<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Fixed bug (#100)</li>
+<li>Updated doc</li>
+<li>Added Unauthorized exception in SPARQLWrapperExceptions</li>
+<li>Added support for custom HTTP headers (#52)</li>
+<li>Changed timeout setting (#106)</li>
+</ul>
+</div>
+<div class="section" id="id5">
+<h2>2018-02-25  1.8.1<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Update classifiers (Python 3.6)</li>
+<li>Added some documentation about the parameter to indicate the output format</li>
+<li>Fixed typo in width calculation</li>
+<li>Added support for CSV, TSV (PR #98)</li>
+<li>Added support for Only HTTP Content Negotiation (#82)</li>
+</ul>
+</div>
+<div class="section" id="id6">
+<h2>2016-12-07  1.8.0<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Updated return formats for not content negotiation situations</li>
+<li>Included license in the MANIFEST (issue #76)</li>
+<li>Added explicit support for RDF/XML as allowed format (issue #75)</li>
+<li>Added proper shebang (issue #78)</li>
+<li>Moved keepalive as optional dependency (issue #79)</li>
+<li>Fixed hash check on prefixes (issue #77)</li>
+<li>Fixed epydoc warnings (issue #41)</li>
+</ul>
+</div>
+<div class="section" id="id7">
+<h2>2015-12-18  1.7.6<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Removed wrong response encoding (issue #70)</li>
+<li>Authorization header bug when using Python 3 (issue #71)</li>
+</ul>
+</div>
+<div class="section" id="id8">
+<h2>2015-11-19  1.7.5<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Removed pip dependency on setup (issue #69)</li>
+</ul>
+</div>
+<div class="section" id="id9">
+<h2>2015-11-05  1.7.4<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Fixed packaging (issue #66)</li>
+</ul>
+</div>
+<div class="section" id="id10">
+<h2>2015-11-05  1.7.3<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Finally fixed the keepalive issue in all Pyhon versions  (issue #65)</li>
+<li>Removed old JSON layer in favor of the native json module</li>
+</ul>
+</div>
+<div class="section" id="id11">
+<h2>2015-11-03  1.7.2<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Moved to the new keepalive package (issues #53 and #61)</li>
+</ul>
+</div>
+<div class="section" id="id12">
+<h2>2015-10-29  1.7.1<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Fixed build in Python 3.x (issue #57)</li>
+</ul>
+</div>
+<div class="section" id="id13">
+<h2>2015-10-29  1.7.0<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Added support to HTTP Digest Auth Support (issue #45)</li>
+<li>Improved print_results showing language tag (xml:lang) and datatype</li>
+<li>Updated to RDFLib 4.x</li>
+</ul>
+</div>
+<div class="section" id="id14">
+<h2>2014-08-26  1.6.4<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Fixed unicode problems on setup (issue #42)</li>
+</ul>
+</div>
+<div class="section" id="id15">
+<h2>2014-08-26  1.6.3<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Fixed unicode problems with urllib in Python 3 (issue #35)</li>
+<li>Restored SPARQLWrapper2 class (issue #36)</li>
+<li>Enhanced warning for missing rdflib-jsonld (issue #38)</li>
+<li>Fixed build system (issue #39)</li>
+</ul>
+</div>
+<div class="section" id="id16">
+<h2>2014-07-24  1.6.2<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Fixed query type detection with comments (issue #32)</li>
+</ul>
+</div>
+<div class="section" id="id17">
+<h2>2014-07-21  1.6.1<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Added missing query types (issue #17)</li>
+<li>Added a new method to the API to select the request method to be fully SPARQL 1.1 Protocol compliant (issue #28)</li>
+<li>Improved the test suite coverage, including support to run the tests under Python 3.x (issues #20, #24 and #31)</li>
+</ul>
+</div>
+<div class="section" id="id18">
+<h2>2014-05-09  1.6.0<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Returning raw response in case of unknown content type returned</li>
+<li>Fixed some issues with the last version of the SPARQL 1.1 Update Protocol</li>
+<li>setQuery() doesn’t imply resetQuery() anymore</li>
+<li>Deprecated addCustomParameter(), addParameter() and clearParameter() come to provide all required functionality</li>
+<li>SPARQLWrapper, QueryResult, Value, Bindings (and classes inherited from them) are new-style classes now</li>
+<li>POST queries are accompanied by full set of parameters now</li>
+<li>Added rudimentary support for JSON-LD</li>
+<li>Added proper unit tests without dependencies of external endpoints</li>
+<li>Fixed Python 3 compatibility issues in SmartWrapper module</li>
+</ul>
+</div>
+<div class="section" id="id19">
+<h2>2012-08-28  1.5.2<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Implemented update operation according the latest SPARQL 1.1 Protocol drafts (i.e., switching to ‘update’ parameter)</li>
+</ul>
+</div>
+<div class="section" id="id20">
+<h2>2012-07-10  1.5.1<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Added the possibility to use two different endpoints for reading and writing operations</li>
+<li>New print_results() function for users testing</li>
+</ul>
+</div>
+<div class="section" id="id21">
+<h2>2012-02-01  1.5.0<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Update handling 500’s coming from SPARQL endpoint (feature request #3198363)</li>
+<li>Added Python 3.x support (feature request 3022722)</li>
+<li>Warning when returned format would be different than the requested one</li>
+</ul>
+</div>
+<div class="section" id="id22">
+<h2>2011-01-28  1.4.2<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Updated for working with RDFLib3 too (feature request #3117442)</li>
+<li>fixed bug with prefixes’ regex (#2320024)</li>
+</ul>
+</div>
+<div class="section" id="id23">
+<h2>2010-01-11  1.4.1<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Supporting keep-alive in SPARQLWrapper if urlgrabber is available (ticket #2929881)</li>
+<li>fixed bugs (#2949834)</li>
+</ul>
+</div>
+<div class="section" id="id24">
+<h2>2009-12-14  1.4.0<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Added some support for SPARUL</li>
+<li>Improved HTTP related code</li>
+<li>Many other minor bugs fixed</li>
+</ul>
+</div>
+<div class="section" id="id25">
+<h2>2009-09-23  1.3.2<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Remove pyxml dependency. Instead, use xml.dom.minidom</li>
+<li>Updated setup installation (added rdflib dependency)</li>
+<li>Updated example.py (added XML, N3 and RDF examples)</li>
+</ul>
+</div>
+<div class="section" id="id26">
+<h2>2009-09-11  1.3.1<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Remove simplejson dependency for python =&gt; 2.6 version</li>
+<li>Added feature to choose the json module to use</li>
+</ul>
+</div>
+<div class="section" id="id27">
+<h2>2009-05-06  1.3.0<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Added a new method to add custom parameters (deprecated old way to do it)</li>
+</ul>
+</div>
+<div class="section" id="id28">
+<h2>2009-04-27  1.2.1<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Updated setup installation</li>
+<li>Patched to work with JSON in Python&gt;=2.6</li>
+</ul>
+</div>
+<div class="section" id="id29">
+<h2>2008-07-10  1.2.0<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Allowed non-standard extensions (such as SPARUL).</li>
+<li>Exceptions fixed.</li>
+<li>Added another example.</li>
+</ul>
+</div>
+<div class="section" id="id30">
+<h2>2008-03-24  1.1.0<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Renamed package name to SPARQLWrapper.</li>
+<li>Added a basic catalog of exceptions.</li>
+</ul>
+</div>
+<div class="section" id="id31">
+<h2>2008-03-07  1.0.1<a class="headerlink" href="#id31" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Fixed some cosmetic things.</li>
+</ul>
+</div>
+<div class="section" id="id32">
+<h2>2008-02-14  1.0.0<a class="headerlink" href="#id32" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>First stable release.</li>
+<li>Main functionality stabilized.</li>
+<li>Project moved to SourceForge.</li>
+</ul>
+</div>
+<div class="section" id="id33">
+<h2>2007-07-06  0.2.0<a class="headerlink" href="#id33" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>First public release of the library.</li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="SPARQLWrapper.KeyCaseInsensitiveDict.html" class="btn btn-neutral float-left" title="SPARQLWrapper.KeyCaseInsensitiveDict module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,594 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>SPARQLWrapper.SmartWrapper &mdash; SPARQLWrapper  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> SPARQLWrapper
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.8.5
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Basic steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../main.html">SPARQL Endpoint interface to Python</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../main.html#about">About</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../main.html#installation-distribution">Installation &amp; Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../main.html#how-to-use">How to use</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../main.html#first-steps">First steps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../main.html#select-example">SELECT example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../main.html#ask-example">ASK example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../main.html#construct-example">CONSTRUCT example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../main.html#describe-example">DESCRIBE example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../main.html#sparql-update-example">SPARQL UPDATE example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../main.html#sparqlwrapper2-example">SPARQLWrapper2 example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../main.html#return-formats">Return formats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../main.html#automatic-conversion-of-the-results">Automatic conversion of the results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../main.html#partial-interpretation-of-the-results">Partial interpretation of the results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../main.html#get-or-post">GET or POST</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../main.html#development">Development</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../main.html#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../main.html#source-code">Source code</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../main.html#community">Community</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../main.html#issues">Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../main.html#documentation">Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../main.html#license">License</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../main.html#acknowledgement">Acknowledgement</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Python Package</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">SPARQLWrapper package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../SPARQLWrapper.Wrapper.html">SPARQLWrapper.Wrapper module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../SPARQLWrapper.SmartWrapper.html">SPARQLWrapper.SmartWrapper module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../SPARQLWrapper.SPARQLExceptions.html">SPARQLWrapper.SPARQLExceptions module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../SPARQLWrapper.KeyCaseInsensitiveDict.html">SPARQLWrapper.KeyCaseInsensitiveDict module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">ChangeLog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id1">2019-12-22  1.8.5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id2">2019-04-18  1.8.4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id3">2019-04-17  1.8.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id4">2018-05-26  1.8.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id5">2018-02-25  1.8.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id6">2016-12-07  1.8.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id7">2015-12-18  1.7.6</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id8">2015-11-19  1.7.5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id9">2015-11-05  1.7.4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id10">2015-11-05  1.7.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id11">2015-11-03  1.7.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id12">2015-10-29  1.7.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id13">2015-10-29  1.7.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id14">2014-08-26  1.6.4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id15">2014-08-26  1.6.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id16">2014-07-24  1.6.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id17">2014-07-21  1.6.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id18">2014-05-09  1.6.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id19">2012-08-28  1.5.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id20">2012-07-10  1.5.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id21">2012-02-01  1.5.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id22">2011-01-28  1.4.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id23">2010-01-11  1.4.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id24">2009-12-14  1.4.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id25">2009-09-23  1.3.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id26">2009-09-11  1.3.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id27">2009-05-06  1.3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id28">2009-04-27  1.2.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id29">2008-07-10  1.2.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id30">2008-03-24  1.1.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id31">2008-03-07  1.0.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id32">2008-02-14  1.0.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id33">2007-07-06  0.2.0</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">SPARQLWrapper</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>SPARQLWrapper.SmartWrapper</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for SPARQLWrapper.SmartWrapper</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">..</span>
+<span class="sd">  Developers involved:</span>
+
+<span class="sd">  * Ivan Herman &lt;http://www.ivan-herman.net&gt;</span>
+<span class="sd">  * Sergio Fernández &lt;http://www.wikier.org&gt;</span>
+<span class="sd">  * Carlos Tejo Alonso &lt;http://www.dayures.net&gt;</span>
+<span class="sd">  * Alexey Zakhlestin &lt;https://indeyets.ru/&gt;</span>
+
+<span class="sd">  Organizations involved:</span>
+
+<span class="sd">  * `World Wide Web Consortium &lt;http://www.w3.org&gt;`_</span>
+<span class="sd">  * `Foundation CTIC &lt;http://www.fundacionctic.org/&gt;`_</span>
+
+<span class="sd">  :license: `W3C® Software notice and license &lt;http://www.w3.org/Consortium/Legal/copyright-software&gt;`_</span>
+<span class="sd">  :requires: `RDFLib &lt;https://rdflib.readthedocs.io&gt;`_ package.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">urllib2</span>
+<span class="kn">from</span> <span class="nn">types</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">SPARQLWrapper</span>
+<span class="kn">from</span> <span class="nn">SPARQLWrapper.Wrapper</span> <span class="k">import</span> <span class="n">JSON</span><span class="p">,</span> <span class="n">SELECT</span>
+
+<span class="c1">######################################################################################</span>
+
+<div class="viewcode-block" id="Value"><a class="viewcode-back" href="../../SPARQLWrapper.SmartWrapper.html#SPARQLWrapper.SmartWrapper.Value">[docs]</a><span class="k">class</span> <span class="nc">Value</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class encapsulating a single binding for a variable.</span>
+
+<span class="sd">    :ivar variable: The original variable, stored for an easier reference.</span>
+<span class="sd">    :vartype variable: string</span>
+<span class="sd">    :ivar value: Value of the binding.</span>
+<span class="sd">    :vartype value: string</span>
+<span class="sd">    :ivar type: Type of the binding. One of :attr:`Value.URI`, :attr:`Value.Literal`, :attr:`Value.TypedLiteral`, or :attr:`Value.BNODE`.</span>
+<span class="sd">    :vartype type: string</span>
+<span class="sd">    :ivar lang: Language tag of the binding, or ``None`` if not set.</span>
+<span class="sd">    :vartype lang: string</span>
+<span class="sd">    :ivar datatype: Datatype of the binding, or ``None`` if not set. It is an URI.</span>
+<span class="sd">    :vartype datatype: string</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">URI</span> <span class="o">=</span> <span class="s2">&quot;uri&quot;</span>
+    <span class="sd">&quot;&quot;&quot;the string denoting a URI variable.&quot;&quot;&quot;</span>
+    <span class="n">Literal</span> <span class="o">=</span> <span class="s2">&quot;literal&quot;</span>
+    <span class="sd">&quot;&quot;&quot;the string denoting a Literal variable.&quot;&quot;&quot;</span>
+    <span class="n">TypedLiteral</span> <span class="o">=</span> <span class="s2">&quot;typed-literal&quot;</span>
+    <span class="sd">&quot;&quot;&quot;the string denoting a typed literal variable.&quot;&quot;&quot;</span>
+    <span class="n">BNODE</span> <span class="o">=</span> <span class="s2">&quot;bnode&quot;</span>
+    <span class="sd">&quot;&quot;&quot;the string denoting a blank node variable.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Value.__init__"><a class="viewcode-back" href="../../SPARQLWrapper.SmartWrapper.html#SPARQLWrapper.SmartWrapper.Value.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="p">,</span> <span class="n">binding</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param variable: the variable for that binding. Stored for an easier reference.</span>
+<span class="sd">        :type variable: string</span>
+<span class="sd">        :param binding: the binding dictionary part of the return result for a specific binding.</span>
+<span class="sd">        :type binding: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">variable</span> <span class="o">=</span> <span class="n">variable</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">binding</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">binding</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lang</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">datatype</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lang</span> <span class="o">=</span> <span class="n">binding</span><span class="p">[</span><span class="s1">&#39;xml:lang&#39;</span><span class="p">]</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="c1"># no lang is set</span>
+            <span class="k">pass</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">datatype</span> <span class="o">=</span> <span class="n">binding</span><span class="p">[</span><span class="s1">&#39;datatype&#39;</span><span class="p">]</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">pass</span></div>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">cls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">(</span><span class="si">%s</span><span class="s2">:</span><span class="si">%r</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span></div>
+
+<span class="c1">######################################################################################</span>
+
+
+<div class="viewcode-block" id="Bindings"><a class="viewcode-back" href="../../SPARQLWrapper.SmartWrapper.html#SPARQLWrapper.SmartWrapper.Bindings">[docs]</a><span class="k">class</span> <span class="nc">Bindings</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class encapsulating one query result, based on the JSON return format. It decodes the</span>
+<span class="sd">    return values to make it a bit more usable for a standard usage. The class consumes the</span>
+<span class="sd">    return value and instantiates a number of attributes that can be consulted directly. See</span>
+<span class="sd">    the list of variables.</span>
+
+<span class="sd">    The `Serializing SPARQL Query Results in JSON &lt;http://www.w3.org/TR/rdf-sparql-json-res/&gt;`_ explains the details of the</span>
+<span class="sd">    JSON return structures. Very succinctly: the return data has &quot;bindings&quot;, which means a list of dictionaries. Each</span>
+<span class="sd">    dictionary is a possible binding of the SELECT variables to :class:`Value` instances. This structure is made a bit</span>
+<span class="sd">    more usable by this class.</span>
+
+<span class="sd">    :ivar fullResult: The original dictionary of the results, stored for an easier reference.</span>
+<span class="sd">    :vartype fullResult: dict</span>
+<span class="sd">    :ivar head: Header part of the return, see the JSON return format document for details.</span>
+<span class="sd">    :vartype head: dict</span>
+<span class="sd">    :ivar variables: List of unbounds (variables) of the original query. It is a list of strings. ``None`` in the case of an ASK query.</span>
+<span class="sd">    :vartype variables: list</span>
+<span class="sd">    :ivar bindings: The final bindings: list of dictionaries, mapping variables to :class:`Value` instances. \</span>
+<span class="sd">    If unbound, then no value is set in the dictionary; that can be easily checked with \</span>
+<span class="sd">    ``var in res.bindings[..]``, for example.</span>
+<span class="sd">    :vartype bindings: list</span>
+<span class="sd">    :ivar askResult: by default, set to **False**; in case of an ASK query, the result of the query.</span>
+<span class="sd">    :vartype askResult: bool</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Bindings.__init__"><a class="viewcode-back" href="../../SPARQLWrapper.SmartWrapper.html#SPARQLWrapper.SmartWrapper.Bindings.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">retval</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param retval: the query result.</span>
+<span class="sd">        :type retval: :class:`QueryResult&lt;SPARQLWrapper.Wrapper.QueryResult&gt;`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fullResult</span> <span class="o">=</span> <span class="n">retval</span><span class="o">.</span><span class="n">_convertJSON</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">head</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fullResult</span><span class="p">[</span><span class="s1">&#39;head&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">variables</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">variables</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fullResult</span><span class="p">[</span><span class="s1">&#39;head&#39;</span><span class="p">][</span><span class="s1">&#39;vars&#39;</span><span class="p">]</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">bindings</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fullResult</span><span class="p">[</span><span class="s1">&#39;results&#39;</span><span class="p">][</span><span class="s1">&#39;bindings&#39;</span><span class="p">]:</span>
+                <span class="c1">#  this is a single binding.  It is a dictionary per variable; each value is a dictionary again that has to be</span>
+                <span class="c1"># converted into a Value instance</span>
+                <span class="n">newBind</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">b</span><span class="p">:</span>
+                        <span class="c1"># there is a real binding for this key</span>
+                        <span class="n">newBind</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">Value</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">b</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">bindings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">newBind</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">askResult</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">askResult</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fullResult</span><span class="p">[</span><span class="s2">&quot;boolean&quot;</span><span class="p">]</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="Bindings.getValues"><a class="viewcode-back" href="../../SPARQLWrapper.SmartWrapper.html#SPARQLWrapper.SmartWrapper.Bindings.getValues">[docs]</a>    <span class="k">def</span> <span class="nf">getValues</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;A shorthand for the retrieval of all bindings for a single key. It is</span>
+<span class="sd">        equivalent to ``[b[key] for b in self[key]]``</span>
+
+<span class="sd">        :param key: possible variable name.</span>
+<span class="sd">        :type key: string</span>
+<span class="sd">        :return: list of :class:`Value` instances.</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[</span><span class="n">b</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]]</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[]</span></div>
+
+    <span class="k">def</span> <span class="nf">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Emulation of the &quot;``key in obj``&quot; operator. Key can be a string for a variable or an array/tuple</span>
+<span class="sd">        of strings.</span>
+
+<span class="sd">        If ``key`` is a variable, the return value is ``True`` if there is at least one binding where ``key`` is</span>
+<span class="sd">        bound. If ``key`` is an array or tuple, the return value is ``True`` if there is at least one binding</span>
+<span class="sd">        where *all* variables in ``key`` are bound.</span>
+
+<span class="sd">        :param key: possible variable, or array/tuple of variables</span>
+<span class="sd">        :return: whether there is a binding of the variable in the return</span>
+<span class="sd">        :rtype: Boolean</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bindings</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">tuple</span><span class="p">:</span>
+            <span class="c1"># check first whether they are all really variables</span>
+            <span class="k">if</span> <span class="kc">False</span> <span class="ow">in</span> <span class="p">[</span><span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">variables</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">key</span><span class="p">]:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bindings</span><span class="p">:</span>
+                <span class="c1"># try to find a binding where all key elements are present</span>
+                <span class="k">if</span> <span class="kc">False</span> <span class="ow">in</span> <span class="p">[</span><span class="n">k</span> <span class="ow">in</span> <span class="n">b</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">key</span><span class="p">]:</span>
+                    <span class="c1"># this is not a binding for the key combination, move on...</span>
+                    <span class="k">continue</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># yep, this one is good!</span>
+                    <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bindings</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">b</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Emulation of the ``obj[key]`` operator.  Slice notation is also available.</span>
+<span class="sd">        The goal is to choose the right bindings among the available ones. The return values are always</span>
+<span class="sd">        arrays  of bindings, ie, arrays of dictionaries mapping variable keys to :class:`Value` instances.</span>
+<span class="sd">        The different value settings mean the followings:</span>
+
+<span class="sd">         - ``obj[key]`` returns the bindings where ``key`` has a valid value</span>
+<span class="sd">         - ``obj[key1,key2,...]`` returns the bindings where *all* ``key1,key2,...`` have valid values</span>
+<span class="sd">         - ``obj[(key1,key2,...):(nkey1,nkey2,...)]`` returns the bindings where all ``key1,key2,...`` have</span>
+<span class="sd">         valid values and *none* of the ``nkey1,nkey2,...`` have valid values</span>
+<span class="sd">         - ``obj[:(nkey1,nkey2,...)]`` returns the bindings where *none* of the ``nkey1,nkey2,...`` have valid values</span>
+
+<span class="sd">        In all cases complete bindings are returned, ie, the values for other variables, not present among</span>
+<span class="sd">        the keys in the call, may or may not be present depending on the query results.</span>
+
+<span class="sd">        :param key: possible variable or array/tuple of keys with possible slice notation</span>
+<span class="sd">        :return: list of bindings</span>
+<span class="sd">        :rtype: array of variable -&gt; :class:`Value`  dictionaries</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">def</span> <span class="nf">_checkKeys</span><span class="p">(</span><span class="n">keys</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">basestring</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="k">def</span> <span class="nf">_nonSliceCase</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">basestring</span><span class="p">)</span> <span class="ow">and</span> <span class="n">key</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span> <span class="ow">and</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
+                <span class="c1"># unicode or string:</span>
+                <span class="k">return</span> <span class="p">[</span><span class="n">key</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">tuple</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">_checkKeys</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="n">key</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="c1"># The arguments should be reduced to arrays of variables, ie, unicode strings</span>
+        <span class="n">yes_keys</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">no_keys</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">slice</span><span class="p">:</span>
+            <span class="c1"># Note: None for start or stop is all right</span>
+            <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">start</span><span class="p">:</span>
+                <span class="n">yes_keys</span> <span class="o">=</span> <span class="n">_nonSliceCase</span><span class="p">(</span><span class="n">key</span><span class="o">.</span><span class="n">start</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">yes_keys</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span>
+            <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">stop</span><span class="p">:</span>
+                <span class="n">no_keys</span> <span class="o">=</span> <span class="n">_nonSliceCase</span><span class="p">(</span><span class="n">key</span><span class="o">.</span><span class="n">stop</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">no_keys</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">yes_keys</span> <span class="o">=</span> <span class="n">_nonSliceCase</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+        <span class="c1"># got it right, now get the right binding line with the constraints</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bindings</span><span class="p">:</span>
+            <span class="c1"># first check whether the &#39;yes&#39; part is all there:</span>
+            <span class="k">if</span> <span class="kc">False</span> <span class="ow">in</span> <span class="p">[</span><span class="n">k</span> <span class="ow">in</span> <span class="n">b</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">yes_keys</span><span class="p">]:</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="kc">True</span>  <span class="ow">in</span> <span class="p">[</span><span class="n">k</span> <span class="ow">in</span> <span class="n">b</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">no_keys</span><span class="p">]:</span>
+                <span class="k">continue</span>
+            <span class="c1"># if we got that far, we shouild be all right!</span>
+            <span class="n">retval</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+        <span class="c1"># if retval is of zero length, no hit; an exception should be raised to stay within the python style</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">retval</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span>
+        <span class="k">return</span> <span class="n">retval</span>
+
+<div class="viewcode-block" id="Bindings.convert"><a class="viewcode-back" href="../../SPARQLWrapper.SmartWrapper.html#SPARQLWrapper.SmartWrapper.Bindings.convert">[docs]</a>    <span class="k">def</span> <span class="nf">convert</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This is just a convenience method, returns ``self``.</span>
+
+<span class="sd">        Although :class:`SPARQLWrapper2.Bindings` is not a subclass of :class:`SPARQLWrapper.QueryResult&lt;SPARQLWrapper.Wrapper.QueryResult&gt;`, it is returned as a result by</span>
+<span class="sd">        :func:`SPARQLWrapper2.query`, just like :class:`QueryResult&lt;SPARQLWrapper.Wrapper.QueryResult&gt;` is returned by</span>
+<span class="sd">        :func:`SPARQLWrapper.query()&lt;SPARQLWrapper.Wrapper.SPARQLWrapper.query&gt;`. Consequently,</span>
+<span class="sd">        having an empty :func:`convert` method to imitate :class:`QueryResult&#39;s convert() method&lt;SPARQLWrapper.Wrapper.QueryResult.convert&gt;` may avoid unnecessary problems.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span></div></div>
+
+<span class="c1">##############################################################################################################</span>
+
+
+<div class="viewcode-block" id="SPARQLWrapper2"><a class="viewcode-back" href="../../SPARQLWrapper.SmartWrapper.html#SPARQLWrapper.SmartWrapper.SPARQLWrapper2">[docs]</a><span class="k">class</span> <span class="nc">SPARQLWrapper2</span><span class="p">(</span><span class="n">SPARQLWrapper</span><span class="o">.</span><span class="n">SPARQLWrapper</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Subclass of :class:`~SPARQLWrapper.Wrapper.SPARQLWrapper` that works with a JSON SELECT return result only. The query result</span>
+<span class="sd">    is automatically set to a :class:`Bindings` instance. Makes the average query processing a bit simpler...&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="SPARQLWrapper2.__init__"><a class="viewcode-back" href="../../SPARQLWrapper.SmartWrapper.html#SPARQLWrapper.SmartWrapper.SPARQLWrapper2.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">baseURI</span><span class="p">,</span> <span class="n">defaultGraph</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Class encapsulating a full SPARQL call. In contrast to the :class:`~SPARQLWrapper.Wrapper.SPARQLWrapper` superclass, the return format</span>
+<span class="sd">        cannot be set (it is defaulted to :attr:`~SPARQLWrapper.Wrapper.SPARQLWrapper.JSON`).</span>
+
+<span class="sd">        :param baseURI: string of the SPARQL endpoint&#39;s URI.</span>
+<span class="sd">        :type baseURI: string</span>
+<span class="sd">        :param defaultGraph: URI for the default graph. Default is ``None``, can be set via an explicit call, too.</span>
+<span class="sd">        :type defaultGraph: string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">SPARQLWrapper2</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">baseURI</span><span class="p">,</span> <span class="n">returnFormat</span><span class="o">=</span><span class="n">JSON</span><span class="p">,</span> <span class="n">defaultGraph</span><span class="o">=</span><span class="n">defaultGraph</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SPARQLWrapper2.setReturnFormat"><a class="viewcode-back" href="../../SPARQLWrapper.SmartWrapper.html#SPARQLWrapper.SmartWrapper.SPARQLWrapper2.setReturnFormat">[docs]</a>    <span class="k">def</span> <span class="nf">setReturnFormat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">format</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the return format (:meth:`overriding the inherited method &lt;SPARQLWrapper.Wrapper.SPARQLWrapper.setReturnFormat&gt;`).</span>
+
+<span class="sd">        .. warning::</span>
+
+<span class="sd">           This method does nothing; this class instance should work with JSON only. The method is defined \</span>
+<span class="sd">           just to avoid possible errors by erroneously setting the return format. \</span>
+<span class="sd">           When using this class, the user can safely ignore this call.</span>
+
+<span class="sd">        :param format: return format</span>
+<span class="sd">        :type format: string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="SPARQLWrapper2.query"><a class="viewcode-back" href="../../SPARQLWrapper.SmartWrapper.html#SPARQLWrapper.SmartWrapper.SPARQLWrapper2.query">[docs]</a>    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Execute the query and do an automatic conversion.</span>
+
+<span class="sd">            Exceptions can be raised if either the URI is wrong or the HTTP sends back an error.</span>
+<span class="sd">            The usual urllib2 exceptions are raised, which cover possible SPARQL errors, too.</span>
+
+<span class="sd">            If the query type is *not* SELECT, the method falls back to the</span>
+<span class="sd">            :meth:`corresponding method in the superclass&lt;SPARQLWrapper.Wrapper.SPARQLWrapper.query&gt;`.</span>
+
+<span class="sd">            :return: query result</span>
+<span class="sd">            :rtype: :class:`Bindings` instance</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">SPARQLWrapper2</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">query</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">queryType</span> <span class="o">==</span> <span class="n">SELECT</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Bindings</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">res</span></div>
+
+<div class="viewcode-block" id="SPARQLWrapper2.queryAndConvert"><a class="viewcode-back" href="../../SPARQLWrapper.SmartWrapper.html#SPARQLWrapper.SmartWrapper.SPARQLWrapper2.queryAndConvert">[docs]</a>    <span class="k">def</span> <span class="nf">queryAndConvert</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This is here to override the inherited method; it is equivalent to :class:`query`.</span>
+
+<span class="sd">        If the query type is *not* SELECT, the method falls back to the</span>
+<span class="sd">        :meth:`corresponding method in the superclass&lt;SPARQLWrapper.Wrapper.SPARQLWrapper.queryAndConvert&gt;`.</span>
+
+<span class="sd">        :return: the converted query result.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">queryType</span> <span class="o">==</span> <span class="n">SELECT</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">SPARQLWrapper2</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">queryAndConvert</span><span class="p">()</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

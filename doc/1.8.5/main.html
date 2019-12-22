@@ -1,0 +1,630 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>SPARQL Endpoint interface to Python &mdash; SPARQLWrapper  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="SPARQLWrapper package" href="modules.html" />
+    <link rel="prev" title="SPARQL Endpoint interface to Python" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> SPARQLWrapper
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.8.5
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Basic steps</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">SPARQL Endpoint interface to Python</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#about">About</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installation-distribution">Installation &amp; Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-use">How to use</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#first-steps">First steps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#select-example">SELECT example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ask-example">ASK example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#construct-example">CONSTRUCT example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#describe-example">DESCRIBE example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sparql-update-example">SPARQL UPDATE example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sparqlwrapper2-example">SPARQLWrapper2 example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#return-formats">Return formats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#automatic-conversion-of-the-results">Automatic conversion of the results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#partial-interpretation-of-the-results">Partial interpretation of the results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#get-or-post">GET or POST</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#development">Development</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#source-code">Source code</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#community">Community</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#issues">Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#documentation">Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#license">License</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#acknowledgement">Acknowledgement</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Python Package</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">SPARQLWrapper package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="SPARQLWrapper.Wrapper.html">SPARQLWrapper.Wrapper module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SPARQLWrapper.SmartWrapper.html">SPARQLWrapper.SmartWrapper module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SPARQLWrapper.SPARQLExceptions.html">SPARQLWrapper.SPARQLExceptions module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SPARQLWrapper.KeyCaseInsensitiveDict.html">SPARQLWrapper.KeyCaseInsensitiveDict module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">ChangeLog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id1">2019-12-22  1.8.5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id2">2019-04-18  1.8.4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id3">2019-04-17  1.8.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id4">2018-05-26  1.8.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id5">2018-02-25  1.8.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id6">2016-12-07  1.8.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id7">2015-12-18  1.7.6</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id8">2015-11-19  1.7.5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id9">2015-11-05  1.7.4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id10">2015-11-05  1.7.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id11">2015-11-03  1.7.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id12">2015-10-29  1.7.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id13">2015-10-29  1.7.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id14">2014-08-26  1.6.4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id15">2014-08-26  1.6.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id16">2014-07-24  1.6.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id17">2014-07-21  1.6.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id18">2014-05-09  1.6.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id19">2012-08-28  1.5.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id20">2012-07-10  1.5.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id21">2012-02-01  1.5.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id22">2011-01-28  1.4.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id23">2010-01-11  1.4.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id24">2009-12-14  1.4.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id25">2009-09-23  1.3.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id26">2009-09-11  1.3.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id27">2009-05-06  1.3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id28">2009-04-27  1.2.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id29">2008-07-10  1.2.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id30">2008-03-24  1.1.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id31">2008-03-07  1.0.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id32">2008-02-14  1.0.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id33">2007-07-06  0.2.0</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">SPARQLWrapper</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>SPARQL Endpoint interface to Python</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/main.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="sparql-endpoint-interface-to-python">
+<h1>SPARQL Endpoint interface to Python<a class="headerlink" href="#sparql-endpoint-interface-to-python" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="https://travis-ci.org/RDFLib/sparqlwrapper"><img alt="Build Status" src="https://secure.travis-ci.org/RDFLib/sparqlwrapper.svg?branch=master" /></a> <a class="reference external" href="https://pypi.python.org/pypi/SPARQLWrapper"><img alt="PyPi version" src="https://badge.fury.io/py/SPARQLWrapper.svg" /></a></p>
+<div class="section" id="about">
+<h2>About<a class="headerlink" href="#about" title="Permalink to this headline">¶</a></h2>
+<p><strong>SPARQLWrapper</strong> is a simple Python wrapper around a <a class="reference external" href="https://www.w3.org/TR/sparql11-overview/">SPARQL</a> service to
+remotelly execute your queries. It helps in creating the query
+invokation and, possibly, convert the result into a more manageable
+format.</p>
+</div>
+<div class="section" id="installation-distribution">
+<h2>Installation &amp; Distribution<a class="headerlink" href="#installation-distribution" title="Permalink to this headline">¶</a></h2>
+<p>You can install SPARQLWrapper from PyPi:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pip install sparqlwrapper
+</pre></div>
+</div>
+<p>You can install SPARQLWrapper from GitHub:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pip install git+https://github.com/rdflib/sparqlwrapper#egg=sparqlwrapper
+</pre></div>
+</div>
+<p>You can install SPARQLWrapper from Debian:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ sudo apt-get install python-sparqlwrapper
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Be aware that there could be a gap between the latest version of SPARQLWrapper
+and the version available as Debian package.</p>
+</div>
+<p>Also, the source code of the package can be downloaded
+in <code class="docutils literal notranslate"><span class="pre">.zip</span></code> and <code class="docutils literal notranslate"><span class="pre">.tar.gz</span></code> formats from <a class="reference external" href="https://github.com/RDFLib/sparqlwrapper/releases">GitHub SPARQLWrapper releases</a>.
+Documentation is included in the distribution.</p>
+</div>
+<div class="section" id="how-to-use">
+<h2>How to use<a class="headerlink" href="#how-to-use" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="first-steps">
+<h3>First steps<a class="headerlink" href="#first-steps" title="Permalink to this headline">¶</a></h3>
+<p>The simplest usage of this module looks as follows (using the default, ie, <a class="reference external" href="http://www.w3.org/TR/rdf-sparql-XMLres/">XML return format</a>, and special URI for the
+SPARQL Service):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">SPARQLWrapper</span> <span class="k">import</span> <span class="n">SPARQLWrapper</span>
+
+<span class="n">queryString</span> <span class="o">=</span> <span class="s2">&quot;SELECT * WHERE { ?s ?p ?o. }&quot;</span>
+<span class="n">sparql</span> <span class="o">=</span> <span class="n">SPARQLWrapper</span><span class="p">(</span><span class="s2">&quot;http://example.org/sparql&quot;</span><span class="p">)</span>
+
+<span class="n">sparql</span><span class="o">.</span><span class="n">setQuery</span><span class="p">(</span><span class="n">queryString</span><span class="p">)</span>
+
+<span class="k">try</span> <span class="p">:</span>
+   <span class="n">ret</span> <span class="o">=</span> <span class="n">sparql</span><span class="o">.</span><span class="n">query</span><span class="p">()</span>
+   <span class="c1"># ret is a stream with the results in XML, see &lt;http://www.w3.org/TR/rdf-sparql-XMLres/&gt;</span>
+<span class="k">except</span> <span class="p">:</span>
+   <span class="n">deal_with_the_exception</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>If <code class="docutils literal notranslate"><span class="pre">SPARQLWrapper(&quot;http://example.org/sparql&quot;,returnFormat=SPARQLWrapper.JSON)</span></code> was used, the result would be in
+<a class="reference external" href="http://www.w3.org/TR/rdf-sparql-json-res/">JSON format</a> instead of XML.</p>
+</div>
+<div class="section" id="select-example">
+<h3>SELECT example<a class="headerlink" href="#select-example" title="Permalink to this headline">¶</a></h3>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">SPARQLWrapper</span> <span class="k">import</span> <span class="n">SPARQLWrapper</span><span class="p">,</span> <span class="n">JSON</span>
+
+<span class="n">sparql</span> <span class="o">=</span> <span class="n">SPARQLWrapper</span><span class="p">(</span><span class="s2">&quot;http://dbpedia.org/sparql&quot;</span><span class="p">)</span>
+<span class="n">sparql</span><span class="o">.</span><span class="n">setQuery</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;</span>
+<span class="s2">    SELECT ?label</span>
+<span class="s2">    WHERE { &lt;http://dbpedia.org/resource/Asturias&gt; rdfs:label ?label }</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+<span class="n">sparql</span><span class="o">.</span><span class="n">setReturnFormat</span><span class="p">(</span><span class="n">JSON</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">sparql</span><span class="o">.</span><span class="n">query</span><span class="p">()</span><span class="o">.</span><span class="n">convert</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="p">[</span><span class="s2">&quot;results&quot;</span><span class="p">][</span><span class="s2">&quot;bindings&quot;</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;---------------------------&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="p">[</span><span class="s2">&quot;results&quot;</span><span class="p">][</span><span class="s2">&quot;bindings&quot;</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">][</span><span class="s2">&quot;xml:lang&quot;</span><span class="p">],</span> <span class="n">result</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="ask-example">
+<h3>ASK example<a class="headerlink" href="#ask-example" title="Permalink to this headline">¶</a></h3>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">SPARQLWrapper</span> <span class="k">import</span> <span class="n">SPARQLWrapper</span><span class="p">,</span> <span class="n">XML</span>
+
+<span class="n">sparql</span> <span class="o">=</span> <span class="n">SPARQLWrapper</span><span class="p">(</span><span class="s2">&quot;http://dbpedia.org/sparql&quot;</span><span class="p">)</span>
+<span class="n">sparql</span><span class="o">.</span><span class="n">setQuery</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    ASK WHERE {</span>
+<span class="s2">        &lt;http://dbpedia.org/resource/Asturias&gt; rdfs:label &quot;Asturias&quot;@es</span>
+<span class="s2">    }</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+<span class="n">sparql</span><span class="o">.</span><span class="n">setReturnFormat</span><span class="p">(</span><span class="n">XML</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">sparql</span><span class="o">.</span><span class="n">query</span><span class="p">()</span><span class="o">.</span><span class="n">convert</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">toxml</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="construct-example">
+<h3>CONSTRUCT example<a class="headerlink" href="#construct-example" title="Permalink to this headline">¶</a></h3>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">SPARQLWrapper</span> <span class="k">import</span> <span class="n">SPARQLWrapper</span><span class="p">,</span> <span class="n">RDFXML</span>
+<span class="kn">from</span> <span class="nn">rdflib</span> <span class="k">import</span> <span class="n">Graph</span>
+
+<span class="n">sparql</span> <span class="o">=</span> <span class="n">SPARQLWrapper</span><span class="p">(</span><span class="s2">&quot;http://dbpedia.org/sparql&quot;</span><span class="p">)</span>
+
+<span class="n">sparql</span><span class="o">.</span><span class="n">setQuery</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    PREFIX dbo: &lt;http://dbpedia.org/ontology/&gt;</span>
+<span class="s2">    PREFIX schema: &lt;http://schema.org/&gt;</span>
+
+<span class="s2">    CONSTRUCT {</span>
+<span class="s2">      ?lang a schema:Language ;</span>
+<span class="s2">      schema:alternateName ?iso6391Code .</span>
+<span class="s2">    }</span>
+<span class="s2">    WHERE {</span>
+<span class="s2">      ?lang a dbo:Language ;</span>
+<span class="s2">      dbo:iso6391Code ?iso6391Code .</span>
+<span class="s2">      FILTER (STRLEN(?iso6391Code)=2) # to filter out non-valid values</span>
+<span class="s2">    }</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+
+<span class="n">sparql</span><span class="o">.</span><span class="n">setReturnFormat</span><span class="p">(</span><span class="n">RDFXML</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">sparql</span><span class="o">.</span><span class="n">query</span><span class="p">()</span><span class="o">.</span><span class="n">convert</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="nb">format</span><span class="o">=</span><span class="s1">&#39;xml&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="describe-example">
+<h3>DESCRIBE example<a class="headerlink" href="#describe-example" title="Permalink to this headline">¶</a></h3>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">SPARQLWrapper</span> <span class="k">import</span> <span class="n">SPARQLWrapper</span><span class="p">,</span> <span class="n">N3</span>
+<span class="kn">from</span> <span class="nn">rdflib</span> <span class="k">import</span> <span class="n">Graph</span>
+
+<span class="n">sparql</span> <span class="o">=</span> <span class="n">SPARQLWrapper</span><span class="p">(</span><span class="s2">&quot;http://dbpedia.org/sparql&quot;</span><span class="p">)</span>
+
+<span class="n">sparql</span><span class="o">.</span><span class="n">setQuery</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    DESCRIBE &lt;http://dbpedia.org/resource/Asturias&gt;</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+
+<span class="n">sparql</span><span class="o">.</span><span class="n">setReturnFormat</span><span class="p">(</span><span class="n">N3</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">sparql</span><span class="o">.</span><span class="n">query</span><span class="p">()</span><span class="o">.</span><span class="n">convert</span><span class="p">()</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">()</span>
+<span class="n">g</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">results</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;n3&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="nb">format</span><span class="o">=</span><span class="s1">&#39;n3&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sparql-update-example">
+<h3>SPARQL UPDATE example<a class="headerlink" href="#sparql-update-example" title="Permalink to this headline">¶</a></h3>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">SPARQLWrapper</span> <span class="k">import</span> <span class="n">SPARQLWrapper</span><span class="p">,</span> <span class="n">POST</span><span class="p">,</span> <span class="n">DIGEST</span>
+
+<span class="n">sparql</span> <span class="o">=</span> <span class="n">SPARQLWrapper</span><span class="p">(</span><span class="s2">&quot;https://example.org/sparql-auth&quot;</span><span class="p">)</span>
+
+<span class="n">sparql</span><span class="o">.</span><span class="n">setHTTPAuth</span><span class="p">(</span><span class="n">DIGEST</span><span class="p">)</span>
+<span class="n">sparql</span><span class="o">.</span><span class="n">setCredentials</span><span class="p">(</span><span class="s2">&quot;login&quot;</span><span class="p">,</span> <span class="s2">&quot;password&quot;</span><span class="p">)</span>
+<span class="n">sparql</span><span class="o">.</span><span class="n">setMethod</span><span class="p">(</span><span class="n">POST</span><span class="p">)</span>
+
+<span class="n">sparql</span><span class="o">.</span><span class="n">setQuery</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">WITH &lt;http://example.graph&gt;</span>
+<span class="s2">DELETE</span>
+<span class="s2">{ &lt;http://dbpedia.org/resource/Asturias&gt; rdfs:label &quot;Asturies&quot;@ast }</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="n">sparql</span><span class="o">.</span><span class="n">query</span><span class="p">()</span>
+<span class="nb">print</span> <span class="n">results</span><span class="o">.</span><span class="n">response</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sparqlwrapper2-example">
+<h3>SPARQLWrapper2 example<a class="headerlink" href="#sparqlwrapper2-example" title="Permalink to this headline">¶</a></h3>
+<p>There is also a <code class="docutils literal notranslate"><span class="pre">SPARQLWrapper2</span></code> class that works with JSON SELECT
+results only and wraps the results to make processing of average queries
+a bit simpler.</p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">SPARQLWrapper</span> <span class="k">import</span> <span class="n">SPARQLWrapper2</span>
+
+<span class="n">sparql</span> <span class="o">=</span> <span class="n">SPARQLWrapper2</span><span class="p">(</span><span class="s2">&quot;http://dbpedia.org/sparql&quot;</span><span class="p">)</span>
+<span class="n">sparql</span><span class="o">.</span><span class="n">setQuery</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;</span>
+<span class="s2">    SELECT ?label</span>
+<span class="s2">    WHERE { &lt;http://dbpedia.org/resource/Asturias&gt; rdfs:label ?label }</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">sparql</span><span class="o">.</span><span class="n">query</span><span class="p">()</span><span class="o">.</span><span class="n">bindings</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lang</span><span class="p">,</span> <span class="n">result</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="return-formats">
+<h3>Return formats<a class="headerlink" href="#return-formats" title="Permalink to this headline">¶</a></h3>
+<p>The expected return formats differs from the query type (<code class="docutils literal notranslate"><span class="pre">SELECT</span></code>, <code class="docutils literal notranslate"><span class="pre">ASK</span></code>, <code class="docutils literal notranslate"><span class="pre">CONSTRUCT</span></code>, <code class="docutils literal notranslate"><span class="pre">DESCRIBE</span></code>…).</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>From the <a class="reference external" href="https://www.w3.org/TR/sparql11-protocol/#query-success">SPARQL specification</a>,
+<em>The response body of a successful query operation with a 2XX response is either:</em></p>
+<ul class="last simple">
+<li><code class="docutils literal notranslate"><span class="pre">SELECT</span></code> and <code class="docutils literal notranslate"><span class="pre">ASK</span></code>: a SPARQL Results Document in XML, JSON, or CSV/TSV format.</li>
+<li><code class="docutils literal notranslate"><span class="pre">DESCRIBE</span></code> and <code class="docutils literal notranslate"><span class="pre">CONSTRUCT</span></code>: an RDF graph serialized, for example, in the RDF/XML syntax, or an equivalent RDF graph serialization.</li>
+</ul>
+</div>
+<p>The package, though it does not contain a full SPARQL parser, makes an attempt to determine the query type
+when the query is set. This should work in most of the cases (but there is a possibility to set this manually, in case something
+goes wrong).</p>
+</div>
+<div class="section" id="automatic-conversion-of-the-results">
+<h3>Automatic conversion of the results<a class="headerlink" href="#automatic-conversion-of-the-results" title="Permalink to this headline">¶</a></h3>
+<p>To make processing somewhat easier, the package can do some conversions automatically from the return result. These are:</p>
+<ul class="simple">
+<li>for XML, the <a class="reference external" href="http://docs.python.org/library/xml.dom.minidom.html">xml.dom.minidom</a> is used to convert the result stream into a <code class="docutils literal notranslate"><span class="pre">Python</span> <span class="pre">representation</span> <span class="pre">of</span> <span class="pre">a</span> <span class="pre">DOM</span> <span class="pre">tree</span></code>.</li>
+<li>for JSON, the <a class="reference external" href="https://docs.python.org/library/json.html">json</a> package to generate a <code class="docutils literal notranslate"><span class="pre">Python</span> <span class="pre">dictionary</span></code>. Until version 1.3.1, the <a class="reference external" href="https://pypi.python.org/pypi/simplejson">simplejson</a> package was used.</li>
+<li>for CSV or TSV, a simple <code class="docutils literal notranslate"><span class="pre">string</span></code>.</li>
+<li>For RDF/XML and JSON-LD, the <a class="reference external" href="https://rdflib.readthedocs.io">RDFLib</a> package is used to convert the result into a <code class="docutils literal notranslate"><span class="pre">Graph</span></code> instance.</li>
+<li>For RDF Turtle/N3, a simple <code class="docutils literal notranslate"><span class="pre">string</span></code>.</li>
+</ul>
+<p>There are two ways to generate this conversion:</p>
+<ul class="simple">
+<li>use <code class="docutils literal notranslate"><span class="pre">ret.convert()</span></code> in the return result from <code class="docutils literal notranslate"><span class="pre">sparql.query()</span></code> in the code above</li>
+<li>use <code class="docutils literal notranslate"><span class="pre">sparql.queryAndConvert()</span></code> to get the converted result right away if the intermediate stream is not used</li>
+</ul>
+<p>For example, in the code below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">try</span> <span class="p">:</span>
+    <span class="n">sparql</span><span class="o">.</span><span class="n">setReturnFormat</span><span class="p">(</span><span class="n">SPARQLWrapper</span><span class="o">.</span><span class="n">JSON</span><span class="p">)</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">sparql</span><span class="o">.</span><span class="n">query</span><span class="p">()</span>
+    <span class="nb">dict</span> <span class="o">=</span> <span class="n">ret</span><span class="o">.</span><span class="n">convert</span><span class="p">()</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="n">deal_with_the_exception</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>the value of <code class="docutils literal notranslate"><span class="pre">dict</span></code> is a Python dictionary of the query result, based on the <a class="reference external" href="http://www.w3.org/TR/rdf-sparql-json-res/">SPARQL Query Results JSON Format</a>.</p>
+</div>
+<div class="section" id="partial-interpretation-of-the-results">
+<h3>Partial interpretation of the results<a class="headerlink" href="#partial-interpretation-of-the-results" title="Permalink to this headline">¶</a></h3>
+<p>A further help is to offer an extra, partial interpretation of the results, again to cover
+most of the practical use cases.
+Based on the <a class="reference external" href="http://www.w3.org/TR/rdf-sparql-json-res/">SPARQL Query Results JSON Format</a>, the <a class="reference internal" href="SPARQLWrapper.SmartWrapper.html#SPARQLWrapper.SmartWrapper.Bindings" title="SPARQLWrapper.SmartWrapper.Bindings"><code class="xref py py-class docutils literal notranslate"><span class="pre">SPARQLWrapper.SmartWrapper.Bindings</span></code></a> class
+can perform some simple steps in decoding the JSON return results. If <a class="reference internal" href="SPARQLWrapper.SmartWrapper.html#SPARQLWrapper.SmartWrapper.SPARQLWrapper2" title="SPARQLWrapper.SmartWrapper.SPARQLWrapper2"><code class="xref py py-class docutils literal notranslate"><span class="pre">SPARQLWrapper.SmartWrapper.SPARQLWrapper2</span></code></a>
+is used instead of <a class="reference internal" href="SPARQLWrapper.Wrapper.html#SPARQLWrapper.Wrapper.SPARQLWrapper" title="SPARQLWrapper.Wrapper.SPARQLWrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">SPARQLWrapper.Wrapper.SPARQLWrapper</span></code></a>, this result format is generated. Note that this relies on a JSON format only,
+ie, it has to be checked whether the SPARQL service can return JSON or not.</p>
+<p>Here is a simple code that makes use of this feature:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">SPARQLWrapper</span> <span class="k">import</span> <span class="n">SPARQLWrapper2</span>
+
+<span class="n">queryString</span> <span class="o">=</span> <span class="s2">&quot;SELECT ?subj ?prop WHERE { ?subj ?prop ?o. }&quot;</span>
+
+<span class="n">sparql</span> <span class="o">=</span> <span class="n">SPARQLWrapper2</span><span class="p">(</span><span class="s2">&quot;http://example.org/sparql&quot;</span><span class="p">)</span>
+
+<span class="n">sparql</span><span class="o">.</span><span class="n">setQuery</span><span class="p">(</span><span class="n">queryString</span><span class="p">)</span>
+<span class="k">try</span> <span class="p">:</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">sparql</span><span class="o">.</span><span class="n">query</span><span class="p">()</span>
+    <span class="nb">print</span> <span class="n">ret</span><span class="o">.</span><span class="n">variables</span>  <span class="c1"># this is an array consisting of &quot;subj&quot; and &quot;prop&quot;</span>
+    <span class="k">for</span> <span class="n">binding</span> <span class="ow">in</span> <span class="n">ret</span><span class="o">.</span><span class="n">bindings</span> <span class="p">:</span>
+        <span class="c1"># each binding is a dictionary. Let us just print the results</span>
+        <span class="nb">print</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2"> (of type </span><span class="si">%s</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="s2">&quot;s&quot;</span><span class="p">,</span><span class="n">binding</span><span class="p">[</span><span class="sa">u</span><span class="s2">&quot;subj&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">,</span><span class="n">binding</span><span class="p">[</span><span class="sa">u</span><span class="s2">&quot;subj&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
+        <span class="nb">print</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2"> (of type </span><span class="si">%s</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="s2">&quot;p&quot;</span><span class="p">,</span><span class="n">binding</span><span class="p">[</span><span class="sa">u</span><span class="s2">&quot;prop&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">,</span><span class="n">binding</span><span class="p">[</span><span class="sa">u</span><span class="s2">&quot;prop&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="n">deal_with_the_exception</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>To make this type of code even easier to realize, the <code class="docutils literal notranslate"><span class="pre">[]</span></code> and <code class="docutils literal notranslate"><span class="pre">in</span></code> operators are also implemented
+on the result of <a class="reference internal" href="SPARQLWrapper.SmartWrapper.html#SPARQLWrapper.SmartWrapper.Bindings" title="SPARQLWrapper.SmartWrapper.Bindings"><code class="xref py py-class docutils literal notranslate"><span class="pre">SPARQLWrapper.SmartWrapper.Bindings</span></code></a>. This can be used to check and find a particular binding (ie, particular row
+in the return value). This features becomes particularly useful when the <code class="docutils literal notranslate"><span class="pre">OPTIONAL</span></code> feature of SPARQL is used. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">SPARQLWrapper</span> <span class="k">import</span> <span class="n">SPARQLWrapper2</span>
+
+<span class="n">queryString</span> <span class="o">=</span> <span class="s2">&quot;SELECT ?subj ?o ?opt WHERE { ?subj &lt;http://a.b.c&gt; ?o. OPTIONAL { ?subj &lt;http://d.e.f&gt; ?opt }}&quot;</span>
+
+<span class="n">sparql</span> <span class="o">=</span> <span class="n">SPARQLWrapper2</span><span class="p">(</span><span class="s2">&quot;http://example.org/sparql&quot;</span><span class="p">)</span>
+
+<span class="n">sparql</span><span class="o">.</span><span class="n">setQuery</span><span class="p">(</span><span class="n">queryString</span><span class="p">)</span>
+<span class="k">try</span> <span class="p">:</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">sparql</span><span class="o">.</span><span class="n">query</span><span class="p">()</span>
+    <span class="nb">print</span> <span class="n">ret</span><span class="o">.</span><span class="n">variables</span>  <span class="c1"># this is an array consisting of &quot;subj&quot;, &quot;o&quot;, &quot;opt&quot;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="sa">u</span><span class="s2">&quot;subj&quot;</span><span class="p">,</span><span class="sa">u</span><span class="s2">&quot;prop&quot;</span><span class="p">,</span><span class="sa">u</span><span class="s2">&quot;opt&quot;</span><span class="p">)</span> <span class="ow">in</span> <span class="n">ret</span> <span class="p">:</span>
+       <span class="c1"># there is at least one binding covering the optional &quot;opt&quot;, too</span>
+       <span class="n">bindings</span> <span class="o">=</span> <span class="n">ret</span><span class="p">[</span><span class="sa">u</span><span class="s2">&quot;subj&quot;</span><span class="p">,</span><span class="sa">u</span><span class="s2">&quot;o&quot;</span><span class="p">,</span><span class="sa">u</span><span class="s2">&quot;opt&quot;</span><span class="p">]</span>
+       <span class="c1"># bindings is an array of dictionaries with the full bindings</span>
+       <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">bindings</span> <span class="p">:</span>
+           <span class="n">subj</span> <span class="o">=</span> <span class="n">b</span><span class="p">[</span><span class="sa">u</span><span class="s2">&quot;subj&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+           <span class="n">o</span>    <span class="o">=</span> <span class="n">b</span><span class="p">[</span><span class="sa">u</span><span class="s2">&quot;o&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+           <span class="n">opt</span>  <span class="o">=</span> <span class="n">b</span><span class="p">[</span><span class="sa">u</span><span class="s2">&quot;opt&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+           <span class="c1"># do something nice with subj, o, and opt</span>
+    <span class="c1"># another way of accessing to values for a single variable:</span>
+    <span class="c1"># take all the bindings of the &quot;subj&quot;</span>
+    <span class="n">subjbind</span> <span class="o">=</span> <span class="n">ret</span><span class="o">.</span><span class="n">getValues</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;subj&quot;</span><span class="p">)</span> <span class="c1"># an array of Value instances</span>
+    <span class="o">...</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="n">deal_with_the_exception</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="get-or-post">
+<h3>GET or POST<a class="headerlink" href="#get-or-post" title="Permalink to this headline">¶</a></h3>
+<p>By default, all SPARQL services are invoked using HTTP <strong>GET</strong> verb. However,
+<strong>POST</strong> might be useful if the size of the query
+extends a reasonable size; this can be set in the query instance.</p>
+<p>Note that some combination may not work yet with all SPARQL processors
+(e.g., there are implementations where <strong>POST + JSON return</strong> does not work).
+Hopefully, this problem will eventually disappear.</p>
+</div>
+</div>
+<div class="section" id="development">
+<h2>Development<a class="headerlink" href="#development" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="requirements">
+<h3>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h3>
+<p>The <a class="reference external" href="https://rdflib.readthedocs.io">RDFLib</a> package is used for RDF parsing.</p>
+<p>This package is imported in a lazy fashion, ie, only when needed. Ie, if the user never intends to use the
+RDF format, the RDFLib package is not imported and the user does not have to install it.</p>
+</div>
+<div class="section" id="source-code">
+<h3>Source code<a class="headerlink" href="#source-code" title="Permalink to this headline">¶</a></h3>
+<p>The source distribution contains:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">SPARQLWrapper</span></code>: the Python package. You should copy the directory
+somewhere into your PYTHONPATH. Alternatively, you can also run
+the distutils scripts: <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">test</span></code>: some unit and integrations tests. In order to run the tests
+some packages have to be installed before. So please install the packages
+listed in requirements.development.txt:
+<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">requirements.development.txt</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">scripts</span></code>: some scripts to run the package against some SPARQL endpoints.</li>
+<li><code class="docutils literal notranslate"><span class="pre">docs</span></code>: the documentation.</li>
+<li><code class="docutils literal notranslate"><span class="pre">custom_fixers</span></code>: 2to3 custom_fixer in order to fix an issue with urllib2._opener.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="community">
+<h2>Community<a class="headerlink" href="#community" title="Permalink to this headline">¶</a></h2>
+<p>Community support is available through the developer’s discussion group <a class="reference external" href="http://groups.google.com/d/forum/rdflib-dev">rdflib-dev</a>.
+The <a class="reference external" href="http://sourceforge.net/mailarchive/forum.php?forum_name=sparql-wrapper-devel">archives</a>. from the old mailing list are still available.</p>
+</div>
+<div class="section" id="issues">
+<h2>Issues<a class="headerlink" href="#issues" title="Permalink to this headline">¶</a></h2>
+<p>Please, <a class="reference external" href="https://github.com/RDFLib/sparqlwrapper/issues">report any issue to github</a>.</p>
+</div>
+<div class="section" id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference external" href="https://rdflib.github.io/sparqlwrapper/doc/latest/">SPARQLWrapper documentation is available online</a>.</p>
+<p>Other interesting documents are the latest <a class="reference external" href="https://www.w3.org/TR/sparql11-overview/">SPARQL 1.1 Specification (W3C Recommendation 21 March 2013)</a>
+and the initial <a class="reference external" href="http://www.w3.org/TR/rdf-sparql-query/">SPARQL Specification (W3C Recommendation 15 January 2008)</a>.</p>
+</div>
+<div class="section" id="license">
+<h2>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h2>
+<p>The SPARQLWrapper package is licensed under <a class="reference external" href="https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document">W3C license</a>.</p>
+</div>
+<div class="section" id="acknowledgement">
+<h2>Acknowledgement<a class="headerlink" href="#acknowledgement" title="Permalink to this headline">¶</a></h2>
+<p>The package was greatly inspired by <a class="reference external" href="http://thefigtrees.net/lee/blog/2006/04/sparql_calendar_demo_a_sparql.html">Lee Feigenbaum’s similar package for Javascript</a>.</p>
+<p>Developers involved:</p>
+<ul class="simple">
+<li>Ivan Herman &lt;<a class="reference external" href="http://www.ivan-herman.net">http://www.ivan-herman.net</a>&gt;</li>
+<li>Sergio Fernández &lt;<a class="reference external" href="http://www.wikier.org">http://www.wikier.org</a>&gt;</li>
+<li>Carlos Tejo Alonso &lt;<a class="reference external" href="http://www.dayures.net">http://www.dayures.net</a>&gt;</li>
+<li>Alexey Zakhlestin &lt;<a class="reference external" href="https://indeyets.ru/">https://indeyets.ru/</a>&gt;</li>
+</ul>
+<p>Organizations involved:</p>
+<ul class="simple">
+<li><a class="reference external" href="http://www.w3.org">World Wide Web Consortium</a></li>
+<li><a class="reference external" href="http://www.salzburgresearch.at">Salzburg Research</a></li>
+<li><a class="reference external" href="http://www.fundacionctic.org/">Foundation CTIC</a></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="modules.html" class="btn btn-neutral float-right" title="SPARQLWrapper package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="SPARQL Endpoint interface to Python" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
