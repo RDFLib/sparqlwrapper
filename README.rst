@@ -360,7 +360,7 @@ Please, `report any issue to github <https://github.com/RDFLib/sparqlwrapper/iss
 Documentation
 =============
 
-The `SPARQLWrapper documentation is available online <https://rdflib.github.io/sparqlwrapper/doc/latest/>`_.
+The `SPARQLWrapper documentation is available online <https://sparqlwrapper.readthedocs.io>`_.
 
 Other interesting documents are the latest `SPARQL 1.1 Specification (W3C Recommendation 21 March 2013) <https://www.w3.org/TR/sparql11-overview/>`_
 and the initial `SPARQL Specification (W3C Recommendation 15 January 2008) <http://www.w3.org/TR/rdf-sparql-query/>`_.

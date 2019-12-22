@@ -79,7 +79,7 @@ setup(
       use_2to3_fixers = ['custom_fixers'],
       project_urls={
         'Home': 'https://rdflib.github.io/sparqlwrapper/',
-        'Documentation': 'https://rdflib.github.io/sparqlwrapper/doc/',
+        'Documentation': 'https://sparqlwrapper.readthedocs.io',
         'Source': 'https://github.com/RDFLib/sparqlwrapper',
         'Tracker': 'https://github.com/RDFLib/sparqlwrapper/issues',
 	  }
