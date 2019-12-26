@@ -1,7 +1,11 @@
 SPARQLWrapper's changelog
 =========================
 
-2019-XX-XX  1.8.5
+2019-XX-XX  1.8.6
+-----------------
+- XXX
+
+2019-12-22  1.8.5
 -----------------
 - Improve/tests for development (#131)
 - Changed. Be more strict on Accept Turtle header (#137)
