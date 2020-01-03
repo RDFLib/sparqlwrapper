@@ -339,14 +339,14 @@ ClioPatria
 :Website: `The SWI-Prolog Semantic Web Server <http://cliopatria.swi-prolog.org/home>`_
 :Documentation: Search 'sparql' in `<http://cliopatria.swi-prolog.org/help/http>`_.
 :Uses: Parameters **and** Content Negotiation.
-:Parameter key: `format`.
-:Parameter value: MUST be one of these values: `rdf+xml`, `json`, `csv`, `application/sparql-results+xml` or `application/sparql-results+json`.
+:Parameter key: ``format``.
+:Parameter value: MUST be one of these values: ``rdf+xml``, ``json``, ``csv``, ``application/sparql-results+xml`` or ``application/sparql-results+json``.
 
 
 OpenLink Virtuoso
 -----------------
 :Website: `OpenLink Virtuoso <http://virtuoso.openlinksw.com>`_
-:Parameter key: `format` or `output`.
+:Parameter key: ``format`` or ``output``.
 :JSON-LD (application/ld+json): supported (in CONSTRUCT and DESCRIBE).
 
 - Parameter value, like directly: "text/html" (HTML), "text/x-html+tr" (HTML (Faceted Browsing Links)), "application/vnd.ms-excel",
@@ -356,17 +356,17 @@ OpenLink Virtuoso
   "HTML" (alias text/html), "JSON" (alias application/sparql-results+json), "XML" (alias application/sparql-results+xml), "TURTLE" (alias text/rdf+n3), JavaScript (alias application/javascript)
   See `<http://virtuoso.openlinksw.com/dataspace/doc/dav/wiki/Main/VOSSparqlProtocol#Additional HTTP Response Formats -- SELECT>`_
 
-- For a SELECT query type, the default return mimetype (if Accept: */* is sent) is application/sparql-results+xml
-- For a ASK query type, the default return mimetype (if Accept: */* is sent) is text/html
-- For a CONSTRUCT query type, the default return mimetype (if Accept: */* is sent) is text/turtle
-- For a DESCRIBE query type, the default return mimetype (if Accept: */* is sent) is text/turtle
+- For a ``SELECT`` query type, the default return mimetype (if ``Accept: */*`` is sent) is ``application/sparql-results+xml``
+- For a ``ASK`` query type, the default return mimetype (if ``Accept: */*`` is sent) is ``text/html``
+- For a ``CONSTRUCT`` query type, the default return mimetype (if ``Accept: */*`` is sent) is ``text/turtle``
+- For a ``DESCRIBE`` query type, the default return mimetype (if ``Accept: */*`` is sent) is ``text/turtle``
 
 
 Fuseki
 ------
 :Website: `Fuseki (formerly there was Joseki) <https://jena.apache.org/documentation/serving_data/>`_
 :Uses: Parameters **and** Content Negotiation.
-:Parameter key: `format` or `output` (`Fuseki 1 <https://github.com/apache/jena/blob/master/jena-fuseki1/src/main/java/org/apache/jena/fuseki/HttpNames.java>`_, `Fuseki 2 <https://github.com/apache/jena/blob/master/jena-arq/src/main/java/org/apache/jena/riot/web/HttpNames.java>`_).
+:Parameter key: ``format`` or ``output`` (`Fuseki 1 <https://github.com/apache/jena/blob/master/jena-fuseki1/src/main/java/org/apache/jena/fuseki/HttpNames.java>`_, `Fuseki 2 <https://github.com/apache/jena/blob/master/jena-arq/src/main/java/org/apache/jena/riot/web/HttpNames.java>`_).
 :JSON-LD (application/ld+json): supported (in CONSTRUCT and DESCRIBE).
 
 - `Fuseki 1 - Short names for "output=" : "json", "xml", "sparql", "text", "csv", "tsv", "thrift" <https://github.com/apache/jena/blob/master/jena-fuseki1/src/main/java/org/apache/jena/fuseki/servlets/ResponseResultSet.java>`_
@@ -390,50 +390,50 @@ Eclipse RDF4J
 
 - SELECT
 
-  - application/sparql-results+xml (DEFAULT if Accept: */* is sent))
-  - application/sparql-results+json (also application/json)
-  - text/csv
-  - text/tab-separated-values
-  - Other values: application/x-binary-rdf-results-table
+  - ``application/sparql-results+xml`` (DEFAULT if ``Accept: */*`` is sent))
+  - ``application/sparql-results+json`` (also ``application/json``)
+  - ``text/csv``
+  - ``text/tab-separated-values``
+  - Other values: ``application/x-binary-rdf-results-table``
 
 - ASK
 
-  - application/sparql-results+xml (DEFAULT if Accept: */* is sent))
-  - application/sparql-results+json
-  - Other values: text/boolean
-  - Not supported: text/csv
-  - Not supported: text/tab-separated-values
+  - ``application/sparql-results+xml`` (DEFAULT if ``Accept: */*`` is sent))
+  - ``application/sparql-results+json``
+  - Other values: ``text/boolean``
+  - **Not supported**: ``text/csv``
+  - **Not supported**: ``text/tab-separated-values``
 
 - CONSTRUCT
 
-  - application/rdf+xml
-  - application/n-triples (DEFAULT if Accept: */* is sent)
-  - text/turtle
-  - text/n3
-  - application/ld+json
-  - Other acceptable values: application/n-quads, application/rdf+json, application/trig, application/trix, application/x-binary-rdf
-  - text/plain (returns application/n-triples)
-  - text/rdf+n3 (returns text/n3)
-  - text/x-nquads (returns application/n-quads)
+  - ``application/rdf+xml``
+  - ``application/n-triples`` (DEFAULT if ``Accept: */*`` is sent)
+  - ``text/turtle``
+  - ``text/n3``
+  - ``application/ld+json``
+  - Other acceptable values: ``application/n-quads``, ``application/rdf+json``, ``application/trig``, ``application/trix``, ``application/x-binary-rdf``
+  - ``text/plain`` (returns ``application/n-triples``)
+  - ``text/rdf+n3`` (returns ``text/n3``)
+  - ``text/x-nquads`` (returns ``application/n-quads``)
 
 - DESCRIBE
 
-  - application/rdf+xml
-  - application/n-triples (DEFAULT if Accept: */* is sent)
-  - text/turtle
-  - text/n3
-  - application/ld+json
-  - Other acceptable values: application/n-quads, application/rdf+json, application/trig, application/trix, application/x-binary-rdf
-  - text/plain (returns application/n-triples)
-  - text/rdf+n3 (returns text/n3)
-  - text/x-nquads (returns application/n-quads)
+  - ``application/rdf+xml``
+  - ``application/n-triples`` (DEFAULT if ``Accept: */*`` is sent)
+  - ``text/turtle``
+  - ``text/n3``
+  - ``application/ld+json``
+  - Other acceptable values: ``application/n-quads``, ``application/rdf+json``, ``application/trig``, ``application/trix``, ``application/x-binary-rdf``
+  - ``text/plain`` (returns ``application/n-triples``)
+  - ``text/rdf+n3`` (returns ``text/n3``)
+  - ``text/x-nquads`` (returns ``application/n-quads``)
 
 
 RASQAL
 ------
 :Website: `RASQAL <http://librdf.org/rasqal/>`_
 :Documentation: `<http://librdf.org/rasqal/roqet.html>`_
-:Parameter key: `results`.
+:Parameter key: ``results``.
 :JSON-LD (application/ld+json): NOT supported.
 
 Uses roqet as RDF query utility (see `<http://librdf.org/rasqal/roqet.html>`_)
@@ -528,7 +528,7 @@ AllegroGraph
 :Website: `4store <https://github.com/4store/4store>`_
 :Documentation: `<https://4store.danielknoell.de/trac/wiki/SparqlServer/>`_
 :Uses: Parameters **and** Content Negotiation.
-:Parameter key: `output`.
+:Parameter key: ``output``.
 :Parameter value: alias. If an unexpected alias is used, the server is not working properly.
 :JSON-LD (application/ld+json): NOT supported.
 
@@ -568,7 +568,7 @@ Blazegraph
 :Website: `Blazegraph (Formerly known as Bigdata) <https://www.blazegraph.com/>`_ & `NanoSparqlServer <https://wiki.blazegraph.com/wiki/index.php/NanoSparqlServer>`_
 :Documentation: `<https://wiki.blazegraph.com/wiki/index.php/REST_API#SPARQL_End_Point>`_
 :Uses: Parameters **and** Content Negotiation.
-:Parameter key: `format` (available since version 1.4.0). `Setting this parameter will override any Accept Header that is present <https://wiki.blazegraph.com/wiki/index.php/REST_API#GET_or_POST>`_
+:Parameter key: ``format`` (available since version 1.4.0). `Setting this parameter will override any Accept Header that is present <https://wiki.blazegraph.com/wiki/index.php/REST_API#GET_or_POST>`_
 :Parameter value: alias. If an unexpected alias is used, the server is not working properly.
 :JSON-LD (application/ld+json): NOT supported.
 
