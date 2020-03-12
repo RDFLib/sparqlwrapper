@@ -3,14 +3,13 @@
 NAME=SPARQLWrapper
 VERSION=`python -c "import SPARQLWrapper,sys;sys.stdout.write(SPARQLWrapper.__version__)";`
 DESTDIR =
-DOCDIR=doc
+DOCDIR=docs
 
 doc:	clean
-	mkdir -p $(DOCDIR)
-	epydoc -v -n "$(NAME) $(VERSION)" -o $(DOCDIR) --html SPARQLWrapper
+	$(MAKE) -C ${DOCDIR} html
 
 clean:
-	rm -rf $(DOCDIR)
+	$(MAKE) -C ${DOCDIR}  clean
 	rm -rf build
 	find . -name "*.pyc" -delete
 

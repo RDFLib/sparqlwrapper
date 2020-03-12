@@ -3,9 +3,20 @@
 """
 A simple implementation of a key case-insensitive dictionary.
 
-@authors: U{Ivan Herman<http://www.ivan-herman.net>}, U{Sergio Fernández<http://www.wikier.org>}, U{Carlos Tejo Alonso<http://www.dayures.net>}
-@organization: U{World Wide Web Consortium<http://www.w3.org>} and U{Foundation CTIC<http://www.fundacionctic.org/>}.
-@license: U{W3C® SOFTWARE NOTICE AND LICENSE<href="http://www.w3.org/Consortium/Legal/copyright-software">}
+..
+  Developers involved:
+
+  * Ivan Herman <http://www.ivan-herman.net>
+  * Sergio Fernández <http://www.wikier.org>
+  * Carlos Tejo Alonso <http://www.dayures.net>
+  * Alexey Zakhlestin <https://indeyets.ru/>
+
+  Organizations involved:
+
+  * `World Wide Web Consortium <http://www.w3.org>`_
+  * `Foundation CTIC <http://www.fundacionctic.org/>`_
+
+  :license: `W3C® Software notice and license <http://www.w3.org/Consortium/Legal/copyright-software>`_
 """
 
 class KeyCaseInsensitiveDict(dict):
@@ -14,6 +25,9 @@ class KeyCaseInsensitiveDict(dict):
     """
 
     def __init__(self, d={}):
+        """
+        :param dict d: The source dictionary.
+        """
         for k, v in d.items():
             self[k] = v
 
