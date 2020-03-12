@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 #!/usr/bin/python
 
+import time
+
 import inspect
 import os
 import sys
@@ -171,6 +173,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         sparql.setMethod(method)
         sparql.setOnlyConneg(onlyConneg)
         try:
+            time.sleep(2.5) # sleeps for 2.5 seconds, in order to avoid disruptions in the server
             result = sparql.query()
         except HTTPError:
             # An ugly way to get the exception, but the only one that works

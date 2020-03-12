@@ -825,9 +825,9 @@ class QueryResult_Test(unittest.TestCase):
 
         def _mime_vs_type(mime, requested_type):
             """
-            @param mime: mimetype/Content-Type of the response
-            @param requested_type: requested mimetype (alias)
-            @return: number of warnings produced by combo
+            :param mime: mimetype/Content-Type of the response
+            :param requested_type: requested mimetype (alias)
+            :return: number of warnings produced by combo
             """
             with warnings.catch_warnings(record=True) as w:
                 qr = QueryResult((FakeResponse(mime), requested_type))
@@ -884,8 +884,8 @@ class QueryResult_Test(unittest.TestCase):
 
         def _print_results(mime):
             """
-            @param mime: mimetype/Content-Type of the response
-            @return: number of warnings produced by combo
+            :param mime: mimetype/Content-Type of the response
+            :return: number of warnings produced by combo
             """
             with warnings.catch_warnings(record=True) as w:
                 qr = QueryResult(FakeResponse(mime))
