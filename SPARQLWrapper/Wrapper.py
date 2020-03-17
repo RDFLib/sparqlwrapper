@@ -29,6 +29,7 @@ import base64
 import re
 import sys
 import warnings
+import ssl
 
 import json
 from KeyCaseInsensitiveDict import KeyCaseInsensitiveDict
