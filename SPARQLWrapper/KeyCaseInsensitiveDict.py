@@ -19,6 +19,7 @@ A simple implementation of a key case-insensitive dictionary.
   :license: `W3C® Software notice and license <http://www.w3.org/Consortium/Legal/copyright-software>`_
 """
 
+
 class KeyCaseInsensitiveDict(dict):
     """
     A simple implementation of a key case-insensitive dictionary
