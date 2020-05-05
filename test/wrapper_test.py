@@ -312,6 +312,24 @@ class SPARQLWrapper_Test(TestCase):
         self.assertEqual(self.wrapper.http_auth, DIGEST)
         self.assertIsInstance(urllib2._opener, urllib2.OpenerDirector)
 
+        self.wrapper.setHTTPAuth(DIGEST)
+        self.wrapper.setCredentials('login', 'password')
+        request = self._get_request(self.wrapper)
+        self.assertEqual(self.wrapper.http_auth, DIGEST)
+        self.assertEqual(self.wrapper.user, "login")
+        self.assertEqual(self.wrapper.passwd, "password")
+        self.assertEqual(self.wrapper.realm, "SPARQL")
+        self.assertNotEqual(self.wrapper.realm, "SPARQL Endpoint")
+
+        self.wrapper.setHTTPAuth(DIGEST)
+        self.wrapper.setCredentials('login', 'password', realm="SPARQL Endpoint")
+        request = self._get_request(self.wrapper)
+        self.assertEqual(self.wrapper.http_auth, DIGEST)
+        self.assertEqual(self.wrapper.user, "login")
+        self.assertEqual(self.wrapper.passwd, "password")
+        self.assertEqual(self.wrapper.realm, "SPARQL Endpoint")
+        self.assertNotEqual(self.wrapper.realm, "SPARQL")
+
         self.assertRaises(ValueError, self.wrapper.setHTTPAuth, 'OAuth')
 
         self.wrapper.http_auth = "OAuth"
@@ -796,9 +814,9 @@ class QueryResult_Test(unittest.TestCase):
 
         def _mime_vs_type(mime, requested_type):
             """
-            @param mime: mimetype/Content-Type of the response
-            @param requested_type: requested mimetype (alias)
-            @return: number of warnings produced by combo
+            :param mime: mimetype/Content-Type of the response
+            :param requested_type: requested mimetype (alias)
+            :return: number of warnings produced by combo
             """
             with warnings.catch_warnings(record=True) as w:
                 qr = QueryResult((FakeResponse(mime), requested_type))
@@ -818,6 +836,7 @@ class QueryResult_Test(unittest.TestCase):
         self.assertEqual(0, _mime_vs_type("application/sparql-results+json", JSON))
         self.assertEqual(0, _mime_vs_type("text/n3", N3))
         self.assertEqual(0, _mime_vs_type("text/turtle", TURTLE))
+        self.assertEqual(0, _mime_vs_type("application/turtle", TURTLE))
         self.assertEqual(0, _mime_vs_type("application/ld+json", JSON)) # Warning
         self.assertEqual(0, _mime_vs_type("application/ld+json", JSONLD)) # Warning
         self.assertEqual(0, _mime_vs_type("application/rdf+xml", XML)) # Warning
@@ -837,6 +856,62 @@ class QueryResult_Test(unittest.TestCase):
         self.assertEqual(1, _mime_vs_type("application/ld+json", N3))  # Warning
         self.assertEqual(1, _mime_vs_type("application/rdf+xml", JSON))  # Warning
         self.assertEqual(1, _mime_vs_type("application/rdf+xml", N3))  # Warning
+
+    def testPrint_results(self):
+        """
+        print_results() is only allowed for JSON return format.
+        """
+        class FakeResponse(object):
+            def __init__(self, content_type):
+                self.content_type = content_type
+
+            def info(self):
+                return {"Content-type": self.content_type}
+
+            def read(self, len):
+                return ''
+
+        def _print_results(mime):
+            """
+            :param mime: mimetype/Content-Type of the response
+            :return: number of warnings produced by combo
+            """
+            with warnings.catch_warnings(record=True) as w:
+                qr = QueryResult(FakeResponse(mime))
+
+                try:
+                    qr.print_results()
+                except:
+                    pass
+
+                return len(w)
+
+        self.assertEqual(0, _print_results("application/sparql-results+json"))
+        self.assertEqual(0, _print_results("application/json"))
+        self.assertEqual(0, _print_results("text/javascript"))
+        self.assertEqual(0, _print_results("application/javascript"))
+
+        self.assertEqual(1, _print_results("application/sparql-results+xml"))
+        self.assertEqual(1, _print_results("application/xml"))
+        self.assertEqual(1, _print_results("application/rdf+xml"))
+
+        self.assertEqual(1, _print_results("application/turtle"))
+        self.assertEqual(1, _print_results("text/turtle"))
+
+        self.assertEqual(1, _print_results("text/rdf+n3"))
+        self.assertEqual(1, _print_results("application/n-triples"))
+        self.assertEqual(1, _print_results("application/n3"))
+        self.assertEqual(1, _print_results("text/n3"))
+
+        self.assertEqual(1, _print_results("text/csv"))
+
+        self.assertEqual(1, _print_results("text/tab-separated-values"))
+
+        self.assertEqual(1, _print_results("application/ld+json"))
+        self.assertEqual(1, _print_results("application/x-json+ld"))
+
+        self.assertEqual(2, _print_results("application/x-foo-bar"))
+
 
 class QueryType_Time_Test(unittest.TestCase):
 
