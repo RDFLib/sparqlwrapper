@@ -44,8 +44,8 @@ except NameError:
 import logging
 logging.basicConfig()
 
-# human UI https://lindas-data.ch/sparql-ui/
-endpoint = "https://lindas-data.ch/sparql"
+# human UI https://lindas.admin.ch/sparql/
+endpoint = "https://lindas.admin.ch/query"
 
 prefixes = """
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
