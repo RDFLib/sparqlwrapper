@@ -1,3 +1,5 @@
+.. image:: docs/source/SPARQLWrapper-250.png
+
 =======================================
 SPARQL Endpoint interface to Python
 =======================================

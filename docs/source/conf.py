@@ -95,6 +95,7 @@ autodoc_default_options = {
 autoclass_content = 'class'
 #autosummary_generate = True
 
+html_logo = "SPARQLWrapper-250.png"
 
 # -- Options for HTML output -------------------------------------------------
 
