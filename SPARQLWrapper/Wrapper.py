@@ -136,7 +136,7 @@ try:
     _allowedFormats.append(JSONLD)
     _RDF_POSSIBLE = _RDF_POSSIBLE + _RDF_JSONLD
 except ImportError:
-    #warnings.warn("JSON-LD disabled because no suitable support has been found", RuntimeWarning)
+    # warnings.warn("JSON-LD disabled because no suitable support has been found", RuntimeWarning)
     pass
 
 # This is very ugly. The fact is that the key for the choice of the output format is not defined.
@@ -233,7 +233,7 @@ class SPARQLWrapper(object):
         self.passwd = None
         self.http_auth = BASIC
         self._defaultGraph = defaultGraph
-        self.onlyConneg = False # Only Content Negotiation
+        self.onlyConneg = False  # Only Content Negotiation
         self.customHttpHeaders = {}
 
         if returnFormat in _allowedFormats:
@@ -538,7 +538,7 @@ class SPARQLWrapper(object):
         if r_queryType in _allowedQueryTypes:
             return r_queryType
         else:
-            #raise Exception("Illegal SPARQL Query; must be one of SELECT, ASK, DESCRIBE, or CONSTRUCT")
+            # raise Exception("Illegal SPARQL Query; must be one of SELECT, ASK, DESCRIBE, or CONSTRUCT")
             warnings.warn("unknown query type '%s'" % r_queryType, RuntimeWarning)
             return SELECT
 
@@ -624,9 +624,9 @@ class SPARQLWrapper(object):
                     # "tsv", "rdf+xml" and "json-ld" are not supported as a correct "output"/"format" parameter value but "text/tab-separated-values" or "application/rdf+xml" are a valid values,
                     # and there is no problem to send both (4store does not support unexpected values).
                     if self.returnFormat in [TSV, JSONLD, RDFXML]:
-                        acceptHeader = self._getAcceptHeader() # to obtain the mime-type "text/tab-separated-values" or "application/rdf+xml"
+                        acceptHeader = self._getAcceptHeader()  # to obtain the mime-type "text/tab-separated-values" or "application/rdf+xml"
                         if "*/*" in acceptHeader:
-                            acceptHeader = "" # clear the value in case of "*/*"
+                            acceptHeader = ""  # clear the value in case of "*/*"
                         query_parameters[f] += [acceptHeader]
 
         pairs = (
@@ -648,9 +648,9 @@ class SPARQLWrapper(object):
                 acceptHeader = ",".join(_SPARQL_XML)
             elif self.returnFormat == JSON:
                 acceptHeader = ",".join(_SPARQL_JSON)
-            elif self.returnFormat == CSV: # Allowed for SELECT and ASK (https://www.w3.org/TR/2013/REC-sparql11-protocol-20130321/#query-success) but only described for SELECT (https://www.w3.org/TR/sparql11-results-csv-tsv/)
+            elif self.returnFormat == CSV:  # Allowed for SELECT and ASK (https://www.w3.org/TR/2013/REC-sparql11-protocol-20130321/#query-success) but only described for SELECT (https://www.w3.org/TR/sparql11-results-csv-tsv/)
                 acceptHeader = ",".join(_CSV)
-            elif self.returnFormat == TSV: # Allowed for SELECT and ASK (https://www.w3.org/TR/2013/REC-sparql11-protocol-20130321/#query-success) but only described for SELECT (https://www.w3.org/TR/sparql11-results-csv-tsv/)
+            elif self.returnFormat == TSV:  # Allowed for SELECT and ASK (https://www.w3.org/TR/2013/REC-sparql11-protocol-20130321/#query-success) but only described for SELECT (https://www.w3.org/TR/sparql11-results-csv-tsv/)
                 acceptHeader = ",".join(_TSV)
             else:
                 acceptHeader = ",".join(_ALL)
@@ -688,7 +688,7 @@ class SPARQLWrapper(object):
         request = None
 
         if self.isSparqlUpdateRequest():
-            #protocol details at http://www.w3.org/TR/sparql11-protocol/#update-operation
+            # protocol details at http://www.w3.org/TR/sparql11-protocol/#update-operation
             uri = self.updateEndpoint
 
             if self.method != POST:
@@ -703,7 +703,7 @@ class SPARQLWrapper(object):
                 request.add_header("Content-Type", "application/x-www-form-urlencoded")
                 request.data = self._getRequestEncodedParameters(("update", self.queryString)).encode('ascii')
         else:
-            #protocol details at http://www.w3.org/TR/sparql11-protocol/#query-operation
+            # protocol details at http://www.w3.org/TR/sparql11-protocol/#query-operation
             uri = self.endpoint
 
             if self.method == POST:
@@ -851,6 +851,7 @@ class QueryResult(object):
     :type requestedFormat: string
 
     """
+
     def __init__(self, result):
         """
         :param result: HTTP response stemming from a :func:`SPARQLWrapper.query` call, or a tuple with the expected format: (response, format).
@@ -923,7 +924,7 @@ class QueryResult(object):
         retval = ConjunctiveGraph()
         # (DEPRECATED) this is a strange hack. If the publicID is not set, rdflib (or the underlying xml parser) makes a funny
         # (DEPRECATED) (and, as far as I could see, meaningless) error message...
-        retval.load(self.response) # (DEPRECATED) publicID=' ')
+        retval.load(self.response)  # (DEPRECATED) publicID=' ')
         return retval
 
     def _convertN3(self):
@@ -966,7 +967,7 @@ class QueryResult(object):
         """
         from rdflib import ConjunctiveGraph
         retval = ConjunctiveGraph()
-        retval.load(self.response, format='json-ld')# (DEPRECATED), publicID=' ')
+        retval.load(self.response, format='json-ld')  # (DEPRECATED), publicID=' ')
         return retval
 
     def convert(self):
@@ -983,6 +984,7 @@ class QueryResult(object):
 
         :return: the converted query result. See the conversion methods for more details.
         """
+
         def _content_type_in_list(real, expected):
             """ Internal method for checking if the content-type header received matches any of the content types of the expected list.
 
@@ -1013,7 +1015,7 @@ class QueryResult(object):
 
         # TODO. In order to compare properly, the requested QueryType (SPARQL Query Form) is needed. For instance, the unexpected N3 requested for a SELECT would return XML
         if "content-type" in self.info():
-            ct = self.info()["content-type"] # returned Content-Type value
+            ct = self.info()["content-type"]  # returned Content-Type value
 
             if _content_type_in_list(ct, _SPARQL_XML):
                 _validate_format("XML", [XML], ct, self.requestedFormat)
@@ -1067,7 +1069,7 @@ class QueryResult(object):
             return True in [real.find(mime) != -1 for mime in expected]
 
         if "content-type" in self.info():
-            ct = self.info()["content-type"] # returned Content-Type value
+            ct = self.info()["content-type"]  # returned Content-Type value
 
             if _content_type_in_list(ct, _SPARQL_XML):
                 return XML
@@ -1113,22 +1115,22 @@ class QueryResult(object):
             width = self.__get_results_width(results)
         index = 0
         for var in results["head"]["vars"]:
-            print ("?" + var).ljust(width[index]), "|",
+            print(("?" + var).ljust(width[index]), "|",)
             index += 1
-        print
-        print "=" * (sum(width) + 3 * len(width))
+        print()
+        print("=" * (sum(width) + 3 * len(width)))
         for result in results["results"]["bindings"]:
             index = 0
             for var in results["head"]["vars"]:
                 result_value = self.__get_prettyprint_string_sparql_var_result(result[var])
-                print result_value.ljust(width[index]), "|",
+                print(result_value.ljust(width[index]), "|",)
                 index += 1
-            print
+            print()
 
     def __get_results_width(self, results, minWidth=2):
         width = []
         for var in results["head"]["vars"]:
-            width.append(max(minWidth, len(var)+1))
+            width.append(max(minWidth, len(var) + 1))
         for result in results["results"]["bindings"]:
             index = 0
             for var in results["head"]["vars"]:
@@ -1142,9 +1144,9 @@ class QueryResult(object):
         lang = result.get("xml:lang", None)
         datatype = result.get("datatype", None)
         if lang is not None:
-            value += "@"+lang
+            value += "@" + lang
         if datatype is not None:
-            value += " ["+datatype+"]"
+            value += " [" + datatype + "]"
         return value
 
     def __str__(self):
@@ -1155,7 +1157,7 @@ class QueryResult(object):
         .. versionadded:: 1.8.3
         """
         fullname = self.__module__ + "." + self.__class__.__name__
-        str_requestedFormat = '"requestedFormat" : '+repr(self.requestedFormat)
+        str_requestedFormat = '"requestedFormat" : ' + repr(self.requestedFormat)
         str_url = self.response.url
         str_code = self.response.code
         str_headers = self.response.info()

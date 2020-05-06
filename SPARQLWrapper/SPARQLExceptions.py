@@ -40,6 +40,7 @@ class SPARQLWrapperException(Exception):
 
         super(SPARQLWrapperException, self).__init__(formatted_msg)
 
+
 class EndPointInternalError(SPARQLWrapperException):
     """
     Exception type for Internal Server Error responses. Usually HTTP response status code ``500``.
@@ -63,6 +64,7 @@ class EndPointNotFound(SPARQLWrapperException):
 
     msg = "it was impossible to connect with the endpoint in that address, check if it is correct"
 
+
 class Unauthorized(SPARQLWrapperException):
     """
     Access is denied due to invalid credentials (unauthorized). Usually HTTP response status code ``401``.
@@ -71,6 +73,7 @@ class Unauthorized(SPARQLWrapperException):
     """
 
     msg = "access is denied due to invalid credentials (unauthorized). Check the credentials"
+
 
 class URITooLong(SPARQLWrapperException):
     """
