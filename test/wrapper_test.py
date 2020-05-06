@@ -9,6 +9,7 @@ import unittest
 import urllib2
 from urlparse import urlparse, parse_qsl, parse_qs
 from urllib2 import Request
+import time
 
 logging.basicConfig()
 
@@ -28,6 +29,7 @@ from urllib2 import HTTPError
 
 from io import StringIO
 import warnings
+warnings.simplefilter("always")
 
 import SPARQLWrapper.Wrapper as _victim
 
@@ -35,7 +37,7 @@ from SPARQLWrapper import SPARQLWrapper
 from SPARQLWrapper import XML, GET, POST, JSON, JSONLD, N3, TURTLE, RDF, SELECT, INSERT, RDFXML, CSV, TSV
 from SPARQLWrapper import URLENCODED, POSTDIRECTLY
 from SPARQLWrapper import BASIC, DIGEST
-from SPARQLWrapper.Wrapper import QueryResult, QueryBadFormed, EndPointNotFound, EndPointInternalError
+from SPARQLWrapper.Wrapper import QueryResult, QueryBadFormed, EndPointNotFound, EndPointInternalError, Unauthorized, URITooLong
 
 
 class FakeResult(object):
@@ -121,6 +123,10 @@ class SPARQLWrapper_Test(TestCase):
             for k, vs in parameters.iteritems():
                 result[k] = [v.encode('utf-8') for v in vs]
             return result
+
+    @classmethod
+    def setUpClass(cls):
+        urllib2._opener = None # clear value. Due to the order of test execution, the value of urllib2._opener contains, for instance, keepalive.keepalive.HTTPHandler
 
     def setUp(self):
         self.wrapper = SPARQLWrapper(endpoint='http://example.org/sparql')
@@ -294,7 +300,6 @@ class SPARQLWrapper_Test(TestCase):
 
     def testSetHTTPAuth(self):
         self.assertRaises(TypeError, self.wrapper.setHTTPAuth, 123)
-
         self.wrapper.setCredentials('login', 'password')
         request = self._get_request(self.wrapper)
         self.assertTrue(request.has_header('Authorization'))
@@ -306,6 +311,24 @@ class SPARQLWrapper_Test(TestCase):
         self.assertFalse(request.has_header('Authorization'))
         self.assertEqual(self.wrapper.http_auth, DIGEST)
         self.assertIsInstance(urllib2._opener, urllib2.OpenerDirector)
+
+        self.wrapper.setHTTPAuth(DIGEST)
+        self.wrapper.setCredentials('login', 'password')
+        request = self._get_request(self.wrapper)
+        self.assertEqual(self.wrapper.http_auth, DIGEST)
+        self.assertEqual(self.wrapper.user, "login")
+        self.assertEqual(self.wrapper.passwd, "password")
+        self.assertEqual(self.wrapper.realm, "SPARQL")
+        self.assertNotEqual(self.wrapper.realm, "SPARQL Endpoint")
+
+        self.wrapper.setHTTPAuth(DIGEST)
+        self.wrapper.setCredentials('login', 'password', realm="SPARQL Endpoint")
+        request = self._get_request(self.wrapper)
+        self.assertEqual(self.wrapper.http_auth, DIGEST)
+        self.assertEqual(self.wrapper.user, "login")
+        self.assertEqual(self.wrapper.passwd, "password")
+        self.assertEqual(self.wrapper.realm, "SPARQL Endpoint")
+        self.assertNotEqual(self.wrapper.realm, "SPARQL")
 
         self.assertRaises(ValueError, self.wrapper.setHTTPAuth, 'OAuth')
 
@@ -478,6 +501,10 @@ class SPARQLWrapper_Test(TestCase):
         parameters = self._get_request_parameters(self.wrapper)
         self.assertTrue('update' in parameters)
         self.assertTrue('query' not in parameters)
+        #_returnFormatSetting = ["format", "output", "results"]
+        self.assertTrue('format' not in parameters)
+        self.assertTrue('output' not in parameters)
+        self.assertTrue('results' not in parameters)
 
         _victim.urlopener = urlopener_error_generator(400)
         try:
@@ -489,11 +516,31 @@ class SPARQLWrapper_Test(TestCase):
         except:
             self.fail('got wrong exception')
 
+        _victim.urlopener = urlopener_error_generator(401)
+        try:
+            self.wrapper.query()
+            self.fail('should have raised exception')
+        except Unauthorized as e:
+            #  TODO: check exception-format
+            pass
+        except:
+            self.fail('got wrong exception')
+
         _victim.urlopener = urlopener_error_generator(404)
         try:
             self.wrapper.query()
             self.fail('should have raised exception')
         except EndPointNotFound as e:
+            #  TODO: check exception-format
+            pass
+        except:
+            self.fail('got wrong exception')
+
+        _victim.urlopener = urlopener_error_generator(414)
+        try:
+            self.wrapper.query()
+            self.fail('should have raised exception')
+        except URITooLong as e:
             #  TODO: check exception-format
             pass
         except:
@@ -767,9 +814,9 @@ class QueryResult_Test(unittest.TestCase):
 
         def _mime_vs_type(mime, requested_type):
             """
-            @param mime: mimetype/Content-Type of the response
-            @param requested_type: requested mimetype (alias)
-            @return: number of warnings produced by combo
+            :param mime: mimetype/Content-Type of the response
+            :param requested_type: requested mimetype (alias)
+            :return: number of warnings produced by combo
             """
             with warnings.catch_warnings(record=True) as w:
                 qr = QueryResult((FakeResponse(mime), requested_type))
@@ -789,6 +836,7 @@ class QueryResult_Test(unittest.TestCase):
         self.assertEqual(0, _mime_vs_type("application/sparql-results+json", JSON))
         self.assertEqual(0, _mime_vs_type("text/n3", N3))
         self.assertEqual(0, _mime_vs_type("text/turtle", TURTLE))
+        self.assertEqual(0, _mime_vs_type("application/turtle", TURTLE))
         self.assertEqual(0, _mime_vs_type("application/ld+json", JSON)) # Warning
         self.assertEqual(0, _mime_vs_type("application/ld+json", JSONLD)) # Warning
         self.assertEqual(0, _mime_vs_type("application/rdf+xml", XML)) # Warning
@@ -808,6 +856,209 @@ class QueryResult_Test(unittest.TestCase):
         self.assertEqual(1, _mime_vs_type("application/ld+json", N3))  # Warning
         self.assertEqual(1, _mime_vs_type("application/rdf+xml", JSON))  # Warning
         self.assertEqual(1, _mime_vs_type("application/rdf+xml", N3))  # Warning
+
+    def testPrint_results(self):
+        """
+        print_results() is only allowed for JSON return format.
+        """
+        class FakeResponse(object):
+            def __init__(self, content_type):
+                self.content_type = content_type
+
+            def info(self):
+                return {"Content-type": self.content_type}
+
+            def read(self, len):
+                return ''
+
+        def _print_results(mime):
+            """
+            :param mime: mimetype/Content-Type of the response
+            :return: number of warnings produced by combo
+            """
+            with warnings.catch_warnings(record=True) as w:
+                qr = QueryResult(FakeResponse(mime))
+
+                try:
+                    qr.print_results()
+                except:
+                    pass
+
+                return len(w)
+
+        self.assertEqual(0, _print_results("application/sparql-results+json"))
+        self.assertEqual(0, _print_results("application/json"))
+        self.assertEqual(0, _print_results("text/javascript"))
+        self.assertEqual(0, _print_results("application/javascript"))
+
+        self.assertEqual(1, _print_results("application/sparql-results+xml"))
+        self.assertEqual(1, _print_results("application/xml"))
+        self.assertEqual(1, _print_results("application/rdf+xml"))
+
+        self.assertEqual(1, _print_results("application/turtle"))
+        self.assertEqual(1, _print_results("text/turtle"))
+
+        self.assertEqual(1, _print_results("text/rdf+n3"))
+        self.assertEqual(1, _print_results("application/n-triples"))
+        self.assertEqual(1, _print_results("application/n3"))
+        self.assertEqual(1, _print_results("text/n3"))
+
+        self.assertEqual(1, _print_results("text/csv"))
+
+        self.assertEqual(1, _print_results("text/tab-separated-values"))
+
+        self.assertEqual(1, _print_results("application/ld+json"))
+        self.assertEqual(1, _print_results("application/x-json+ld"))
+
+        self.assertEqual(2, _print_results("application/x-foo-bar"))
+
+
+class QueryType_Time_Test(unittest.TestCase):
+
+    def testQueries(self):
+        sparql = SPARQLWrapper("http://example.org/sparql")
+
+        queries = []
+
+        queries.append("""
+    PREFIX a: <http://dbpedia.org/a>
+    PREFIX b: <http://dbpedia.org/b>
+    PREFIX c: <http://dbpedia.org/c>
+    PREFIX d: <http://dbpedia.org/d>
+    PREFIX e: <http://dbpedia.org/e>
+    PREFIX f: <http://dbpedia.org/f>
+    PREFIX g: <http://dbpedia.org/g>
+    PREFIX h: <http://dbpedia.org/h>
+    FROM <http://dbpedia.org>
+    SELECT ?s ?p ?o WHERE {
+        ?s ?p ?o.
+    }""")
+
+        queries.append("""PREFIX a: <http://dbpedia.org/a>
+    PREFIX b: <http://dbpedia.org/b>
+    PREFIX c: <http://dbpedia.org/c>
+    PREFIX d: <http://dbpedia.org/d>
+    PREFIX e: <http://dbpedia.org/e>
+    PREFIX f: <http://dbpedia.org/f>
+    PREFIX g: <http://dbpedia.org/g>
+    PREFIX h: <http://dbpedia.org/h>
+    FROM <http://dbpedia.org>
+    SELECT ?s ?p ?o WHERE {
+        ?s ?p ?o.
+    }""")
+
+        queries.append("""PREFIX a: <http://dbpedia.org/a>
+PREFIX b: <http://dbpedia.org/b>
+PREFIX c: <http://dbpedia.org/c>
+PREFIX d: <http://dbpedia.org/d>
+PREFIX e: <http://dbpedia.org/e>
+PREFIX f: <http://dbpedia.org/f>
+PREFIX g: <http://dbpedia.org/g>
+PREFIX h: <http://dbpedia.org/h>
+FROM <http://dbpedia.org>
+SELECT ?s ?p ?o WHERE {
+    ?s ?p ?o.
+}""")
+
+
+        queries.append("""PREFIX a: <http://dbpedia.org/a>
+PREFIX b: <http://dbpedia.org/b>
+PREFIX c: <http://dbpedia.org/c>
+PREFIX d: <http://dbpedia.org/d>
+PREFIX e: <http://dbpedia.org/e>
+PREFIX f: <http://dbpedia.org/f>
+PREFIX g: <http://dbpedia.org/g>
+PREFIX h: <http://dbpedia.org/h>
+SELECT ?s ?p ?o WHERE {
+    ?s ?p ?o.
+}""")
+
+
+        queries.append("""
+    PREFIX a: <http://dbpedia.org/a>
+    PREFIX b: <http://dbpedia.org/b>
+    PREFIX c: <http://dbpedia.org/c>
+    PREFIX d: <http://dbpedia.org/d>
+    PREFIX e: <http://dbpedia.org/e>
+    PREFIX f: <http://dbpedia.org/f>
+    PREFIX g: <http://dbpedia.org/g>
+    PREFIX h: <http://dbpedia.org/h>
+    SELECT ?s ?p ?o WHERE {
+        ?s ?p ?o.
+    }""")
+
+
+        queries.append("""
+    FROM <http://dbpedia.org>
+    SELECT ?s ?p ?o WHERE {
+        ?s ?p ?o.
+    }""")
+
+
+        queries.append("""
+    PREFIX a: <http://dbpedia.org/a>
+    PREFIX b: <http://dbpedia.org/b>
+    PREFIX c: <http://dbpedia.org/c>
+    PREFIX d: <http://dbpedia.org/d>
+    PREFIX e: <http://dbpedia.org/e>
+    PREFIX f: <http://dbpedia.org/f>
+    PREFIX g: <http://dbpedia.org/g>
+    PREFIX h: <http://dbpedia.org/h>
+    PREFIX a: <http://dbpedia.org/a>
+    PREFIX b: <http://dbpedia.org/b>
+    PREFIX c: <http://dbpedia.org/c>
+    PREFIX d: <http://dbpedia.org/d>
+    PREFIX e: <http://dbpedia.org/e>
+    PREFIX f: <http://dbpedia.org/f>
+    PREFIX g: <http://dbpedia.org/g>
+    PREFIX h: <http://dbpedia.org/h>
+    PREFIX a: <http://dbpedia.org/a>
+    PREFIX b: <http://dbpedia.org/b>
+    PREFIX c: <http://dbpedia.org/c>
+    PREFIX d: <http://dbpedia.org/d>
+    PREFIX e: <http://dbpedia.org/e>
+    PREFIX f: <http://dbpedia.org/f>
+    PREFIX g: <http://dbpedia.org/g>
+    PREFIX h: <http://dbpedia.org/h>
+    FROM <http://dbpedia.org>
+    SELECT ?s ?p ?o WHERE {
+        ?s ?p ?o.
+    }""")
+
+        queries.append("""PREFIX a: <http://dbpedia.org/a>
+    PREFIX b: <http://dbpedia.org/b>
+    PREFIX c: <http://dbpedia.org/c>
+    PREFIX d: <http://dbpedia.org/d>
+    PREFIX e: <http://dbpedia.org/e>
+    PREFIX f: <http://dbpedia.org/f>
+    PREFIX g: <http://dbpedia.org/g>
+    PREFIX h: <http://dbpedia.org/h>
+    PREFIX a: <http://dbpedia.org/a>
+    PREFIX b: <http://dbpedia.org/b>
+    PREFIX c: <http://dbpedia.org/c>
+    PREFIX d: <http://dbpedia.org/d>
+    PREFIX e: <http://dbpedia.org/e>
+    PREFIX f: <http://dbpedia.org/f>
+    PREFIX g: <http://dbpedia.org/g>
+    PREFIX h: <http://dbpedia.org/h>
+    PREFIX a: <http://dbpedia.org/a>
+    PREFIX b: <http://dbpedia.org/b>
+    PREFIX c: <http://dbpedia.org/c>
+    PREFIX d: <http://dbpedia.org/d>
+    PREFIX e: <http://dbpedia.org/e>
+    PREFIX f: <http://dbpedia.org/f>
+    PREFIX g: <http://dbpedia.org/g>
+    PREFIX h: <http://dbpedia.org/h>
+    FROM <http://dbpedia.org>
+    SELECT ?s ?p ?o WHERE {
+        ?s ?p ?o.
+    }""")
+
+        for query in queries:
+            start_time = time.time()
+            sparql.setQuery(query)
+            self.assertTrue((time.time()-start_time)<0.001) # less than 0.001 second
+
 
 if __name__ == "__main__":
     unittest.main()

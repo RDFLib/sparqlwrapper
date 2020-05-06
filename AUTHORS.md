@@ -27,8 +27,8 @@
 * Christian Amsüss ([@chrysn](https://github.com/chrysn)): dependecy fixes
 * Chris Lamb ([@lamby](https://github.com/lamby)): typo
 * Hugo van Kemenade ([@hugovk](https://github.com/hugovk)): update classifiers (Python 3.6)
-* Edward Betts([@EdwardBetts](https://github.com/EdwardBetts)): Correct spelling mistakes
-* Carlos Martínez([@c-martinez](https://github.com/c-martinez)): Mainly support for CSV and TSV results in SPARQL SELECT queries
-* Dan Michael O. Heggø([@danmichaelo](https://github.com/danmichaelo)): update README with SPARQLWrapper2 example
-* Sam Clements([@ borntyping](https://github.com/ borntyping)): Provide hints about setting properly the timeout
-
+* Edward Betts ([@EdwardBetts](https://github.com/EdwardBetts)): Correct spelling mistakes
+* Carlos Martínez ([@c-martinez](https://github.com/c-martinez)): Mainly support for CSV and TSV results in SPARQL SELECT queries
+* Dan Michael O. Heggø ([@danmichaelo](https://github.com/danmichaelo)): update README with SPARQLWrapper2 example
+* Sam Clements ([@borntyping](https://github.com/borntyping)): Provide hints about setting properly the timeout
+* Marc Feger ([@MaFeg100](https://github.com/MaFeg100)): Improve/tests for development
