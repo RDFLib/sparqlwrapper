@@ -61,28 +61,7 @@ def urlopener_check_data_encoding(request):
         raise TypeError
 # DONE
 
-class TestCase(unittest.TestCase):
-
-    def assertIsInstance(self, obj, cls, msg=None, *args, **kwargs):
-        """Python < v2.7 compatibility.  Assert 'obj' is instance of 'cls'"""
-        try:
-            f = super(TestCase, self).assertIsInstance
-        except AttributeError:
-            self.assertTrue(isinstance(obj, cls), *args, **kwargs)
-        else:
-            f(obj, cls, *args, **kwargs)
-
-    def assertIsNone(self, obj, msg=None, *args, **kwargs):
-        """Python < v2.7 compatibility.  Assert 'obj' is None"""
-        try:
-            f = super(TestCase, self).assertIsNone
-        except AttributeError:
-            self.assertEqual(obj, None, *args, **kwargs)
-        else:
-            f(obj, *args, **kwargs)
-
-
-class SPARQLWrapper_Test(TestCase):
+class SPARQLWrapper_Test(unittest.TestCase):
 
     @staticmethod
     def _get_request(wrapper):
@@ -93,10 +72,7 @@ class SPARQLWrapper_Test(TestCase):
         if request.get_method() == 'GET':
             pieces_str = urlparse(request.get_full_url()).query
         else:
-            if sys.version < '3':
-                pieces_str = request.data
-            else:
-                pieces_str = request.data.decode('ascii')
+            pieces_str = request.data.decode('ascii')
 
         return parse_qs(pieces_str)
 
@@ -112,13 +88,10 @@ class SPARQLWrapper_Test(TestCase):
         request = SPARQLWrapper_Test._get_request(wrapper)
         parameters = SPARQLWrapper_Test._get_parameters_from_request(request)
 
-        if sys.version < '3':
-            return parameters
-        else:
-            result = {}
-            for k, vs in parameters.iteritems():
-                result[k] = [v.encode('utf-8') for v in vs]
-            return result
+        result = {}
+        for k, vs in parameters.items():
+            result[k] = [v.encode('utf-8') for v in vs]
+        return result
 
     @classmethod
     def setUpClass(cls):

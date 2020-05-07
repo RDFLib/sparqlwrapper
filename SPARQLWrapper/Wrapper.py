@@ -493,20 +493,12 @@ class SPARQLWrapper(object):
             :type query: string
             :raises TypeError: If the :attr:`query` parameter is not an unicode-string or utf-8 encoded byte-string.
         """
-        if sys.version < '3':  # have to write it like this, for 2to3 compatibility
-            if isinstance(query, str):
-                pass
-            elif isinstance(query, str):
-                query = query.decode('utf-8')
-            else:
-                raise TypeError('setQuery takes either unicode-strings or utf-8 encoded byte-strings')
+        if isinstance(query, str):
+            pass
+        elif isinstance(query, bytes):
+            query = query.decode('utf-8')
         else:
-            if isinstance(query, str):
-                pass
-            elif isinstance(query, bytes):
-                query = query.decode('utf-8')
-            else:
-                raise TypeError('setQuery takes either unicode-strings or utf-8 encoded byte-strings')
+            raise TypeError('setQuery takes either unicode-strings or utf-8 encoded byte-strings')
 
         self.queryString = query
         self.queryType = self._parseQueryType(query)
