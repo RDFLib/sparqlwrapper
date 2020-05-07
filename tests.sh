@@ -1,12 +1,34 @@
 #!/bin/bash
 
-PYTHON_VERSION=`python -c "import platform; print(int(platform.python_version()[:1]))"`
-VERSION_THRESHOLD=3
+# FOR MANUAL RUNNING, IT REQUIRES modules: 2to3, python3-setuptools, python3-nose
+# REMEMBER to remove PYTHON_VERSION SUFFIX
+# Please, install the required tools previously:
+# $ sudo apt-get install 2to3
+# $ sudo apt-get install python3-setuptools
+# $ sudo apt-get install python3-nose
 
-echo "running tests on python $PYTHON_VERSION.x..."
+python3 setup.py build
 
-if [[ ${PYTHON_VERSION} -ge ${VERSION_THRESHOLD} ]]; then
-	bash ./run_tests_py3.sh
-else
-	nosetests
+if [ -d build/py3_testing ]; then
+    rm -r build/py3_testing
+    echo "removed build/py3_testing directory from previous run"
 fi
+
+mkdir build/py3_testing
+cp -r test build/py3_testing/
+cp -r build/lib/SPARQLWrapper build/py3_testing/
+
+cd build/py3_testing
+
+2to3 -wn --no-diffs test
+
+sed -i.bak s/urllib2._opener/urllib.request._opener/g test/wrapper_test.py
+
+if hash nosetests3 2>/dev/null; then
+    nosetests3 -v
+else
+    nosetests -v
+fi
+
+cd ../..
+
