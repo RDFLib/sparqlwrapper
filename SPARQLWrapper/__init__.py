@@ -1,6 +1,6 @@
 # -*- coding: utf8 -*-
 
-u"""
+"""
 
 **SPARQLWrapper** is a simple Python wrapper around a `SPARQL <https://www.w3.org/TR/sparql11-overview/>`_ service to
 remotelly execute your queries. It helps in creating the query
@@ -30,11 +30,11 @@ __date__ = "2019-04-18"
 __agent__ = "sparqlwrapper %s (rdflib.github.io/sparqlwrapper)" % __version__
 
 
-from Wrapper import SPARQLWrapper
-from Wrapper import XML, JSON, TURTLE, N3, JSONLD, RDF, RDFXML, CSV, TSV
-from Wrapper import GET, POST
-from Wrapper import SELECT, CONSTRUCT, ASK, DESCRIBE, INSERT, DELETE
-from Wrapper import URLENCODED, POSTDIRECTLY
-from Wrapper import BASIC, DIGEST
+from .Wrapper import SPARQLWrapper
+from .Wrapper import XML, JSON, TURTLE, N3, JSONLD, RDF, RDFXML, CSV, TSV
+from .Wrapper import GET, POST
+from .Wrapper import SELECT, CONSTRUCT, ASK, DESCRIBE, INSERT, DELETE
+from .Wrapper import URLENCODED, POSTDIRECTLY
+from .Wrapper import BASIC, DIGEST
 
-from SmartWrapper import SPARQLWrapper2
+from .SmartWrapper import SPARQLWrapper2

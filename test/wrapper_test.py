@@ -6,9 +6,9 @@ import sys
 import logging
 
 import unittest
-import urllib2
-from urlparse import urlparse, parse_qsl, parse_qs
-from urllib2 import Request
+import urllib.request, urllib.error, urllib.parse
+from urllib.parse import urlparse, parse_qsl, parse_qs
+from urllib.request import Request
 import time
 
 logging.basicConfig()
@@ -25,7 +25,7 @@ if _top_level_path not in sys.path:
 
 # we don't want to let Wrapper do real web-requests. so, we are…
 # constructing a simple Mock!
-from urllib2 import HTTPError
+from urllib.error import HTTPError
 
 from io import StringIO
 import warnings
@@ -51,18 +51,14 @@ def urlopener(request):
 
 def urlopener_error_generator(code):
     def urlopener_error(request):
-        raise HTTPError(request.get_full_url, code, '', {}, StringIO(u''))
+        raise HTTPError(request.get_full_url, code, '', {}, StringIO(''))
 
     return urlopener_error
 
 
 def urlopener_check_data_encoding(request):
-    if sys.version < '3':  # have to write it like this, for 2to3 compatibility
-        if isinstance(request.data, unicode):
-            raise TypeError
-    else:
-        if isinstance(request.data, str):
-            raise TypeError
+    if isinstance(request.data, str):
+        raise TypeError
 # DONE
 
 class TestCase(unittest.TestCase):
@@ -126,7 +122,7 @@ class SPARQLWrapper_Test(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        urllib2._opener = None # clear value. Due to the order of test execution, the value of urllib2._opener contains, for instance, keepalive.keepalive.HTTPHandler
+        urllib.request._opener = None # clear value. Due to the order of test execution, the value of urllib.request._opener contains, for instance, keepalive.keepalive.HTTPHandler
 
     def setUp(self):
         self.wrapper = SPARQLWrapper(endpoint='http://example.org/sparql')
@@ -303,14 +299,14 @@ class SPARQLWrapper_Test(TestCase):
         self.wrapper.setCredentials('login', 'password')
         request = self._get_request(self.wrapper)
         self.assertTrue(request.has_header('Authorization'))
-        self.assertIsNone(urllib2._opener)
+        self.assertIsNone(urllib.request._opener)
 
         self.wrapper.setHTTPAuth(DIGEST)
-        self.assertIsNone(urllib2._opener)
+        self.assertIsNone(urllib.request._opener)
         request = self._get_request(self.wrapper)
         self.assertFalse(request.has_header('Authorization'))
         self.assertEqual(self.wrapper.http_auth, DIGEST)
-        self.assertIsInstance(urllib2._opener, urllib2.OpenerDirector)
+        self.assertIsInstance(urllib.request._opener, urllib.request.OpenerDirector)
 
         self.wrapper.setHTTPAuth(DIGEST)
         self.wrapper.setCredentials('login', 'password')
@@ -353,7 +349,7 @@ class SPARQLWrapper_Test(TestCase):
 
     def testSetQueryEncodingIssues(self):
         #further details from issue #35
-        query = u'INSERT DATA { <urn:michel> <urn:says> "これはテストです" }'
+        query = 'INSERT DATA { <urn:michel> <urn:says> "これはテストです" }'
         query_bytes = query.encode('utf-8')
 
         self.wrapper.setMethod(POST)
@@ -361,21 +357,21 @@ class SPARQLWrapper_Test(TestCase):
 
         self.wrapper.setQuery(query)
         request = self._get_request(self.wrapper)
-        self.assertEquals(query_bytes, request.data)
+        self.assertEqual(query_bytes, request.data)
 
         self.wrapper.setQuery(query_bytes)
         request = self._get_request(self.wrapper)
-        self.assertEquals(query_bytes, request.data)
+        self.assertEqual(query_bytes, request.data)
 
         self.wrapper.setRequestMethod(URLENCODED)
 
         self.wrapper.setQuery(query)
         parameters = self._get_request_parameters_as_bytes(self.wrapper)
-        self.assertEquals(query_bytes, parameters['update'][0])
+        self.assertEqual(query_bytes, parameters['update'][0])
 
         self.wrapper.setQuery(query_bytes)
         parameters = self._get_request_parameters_as_bytes(self.wrapper)
-        self.assertEquals(query_bytes, parameters['update'][0])
+        self.assertEqual(query_bytes, parameters['update'][0])
 
         try:
             self.wrapper.setQuery(query.encode('sjis'))
@@ -642,7 +638,7 @@ WHERE {
 }
 """
         parsed_query = self.wrapper._cleanComments(query)
-        self.assertEquals(query, parsed_query)
+        self.assertEqual(query, parsed_query)
 
     def testCommentBeginningLine(self):
         # see issue #77
@@ -663,7 +659,7 @@ WHERE {
 }
 """
         parsed_query = self.wrapper._cleanComments(query)
-        self.assertEquals(expected_parsed_query, parsed_query)
+        self.assertEqual(expected_parsed_query, parsed_query)
 
     def testCommentEmtpyLine(self):
         # see issue #77
@@ -684,7 +680,7 @@ WHERE {
 }
 """
         parsed_query = self.wrapper._cleanComments(query)
-        self.assertEquals(expected_parsed_query, parsed_query)
+        self.assertEqual(expected_parsed_query, parsed_query)
 
     def testCommentsFirstLine(self):
         # see issue #77
@@ -697,7 +693,7 @@ WHERE {
                                    WHERE {?s ?p ?o}"""
 
         parsed_query = self.wrapper._cleanComments(query)
-        self.assertEquals(expected_parsed_query, parsed_query)
+        self.assertEqual(expected_parsed_query, parsed_query)
 
     @unittest.skip("issue #80")
     def testCommentAfterStatements(self):
@@ -719,13 +715,13 @@ WHERE {
 }
 """
         parsed_query = self.wrapper._cleanComments(query)
-        self.assertEquals(expected_parsed_query, parsed_query)
+        self.assertEqual(expected_parsed_query, parsed_query)
 
     def testSingleLineQueryLine(self):
         # see issue #74
         query = "prefix whatever: <http://example.org/blah#> ASK { ?s ?p ?o }"
         parsed_query = self.wrapper._cleanComments(query)
-        self.assertEquals(query, parsed_query)
+        self.assertEqual(query, parsed_query)
 
         self.wrapper.setQuery(query)
         self.assertTrue(self.wrapper.isSparqlQueryRequest())
@@ -783,7 +779,7 @@ class QueryResult_Test(unittest.TestCase):
             def __iter__(self):
                 self.iter_called = True
 
-            def next(self):
+            def __next__(self):
                 self.next_called = True
 
         result = FakeResponse()
@@ -791,7 +787,7 @@ class QueryResult_Test(unittest.TestCase):
         qr = QueryResult(result)
         qr.geturl()
         qr.__iter__()
-        qr.next()
+        next(qr)
 
         self.assertTrue(result.geturl_called)
         self.assertTrue(result.iter_called)

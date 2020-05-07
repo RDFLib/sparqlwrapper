@@ -980,7 +980,7 @@ class SPARQLWrapperTests(unittest.TestCase):
     @unittest.skip("graphDB supports only Content Negotiation")
     def testDescribeByGETinXML(self):
         result = self.__generic(describeQuery, XML, GET)
-        print result.geturl()
+        print(result.geturl())
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_XML], ct
         results = result.convert()

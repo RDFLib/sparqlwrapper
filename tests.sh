@@ -20,10 +20,6 @@ cp -r build/lib/SPARQLWrapper build/py3_testing/
 
 cd build/py3_testing
 
-2to3 -wn --no-diffs test
-
-sed -i.bak s/urllib2._opener/urllib.request._opener/g test/wrapper_test.py
-
 if hash nosetests3 2>/dev/null; then
     nosetests3 -v
 else
