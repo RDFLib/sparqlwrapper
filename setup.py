@@ -1,15 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import sys
-
-try:
-    from ez_setup import use_setuptools
-
-    use_setuptools()
-except:
-    pass
-
 from setuptools import setup
 
 # metadata
