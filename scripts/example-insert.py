@@ -13,4 +13,4 @@ INSERT
 """)
 
 results = sparql.query()
-print results.response.read()
+print(results.response.read())

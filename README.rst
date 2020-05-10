@@ -712,8 +712,6 @@ The source distribution contains:
 
 -  ``docs``: the documentation.
 
--  ``custom_fixers``: 2to3 custom_fixer in order to fix an issue with urllib2._opener.
-
 Community
 =========
 

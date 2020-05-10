@@ -11,25 +11,25 @@ sparql.setQuery("""
 """)
 
 # JSON example
-print '\n\n*** JSON Example'
+print('\n\n*** JSON Example')
 sparql.setReturnFormat(JSON)
 results = sparql.query().convert()
-print results
+print(results)
 
 # XML example
-print '\n\n*** XML Example'
+print('\n\n*** XML Example')
 sparql.setReturnFormat(XML)
 results = sparql.query().convert()
-print results.toxml()
+print(results.toxml())
 
 # CSV example
-print '\n\n*** CSV Example'
+print('\n\n*** CSV Example')
 sparql.setReturnFormat(CSV)
 results = sparql.query().convert()
-print results
+print(results)
 
 # TSV example
-print '\n\n*** TSV Example'
+print('\n\n*** TSV Example')
 sparql.setReturnFormat(TSV)
 results = sparql.query().convert()
-print results
+print(results)

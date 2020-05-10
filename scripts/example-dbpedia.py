@@ -14,7 +14,7 @@ sparql.setReturnFormat(JSON)
 results = sparql.query()
 results.print_results()
 
-print
+print()
 
 sparql.setQuery("""
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
