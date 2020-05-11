@@ -32,7 +32,7 @@ import warnings
 
 import json
 from .KeyCaseInsensitiveDict import KeyCaseInsensitiveDict
-from .SPARQLExceptions import QueryBadFormed, EndPointNotFound, EndPointInternalError, Unauthorized, URITooLong
+from .SPARQLExceptions import QueryBadFormed, EndPointNotFound, EndPointInternalError, Unauthorized, URITooLong, TooManyRequests
 from SPARQLWrapper import __agent__
 
 # alias
@@ -743,8 +743,9 @@ class SPARQLWrapper(object):
         :raises Unauthorized: If the HTTP return code is ``401``.
         :raises EndPointNotFound: If the HTTP return code is ``404``.
         :raises URITooLong: If the HTTP return code is ``414``.
+        :raises TooManyRequests: If the HTTP return code is ``429``.
         :raises EndPointInternalError: If the HTTP return code is ``500``.
-        :raises urllib2.HTTPError: If the HTTP return code is different to ``400``, ``401``, ``404``, ``414``, ``500``.
+        :raises urllib2.HTTPError: If the HTTP return code is different to ``400``, ``401``, ``404``, ``414``, ``429``, ``500``.
         """
         request = self._createRequest()
 
@@ -763,6 +764,12 @@ class SPARQLWrapper(object):
                 raise Unauthorized(e.read())
             elif e.code == 414:
                 raise URITooLong(e.read())
+            elif e.code == 429:
+                hdrs = KeyCaseInsensitiveDict(e.headers) # Case insensitive headers
+                if "retry-after" in hdrs:
+                    raise TooManyRequests(e.read(), hdrs["retry-after"])
+                else:
+                    raise TooManyRequests(e.read())
             elif e.code == 500:
                 raise EndPointInternalError(e.read())
             else:

@@ -37,7 +37,7 @@ from SPARQLWrapper import SPARQLWrapper
 from SPARQLWrapper import XML, GET, POST, JSON, JSONLD, N3, TURTLE, RDF, SELECT, INSERT, RDFXML, CSV, TSV
 from SPARQLWrapper import URLENCODED, POSTDIRECTLY
 from SPARQLWrapper import BASIC, DIGEST
-from SPARQLWrapper.Wrapper import QueryResult, QueryBadFormed, EndPointNotFound, EndPointInternalError, Unauthorized, URITooLong
+from SPARQLWrapper.Wrapper import QueryResult, QueryBadFormed, EndPointNotFound, EndPointInternalError, Unauthorized, URITooLong, TooManyRequests
 
 
 class FakeResult(object):
@@ -49,12 +49,11 @@ def urlopener(request):
     return FakeResult(request)
 
 
-def urlopener_error_generator(code):
+def urlopener_error_generator(code, headers={}):
     def urlopener_error(request):
-        raise HTTPError(request.get_full_url, code, '', {}, StringIO(''))
+        raise HTTPError(request.get_full_url, code, '', headers, StringIO(''))
 
     return urlopener_error
-
 
 def urlopener_check_data_encoding(request):
     if isinstance(request.data, str):
@@ -511,6 +510,18 @@ class SPARQLWrapper_Test(unittest.TestCase):
             self.fail('should have raised exception')
         except URITooLong as e:
             #  TODO: check exception-format
+            pass
+        except:
+            self.fail('got wrong exception')
+
+        RETRY_AFTER_VALUE = "100"
+        _victim.urlopener = urlopener_error_generator(429, {"Retry-After": RETRY_AFTER_VALUE})
+        try:
+            self.wrapper.query()
+            self.fail('should have raised exception')
+        except TooManyRequests as e:
+            #  TODO: check exception-format
+            self.assertEquals(e.retry_after, RETRY_AFTER_VALUE)
             pass
         except:
             self.fail('got wrong exception')
