@@ -29,6 +29,7 @@ import base64
 import re
 import sys
 import warnings
+import ssl
 
 import json
 from .KeyCaseInsensitiveDict import KeyCaseInsensitiveDict
@@ -209,7 +210,8 @@ class SPARQLWrapper(object):
     pattern = re.compile(r"(?P<queryType>(CONSTRUCT|SELECT|ASK|DESCRIBE|INSERT|DELETE|CREATE|CLEAR|DROP|LOAD|COPY|MOVE|ADD))", re.VERBOSE | re.IGNORECASE)
     comments_pattern = re.compile(r"(^|\n)\s*#.*?\n")
 
-    def __init__(self, endpoint, updateEndpoint=None, returnFormat=XML, defaultGraph=None, agent=__agent__):
+    def __init__(self, endpoint, updateEndpoint=None, returnFormat=XML, defaultGraph=None, agent=__agent__,
+        custom_cert_filename=None):
         """
         Class encapsulating a full SPARQL call.
 
@@ -235,6 +237,7 @@ class SPARQLWrapper(object):
         self._defaultGraph = defaultGraph
         self.onlyConneg = False  # Only Content Negotiation
         self.customHttpHeaders = {}
+        self.custom_cert_filename = custom_cert_filename
 
         if returnFormat in _allowedFormats:
             self._defaultReturnFormat = returnFormat
@@ -456,7 +459,7 @@ class SPARQLWrapper(object):
             :param realm: realm. Only used for :data:`DIGEST` authentication. The **default** value is ``SPARQL``
             :type realm: string
 
-            .. versionchanged:: 1.8.3 
+            .. versionchanged:: 1.8.3
                Added :attr:`realm` parameter.
         """
         self.user = user
@@ -482,7 +485,7 @@ class SPARQLWrapper(object):
 
     def setQuery(self, query):
         """
-            Set the SPARQL query text. 
+            Set the SPARQL query text.
 
             .. note::
               No check is done on the validity of the query
@@ -747,12 +750,15 @@ class SPARQLWrapper(object):
         :raises urllib2.HTTPError: If the HTTP return code is different to ``400``, ``401``, ``404``, ``414``, ``500``.
         """
         request = self._createRequest()
+        ctx = ssl.create_default_context()
+        if self.custom_cert_filename is not None:
+            ctx.load_verify_locations(cafile=self.custom_cert_filename)
 
         try:
             if self.timeout:
-                response = urlopener(request, timeout=self.timeout)
+                response = urlopener(request, timeout=self.timeout, context=ctx)
             else:
-                response = urlopener(request)
+                response = urlopener(request, context=ctx)
             return response, self.returnFormat
         except urllib.error.HTTPError as e:
             if e.code == 400:
@@ -821,7 +827,7 @@ class QueryResult(object):
 
     If used directly: the class gives access to the direct HTTP request results
     ``response`` obtained from the call to :func:`urllib.urlopen`.
-    It is a file-like object with two additional methods: 
+    It is a file-like object with two additional methods:
 
     * ``geturl()`` to return the URL of the resource retrieved
     * ``info()`` that returns the meta-information of the HTTP result as a dictionary-like object.
