@@ -23,12 +23,12 @@ from SPARQLWrapper import __version__
 
 # -- Project information -----------------------------------------------------
 
-project = u'SPARQLWrapper'
-copyright = u'2019, `W3C® SOFTWARE NOTICE AND LICENSE <http://www.w3.org/Consortium/Legal/copyright-software>`_'
-author = u'Ivan Herman'
-author = u'Sergio Fernández'
-author = u'Carlos Tejo Alonso'
-author = u'Alexey Zakhlestin'
+project = 'SPARQLWrapper'
+copyright = '2019, `W3C® SOFTWARE NOTICE AND LICENSE <http://www.w3.org/Consortium/Legal/copyright-software>`_'
+author = 'Ivan Herman'
+author = 'Sergio Fernández'
+author = 'Carlos Tejo Alonso'
+author = 'Alexey Zakhlestin'
 
 # The short X.Y version
 version = __version__
@@ -95,6 +95,7 @@ autodoc_default_options = {
 autoclass_content = 'class'
 #autosummary_generate = True
 
+html_logo = "SPARQLWrapper-250.png"
 
 # -- Options for HTML output -------------------------------------------------
 
@@ -169,8 +170,8 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'SPARQLWrapper.tex', u'SPARQLWrapper Documentation',
-     u'CHANGE\\_AUTHORS', 'manual'),
+    (master_doc, 'SPARQLWrapper.tex', 'SPARQLWrapper Documentation',
+     'CHANGE\\_AUTHORS', 'manual'),
 ]
 
 
@@ -179,7 +180,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'sparqlwrapper', u'SPARQLWrapper Documentation',
+    (master_doc, 'sparqlwrapper', 'SPARQLWrapper Documentation',
      [author], 1)
 ]
 
@@ -190,7 +191,7 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'SPARQLWrapper', u'SPARQLWrapper Documentation',
+    (master_doc, 'SPARQLWrapper', 'SPARQLWrapper Documentation',
      author, 'SPARQLWrapper', 'One line description of project.',
      'Miscellaneous'),
 ]

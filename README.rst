@@ -1,3 +1,5 @@
+.. image:: docs/source/SPARQLWrapper-250.png
+
 =======================================
 SPARQL Endpoint interface to Python
 =======================================
@@ -709,8 +711,6 @@ The source distribution contains:
 -  ``scripts``: some scripts to run the package against some SPARQL endpoints.
 
 -  ``docs``: the documentation.
-
--  ``custom_fixers``: 2to3 custom_fixer in order to fix an issue with urllib2._opener.
 
 Community
 =========

@@ -32,4 +32,4 @@ install:
 before_script:
     - pip install rdflib-jsonld
 
-script: ./tests.sh 
+script: nosetests -v

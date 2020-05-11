@@ -25,4 +25,4 @@ sparql.setMethod(POST)
 sparql.setQuery(query)
 
 results = sparql.query()
-print results.response.read()
+print(results.response.read())
