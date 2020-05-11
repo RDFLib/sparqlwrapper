@@ -5,5 +5,4 @@ include scripts/*.py
 include requirements.txt
 include LICENSE.txt
 include ChangeLog.txt
-graft custom_fixers
 graft docs/build/html

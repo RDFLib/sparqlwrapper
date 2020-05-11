@@ -31,15 +31,7 @@ from SPARQLWrapper.SPARQLExceptions import QueryBadFormed
 _SPARQL_SELECT_ASK_POSSIBLE = _SPARQL_XML + _SPARQL_JSON + _CSV + _TSV + _XML # only used in test
 _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE = _RDF_XML + _RDF_N3 + _XML + _RDF_JSONLD # only used in test. Same as Wrapper._RDF_POSSIBLE
 
-try:
-    from urllib.error import HTTPError   # Python 3
-except ImportError:
-    from urllib2 import HTTPError        # Python 2
-
-try:
-    bytes   # Python 2.6 and above
-except NameError:
-    bytes = str
+from urllib.error import HTTPError
 
 import logging
 logging.basicConfig()
@@ -980,7 +972,7 @@ class SPARQLWrapperTests(unittest.TestCase):
     @unittest.skip("graphDB supports only Content Negotiation")
     def testDescribeByGETinXML(self):
         result = self.__generic(describeQuery, XML, GET)
-        print result.geturl()
+        print(result.geturl())
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_XML], ct
         results = result.convert()
