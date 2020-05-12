@@ -8,15 +8,17 @@ import unittest
 
 # prefer local copy to the one which is installed
 # hack from http://stackoverflow.com/a/6098238/280539
-_top_level_path = os.path.realpath(os.path.abspath(os.path.join(
-    os.path.split(inspect.getfile(inspect.currentframe()))[0],
-    ".."
-)))
+_top_level_path = os.path.realpath(
+    os.path.abspath(
+        os.path.join(os.path.split(inspect.getfile(inspect.currentframe()))[0], "..")
+    )
+)
 if _top_level_path not in sys.path:
     sys.path.insert(0, _top_level_path)
 # end of hack
 
 import warnings
+
 warnings.simplefilter("always")
 
 try:
@@ -24,19 +26,47 @@ try:
 except ImportError:
     from rdflib import ConjunctiveGraph
 
-from SPARQLWrapper import SPARQLWrapper, XML, RDFXML, RDF, N3, TURTLE, JSONLD, JSON, CSV, TSV, POST, GET
-from SPARQLWrapper.Wrapper import _SPARQL_XML, _SPARQL_JSON, _XML, _RDF_XML, _RDF_N3, _RDF_TURTLE, _RDF_JSONLD, _CSV, _TSV
+from SPARQLWrapper import (
+    SPARQLWrapper,
+    XML,
+    RDFXML,
+    RDF,
+    N3,
+    TURTLE,
+    JSONLD,
+    JSON,
+    CSV,
+    TSV,
+    POST,
+    GET,
+)
+from SPARQLWrapper.Wrapper import (
+    _SPARQL_XML,
+    _SPARQL_JSON,
+    _XML,
+    _RDF_XML,
+    _RDF_N3,
+    _RDF_TURTLE,
+    _RDF_JSONLD,
+    _CSV,
+    _TSV,
+)
 from SPARQLWrapper.SPARQLExceptions import QueryBadFormed
 
-_SPARQL_SELECT_ASK_POSSIBLE = _SPARQL_XML + _SPARQL_JSON + _CSV + _TSV + _XML # only used in test
-_SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE = _RDF_XML + _RDF_N3 + _XML + _RDF_JSONLD # only used in test. Same as Wrapper._RDF_POSSIBLE
+_SPARQL_SELECT_ASK_POSSIBLE = (
+    _SPARQL_XML + _SPARQL_JSON + _CSV + _TSV + _XML
+)  # only used in test
+_SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE = (
+    _RDF_XML + _RDF_N3 + _XML + _RDF_JSONLD
+)  # only used in test. Same as Wrapper._RDF_POSSIBLE
 
 from urllib.error import HTTPError
 
 import logging
+
 logging.basicConfig()
 
-endpoint = "https://lov.linkeddata.es/dataset/lov/sparql/" # Fuseki - version 1.1.1 (Build date: 2014-10-02T16:36:17+0100)
+endpoint = "https://lov.linkeddata.es/dataset/lov/sparql/"  # Fuseki - version 1.1.1 (Build date: 2014-10-02T16:36:17+0100)
 
 prefixes = """
     PREFIX vann:<http://purl.org/vocab/vann/>
@@ -150,9 +180,11 @@ queryWithCommaInUri = """
     }
 """
 
-class SPARQLWrapperTests(unittest.TestCase):
 
-    def __generic(self, query, returnFormat, method, onlyConneg=False): # Fuseki uses URL parameters.
+class SPARQLWrapperTests(unittest.TestCase):
+    def __generic(
+        self, query, returnFormat, method, onlyConneg=False
+    ):  # Fuseki uses URL parameters.
         sparql = SPARQLWrapper(endpoint)
         sparql.setQuery(prefixes + query)
         sparql.setReturnFormat(returnFormat)
@@ -175,13 +207,12 @@ class SPARQLWrapperTests(unittest.TestCase):
         else:
             return result
 
+    ################################################################################
+    ################################################################################
 
-################################################################################
-################################################################################
-
-################
-#### SELECT ####
-################
+    ################
+    #### SELECT ####
+    ################
 
     def testSelectByGETinXML(self):
         result = self.__generic(selectQuery, XML, GET)
@@ -199,7 +230,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testSelectByPOSTinXML(self):
         result = self.__generic(selectQuery, XML, POST)
         ct = result.info()["content-type"]
@@ -208,7 +241,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testSelectByPOSTinXML_Conneg(self):
         result = self.__generic(selectQuery, XML, POST, onlyConneg=True)
         ct = result.info()["content-type"]
@@ -231,7 +266,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), bytes)
 
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testSelectByPOSTinCSV(self):
         result = self.__generic(selectQueryCSV_TSV, CSV, POST)
         ct = result.info()["content-type"]
@@ -239,7 +276,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), bytes)
 
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testSelectByPOSTinCSV_Conneg(self):
         result = self.__generic(selectQueryCSV_TSV, CSV, POST, onlyConneg=True)
         ct = result.info()["content-type"]
@@ -261,7 +300,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), bytes)
 
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testSelectByPOSTinTSV(self):
         result = self.__generic(selectQueryCSV_TSV, TSV, POST)
         ct = result.info()["content-type"]
@@ -269,7 +310,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), bytes)
 
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testSelectByPOSTinTSV_Conneg(self):
         result = self.__generic(selectQueryCSV_TSV, TSV, POST, onlyConneg=True)
         ct = result.info()["content-type"]
@@ -291,7 +334,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), dict)
 
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testSelectByPOSTinJSON(self):
         result = self.__generic(selectQuery, JSON, POST)
         ct = result.info()["content-type"]
@@ -299,7 +344,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), dict)
 
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testSelectByPOSTinJSON_Conneg(self):
         result = self.__generic(selectQuery, JSON, POST, onlyConneg=True)
         ct = result.info()["content-type"]
@@ -330,7 +377,9 @@ class SPARQLWrapperTests(unittest.TestCase):
     # Asking for an unexpected return format for SELECT queryType (n3 is not supported, and it is not a valid alias).
     # Set by default None (and sending */*).
     # For a SELECT query type, the default return mimetype (if Accept: */* is sent) is application/sparql-results+json
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testSelectByPOSTinN3_Unexpected(self):
         result = self.__generic(selectQuery, N3, POST)
         ct = result.info()["content-type"]
@@ -341,7 +390,9 @@ class SPARQLWrapperTests(unittest.TestCase):
     # Asking for an unexpected return format for SELECT queryType (n3 is not supported, and it is not a valid alias).
     # Set by default None (and sending */*).
     # For a SELECT query type, the default return mimetype (if Accept: */* is sent) is application/sparql-results+json
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testSelectByPOSTinN3_Unexpected_Conneg(self):
         result = self.__generic(selectQuery, N3, POST, onlyConneg=True)
         ct = result.info()["content-type"]
@@ -372,7 +423,9 @@ class SPARQLWrapperTests(unittest.TestCase):
     # Asking for an unexpected return format for SELECT queryType (json-ld is not supported, and it is not a valid alias).
     # Set by default None (and sending */*).
     # For a SELECT query type, the default return mimetype (if Accept: */* is sent) is application/sparql-results+json
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testSelectByPOSTinJSONLD_Unexpected(self):
         result = self.__generic(selectQuery, JSONLD, POST)
         ct = result.info()["content-type"]
@@ -383,7 +436,9 @@ class SPARQLWrapperTests(unittest.TestCase):
     # Asking for an unexpected return format for SELECT queryType (json-ld is not supported, and it is not a valid alias).
     # Set by default None (and sending */*).
     # For a SELECT query type, the default return mimetype (if Accept: */* is sent) is application/sparql-results+json
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testSelectByPOSTinJSONLD_Unexpected_Conneg(self):
         result = self.__generic(selectQuery, JSONLD, POST, onlyConneg=True)
         ct = result.info()["content-type"]
@@ -410,7 +465,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(results.__class__.__name__, "Document")
 
     # Asking for an unknown return format for SELECT queryType (XML is sent)
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testSelectByPOSTinUnknow(self):
         result = self.__generic(selectQuery, "bar", POST)
         ct = result.info()["content-type"]
@@ -420,7 +477,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(results.__class__.__name__, "Document")
 
     # Asking for an unknown return format for SELECT queryType (XML is sent)
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testSelectByPOSTinUnknow_Conneg(self):
         result = self.__generic(selectQuery, "bar", POST, onlyConneg=True)
         ct = result.info()["content-type"]
@@ -429,12 +488,12 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
-################################################################################
-################################################################################
+    ################################################################################
+    ################################################################################
 
-#############
-#### ASK ####
-#############
+    #############
+    #### ASK ####
+    #############
 
     def testAskByGETinXML(self):
         result = self.__generic(askQuery, XML, GET)
@@ -452,7 +511,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testAskByPOSTinXML(self):
         result = self.__generic(askQuery, XML, POST)
         ct = result.info()["content-type"]
@@ -461,7 +522,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testAskByPOSTinXML_Conneg(self):
         result = self.__generic(askQuery, XML, POST, onlyConneg=True)
         ct = result.info()["content-type"]
@@ -484,7 +547,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), bytes)
 
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testAskByPOSTinCSV(self):
         result = self.__generic(askQuery, CSV, POST)
         ct = result.info()["content-type"]
@@ -492,7 +557,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), bytes)
 
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testAskByPOSTinCSV_Conneg(self):
         result = self.__generic(askQuery, CSV, POST, onlyConneg=True)
         ct = result.info()["content-type"]
@@ -514,7 +581,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), bytes)
 
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testAskByPOSTinTSV(self):
         result = self.__generic(askQuery, TSV, POST)
         ct = result.info()["content-type"]
@@ -522,7 +591,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), bytes)
 
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testAskByPOSTinTSV_Conneg(self):
         result = self.__generic(askQuery, TSV, POST, onlyConneg=True)
         ct = result.info()["content-type"]
@@ -544,7 +615,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), dict)
 
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testAskByPOSTinJSON(self):
         result = self.__generic(askQuery, JSON, POST)
         ct = result.info()["content-type"]
@@ -552,7 +625,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), dict)
 
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testAskByPOSTinJSON_Conneg(self):
         result = self.__generic(askQuery, JSON, POST, onlyConneg=True)
         ct = result.info()["content-type"]
@@ -583,7 +658,9 @@ class SPARQLWrapperTests(unittest.TestCase):
     # Asking for an unexpected return format for ASK queryType (n3 is not supported, it is not a valid alias).
     # Set by default None (and sending */*).
     # For an ASK query type, the default return mimetype (if Accept: */* is sent) is application/sparql-results+json
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testAskByPOSTinN3_Unexpected(self):
         result = self.__generic(askQuery, N3, POST)
         ct = result.info()["content-type"]
@@ -594,7 +671,9 @@ class SPARQLWrapperTests(unittest.TestCase):
     # Asking for an unexpected return format for ASK queryType (n3 is not supported, it is not a valid alias).
     # Set by default None (and sending */*).
     # For an ASK query type, the default return mimetype (if Accept: */* is sent) is application/sparql-results+json
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testAskByPOSTinN3_Unexpected_Conneg(self):
         result = self.__generic(askQuery, N3, POST, onlyConneg=True)
         ct = result.info()["content-type"]
@@ -625,7 +704,9 @@ class SPARQLWrapperTests(unittest.TestCase):
     # Asking for an unexpected return format for ASK queryType (json-ld is not supported, it is not a valid alias).
     # Set by default None (and sending */*).
     # For an ASK query type, the default return mimetype (if Accept: */* is sent) is application/sparql-results+json
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testAskByPOSTinJSONLD_Unexpected(self):
         result = self.__generic(askQuery, JSONLD, POST)
         ct = result.info()["content-type"]
@@ -636,7 +717,9 @@ class SPARQLWrapperTests(unittest.TestCase):
     # Asking for an unexpected return format for ASK queryType (json-ld is not supported, it is not a valid alias).
     # Set by default None (and sending */*).
     # For an ASK query type, the default return mimetype (if Accept: */* is sent) is application/sparql-results+json
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testAskByPOSTinJSONLD_Unexpected_Conneg(self):
         result = self.__generic(askQuery, JSONLD, POST, onlyConneg=True)
         ct = result.info()["content-type"]
@@ -663,7 +746,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(results.__class__.__name__, "Document")
 
     # Asking for an unknown return format for ASK queryType (XML is sent)
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testAskByPOSTinUnknow(self):
         result = self.__generic(askQuery, "bar", POST)
         ct = result.info()["content-type"]
@@ -673,7 +758,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(results.__class__.__name__, "Document")
 
     # Asking for an unknown return format for ASK queryType (XML is sent)
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testAskByPOSTinUnknow_Conneg(self):
         result = self.__generic(askQuery, "bar", POST, onlyConneg=True)
         ct = result.info()["content-type"]
@@ -682,12 +769,12 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
-################################################################################
-################################################################################
+    ################################################################################
+    ################################################################################
 
-###################
-#### CONSTRUCT ####
-###################
+    ###################
+    #### CONSTRUCT ####
+    ###################
 
     def testConstructByGETinXML(self):
         result = self.__generic(constructQuery, XML, GET)
@@ -703,7 +790,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testConstructByPOSTinXML(self):
         result = self.__generic(constructQuery, XML, POST)
         ct = result.info()["content-type"]
@@ -711,7 +800,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testConstructByPOSTinXML_Conneg(self):
         result = self.__generic(constructQuery, XML, POST, onlyConneg=True)
         ct = result.info()["content-type"]
@@ -736,7 +827,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), ConjunctiveGraph)
 
     # rdf+xml is not a valid alias
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testConstructByPOSTinRDFXML(self):
         result = self.__generic(constructQuery, RDFXML, POST)
         ct = result.info()["content-type"]
@@ -745,7 +838,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), ConjunctiveGraph)
 
     # rdf+xml is not a valid alias
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testConstructByPOSTinRDFXML_Conneg(self):
         result = self.__generic(constructQuery, RDFXML, POST, onlyConneg=True)
         ct = result.info()["content-type"]
@@ -770,7 +865,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), bytes)
 
     # turtle is not a valid alias
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testConstructByPOSTinTURTLE(self):
         result = self.__generic(constructQuery, TURTLE, POST)
         ct = result.info()["content-type"]
@@ -779,7 +876,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), bytes)
 
     # turtle is not a valid alias
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testConstructByPOSTinTURTLE_Conneg(self):
         result = self.__generic(constructQuery, TURTLE, POST, onlyConneg=True)
         ct = result.info()["content-type"]
@@ -804,7 +903,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), bytes)
 
     # n3 is not a valid alias
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testConstructByPOSTinN3(self):
         result = self.__generic(constructQuery, N3, POST)
         ct = result.info()["content-type"]
@@ -813,7 +914,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), bytes)
 
     # n3 is not a valid alias
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testConstructByPOSTinN3_Conneg(self):
         result = self.__generic(constructQuery, N3, POST, onlyConneg=True)
         ct = result.info()["content-type"]
@@ -838,7 +941,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), ConjunctiveGraph)
 
     # json-ld is not a valid alias. Use content negotiation instead
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testConstructByPOSTinJSONLD(self):
         result = self.__generic(constructQuery, JSONLD, POST)
         ct = result.info()["content-type"]
@@ -847,7 +952,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), ConjunctiveGraph)
 
     # json-ld is not a valid alias. Use content negotiation instead
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testConstructByPOSTinJSONLD_Conneg(self):
         result = self.__generic(constructQuery, JSONLD, POST, onlyConneg=True)
         ct = result.info()["content-type"]
@@ -875,7 +982,9 @@ class SPARQLWrapperTests(unittest.TestCase):
 
     # Asking for an unexpected return format for CONSTRUCT queryType.
     # For a CONSTRUCT query type, the default return mimetype (if Accept: */* is sent) is text/turtle
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testConstructByPOSTinCSV_Unexpected(self):
         result = self.__generic(constructQuery, CSV, POST)
         ct = result.info()["content-type"]
@@ -885,7 +994,9 @@ class SPARQLWrapperTests(unittest.TestCase):
 
     # Asking for an unexpected return format for CONSTRUCT queryType.
     # For a CONSTRUCT query type, the default return mimetype (if Accept: */* is sent) is text/turtle
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testConstructByPOSTinCSV_Unexpected_Conneg(self):
         result = self.__generic(constructQuery, CSV, POST, onlyConneg=True)
         ct = result.info()["content-type"]
@@ -906,7 +1017,7 @@ class SPARQLWrapperTests(unittest.TestCase):
     # Asking for an unexpected return format for CONSTRUCT queryType.
     # For a CONSTRUCT query type, the default return mimetype (if Accept: */* is sent) is text/turtle
     def testConstructByGETinJSON_Unexpected_Conneg(self):
-        result = self.__generic(constructQuery, JSON, GET , onlyConneg=True)
+        result = self.__generic(constructQuery, JSON, GET, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE]
         results = result.convert()
@@ -915,7 +1026,9 @@ class SPARQLWrapperTests(unittest.TestCase):
     # Asking for an unexpected return format for CONSTRUCT queryType.
     # For a CONSTRUCT query type, the default return mimetype (if Accept: */* is sent) is text/turtle
     # json is NOT an alias of json-ld in Fuseki (only in Fuseki2)
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testConstructByPOSTinJSON_Unexpected(self):
         result = self.__generic(constructQuery, JSON, POST)
         ct = result.info()["content-type"]
@@ -925,7 +1038,9 @@ class SPARQLWrapperTests(unittest.TestCase):
 
     # Asking for an unexpected return format for CONSTRUCT queryType.
     # For a CONSTRUCT query type, the default return mimetype (if Accept: */* is sent) is text/turtle
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testConstructByPOSTinJSON_Unexpected_Conneg(self):
         result = self.__generic(constructQuery, JSON, POST, onlyConneg=True)
         ct = result.info()["content-type"]
@@ -950,7 +1065,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), ConjunctiveGraph)
 
     # Asking for an unknown return format for CONSTRUCT queryType (XML is sent)
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testConstructByPOSTinUnknow(self):
         result = self.__generic(constructQuery, "bar", POST)
         ct = result.info()["content-type"]
@@ -959,7 +1076,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), ConjunctiveGraph)
 
     # Asking for an unknown return format for CONSTRUCT queryType (XML is sent)
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testConstructByPOSTinUnknow_Conneg(self):
         result = self.__generic(constructQuery, "bar", POST, onlyConneg=True)
         ct = result.info()["content-type"]
@@ -967,12 +1086,12 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
-################################################################################
-################################################################################
+    ################################################################################
+    ################################################################################
 
-##################
-#### DESCRIBE ####
-##################
+    ##################
+    #### DESCRIBE ####
+    ##################
 
     def testDescribeByGETinXML(self):
         result = self.__generic(describeQuery, XML, GET)
@@ -988,7 +1107,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testDescribeByPOSTinXML(self):
         result = self.__generic(describeQuery, XML, POST)
         ct = result.info()["content-type"]
@@ -996,7 +1117,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testDescribeByPOSTinXML_Conneg(self):
         result = self.__generic(describeQuery, XML, POST, onlyConneg=True)
         ct = result.info()["content-type"]
@@ -1021,7 +1144,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), ConjunctiveGraph)
 
     # rdf+xml is not a valid alias
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testDescribeByPOSTinRDFXML(self):
         result = self.__generic(describeQuery, RDFXML, POST)
         ct = result.info()["content-type"]
@@ -1030,7 +1155,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), ConjunctiveGraph)
 
     # rdf+xml is not a valid alias
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testDescribeByPOSTinRDFXML_Conneg(self):
         result = self.__generic(describeQuery, RDFXML, POST, onlyConneg=True)
         ct = result.info()["content-type"]
@@ -1055,7 +1182,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), bytes)
 
     # turtle is not a valid alias
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testDescribeByPOSTinTURTLE(self):
         result = self.__generic(describeQuery, TURTLE, POST)
         ct = result.info()["content-type"]
@@ -1064,7 +1193,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), bytes)
 
     # turtle is not a valid alias
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testDescribeByPOSTinTURTLE_Conneg(self):
         result = self.__generic(describeQuery, TURTLE, POST, onlyConneg=True)
         ct = result.info()["content-type"]
@@ -1089,7 +1220,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), bytes)
 
     # n3 is not a valid alias
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testDescribeByPOSTinN3(self):
         result = self.__generic(describeQuery, N3, POST)
         ct = result.info()["content-type"]
@@ -1098,7 +1231,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), bytes)
 
     # n3 is not a valid alias
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testDescribeByPOSTinN3_Conneg(self):
         result = self.__generic(describeQuery, N3, POST, onlyConneg=True)
         ct = result.info()["content-type"]
@@ -1120,7 +1255,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testDescribeByPOSTinJSONLD(self):
         result = self.__generic(describeQuery, JSONLD, POST)
         ct = result.info()["content-type"]
@@ -1128,7 +1265,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testDescribeByPOSTinJSONLD_Conneg(self):
         result = self.__generic(describeQuery, JSONLD, POST, onlyConneg=True)
         ct = result.info()["content-type"]
@@ -1156,7 +1295,9 @@ class SPARQLWrapperTests(unittest.TestCase):
 
     # Asking for an unexpected return format for DESCRIBE queryType.
     # For a DESCRIBE query type, the default return mimetype (if Accept: */* is sent) is text/turtle
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testDescribeByPOSTinCSV_Unexpected(self):
         result = self.__generic(describeQuery, CSV, POST)
         ct = result.info()["content-type"]
@@ -1166,7 +1307,9 @@ class SPARQLWrapperTests(unittest.TestCase):
 
     # Asking for an unexpected return format for DESCRIBE queryType.
     # For a DESCRIBE query type, the default return mimetype (if Accept: */* is sent) is text/turtle
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testDescribeByPOSTinCSV_Unexpected_Conneg(self):
         result = self.__generic(describeQuery, CSV, POST, onlyConneg=True)
         ct = result.info()["content-type"]
@@ -1196,7 +1339,9 @@ class SPARQLWrapperTests(unittest.TestCase):
     # Asking for an unexpected return format for CONSTRUCT queryType.
     # For a CONSTRUCT query type, the default return mimetype (if Accept: */* is sent) is text/turtle
     # json is NOT an alias of json-ld in Fuseki (only in Fuseki2)
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testDescribeByPOSTinJSON_Unexpected(self):
         result = self.__generic(describeQuery, JSON, POST)
         ct = result.info()["content-type"]
@@ -1206,7 +1351,9 @@ class SPARQLWrapperTests(unittest.TestCase):
 
     # Asking for an unexpected return format for DESCRIBE queryType.
     # For a DESCRIBE query type, the default return mimetype (if Accept: */* is sent) is text/turtle
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testDescribeByPOSTinJSON_Unexpected_Conneg(self):
         result = self.__generic(describeQuery, JSON, POST, onlyConneg=True)
         ct = result.info()["content-type"]
@@ -1231,7 +1378,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), ConjunctiveGraph)
 
     # Asking for an unknown return format for DESCRIBE queryType (XML is sent)
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testDescribeByPOSTinUnknow(self):
         result = self.__generic(describeQuery, "bar", POST)
         ct = result.info()["content-type"]
@@ -1240,7 +1389,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), ConjunctiveGraph)
 
     # Asking for an unknown return format for DESCRIBE queryType (XML is sent)
-    @unittest.skip('The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki')
+    @unittest.skip(
+        "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
+    )
     def testDescribeByPOSTinUnknow_Conneg(self):
         result = self.__generic(describeQuery, "bar", POST, onlyConneg=True)
         ct = result.info()["content-type"]
@@ -1248,10 +1399,12 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
-################################################################################
-################################################################################
+    ################################################################################
+    ################################################################################
 
-    @unittest.skip('Fuseki returns 200 instead of 400 (error code present in the returned text response)')
+    @unittest.skip(
+        "Fuseki returns 200 instead of 400 (error code present in the returned text response)"
+    )
     def testQueryBadFormed(self):
         self.assertRaises(QueryBadFormed, self.__generic, queryBadFormed, XML, GET)
 
@@ -1263,7 +1416,7 @@ class SPARQLWrapperTests(unittest.TestCase):
 
     def testKeepAlive(self):
         sparql = SPARQLWrapper(endpoint)
-        sparql.setQuery('SELECT * WHERE {?s ?p ?o} LIMIT 10')
+        sparql.setQuery("SELECT * WHERE {?s ?p ?o} LIMIT 10")
         sparql.setReturnFormat(JSON)
         sparql.setMethod(GET)
         sparql.setUseKeepAlive()
@@ -1271,18 +1424,25 @@ class SPARQLWrapperTests(unittest.TestCase):
         sparql.query()
         sparql.query()
 
-    @unittest.skip('Line 10, column 40: Illegal prefix name escape: _. See #94')
-    @unittest.skip('Fuseki returns 200 instead of 400 (error code present in the returned text response)')
+    @unittest.skip("Line 10, column 40: Illegal prefix name escape: _. See #94")
+    @unittest.skip(
+        "Fuseki returns 200 instead of 400 (error code present in the returned text response)"
+    )
     def testQueryWithComma_1(self):
         result = self.__generic(queryWithCommaInCurie_1, XML, GET)
 
-    @unittest.skip('Lexical error at line 10, column 45.  Encountered: ":" (58), after : "\\". See #94')
-    @unittest.skip('Fuseki returns 200 instead of 400 (error code present in the returned text response)')
+    @unittest.skip(
+        'Lexical error at line 10, column 45.  Encountered: ":" (58), after : "\\". See #94'
+    )
+    @unittest.skip(
+        "Fuseki returns 200 instead of 400 (error code present in the returned text response)"
+    )
     def testQueryWithComma_2(self):
         result = self.__generic(queryWithCommaInCurie_2, XML, GET)
 
     def testQueryWithComma_3(self):
         result = self.__generic(queryWithCommaInUri, XML, GET)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -36,5 +36,4 @@ from .Wrapper import GET, POST
 from .Wrapper import SELECT, CONSTRUCT, ASK, DESCRIBE, INSERT, DELETE
 from .Wrapper import URLENCODED, POSTDIRECTLY
 from .Wrapper import BASIC, DIGEST
-
 from .SmartWrapper import SPARQLWrapper2
