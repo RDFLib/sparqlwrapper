@@ -63,5 +63,11 @@ setup(
         'Documentation': 'https://sparqlwrapper.readthedocs.io',
         'Source': 'https://github.com/RDFLib/sparqlwrapper',
         'Tracker': 'https://github.com/RDFLib/sparqlwrapper/issues',
+	  },
+    entry_points={
+        'rdf.plugins.store': [
+            'SPARQLWrapper = SPARQLWrapper.Store:SPARQLStore',
+            'SPARQLWrapperUpdate = SPARQLWrapper.Store:SPARQLUpdateStore',
+        ]
     }
 )
