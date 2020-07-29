@@ -15,11 +15,11 @@ sparql.setQuery("""
 """)
 
 # JSON example
-print '\n\n*** JSON Example'
+print('\n\n*** JSON Example')
 sparql.setReturnFormat(JSON)
 results = sparql.query().convert()
 for result in results["results"]["bindings"]:
-    if result.has_key("party"):
-        print "* " + result["person"]["value"] + " ** " + result["party"]["value"]
+    if "party" in result:
+        print("* " + result["person"]["value"] + " ** " + result["party"]["value"])
     else:
-        print result["person"]["value"]
+        print(result["person"]["value"])

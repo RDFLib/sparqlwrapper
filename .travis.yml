@@ -4,31 +4,24 @@ branches:
   except:
     - gh-pages
 
-sudo: false
-
 language: python
 
 python:
-    - 2.7
-    - 3.4
     - 3.5
     - 3.6
-    - pypy
+    - 3.7
 
-# Enable 3.7 and 3.8-dev without globally enabling sudo and dist: xenial for other build jobs
-matrix:
+# Enable 3.8 and 3.8-dev without globally enabling dist: xenial for other build jobs
+jobs:
   include:
-    - python: 3.7
-      dist: xenial
-      sudo: true
+    - python: 3.8
+      dist: focal
     - python: 3.8-dev
       env: ENV=py38-dev
-      dist: xenial
-      sudo: true
+      dist: focal
 
   allow_failures:
     - env: ENV=py38-dev
-    - python: 'pypy'
 
 before_install:
     - pip install --upgrade pip setuptools
@@ -39,4 +32,4 @@ install:
 before_script:
     - pip install rdflib-jsonld
 
-script: ./tests.sh 
+script: nosetests -v

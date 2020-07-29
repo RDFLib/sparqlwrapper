@@ -1,6 +1,11 @@
 SPARQLWrapper's changelog
 =========================
 
+2020-XX-XX  1.9.0
+-----------------
+- Port codebase to Python 3. Drop support for Python 2
+- XXX
+
 2019-12-22  1.8.5
 -----------------
 - Improve/tests for development (#131)

@@ -31,319 +31,9 @@ import sys
 import warnings
 
 import json
-from KeyCaseInsensitiveDict import KeyCaseInsensitiveDict
-from SPARQLExceptions import QueryBadFormed, EndPointNotFound, EndPointInternalError, Unauthorized, URITooLong
+from .KeyCaseInsensitiveDict import KeyCaseInsensitiveDict
+from .SPARQLExceptions import QueryBadFormed, EndPointNotFound, EndPointInternalError, Unauthorized, URITooLong
 from SPARQLWrapper import __agent__
-
-#  From <https://www.w3.org/TR/sparql11-protocol/#query-success>
-#  The response body of a successful query operation with a 2XX response is either:
-#  * SELECT and ASK: a SPARQL Results Document in XML, JSON, or CSV/TSV format.
-#  * DESCRIBE and CONSTRUCT: an RDF graph serialized, for example, in the RDF/XML syntax, or an equivalent RDF graph serialization.
-#
-#  Possible parameter keys and values...
-#  Examples:
-#  - ClioPatria: the SWI-Prolog Semantic Web Server <http://cliopatria.swi-prolog.org/home>
-#    * Parameter key: "format" <http://cliopatria.swi-prolog.org/help/http>
-#    * Parameter value must have one of these values: "rdf+xml", "json", "csv", "application/sparql-results+xml" or "application/sparql-results+json".
-#
-################################################################################
-#
-#  - OpenLink Virtuoso  <http://virtuoso.openlinksw.com>
-#    * Parameter key: "format" or "output"
-#    * Parameter value, like directly:
-#      "text/html" (HTML), "text/x-html+tr" (HTML (Faceted Browsing Links)), "application/vnd.ms-excel"
-#      "application/sparql-results+xml" (XML), "application/sparql-results+json", (JSON)
-#      "application/javascript" (Javascript), "text/turtle" (Turtle), "application/rdf+xml" (RDF/XML)
-#      "text/plain" (N-Triples), "text/csv" (CSV), "text/tab-separated-values" (TSV)
-#    * Parameter value, like indirectly:
-#      "HTML" (alias text/html), "JSON" (alias application/sparql-results+json), "XML" (alias application/sparql-results+xml), "TURTLE" (alias text/rdf+n3), JavaScript (alias application/javascript)
-#       See  <http://virtuoso.openlinksw.com/dataspace/doc/dav/wiki/Main/VOSSparqlProtocol#Additional HTTP Response Formats -- SELECT>
-#
-#      For a SELECT query type, the default return mimetype (if Accept: */* is sent) is application/sparql-results+xml
-#      For a ASK query type, the default return mimetype (if Accept: */* is sent) is text/html
-#      For a CONSTRUCT query type, the default return mimetype (if Accept: */* is sent) is text/turtle
-#      For a DESCRIBE query type, the default return mimetype (if Accept: */* is sent) is text/turtle
-#
-################################################################################
-#
-#  - Fuseki (formerly there was Joseki) <https://jena.apache.org/documentation/serving_data/>
-#    * Uses: Parameters AND Content Negotiation
-#    * Parameter key: "format" or "output"
-#    * JSON-LD (application/ld+json): supported (in CONSTRUCT and DESCRIBE)
-#
-#    * Parameter key: "format" or "output"
-#      See Fuseki 1: https://github.com/apache/jena/blob/master/jena-fuseki1/src/main/java/org/apache/jena/fuseki/HttpNames.java
-#      See Fuseki 2: https://github.com/apache/jena/blob/master/jena-arq/src/main/java/org/apache/jena/riot/web/HttpNames.java
-#    * Fuseki 1 - Short names for "output=" : "json", "xml", "sparql", "text", "csv", "tsv", "thrift"
-#      See <https://github.com/apache/jena/blob/master/jena-fuseki1/src/main/java/org/apache/jena/fuseki/servlets/ResponseResultSet.java>
-#    * Fuseki 2 - Short names for "output=" : "json", "xml", "sparql", "text", "csv", "tsv", "thrift"
-#      See <https://github.com/apache/jena/blob/master/jena-fuseki2/jena-fuseki-core/src/main/java/org/apache/jena/fuseki/servlets/ResponseResultSet.java>
-#      If a non-expected short name is used, the server returns an "Error 400: Can't determine output serialization"
-#      Valid alias for SELECT and ASK: "json", "xml", csv", "tsv"
-#      Valid alias for DESCRIBE and CONSTRUCT: "json" (alias for json-ld ONLY in Fuseki2), "xml"
-#      Valid mimetype for DESCRIBE and CONSTRUCT: "application/ld+json"
-#      Default return mimetypes: For a SELECT and ASK query types, the default return mimetype (if Accept: */* is sent) is application/sparql-results+json
-#      Default return mimetypes: For a DESCRIBE and CONTRUCT query types, the default return mimetype (if Accept: */* is sent) is text/turtle
-#      In case of a bad formed query, Fuseki1 returns 200 instead of 400.
-#
-################################################################################
-#
-#  - Eclipse RDF4J <http://rdf4j.org/>
-#    * Formerly known as OpenRDF Sesame
-#    * Uses: ONLY Content Negotiation
-#    * See <https://rdf4j.eclipse.org/documentation/rest-api/#the-query-operation>
-#    * See <https://rdf4j.eclipse.org/documentation/rest-api/#content-types>
-#    * Parameter: If an unexpected parameter is used, the server ignores it.
-#
-#    ** SELECT
-#    *** application/sparql-results+xml (DEFAULT if Accept: */* is sent))
-#    *** application/sparql-results+json (also application/json)
-#    *** text/csv
-#    *** text/tab-separated-values
-#    *** Other values: application/x-binary-rdf-results-table
-#
-#    ** ASK
-#    *** application/sparql-results+xml (DEFAULT if Accept: */* is sent))
-#    *** application/sparql-results+json
-#    *** Other values: text/boolean
-#    *** Not supported: text/csv
-#    *** Not supported: text/tab-separated-values
-#
-#    ** CONSTRUCT
-#    *** application/rdf+xml
-#    *** application/n-triples (DEFAULT if Accept: */* is sent)
-#    *** text/turtle
-#    *** text/n3
-#    *** application/ld+json
-#    *** Other acceptable values: application/n-quads, application/rdf+json, application/trig, application/trix, application/x-binary-rdf
-#    *** text/plain (returns application/n-triples)
-#    *** text/rdf+n3 (returns text/n3)
-#    *** text/x-nquads (returns application/n-quads)
-#
-#    ** DESCRIBE
-#    *** application/rdf+xml
-#    *** application/n-triples (DEFAULT if Accept: */* is sent)
-#    *** text/turtle
-#    *** text/n3
-#    *** application/ld+json
-#    *** Other acceptable values: application/n-quads, application/rdf+json, application/trig, application/trix, application/x-binary-rdf
-#    *** text/plain (returns application/n-triples)
-#    *** text/rdf+n3 (returns text/n3)
-#    *** text/x-nquads (returns application/n-quads)
-#
-#      Default return mimetypes: For a SELECT and ASK query types, the default return mimetype (if Accept: */* is sent) is application/sparql-results+xml
-#      Default return mimetypes: For a DESCRIBE and CONTRUCT query types, the default return mimetype (if Accept: */* is sent) is application/n-triples
-#
-#
-################################################################################
-#
-#  - RASQAL <http://librdf.org/rasqal/>
-#    * Parameter key: "results"
-#    * Uses roqet as RDF query utility
-#      For variable bindings, the values of FORMAT vary upon what Rasqal supports but include simple
-#      for a simple text format (default), xml for the SPARQL Query Results XML format, csv for SPARQL CSV,
-#      tsv for SPARQL TSV, rdfxml and turtle for RDF syntax formats, and json for a JSON version of the results.
-#
-#      For RDF graph results, the values of FORMAT are ntriples (N-Triples, default),
-#      rdfxml-abbrev (RDF/XML Abbreviated), rdfxml (RDF/XML), turtle (Turtle),
-#      json (RDF/JSON resource centric), json-triples (RDF/JSON triples) or
-#      rss-1.0 (RSS 1.0, also an RDF/XML syntax).
-#
-#      See <http://librdf.org/rasqal/roqet.html>
-#
-################################################################################
-#
-#  - Marklogic <http://marklogic.com>
-#    * Uses content negotiation (no URL parameters).
-#    * You can use following methods to query triples <https://docs.marklogic.com/guide/semantics/semantic-searches#chapter>:
-#      - SPARQL mode in Query Console. For details, see Querying Triples with SPARQL
-#      - XQuery using the semantics functions, and Search API, or a combination of XQuery and SPARQL. For details, see Querying Triples with XQuery or JavaScript.
-#      - HTTP via a SPARQL endpoint. For details, see Using Semantics with the REST Client API.
-#    * Formats are specified as part of the HTTP Accept headers of the REST request. <https://docs.marklogic.com/guide/semantics/REST#id_92428>
-#      - When you query the SPARQL endpoint with REST Client APIs, you can specify the result output format.  <https://docs.marklogic.com/guide/semantics/REST#id_54258>
-#        The response type format depends on the type of query and the MIME type in the HTTP Accept header.
-#      - This table describes the MIME types and Accept Header/Output formats (MIME type) for different types of SPARQL queries. See <https://docs.marklogic.com/guide/semantics/REST#id_54258> and <https://docs.marklogic.com/guide/semantics/loading#id_70682>
-#        SELECT "application/sparql-results+xml", "application/sparql-results+json", "text/html", "text/csv"
-#        CONSTRUCT or DESCRIBE "application/n-triples", "application/rdf+json", "application/rdf+xml", "text/turtle", "text/n3", "application/n-quads", "application/trig"
-#        ASK queries return a boolean (true or false).
-#
-################################################################################
-#
-#  - AllegroGraph <https://franz.com/agraph/allegrograph/>
-#    * Uses only content negotiation (no URL parameters).
-#    * The server always looks at the Accept header of a request, and tries to
-#      generate a response in the format that the client asks for. If this fails,
-#      a 406 response is returned. When no Accept, or an Accept of */* is specified,
-#      the server prefers text/plain, in order to make it easy to explore the interface from a web browser.
-#    * Accept header expected (values returned by server when a wrong header is sent):
-#    ** SELECT
-#    *** application/sparql-results+xml (DEFAULT if Accept: */* is sent)
-#    *** application/sparql-results+json (and application/json)
-#    *** text/csv
-#    *** text/tab-separated-values
-#    *** OTHERS: application/sparql-results+ttl, text/integer, application/x-lisp-structured-expression, text/table, application/processed-csv, text/simple-csv, application/x-direct-upis
-#
-#    ** ASK
-#    *** application/sparql-results+xml (DEFAULT if Accept: */* is sent)
-#    *** application/sparql-results+json (and application/json)
-#    *** Not supported: text/csv
-#    *** Not supported: text/tab-separated-values
-#
-#    ** CONSTRUCT
-#    *** application/rdf+xml (DEFAULT if Accept: */* is sent)
-#    *** text/rdf+n3
-#    *** OTHERS: text/integer, application/json, text/plain, text/x-nquads, application/trix, text/table, application/x-direct-upis
-#
-#    ** DESCRIBE
-#    *** application/rdf+xml (DEFAULT if Accept: */* is sent)
-#    *** text/rdf+n3
-#
-#      See <https://franz.com/agraph/support/documentation/current/http-protocol.html>
-#
-################################################################################
-#
-#  - 4store. Code repository <https://github.com/4store/4store> documentation <https://4store.danielknoell.de/trac/wiki/SparqlServer/>
-#    * Uses: Parameters AND Content Negotiation
-#    * Parameter key: "output"
-#    * Parameter value: alias. If an unexpected alias is used, the server is not working properly
-#    * JSON-LD: NOT supported
-#
-#    ** SELECT
-#    *** application/sparql-results+xml (alias xml) (DEFAULT if Accept: */* is sent))
-#    *** application/sparql-results+json or application/json (alias json)
-#    *** text/csv (alias csv)
-#    *** text/tab-separated-values (alias tsv). Returns "text/plain" in GET.
-#    *** Other values: text/plain, application/n-triples
-#
-#    ** ASK
-#    *** application/sparql-results+xml (alias xml) (DEFAULT if Accept: */* is sent))
-#    *** application/sparql-results+json or application/json (alias json)
-#    *** text/csv (alias csv)
-#    *** text/tab-separated-values (alias tsv). Returns "text/plain" in GET.
-#    *** Other values: text/plain, application/n-triples
-#
-#    ** CONSTRUCT
-#    *** application/rdf+xml (alias xml) (DEFAULT if Accept: */* is sent)
-#    *** text/turtle (alias "text")
-#
-#    ** DESCRIBE
-#    *** application/rdf+xml (alias xml) (DEFAULT if Accept: */* is sent)
-#    *** text/turtle (alias "text")
-#
-#      Valid alias for SELECT and ASK: "json", "xml", csv", "tsv" (also "text" and "ascii")
-#      Valid alias for DESCRIBE and CONSTRUCT: "xml", "text" (for turtle)
-#      Default return mimetypes: For a SELECT and ASK query types, the default return mimetype (if Accept: */* is sent) is application/sparql-results+xml
-#      Default return mimetypes: For a DESCRIBE and CONTRUCT query types, the default return mimetype (if Accept: */* is sent) is application/rdf+xml
-#
-#
-################################################################################
-#
-#  - Blazegraph <https://www.blazegraph.com/> & NanoSparqlServer <https://wiki.blazegraph.com/wiki/index.php/NanoSparqlServer> <https://wiki.blazegraph.com/wiki/index.php/REST_API#SPARQL_End_Point>
-#    * Formerly known as Bigdata
-#    * Uses: Parameters AND Content Negotiation
-#    * Parameter key: "format" (available since version 1.4.0). Setting this parameter will override any Accept Header that is present. <https://wiki.blazegraph.com/wiki/index.php/REST_API#GET_or_POST>
-#    * Parameter value: alias. If an unexpected alias is used, the server is not working properly
-#
-#    ** SELECT
-#    *** application/sparql-results+xml (alias xml) (DEFAULT if Accept: */* is sent))
-#    *** application/sparql-results+json or application/json (alias json)
-#    *** text/csv
-#    *** text/tab-separated-values
-#    *** Other values: application/x-binary-rdf-results-table
-#
-#    ** ASK
-#    *** application/sparql-results+xml (alias xml) (DEFAULT if Accept: */* is sent))
-#    *** application/sparql-results+json or application/json (alias json)
-#
-#    ** CONSTRUCT
-#    *** application/rdf+xml (alias xml) (DEFAULT if Accept: */* is sent)
-#    *** text/turtle (returns text/n3)
-#    *** text/n3
-#
-#    ** DESCRIBE
-#    *** application/rdf+xml (alias xml) (DEFAULT if Accept: */* is sent)
-#    *** text/turtle (returns text/n3)
-#    *** text/n3
-#
-#      Valid alias for SELECT and ASK: "xml", "json"
-#      Valid alias for DESCRIBE and CONSTRUCT: "xml", "json" (but it returns unexpected "application/sparql-results+json")
-#      Default return mimetypes: For a SELECT and ASK query types, the default return mimetype (if Accept: */* is sent) is application/sparql-results+xml
-#      Default return mimetypes: For a DESCRIBE and CONTRUCT query types, the default return mimetype (if Accept: */* is sent) is application/rdf+xml
-#
-################################################################################
-#
-#  - GraphDB <http://graphdb.ontotext.com/> <http://graphdb.ontotext.com/documentation/free/> 
-#    * Formerly known as OWLIM (OWLIM-Lite, OWLIM-SE)
-#    * Uses: Only Content Negotiation.
-#    * If the Accept value is not within the expected ones, the server returns a 406 "No acceptable file format found."
-#
-#    ** SELECT
-#    *** DEFAULT (if Accept: */* is sent): text/csv
-#    *** application/sparql-results+xml, application/xml (.srx file)
-#    *** application/sparql-results+json, application/json (.srj file)
-#    *** text/csv (DEFAULT if Accept: */* is sent)
-#    *** text/tab-separated-values
-#
-#    ** ASK
-#    *** DEFAULT (if Accept: */* is sent): application/sparql-results+json
-#    *** application/sparql-results+xml, application/xml (.srx file)
-#    *** application/sparql-results+json (DEFAULT if Accept: */* is sent), application/json (.srj file)
-#    *** NOT supported: text/csv, text/tab-separated-values
-#
-#    ** CONSTRUCT
-#    *** DEFAULT (if Accept: */* is sent): application/n-triples
-#    *** application/rdf+xml, application/xml (.rdf file)
-#    *** text/turtle (.ttl file)
-#    *** application/n-triples (.nt file) (DEFAULT if Accept: */* is sent)
-#    *** text/n3, text/rdf+n3 (.n3 file)
-#    *** application/ld+json (.jsonld file)
-#
-#    ** DESCRIBE
-#    *** DEFAULT (if Accept: */* is sent): application/n-triples
-#    *** application/rdf+xml, application/xml (.rdf file)
-#    *** text/turtle (.ttl file)
-#    *** application/n-triples (.nt file) (DEFAULT if Accept: */* is sent)
-#    *** text/n3, text/rdf+n3 (.n3 file)
-#    *** application/ld+json (.jsonld file)
-#
-################################################################################
-#
-#  - Stardog <https://www.stardog.com> <https://www.stardog.com/docs/#_http_headers_content_type_accept> (the doc looks outdated)
-#    * Uses: ONLY Content Negotiation
-#    * Parameter: If an unexpected parameter is used, the server ignores it.
-#
-#    ** SELECT
-#    *** application/sparql-results+xml (DEFAULT if Accept: */* is sent))
-#    *** application/sparql-results+json
-#    *** text/csv
-#    *** text/tab-separated-values
-#    *** Other values: application/x-binary-rdf-results-table
-#
-#    ** ASK
-#    *** application/sparql-results+xml (DEFAULT if Accept: */* is sent))
-#    *** application/sparql-results+json
-#    *** Other values: text/boolean
-#    *** Not supported: text/csv
-#    *** Not supported: text/tab-separated-values
-#
-#    ** CONSTRUCT
-#    *** application/rdf+xml
-#    *** text/turtle (DEFAULT if Accept: */* is sent)
-#    *** text/n3
-#    *** application/ld+json
-#    *** Other acceptable values: application/n-triples, application/x-turtle, application/trig, application/trix, application/n-quads
-#
-#    ** DESCRIBE
-#    *** application/rdf+xml
-#    *** text/turtle (DEFAULT if Accept: */* is sent)
-#    *** text/n3
-#    *** application/ld+json
-#    *** Other acceptable values: application/n-triples, application/x-turtle, application/trig, application/trix, application/n-quads
-#
-#      Default return mimetypes: For a SELECT and ASK query types, the default return mimetype (if Accept: */* is sent) is application/sparql-results+xml
-#      Default return mimetypes: For a DESCRIBE and CONTRUCT query types, the default return mimetype (if Accept: */* is sent) is text/turtle
-#
-################################################################################
 
 # alias
 
@@ -446,7 +136,7 @@ try:
     _allowedFormats.append(JSONLD)
     _RDF_POSSIBLE = _RDF_POSSIBLE + _RDF_JSONLD
 except ImportError:
-    #warnings.warn("JSON-LD disabled because no suitable support has been found", RuntimeWarning)
+    # warnings.warn("JSON-LD disabled because no suitable support has been found", RuntimeWarning)
     pass
 
 # This is very ugly. The fact is that the key for the choice of the output format is not defined.
@@ -543,7 +233,7 @@ class SPARQLWrapper(object):
         self.passwd = None
         self.http_auth = BASIC
         self._defaultGraph = defaultGraph
-        self.onlyConneg = False # Only Content Negotiation
+        self.onlyConneg = False  # Only Content Negotiation
         self.customHttpHeaders = {}
 
         if returnFormat in _allowedFormats:
@@ -803,20 +493,12 @@ class SPARQLWrapper(object):
             :type query: string
             :raises TypeError: If the :attr:`query` parameter is not an unicode-string or utf-8 encoded byte-string.
         """
-        if sys.version < '3':  # have to write it like this, for 2to3 compatibility
-            if isinstance(query, unicode):
-                pass
-            elif isinstance(query, str):
-                query = query.decode('utf-8')
-            else:
-                raise TypeError('setQuery takes either unicode-strings or utf-8 encoded byte-strings')
+        if isinstance(query, str):
+            pass
+        elif isinstance(query, bytes):
+            query = query.decode('utf-8')
         else:
-            if isinstance(query, str):
-                pass
-            elif isinstance(query, bytes):
-                query = query.decode('utf-8')
-            else:
-                raise TypeError('setQuery takes either unicode-strings or utf-8 encoded byte-strings')
+            raise TypeError('setQuery takes either unicode-strings or utf-8 encoded byte-strings')
 
         self.queryString = query
         self.queryType = self._parseQueryType(query)
@@ -848,7 +530,7 @@ class SPARQLWrapper(object):
         if r_queryType in _allowedQueryTypes:
             return r_queryType
         else:
-            #raise Exception("Illegal SPARQL Query; must be one of SELECT, ASK, DESCRIBE, or CONSTRUCT")
+            # raise Exception("Illegal SPARQL Query; must be one of SELECT, ASK, DESCRIBE, or CONSTRUCT")
             warnings.warn("unknown query type '%s'" % r_queryType, RuntimeWarning)
             return SELECT
 
@@ -934,9 +616,9 @@ class SPARQLWrapper(object):
                     # "tsv", "rdf+xml" and "json-ld" are not supported as a correct "output"/"format" parameter value but "text/tab-separated-values" or "application/rdf+xml" are a valid values,
                     # and there is no problem to send both (4store does not support unexpected values).
                     if self.returnFormat in [TSV, JSONLD, RDFXML]:
-                        acceptHeader = self._getAcceptHeader() # to obtain the mime-type "text/tab-separated-values" or "application/rdf+xml"
+                        acceptHeader = self._getAcceptHeader()  # to obtain the mime-type "text/tab-separated-values" or "application/rdf+xml"
                         if "*/*" in acceptHeader:
-                            acceptHeader = "" # clear the value in case of "*/*"
+                            acceptHeader = ""  # clear the value in case of "*/*"
                         query_parameters[f] += [acceptHeader]
 
         pairs = (
@@ -958,9 +640,9 @@ class SPARQLWrapper(object):
                 acceptHeader = ",".join(_SPARQL_XML)
             elif self.returnFormat == JSON:
                 acceptHeader = ",".join(_SPARQL_JSON)
-            elif self.returnFormat == CSV: # Allowed for SELECT and ASK (https://www.w3.org/TR/2013/REC-sparql11-protocol-20130321/#query-success) but only described for SELECT (https://www.w3.org/TR/sparql11-results-csv-tsv/)
+            elif self.returnFormat == CSV:  # Allowed for SELECT and ASK (https://www.w3.org/TR/2013/REC-sparql11-protocol-20130321/#query-success) but only described for SELECT (https://www.w3.org/TR/sparql11-results-csv-tsv/)
                 acceptHeader = ",".join(_CSV)
-            elif self.returnFormat == TSV: # Allowed for SELECT and ASK (https://www.w3.org/TR/2013/REC-sparql11-protocol-20130321/#query-success) but only described for SELECT (https://www.w3.org/TR/sparql11-results-csv-tsv/)
+            elif self.returnFormat == TSV:  # Allowed for SELECT and ASK (https://www.w3.org/TR/2013/REC-sparql11-protocol-20130321/#query-success) but only described for SELECT (https://www.w3.org/TR/sparql11-results-csv-tsv/)
                 acceptHeader = ",".join(_TSV)
             else:
                 acceptHeader = ",".join(_ALL)
@@ -996,7 +678,7 @@ class SPARQLWrapper(object):
         request = None
 
         if self.isSparqlUpdateRequest():
-            #protocol details at http://www.w3.org/TR/sparql11-protocol/#update-operation
+            # protocol details at http://www.w3.org/TR/sparql11-protocol/#update-operation
             uri = self.updateEndpoint
 
             if self.method != POST:
@@ -1011,7 +693,7 @@ class SPARQLWrapper(object):
                 request.add_header("Content-Type", "application/x-www-form-urlencoded")
                 request.data = self._getRequestEncodedParameters(("update", self.queryString)).encode('ascii')
         else:
-            #protocol details at http://www.w3.org/TR/sparql11-protocol/#query-operation
+            # protocol details at http://www.w3.org/TR/sparql11-protocol/#query-operation
             uri = self.endpoint
 
             if self.method == POST:
@@ -1160,6 +842,7 @@ class QueryResult(object):
     :type requestedFormat: string
 
     """
+
     def __init__(self, result):
         """
         :param result: HTTP response stemming from a :func:`SPARQLWrapper.query` call, or a tuple with the expected format: (response, format).
@@ -1192,9 +875,9 @@ class QueryResult(object):
         """
         return self.response.__iter__()
 
-    def next(self):
+    def __next__(self):
         """Method for the standard iterator."""
-        return self.response.next()
+        return next(self.response)
 
     def _convertJSON(self):
         """
@@ -1232,7 +915,7 @@ class QueryResult(object):
         retval = ConjunctiveGraph()
         # (DEPRECATED) this is a strange hack. If the publicID is not set, rdflib (or the underlying xml parser) makes a funny
         # (DEPRECATED) (and, as far as I could see, meaningless) error message...
-        retval.load(self.response) # (DEPRECATED) publicID=' ')
+        retval.load(self.response)  # (DEPRECATED) publicID=' ')
         return retval
 
     def _convertN3(self):
@@ -1275,7 +958,7 @@ class QueryResult(object):
         """
         from rdflib import ConjunctiveGraph
         retval = ConjunctiveGraph()
-        retval.load(self.response, format='json-ld')# (DEPRECATED), publicID=' ')
+        retval.load(self.response, format='json-ld')  # (DEPRECATED), publicID=' ')
         return retval
 
     def convert(self):
@@ -1292,6 +975,7 @@ class QueryResult(object):
 
         :return: the converted query result. See the conversion methods for more details.
         """
+
         def _content_type_in_list(real, expected):
             """ Internal method for checking if the content-type header received matches any of the content types of the expected list.
 
@@ -1322,7 +1006,7 @@ class QueryResult(object):
 
         # TODO. In order to compare properly, the requested QueryType (SPARQL Query Form) is needed. For instance, the unexpected N3 requested for a SELECT would return XML
         if "content-type" in self.info():
-            ct = self.info()["content-type"] # returned Content-Type value
+            ct = self.info()["content-type"]  # returned Content-Type value
 
             if _content_type_in_list(ct, _SPARQL_XML):
                 _validate_format("XML", [XML], ct, self.requestedFormat)
@@ -1376,7 +1060,7 @@ class QueryResult(object):
             return True in [real.find(mime) != -1 for mime in expected]
 
         if "content-type" in self.info():
-            ct = self.info()["content-type"] # returned Content-Type value
+            ct = self.info()["content-type"]  # returned Content-Type value
 
             if _content_type_in_list(ct, _SPARQL_XML):
                 return XML
@@ -1422,22 +1106,22 @@ class QueryResult(object):
             width = self.__get_results_width(results)
         index = 0
         for var in results["head"]["vars"]:
-            print ("?" + var).ljust(width[index]), "|",
+            print(("?" + var).ljust(width[index]), "|",)
             index += 1
-        print
-        print "=" * (sum(width) + 3 * len(width))
+        print()
+        print("=" * (sum(width) + 3 * len(width)))
         for result in results["results"]["bindings"]:
             index = 0
             for var in results["head"]["vars"]:
                 result_value = self.__get_prettyprint_string_sparql_var_result(result[var])
-                print result_value.ljust(width[index]), "|",
+                print(result_value.ljust(width[index]), "|",)
                 index += 1
-            print
+            print()
 
     def __get_results_width(self, results, minWidth=2):
         width = []
         for var in results["head"]["vars"]:
-            width.append(max(minWidth, len(var)+1))
+            width.append(max(minWidth, len(var) + 1))
         for result in results["results"]["bindings"]:
             index = 0
             for var in results["head"]["vars"]:
@@ -1451,9 +1135,9 @@ class QueryResult(object):
         lang = result.get("xml:lang", None)
         datatype = result.get("datatype", None)
         if lang is not None:
-            value += "@"+lang
+            value += "@" + lang
         if datatype is not None:
-            value += " ["+datatype+"]"
+            value += " [" + datatype + "]"
         return value
 
     def __str__(self):
@@ -1464,7 +1148,7 @@ class QueryResult(object):
         .. versionadded:: 1.8.3
         """
         fullname = self.__module__ + "." + self.__class__.__name__
-        str_requestedFormat = '"requestedFormat" : '+repr(self.requestedFormat)
+        str_requestedFormat = '"requestedFormat" : ' + repr(self.requestedFormat)
         str_url = self.response.url
         str_code = self.response.code
         str_headers = self.response.info()

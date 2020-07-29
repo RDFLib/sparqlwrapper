@@ -31,21 +31,13 @@ from SPARQLWrapper.SPARQLExceptions import QueryBadFormed
 _SPARQL_SELECT_ASK_POSSIBLE = _SPARQL_XML + _SPARQL_JSON + _CSV + _TSV + _XML # only used in test
 _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE = _RDF_XML + _RDF_N3 + _XML + _RDF_JSONLD # only used in test. Same as Wrapper._RDF_POSSIBLE
 
-try:
-    from urllib.error import HTTPError   # Python 3
-except ImportError:
-    from urllib2 import HTTPError        # Python 2
-
-try:
-    bytes   # Python 2.6 and above
-except NameError:
-    bytes = str
+from urllib.error import HTTPError
 
 import logging
 logging.basicConfig()
 
-# human UI https://lindas-data.ch/sparql-ui/
-endpoint = "https://lindas-data.ch/sparql"
+# human UI https://lindas.admin.ch/sparql/
+endpoint = "https://lindas.admin.ch/query"
 
 prefixes = """
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>

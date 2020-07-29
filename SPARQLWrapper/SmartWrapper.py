@@ -26,6 +26,7 @@ from SPARQLWrapper.Wrapper import JSON, SELECT
 
 ######################################################################################
 
+
 class Value(object):
     """
     Class encapsulating a single binding for a variable.
@@ -120,8 +121,8 @@ class Bindings(object):
         self.bindings = []
         try:
             for b in self.fullResult['results']['bindings']:
-                #  this is a single binding.  It is a dictionary per variable; each value is a dictionary again that has to be
-                # converted into a Value instance
+                # This is a single binding. It is a dictionary per variable; each value is a dictionary again
+                # that has to be converted into a Value instance
                 newBind = {}
                 for key in self.variables:
                     if key in b:
@@ -246,7 +247,7 @@ class Bindings(object):
                 continue
             if True  in [k in b for k in no_keys]:
                 continue
-            # if we got that far, we shouild be all right!
+            # if we got that far, we should be all right!
             retval.append(b)
         # if retval is of zero length, no hit; an exception should be raised to stay within the python style
         if len(retval) == 0:

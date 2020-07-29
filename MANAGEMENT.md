@@ -27,12 +27,15 @@ Please, don't forget to increment to the next module (`SPARQLWrapper/__init__.py
 
 ### Documentation
 
-In order to provide online documentation, some steps need to be accomplished:
+In order to provide offline documentation, some steps need to be accomplished:
 
 1. First, generate the documentation using [sphinx](http://www.sphinx-doc.org/) using the makefile
 
   $ cd docs
   $ make clean && make html
+
+
+Previously, [epydoc](http://epydoc.sourceforge.net/) was used for generating the documentation and make it available online, through two additional steps:
 
 2. And then upload the documentation generated (`doc` folder) to GitHub Pages (`gh-pages` branch).
 

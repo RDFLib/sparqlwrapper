@@ -17,10 +17,10 @@ def main(server, query, sponge=False):
     res = sparql.query()
     variables = res.variables
 
-    print "Variables:"
-    print variables
-    print
-    print "Bindings:"
+    print("Variables:")
+    print(variables)
+    print()
+    print("Bindings:")
     for b in res.bindings:
         for v in res.variables:
             try:
@@ -34,8 +34,8 @@ def main(server, query, sponge=False):
             except KeyError:
                 # no binding to that one...
                 str = "%s: <<None>>" % v
-            print str.encode('utf-8')
-        print
+            print(str.encode('utf-8'))
+        print()
 
 
 
@@ -51,7 +51,7 @@ usagetxt = """%s [-s] [-u url] [file]
 file: sparql query file
 """
 def usage():
-    print usagetxt % sys.argv[0]
+    print(usagetxt % sys.argv[0])
     sys.exit(1)
 
 if __name__ == '__main__':
@@ -66,7 +66,7 @@ if __name__ == '__main__':
                 server = localVirtuoso
                 sponge = True
             elif o == "-h":
-                print usage
+                print(usage)
                 sys.exit(0)
             elif o == "-u":
                 server = a
