@@ -19,7 +19,7 @@
   :requires: `RDFLib <https://rdflib.readthedocs.io>`_ package.
 """
 
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 from types import *
 import SPARQLWrapper
 from SPARQLWrapper.Wrapper import JSON, SELECT
@@ -209,12 +209,12 @@ class Bindings(object):
             if len(keys) == 0:
                 return False
             for k in keys:
-                if not isinstance(k, basestring) or not k in self.variables:
+                if not isinstance(k, str) or not k in self.variables:
                     return False
             return True
 
         def _nonSliceCase(key):
-            if isinstance(key, basestring) and key != "" and key in self.variables:
+            if isinstance(key, str) and key != "" and key in self.variables:
                 # unicode or string:
                 return [key]
             elif type(key) is list or type(key) is tuple:

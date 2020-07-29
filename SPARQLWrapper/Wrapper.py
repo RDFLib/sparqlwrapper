@@ -22,9 +22,9 @@
   :requires: `RDFLib <https://rdflib.readthedocs.io>`_ package.
 """
 
-import urllib
-import urllib2
-from urllib2 import urlopen as urlopener  # don't change the name: tests override it
+import urllib.request, urllib.parse, urllib.error
+import urllib.request, urllib.error, urllib.parse
+from urllib.request import urlopen as urlopener  # don't change the name: tests override it
 import base64
 import re
 import sys
@@ -869,13 +869,13 @@ class SPARQLWrapper(object):
         try:
             from keepalive import HTTPHandler
 
-            if urllib2._opener and any(isinstance(h, HTTPHandler) for h in urllib2._opener.handlers):
+            if urllib.request._opener and any(isinstance(h, HTTPHandler) for h in urllib.request._opener.handlers):
                 # already installed
                 return
 
             keepalive_handler = HTTPHandler()
-            opener = urllib2.build_opener(keepalive_handler)
-            urllib2.install_opener(opener)
+            opener = urllib.request.build_opener(keepalive_handler)
+            urllib.request.install_opener(opener)
         except ImportError:
             warnings.warn("keepalive support not available, so the execution of this method has no effect")
 
@@ -941,8 +941,8 @@ class SPARQLWrapper(object):
 
         pairs = (
             "%s=%s" % (
-                urllib.quote_plus(param.encode('UTF-8'), safe='/'),
-                urllib.quote_plus(value.encode('UTF-8'), safe='/')
+                urllib.parse.quote_plus(param.encode('UTF-8'), safe='/'),
+                urllib.parse.quote_plus(value.encode('UTF-8'), safe='/')
             )
             for param, values in query_parameters.items() for value in values
         )
@@ -966,9 +966,7 @@ class SPARQLWrapper(object):
                 acceptHeader = ",".join(_ALL)
                 warnings.warn("Sending Accept header '*/*' because unexpected returned format '%s' in a '%s' SPARQL query form" % (self.returnFormat, self.queryType), RuntimeWarning)
         elif self.queryType in [CONSTRUCT, DESCRIBE]:
-            if self.returnFormat == TURTLE:
-                acceptHeader = ",".join(_RDF_TURTLE)
-            elif self.returnFormat == N3:
+            if self.returnFormat == N3 or self.returnFormat == TURTLE:
                 acceptHeader = ",".join(_RDF_N3)
             elif self.returnFormat == XML or self.returnFormat == RDFXML:
                 acceptHeader = ",".join(_RDF_XML)
@@ -1005,11 +1003,11 @@ class SPARQLWrapper(object):
                 warnings.warn("update operations MUST be done by POST")
 
             if self.requestMethod == POSTDIRECTLY:
-                request = urllib2.Request(uri + "?" + self._getRequestEncodedParameters())
+                request = urllib.request.Request(uri + "?" + self._getRequestEncodedParameters())
                 request.add_header("Content-Type", "application/sparql-update")
                 request.data = self.queryString.encode('UTF-8')
             else:  # URL-encoded
-                request = urllib2.Request(uri)
+                request = urllib.request.Request(uri)
                 request.add_header("Content-Type", "application/x-www-form-urlencoded")
                 request.data = self._getRequestEncodedParameters(("update", self.queryString)).encode('ascii')
         else:
@@ -1018,15 +1016,15 @@ class SPARQLWrapper(object):
 
             if self.method == POST:
                 if self.requestMethod == POSTDIRECTLY:
-                    request = urllib2.Request(uri + "?" + self._getRequestEncodedParameters())
+                    request = urllib.request.Request(uri + "?" + self._getRequestEncodedParameters())
                     request.add_header("Content-Type", "application/sparql-query")
                     request.data = self.queryString.encode('UTF-8')
                 else:  # URL-encoded
-                    request = urllib2.Request(uri)
+                    request = urllib.request.Request(uri)
                     request.add_header("Content-Type", "application/x-www-form-urlencoded")
                     request.data = self._getRequestEncodedParameters(("query", self.queryString)).encode('ascii')
             else:  # GET
-                request = urllib2.Request(uri + "?" + self._getRequestEncodedParameters(("query", self.queryString)))
+                request = urllib.request.Request(uri + "?" + self._getRequestEncodedParameters(("query", self.queryString)))
 
         request.add_header("User-Agent", self.agent)
         request.add_header("Accept", self._getAcceptHeader())
@@ -1036,11 +1034,11 @@ class SPARQLWrapper(object):
                 request.add_header("Authorization", "Basic %s" % base64.b64encode(credentials.encode('utf-8')).decode('utf-8'))
             elif self.http_auth == DIGEST:
                 realm = self.realm
-                pwd_mgr = urllib2.HTTPPasswordMgr()
+                pwd_mgr = urllib.request.HTTPPasswordMgr()
                 pwd_mgr.add_password(realm, uri, self.user, self.passwd)
-                opener = urllib2.build_opener()
-                opener.add_handler(urllib2.HTTPDigestAuthHandler(pwd_mgr))
-                urllib2.install_opener(opener)
+                opener = urllib.request.build_opener()
+                opener.add_handler(urllib.request.HTTPDigestAuthHandler(pwd_mgr))
+                urllib.request.install_opener(opener)
             else:
                 valid_types = ", ".join(_allowedAuth)
                 raise NotImplementedError("Expecting one of: {0}, but received: {1}".format(valid_types,
@@ -1068,11 +1066,19 @@ class SPARQLWrapper(object):
 
         try:
             if self.timeout:
-                response = urlopener(request, timeout=self.timeout)
+                import ssl
+                ctx = ssl.create_default_context()
+                ctx.check_hostname = False
+                ctx.verify_mode = ssl.CERT_NONE
+                response = urlopener(request, context=ctx, timeout=self.timeout)
             else:
-                response = urlopener(request)
+                import ssl
+                ctx = ssl.create_default_context()
+                ctx.check_hostname = False
+                ctx.verify_mode = ssl.CERT_NONE
+                response = urlopener(request, context=ctx)
             return response, self.returnFormat
-        except urllib2.HTTPError as e:
+        except urllib.error.HTTPError as e:
             if e.code == 400:
                 raise QueryBadFormed(e.read())
             elif e.code == 404:

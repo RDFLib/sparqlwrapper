@@ -43,14 +43,14 @@ with open('requirements.txt', 'r') as f:
 
 
 setup(
-      name = 'SPARQLWrapper',
+      name = 'SPARQLWrapper.unsecure',
       version = version,
       description = 'SPARQL Endpoint interface to Python',
       long_description = 'This is a wrapper around a SPARQL service. It helps in creating the query URI and, possibly, convert the result into a more manageable format.',
       license = 'W3C SOFTWARE NOTICE AND LICENSE',
       author = authors,
       url = url,
-      download_url = 'https://github.com/RDFLib/sparqlwrapper/releases',
+      download_url = 'https://github.com/openboilerplates/sparqlwrapper/releases',
       platforms = ['any'],
       packages = ['SPARQLWrapper'],
       install_requires = _install_requires,
@@ -78,9 +78,8 @@ setup(
       use_2to3 = True,
       use_2to3_fixers = ['custom_fixers'],
       project_urls={
-        'Home': 'https://rdflib.github.io/sparqlwrapper/',
         'Documentation': 'https://rdflib.github.io/sparqlwrapper/doc/',
-        'Source': 'https://github.com/RDFLib/sparqlwrapper',
-        'Tracker': 'https://github.com/RDFLib/sparqlwrapper/issues',
+        'Source': 'https://github.com/openboilerplates/sparqlwrapper',
+        'Tracker': 'https://github.com/openboilerplates/sparqlwrapper/issues',
 	  }
 )
