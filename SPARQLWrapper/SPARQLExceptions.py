@@ -57,7 +57,7 @@ class QueryBadFormed(SPARQLWrapperException):
     Query Bad Formed exception. Usually HTTP response status code ``400``.
     """
 
-    msg = "A bad request has been sent to the endpoint: it is probably the SPARQL query is badly formed"
+    msg = "A bad request has been sent to the endpoint: probably the SPARQL query is badly formed"
 
 
 class EndPointNotFound(SPARQLWrapperException):
@@ -66,7 +66,7 @@ class EndPointNotFound(SPARQLWrapperException):
     """
 
     msg = (
-        "It was not possible to connect with the endpoint given, check if it is correct"
+        "It was not possible to connect to the endpoint given, check if it is correct"
     )
 
 
