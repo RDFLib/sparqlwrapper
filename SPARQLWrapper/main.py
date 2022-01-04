@@ -56,7 +56,6 @@ def parse_args(test=None):
         metavar="FILE",
         type=check_file,
         help="query with sparql file (stdin: -)",
-        default="-",
     )
     input_group.add_argument("-Q", "--query", metavar="QUERY", help="query with string")
     parser.add_argument(
