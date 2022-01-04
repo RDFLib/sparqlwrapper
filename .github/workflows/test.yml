@@ -2,17 +2,8 @@ name: Test
 
 on:
   push:
-    branches:
-      - '*'
-      - '*/*'
-      - '**'
-      - '!gh-pages'
+    branches: ["master"]
   pull_request:
-    branches:
-      - '*'
-      - '*/*'
-      - '**'
-      - '!gh-pages'
   workflow_dispatch:
 
 jobs:
