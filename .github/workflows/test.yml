@@ -3,9 +3,15 @@ name: Test
 on:
   push:
     branches:
+      - '*'
+      - '*/*'
+      - '**'
       - '!gh-pages'
   pull_request:
     branches:
+      - '*'
+      - '*/*'
+      - '**'
       - '!gh-pages'
   workflow_dispatch:
 
