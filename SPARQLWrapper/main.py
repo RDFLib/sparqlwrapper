@@ -5,10 +5,10 @@
 import argparse
 import json
 import os
-from pprint import pprint
+import sys
 from shutil import get_terminal_size
 
-import rdflib
+import rdflib  # type: ignore
 
 from . import __version__
 from .Wrapper import SPARQLWrapper, _allowedFormats
@@ -33,7 +33,7 @@ def choicesDescriptions():
     return "\n  - ".join(["allowed formats:"] + _allowedFormats)
 
 
-def parse_args() -> argparse.Namespace:
+def parse_args():
     """Parse arguments."""
     parser = argparse.ArgumentParser(
         prog="rqw",
@@ -81,7 +81,7 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def main() -> None:
+def main():
     args = parse_args()
     if args.quiet:
         import warnings
@@ -111,13 +111,13 @@ def main() -> None:
     if args.format == "json":
         print(json.dumps(results, indent=4))
     elif args.format in ("xml", "rdf+xml", "json-ld"):
-        print(results.toxml())
+        print(results.toxml())  # type: ignore
     elif args.format == "n3":
         g = rdflib.Graph()
-        g.parse(data=results, format="n3")
+        g.parse(data=results, format="n3")  # type: ignore
         print(g.serialize(format="n3"))
     elif args.format in ("csv", "tsv", "turtle"):
-        print(results.decode("utf-8"))
+        print(results.decode("utf-8"))  # type: ignore
     else:
         print(results)
 
