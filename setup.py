@@ -28,6 +28,9 @@ for line in open('SPARQLWrapper/__init__.py'):
 with open('requirements.txt', 'r') as f:
     _install_requires = [line.rstrip('\n') for line in f]
 
+with open('requirements.development.txt', 'r') as f:
+    _install_dev_requires = [line.rstrip('\n') for line in f]
+
 setup(
     name='SPARQLWrapper',
     version=version,
@@ -42,6 +45,7 @@ setup(
     packages=['SPARQLWrapper'],
     install_requires=_install_requires,
     extras_require={
+        'dev': _install_dev_requires,
         'keepalive': ['keepalive>=0.5'],
     },
     classifiers=[
