@@ -27,4 +27,4 @@ jobs:
         python setup.py sdist && pip install ./dist/*
     - name: Test
       run: |
-        python -m unittest test/*
+        python -m unittest test/*.py
