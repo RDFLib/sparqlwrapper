@@ -3,13 +3,15 @@
 # -*- coding: utf-8 -*-
 
 import argparse
-from .Wrapper import SPARQLWrapper, _allowedFormats
-from . import __version__
+import json
 import os
 from pprint import pprint
-import json
-import rdflib
 from shutil import get_terminal_size
+
+import rdflib
+
+from . import __version__
+from .Wrapper import SPARQLWrapper, _allowedFormats
 
 
 class SPARQLWrapperFormatter(
