@@ -1,1 +1,1 @@
-rdflib>=4.0
+rdflib>=6.0.1
