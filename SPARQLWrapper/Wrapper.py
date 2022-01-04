@@ -55,7 +55,7 @@ CSV    = "csv"
 """to be used to set the return format to ``CSV``"""
 TSV    = "tsv"
 """to be used to set the return format to ``TSV``"""
-_allowedFormats = [JSON, XML, TURTLE, N3, RDF, RDFXML, CSV, TSV]
+_allowedFormats = [JSON, XML, TURTLE, N3, RDF, RDFXML, CSV, TSV, JSONLD]
 
 # Possible HTTP methods
 GET = "GET"
@@ -127,17 +127,9 @@ _CSV             = ["text/csv"]
 _TSV             = ["text/tab-separated-values"]
 _XML             = ["application/xml"]
 _ALL             = ["*/*"]
-_RDF_POSSIBLE    = _RDF_XML + _RDF_N3 + _XML
+_RDF_POSSIBLE    = _RDF_XML + _RDF_N3 + _XML + _RDF_JSONLD
 
 _SPARQL_PARAMS = ["query"]
-
-try:
-    import rdflib_jsonld
-    _allowedFormats.append(JSONLD)
-    _RDF_POSSIBLE = _RDF_POSSIBLE + _RDF_JSONLD
-except ImportError:
-    # warnings.warn("JSON-LD disabled because no suitable support has been found", RuntimeWarning)
-    pass
 
 # This is very ugly. The fact is that the key for the choice of the output format is not defined.
 # Virtuoso uses 'format', joseki uses 'output', rasqual seems to use "results", etc. Lee Feigenbaum
@@ -266,8 +258,6 @@ class SPARQLWrapper(object):
         """
         if format in _allowedFormats:
             self.returnFormat = format
-        elif format == JSONLD:
-            raise ValueError("Current instance does not support JSON-LD; you might want to install the rdflib-jsonld package.")
         else:
             warnings.warn("Ignore format '%s'; current instance supports: %s." %(format, ", ".join(_allowedFormats)), SyntaxWarning)
 
