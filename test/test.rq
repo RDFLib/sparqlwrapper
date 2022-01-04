@@ -1,0 +1,8 @@
+PREFIX dbo: <http://dbpedia.org/ontology/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+select distinct ?pllabel
+where {
+  ?pl
+    a dbo:ProgrammingLanguage;
+    rdfs:label ?pllabel
+} order by ?pllabel limit 1
