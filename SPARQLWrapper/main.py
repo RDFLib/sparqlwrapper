@@ -33,7 +33,7 @@ def choicesDescriptions():
     return "\n  - ".join(["allowed formats:"] + _allowedFormats)
 
 
-def parse_args():
+def parse_args(test=None):
     """Parse arguments."""
     parser = argparse.ArgumentParser(
         prog="rqw",
@@ -78,11 +78,14 @@ def parse_args():
     parser.add_argument(
         "-V", "--version", action="version", version="%(prog)s {}".format(__version__)
     )
-    return parser.parse_args()
+    if test is None:
+        return parser.parse_args()
+    else:
+        return parser.parse_args(test)
 
 
-def main():
-    args = parse_args()
+def main(test=None):
+    args = parse_args(test)
     if args.quiet:
         import warnings
 
