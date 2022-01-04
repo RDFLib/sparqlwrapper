@@ -1,27 +1,78 @@
+#!/usr/bin/env python
+
+# -*- coding: utf-8 -*-
+
 import argparse
-
+from .Wrapper import SPARQLWrapper, _allowedFormats
 from . import __version__
+import os
+from pprint import pprint
+import json
+import rdflib
+from shutil import get_terminal_size
 
-# TODO: endpoint query, format
+
+class SPARQLWrapperFormatter(
+    argparse.ArgumentDefaultsHelpFormatter, argparse.RawDescriptionHelpFormatter
+):
+    pass
+
+
+def check_file(v):
+    if os.path.isfile(v):
+        return v
+    elif v == "-":
+        return "-"  # stdin
+    else:
+        raise OSError("file '%s' is not found" % v)
+
+
+def choicesDescriptions():
+    return "\n  - ".join(["allowed formats:"] + _allowedFormats)
+
 
 def parse_args() -> argparse.Namespace:
     """Parse arguments."""
     parser = argparse.ArgumentParser(
-        prog="shindan",
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        description="ShindanMaker (https://shindanmaker.com) CLI",
+        prog="rqw",
+        formatter_class=(
+            lambda prog: SPARQLWrapperFormatter(
+                prog,
+                **{
+                    "width": get_terminal_size(fallback=(120, 50)).columns,
+                    "max_help_position": 30,
+                },
+            )
+        ),
+        description="sparqlwrapper CLI",
+        epilog=choicesDescriptions(),
+    )
+    input_group = parser.add_mutually_exclusive_group(required=True)
+    input_group.add_argument(
+        "-f",
+        "--file",
+        metavar="FILE",
+        type=check_file,
+        help="query with sparql file (stdin: -)",
+        default="-",
+    )
+    input_group.add_argument("-Q", "--query", metavar="QUERY", help="query with string")
+    parser.add_argument(
+        "-F",
+        "--format",
+        default="json",
+        metavar="FORMAT",
+        choices=_allowedFormats,
+        help="response format",
     )
     parser.add_argument(
-        "page_id", metavar="ID", type=check_natural, help="shindan page id"
+        "-e",
+        "--endpoint",
+        metavar="URI",
+        help="sparql endpoint",
+        default="http://dbpedia.org/sparql",
     )
-    parser.add_argument("shindan_name", metavar="NAME", type=str, help="shindan name")
-    parser.add_argument("-w", "--wait", action="store_true", help="insert random wait")
-    parser.add_argument(
-        "-H", "--hashtag", action="store_true", help= "add hashtag `#shindanmaker`"
-    )
-    parser.add_argument(
-        "-l", "--link", action="store_true", help="add link to last of output"
-    )
+    parser.add_argument("-q", "--quiet", action="store_true", help="supress warnings")
     parser.add_argument(
         "-V", "--version", action="version", version="%(prog)s {}".format(__version__)
     )
@@ -30,11 +81,43 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
-    print(shindan.shindan(args.page_id, args.shindan_name, wait=args.wait))
-    if args.hashtag:
-        print("#shindanmaker")
-    if args.link:
-        print("https://shindanmaker.com/%d" % args.page_id)
+    if args.quiet:
+        import warnings
+
+        warnings.filterwarnings("ignore")
+
+    q = ""
+    if args.query is not None:
+        q = args.query
+    elif args.file == "-":
+        q = sys.stdin.read()
+    else:
+        q = open(args.file, "r").read()
+
+    sparql = SPARQLWrapper(
+        args.endpoint,
+        agent=(
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+            "AppleWebKit/537.36 (KHTML, like Gecko) "
+            "Chrome/96.0.4664.110 Safari/537.36"
+        ),
+    )
+    sparql.setQuery(q)
+    sparql.setReturnFormat(args.format)
+    results = sparql.query().convert()
+
+    if args.format == "json":
+        print(json.dumps(results, indent=4))
+    elif args.format in ("xml", "rdf+xml", "json-ld"):
+        print(results.toxml())
+    elif args.format == "n3":
+        g = rdflib.Graph()
+        g.parse(data=results, format="n3")
+        print(g.serialize(format="n3"))
+    elif args.format in ("csv", "tsv", "turtle"):
+        print(results.decode("utf-8"))
+    else:
+        print(results)
 
 
 if __name__ == "__main__":
