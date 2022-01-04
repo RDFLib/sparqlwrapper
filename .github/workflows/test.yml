@@ -30,6 +30,7 @@ jobs:
 
   test-py36:
     runs-on: ubuntu-latest
+    if: always()
     needs: test-py35
     steps:
     - uses: actions/checkout@v2
@@ -49,6 +50,7 @@ jobs:
 
   test-py37:
     runs-on: ubuntu-latest
+    if: always()
     needs: test-py36
     steps:
     - uses: actions/checkout@v2
@@ -68,6 +70,7 @@ jobs:
 
   test-py38:
     runs-on: ubuntu-latest
+    if: always()
     needs: test-py37
     steps:
     - uses: actions/checkout@v2
@@ -87,6 +90,7 @@ jobs:
 
   test-py39:
     runs-on: ubuntu-latest
+    if: always()
     needs: test-py38
     steps:
     - uses: actions/checkout@v2
@@ -106,6 +110,7 @@ jobs:
 
   test-py310:
     runs-on: ubuntu-latest
+    if: always()
     needs: test-py39
     steps:
     - uses: actions/checkout@v2
