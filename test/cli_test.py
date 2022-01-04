@@ -19,8 +19,9 @@ if _top_level_path not in sys.path:
 
 from SPARQLWrapper.main import main, parse_args
 
+testfile = os.path.join(os.path.dirname(__file__), 'test.rq')
 
-class SPARQLWrapper_Test(unittest.TestCase):
+class SPARQLWrapperCLI_Test_Base(unittest.TestCase):
     def setUp(self):
         self.org_stdout, sys.stdout = sys.stdout, io.StringIO()
         self.org_stderr, sys.stderr = sys.stderr, io.StringIO()
@@ -28,6 +29,8 @@ class SPARQLWrapper_Test(unittest.TestCase):
     def tearDown(self):
         sys.stdout = self.org_stdout
 
+
+class SPARQLWrapperCLIParser_Test(SPARQLWrapperCLI_Test_Base):
     def testHelp(self):
         with self.assertRaises(SystemExit) as cm:
             parse_args(["-h"])
@@ -62,6 +65,30 @@ class SPARQLWrapper_Test(unittest.TestCase):
             "rqw: error: argument -f/--file: not allowed with argument -Q/--query",
         )
 
+    def testInvalidFormat(self):
+        with self.assertRaises(SystemExit) as cm:
+            parse_args(
+                ["-Q", "SELECT ?s WHERE { ?s ?p ?o. } limit 1", "-F", "jjssoonn"]
+            )
+
+        self.assertEqual(cm.exception.code, 2)
+        self.assertEqual(
+            sys.stderr.getvalue().split("\n")[1],
+            "rqw: error: argument -F/--format: invalid choice: 'jjssoonn' (choose from 'json', 'xml', 'turtle', 'n3', 'rdf', 'rdf+xml', 'csv', 'tsv')",
+        )
+
+    def testInvalidFile(self):
+        with self.assertRaises(SystemExit) as cm:
+            parse_args(["-f", "440044.rq"])
+
+        self.assertEqual(cm.exception.code, 2)
+        self.assertEqual(
+            sys.stderr.getvalue().split("\n")[1],
+            "rqw: error: argument -f/--file: invalid check_file value: '440044.rq'",
+        )
+
+
+class SPARQLWrapperCLI_Test(SPARQLWrapperCLI_Test_Base):
     def testQueryWithEndpoint(self):
         main(
             [
@@ -101,7 +128,7 @@ class SPARQLWrapper_Test(unittest.TestCase):
         )
 
     def testQueryWithFile(self):
-        main(["-f", "test.rq", "-e", "http://ja.dbpedia.org/sparql"])
+        main(["-f", testfile, "-e", "http://ja.dbpedia.org/sparql"])
 
         self.assertEqual(
             sys.stdout.getvalue(),
@@ -122,12 +149,150 @@ class SPARQLWrapper_Test(unittest.TestCase):
                             "pllabel": {
                                 "type": "literal",
                                 "xml:lang": "ja",
-                                "value": "ABC (\\u30d7\\u30ed\\u30b0\\u30e9\\u30df\\u30f3\\u30b0\\u8a00\\u8a9e)"
+                                "value": "PARLOG"
                             }
                         }
                     ]
                 }
             }
+            """
+            ),
+        )
+
+    def testQueryWithFileXML(self):
+        main(["-f", testfile, "-e", "http://ja.dbpedia.org/sparql", "-F", "xml"])
+
+        self.assertEqual(
+            sys.stdout.getvalue(),
+            textwrap.dedent(
+                """\
+            <?xml version="1.0" ?><sparql xmlns="http://www.w3.org/2005/sparql-results#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.w3.org/2001/sw/DataAccess/rf1/result2.xsd">
+             <head>
+              <variable name="pllabel"/>
+             </head>
+             <results distinct="false" ordered="true">
+              <result>
+               <binding name="pllabel"><literal xml:lang="ja">PARLOG</literal></binding>
+              </result>
+             </results>
+            </sparql>
+            """
+            ),
+        )
+
+    def testQueryWithFileTurtle(self):
+        main(["-f", testfile, "-e", "http://ja.dbpedia.org/sparql", "-F", "turtle"])
+
+        self.assertEqual(
+            sys.stdout.getvalue(),
+            textwrap.dedent(
+                """\
+            @prefix res: <http://www.w3.org/2005/sparql-results#> .
+            @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+            _:_ a res:ResultSet .
+            _:_ res:resultVariable "pllabel" .
+            _:_ res:solution [
+                  res:binding [ res:variable "pllabel" ; res:value "PARLOG"@ja ] ] .\n
+            """
+            ),
+        )
+
+    def testQueryWithFileTurtleQuiet(self):
+        main(
+            [
+                "-f",
+                testfile,
+                "-e",
+                "http://ja.dbpedia.org/sparql",
+                "-F",
+                "turtle",
+                "-q",
+            ]
+        )
+        self.assertEqual(sys.stderr.getvalue(), "")
+        self.assertEqual(
+            sys.stdout.getvalue(),
+            textwrap.dedent(
+                """\
+            @prefix res: <http://www.w3.org/2005/sparql-results#> .
+            @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+            _:_ a res:ResultSet .
+            _:_ res:resultVariable "pllabel" .
+            _:_ res:solution [
+                  res:binding [ res:variable "pllabel" ; res:value "PARLOG"@ja ] ] .\n
+            """
+            ),
+        )
+
+    def testQueryWithFileN3(self):
+        main(["-f", testfile, "-e", "http://ja.dbpedia.org/sparql", "-F", "n3"])
+
+        self.assertEqual(
+            sys.stdout.getvalue(),
+            textwrap.dedent(
+                """\
+            @prefix res: <http://www.w3.org/2005/sparql-results#> .\n
+            [] a res:ResultSet ;
+                res:resultVariable "pllabel" ;
+                res:solution [ res:binding [ res:value "PARLOG"@ja ;
+                                res:variable "pllabel" ] ] .\n\n
+            """
+            ),
+        )
+
+    # def testQueryWithFileRDF(self):
+    #     main(["-f", testfile, "-e", "http://ja.dbpedia.org/sparql", "-F", "rdf"])
+    #
+    #     self.assertEqual(
+    #         sys.stdout.getvalue(),
+    #         textwrap.dedent(
+    #             """\
+    #         """)
+    #     )
+
+    def testQueryWithFileRDFXML(self):
+        main(["-f", testfile, "-e", "http://ja.dbpedia.org/sparql", "-F", "rdf+xml"])
+
+        self.assertEqual(
+            sys.stdout.getvalue(),
+            textwrap.dedent(
+                """\
+            <?xml version="1.0" ?><sparql xmlns="http://www.w3.org/2005/sparql-results#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.w3.org/2001/sw/DataAccess/rf1/result2.xsd">
+             <head>
+              <variable name="pllabel"/>
+             </head>
+             <results distinct="false" ordered="true">
+              <result>
+               <binding name="pllabel"><literal xml:lang="ja">PARLOG</literal></binding>
+              </result>
+             </results>
+            </sparql>
+            """
+            ),
+        )
+
+    def testQueryWithFileCSV(self):
+        main(["-f", testfile, "-e", "http://ja.dbpedia.org/sparql", "-F", "csv"])
+
+        self.assertEqual(
+            sys.stdout.getvalue(),
+            textwrap.dedent(
+                """\
+                "pllabel"
+                "PARLOG"\n
+            """
+            ),
+        )
+
+    def testQueryWithFileTSV(self):
+        main(["-f", testfile, "-e", "http://ja.dbpedia.org/sparql", "-F", "tsv"])
+
+        self.assertEqual(
+            sys.stdout.getvalue(),
+            textwrap.dedent(
+                """\
+                "pllabel"
+                "PARLOG"\n
             """
             ),
         )

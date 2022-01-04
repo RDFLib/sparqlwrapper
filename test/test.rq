@@ -1,8 +1,9 @@
 PREFIX dbo: <http://dbpedia.org/ontology/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-select distinct ?pllabel
-where {
+SELECT DISTINCT ?pllabel
+WHERE {
   ?pl
     a dbo:ProgrammingLanguage;
-    rdfs:label ?pllabel
-} order by ?pllabel limit 1
+    rdfs:label ?pllabel.
+  FILTER(SUBSTR(STR(?pllabel), 1, 1) = "P")
+} ORDER BY ?pllabel LIMIT 1
