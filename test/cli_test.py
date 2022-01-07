@@ -19,6 +19,7 @@ if _top_level_path not in sys.path:
 
 from SPARQLWrapper.main import main, parse_args
 
+endpoint = "http://ja.dbpedia.org/sparql"
 testfile = os.path.join(os.path.dirname(__file__), 'test.rq')
 
 class SPARQLWrapperCLI_Test_Base(unittest.TestCase):
@@ -95,7 +96,7 @@ class SPARQLWrapperCLI_Test(SPARQLWrapperCLI_Test_Base):
                 "-Q",
                 "SELECT ?s WHERE { ?s ?p ?o. } limit 1",
                 "-e",
-                "http://ja.dbpedia.org/sparql",
+                endpoint,
             ]
         )
 
@@ -128,7 +129,7 @@ class SPARQLWrapperCLI_Test(SPARQLWrapperCLI_Test_Base):
         )
 
     def testQueryWithFile(self):
-        main(["-f", testfile, "-e", "http://ja.dbpedia.org/sparql"])
+        main(["-f", testfile, "-e", endpoint])
 
         self.assertEqual(
             sys.stdout.getvalue(),
@@ -160,7 +161,7 @@ class SPARQLWrapperCLI_Test(SPARQLWrapperCLI_Test_Base):
         )
 
     def testQueryWithFileXML(self):
-        main(["-f", testfile, "-e", "http://ja.dbpedia.org/sparql", "-F", "xml"])
+        main(["-f", testfile, "-e", endpoint, "-F", "xml"])
 
         self.assertEqual(
             sys.stdout.getvalue(),
@@ -181,7 +182,7 @@ class SPARQLWrapperCLI_Test(SPARQLWrapperCLI_Test_Base):
         )
 
     def testQueryWithFileTurtle(self):
-        main(["-f", testfile, "-e", "http://ja.dbpedia.org/sparql", "-F", "turtle"])
+        main(["-f", testfile, "-e", endpoint, "-F", "turtle"])
 
         self.assertEqual(
             sys.stdout.getvalue(),
@@ -203,7 +204,7 @@ class SPARQLWrapperCLI_Test(SPARQLWrapperCLI_Test_Base):
                 "-f",
                 testfile,
                 "-e",
-                "http://ja.dbpedia.org/sparql",
+                endpoint,
                 "-F",
                 "turtle",
                 "-q",
@@ -225,7 +226,7 @@ class SPARQLWrapperCLI_Test(SPARQLWrapperCLI_Test_Base):
         )
 
     def testQueryWithFileN3(self):
-        main(["-f", testfile, "-e", "http://ja.dbpedia.org/sparql", "-F", "n3"])
+        main(["-f", testfile, "-e", endpoint, "-F", "n3"])
 
         self.assertEqual(
             sys.stdout.getvalue(),
@@ -241,7 +242,7 @@ class SPARQLWrapperCLI_Test(SPARQLWrapperCLI_Test_Base):
         )
 
     # def testQueryWithFileRDF(self):
-    #     main(["-f", testfile, "-e", "http://ja.dbpedia.org/sparql", "-F", "rdf"])
+    #     main(["-f", testfile, "-e", endpoint, "-F", "rdf"])
     #
     #     self.assertEqual(
     #         sys.stdout.getvalue(),
@@ -251,7 +252,7 @@ class SPARQLWrapperCLI_Test(SPARQLWrapperCLI_Test_Base):
     #     )
 
     def testQueryWithFileRDFXML(self):
-        main(["-f", testfile, "-e", "http://ja.dbpedia.org/sparql", "-F", "rdf+xml"])
+        main(["-f", testfile, "-e", endpoint, "-F", "rdf+xml"])
 
         self.assertEqual(
             sys.stdout.getvalue(),
@@ -272,7 +273,7 @@ class SPARQLWrapperCLI_Test(SPARQLWrapperCLI_Test_Base):
         )
 
     def testQueryWithFileCSV(self):
-        main(["-f", testfile, "-e", "http://ja.dbpedia.org/sparql", "-F", "csv"])
+        main(["-f", testfile, "-e", endpoint, "-F", "csv"])
 
         self.assertEqual(
             sys.stdout.getvalue(),
@@ -285,7 +286,7 @@ class SPARQLWrapperCLI_Test(SPARQLWrapperCLI_Test_Base):
         )
 
     def testQueryWithFileTSV(self):
-        main(["-f", testfile, "-e", "http://ja.dbpedia.org/sparql", "-F", "tsv"])
+        main(["-f", testfile, "-e", endpoint, "-F", "tsv"])
 
         self.assertEqual(
             sys.stdout.getvalue(),
