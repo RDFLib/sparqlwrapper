@@ -28,6 +28,9 @@ for line in open('SPARQLWrapper/__init__.py'):
 with open('requirements.txt', 'r') as f:
     _install_requires = [line.rstrip('\n') for line in f]
 
+with open('requirements.development.txt', 'r') as f:
+    _install_dev_requires = [line.rstrip('\n') for line in f]
+
 setup(
     name='SPARQLWrapper',
     version=version,
@@ -38,10 +41,11 @@ setup(
     url=url,
     download_url='https://github.com/RDFLib/sparqlwrapper/releases',
     platforms=['any'],
-    python_requires='>=3.5',
+    python_requires='>=3.7',
     packages=['SPARQLWrapper'],
     install_requires=_install_requires,
     extras_require={
+        'dev': _install_dev_requires,
         'keepalive': ['keepalive>=0.5'],
     },
     classifiers=[
@@ -50,10 +54,9 @@ setup(
         'License :: OSI Approved :: W3C License',
         'Operating System :: OS Independent',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.5',
-        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: Implementation :: CPython',
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
