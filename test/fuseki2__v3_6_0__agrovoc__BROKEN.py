@@ -66,7 +66,7 @@ import logging
 
 logging.basicConfig()
 
-endpoint = "http://agrovoc.uniroma2.it:3030/agrovoc/sparql"  # Fuseki 3.6.0 (Fuseki2)
+endpoint = "https://agrovoc.uniroma2.it/sparql/" # Fuseki 3.6.0 (Fuseki2)
 
 prefixes = """
     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>

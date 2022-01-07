@@ -69,7 +69,7 @@ logging.basicConfig()
 # http://factforge.net/
 
 # human UI http://rs.ontotext.com/sparql
-endpoint = "http://rs.ontotext.com/repositories/ff-news"
+endpoint = "http://factforge.net/repositories/ff-news"
 
 # 406 The Accept header does not include any available content types.
 # In the event that the specified representation format is not supported, a 406 Not Acceptable response code SHOULD be returned.

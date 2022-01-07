@@ -66,7 +66,7 @@ import logging
 
 logging.basicConfig()
 
-endpoint = "http://202.45.139.84:10035/catalogs/fao/repositories/agrovoc"
+endpoint = "https://agrovoc.fao.org/sparql"
 
 prefixes = """
     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
