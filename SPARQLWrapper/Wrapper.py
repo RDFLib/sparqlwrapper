@@ -301,6 +301,7 @@ class SPARQLWrapper(object):
         self._defaultGraph = defaultGraph
         self.onlyConneg = False  # Only Content Negotiation
         self.customHttpHeaders = {}
+        self.proxies = {}
 
         if returnFormat in _allowedFormats:
             self._defaultReturnFormat = returnFormat
@@ -360,6 +361,15 @@ class SPARQLWrapper(object):
         :type timeout: int
         """
         self.timeout = int(timeout)
+
+    def setProxies(self, proxies):
+        """Set the proxies to use for querying the endpoint.
+        @since: 1.8.3
+
+        @param proxies: Dictionary mapping protocol names to URLs of proxies.
+        @type proxies: dict
+        """
+        self.proxies = proxies
 
     def setOnlyConneg(self, onlyConneg):
         """Set this option for allowing (or not) only HTTP Content Negotiation (so dismiss the use of HTTP parameters).
@@ -887,6 +897,11 @@ class SPARQLWrapper(object):
             request.add_header(
                 customHttpHeader, self.customHttpHeaders[customHttpHeader]
             )
+
+        if self.proxies:
+            proxy_support = urllib2.ProxyHandler(self.proxies)
+            opener = urllib2.build_opener(proxy_support)
+            urllib2.install_opener(opener)
 
         return request
 
