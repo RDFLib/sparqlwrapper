@@ -66,7 +66,7 @@ class EndPointNotFound(SPARQLWrapperException):
     """
 
     msg = (
-        "It was not possible to connect to the endpoint given, check if it is correct"
+        "It was not possible to connect to the given endpoint: check it is correct"
     )
 
 
