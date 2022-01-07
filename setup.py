@@ -67,5 +67,10 @@ setup(
         'Documentation': 'https://sparqlwrapper.readthedocs.io',
         'Source': 'https://github.com/RDFLib/sparqlwrapper',
         'Tracker': 'https://github.com/RDFLib/sparqlwrapper/issues',
+    },
+    entry_points={
+        'console_scripts': [
+            'rqw=SPARQLWrapper.main:main'
+        ]
     }
 )
