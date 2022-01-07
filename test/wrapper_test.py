@@ -15,10 +15,11 @@ logging.basicConfig()
 
 # prefer local copy to the one which is installed
 # hack from http://stackoverflow.com/a/6098238/280539
-_top_level_path = os.path.realpath(os.path.abspath(os.path.join(
-    os.path.split(inspect.getfile(inspect.currentframe()))[0],
-    ".."
-)))
+_top_level_path = os.path.realpath(
+    os.path.abspath(
+        os.path.join(os.path.split(inspect.getfile(inspect.currentframe()))[0], "..")
+    )
+)
 if _top_level_path not in sys.path:
     sys.path.insert(0, _top_level_path)
 # end of hack
@@ -29,15 +30,37 @@ from urllib.error import HTTPError
 
 from io import StringIO
 import warnings
+
 warnings.simplefilter("always")
 
 import SPARQLWrapper.Wrapper as _victim
 
 from SPARQLWrapper import SPARQLWrapper
-from SPARQLWrapper import XML, GET, POST, JSON, JSONLD, N3, TURTLE, RDF, SELECT, INSERT, RDFXML, CSV, TSV
+from SPARQLWrapper import (
+    XML,
+    GET,
+    POST,
+    JSON,
+    JSONLD,
+    N3,
+    TURTLE,
+    RDF,
+    SELECT,
+    INSERT,
+    RDFXML,
+    CSV,
+    TSV,
+)
 from SPARQLWrapper import URLENCODED, POSTDIRECTLY
 from SPARQLWrapper import BASIC, DIGEST
-from SPARQLWrapper.Wrapper import QueryResult, QueryBadFormed, EndPointNotFound, EndPointInternalError, Unauthorized, URITooLong
+from SPARQLWrapper.Wrapper import (
+    QueryResult,
+    QueryBadFormed,
+    EndPointNotFound,
+    EndPointInternalError,
+    Unauthorized,
+    URITooLong,
+)
 
 
 class FakeResult(object):
@@ -51,7 +74,7 @@ def urlopener(request):
 
 def urlopener_error_generator(code):
     def urlopener_error(request):
-        raise HTTPError(request.get_full_url, code, '', {}, StringIO(''))
+        raise HTTPError(request.get_full_url, code, "", {}, StringIO(""))
 
     return urlopener_error
 
@@ -59,20 +82,22 @@ def urlopener_error_generator(code):
 def urlopener_check_data_encoding(request):
     if isinstance(request.data, str):
         raise TypeError
+
+
 # DONE
 
-class SPARQLWrapper_Test(unittest.TestCase):
 
+class SPARQLWrapper_Test(unittest.TestCase):
     @staticmethod
     def _get_request(wrapper):
         return wrapper.query().response.request  # possible due to mock above
 
     @staticmethod
     def _get_parameters_from_request(request):
-        if request.get_method() == 'GET':
+        if request.get_method() == "GET":
             pieces_str = urlparse(request.get_full_url()).query
         else:
-            pieces_str = request.data.decode('ascii')
+            pieces_str = request.data.decode("ascii")
 
         return parse_qs(pieces_str)
 
@@ -90,15 +115,15 @@ class SPARQLWrapper_Test(unittest.TestCase):
 
         result = {}
         for k, vs in parameters.items():
-            result[k] = [v.encode('utf-8') for v in vs]
+            result[k] = [v.encode("utf-8") for v in vs]
         return result
 
     @classmethod
     def setUpClass(cls):
-        urllib.request._opener = None # clear value. Due to the order of test execution, the value of urllib.request._opener contains, for instance, keepalive.keepalive.HTTPHandler
+        urllib.request._opener = None  # clear value. Due to the order of test execution, the value of urllib.request._opener contains, for instance, keepalive.keepalive.HTTPHandler
 
     def setUp(self):
-        self.wrapper = SPARQLWrapper(endpoint='http://example.org/sparql')
+        self.wrapper = SPARQLWrapper(endpoint="http://example.org/sparql")
         _victim.urlopener = urlopener
 
     def testConstructor(self):
@@ -108,40 +133,45 @@ class SPARQLWrapper_Test(unittest.TestCase):
         except TypeError:
             pass
 
-        wrapper = SPARQLWrapper(endpoint='http://example.org/sparql/')
+        wrapper = SPARQLWrapper(endpoint="http://example.org/sparql/")
 
-        self.assertEqual(XML, wrapper.returnFormat, 'default return format is XML')
+        self.assertEqual(XML, wrapper.returnFormat, "default return format is XML")
         self.assertTrue(
-            wrapper.agent.startswith('sparqlwrapper'),
-            'default user-agent should start with "sparqlwrapper"'
+            wrapper.agent.startswith("sparqlwrapper"),
+            'default user-agent should start with "sparqlwrapper"',
         )
 
-        wrapper = SPARQLWrapper(endpoint='http://example.org/sparql/', returnFormat='wrongformat')
-        self.assertEqual(XML, wrapper.returnFormat, 'default return format is XML')
+        wrapper = SPARQLWrapper(
+            endpoint="http://example.org/sparql/", returnFormat="wrongformat"
+        )
+        self.assertEqual(XML, wrapper.returnFormat, "default return format is XML")
 
-        wrapper = SPARQLWrapper(endpoint='http://example.org/sparql/', defaultGraph='http://example.org/default')
+        wrapper = SPARQLWrapper(
+            endpoint="http://example.org/sparql/",
+            defaultGraph="http://example.org/default",
+        )
         parameters = self._get_request_parameters(wrapper)
         self.assertEqual(
-            ['http://example.org/default'],
-            parameters.get('default-graph-uri'),
-            'default graph is set'
+            ["http://example.org/default"],
+            parameters.get("default-graph-uri"),
+            "default graph is set",
         )
 
     def testReset(self):
         self.wrapper.setMethod(POST)
-        self.wrapper.setQuery('CONSTRUCT WHERE {?a ?b ?c}')
+        self.wrapper.setQuery("CONSTRUCT WHERE {?a ?b ?c}")
         self.wrapper.setReturnFormat(N3)
-        self.wrapper.addParameter('a', 'b')
+        self.wrapper.addParameter("a", "b")
         self.wrapper.setOnlyConneg(True)
 
         request = self._get_request(self.wrapper)
         parameters = self._get_parameters_from_request(request)
         onlyConneg = self.wrapper.onlyConneg
 
-        self.assertEqual('POST', request.get_method())
-        self.assertTrue(parameters['query'][0].startswith('CONSTRUCT'))
-        self.assertTrue('rdf+n3' in request.get_header('Accept'))
-        self.assertTrue('a' in parameters)
+        self.assertEqual("POST", request.get_method())
+        self.assertTrue(parameters["query"][0].startswith("CONSTRUCT"))
+        self.assertTrue("rdf+n3" in request.get_header("Accept"))
+        self.assertTrue("a" in parameters)
         self.assertTrue(onlyConneg)
 
         self.wrapper.resetQuery()
@@ -150,17 +180,17 @@ class SPARQLWrapper_Test(unittest.TestCase):
         parameters = self._get_parameters_from_request(request)
         onlyConneg = self.wrapper.onlyConneg
 
-        self.assertEqual('GET', request.get_method())
-        self.assertTrue(parameters['query'][0].startswith('SELECT'))
-        self.assertFalse('rdf+n3' in request.get_header('Accept'))
-        self.assertTrue('sparql-results+xml' in request.get_header('Accept'))
-        self.assertFalse('a' in parameters)
-        self.assertFalse('a' in parameters)
+        self.assertEqual("GET", request.get_method())
+        self.assertTrue(parameters["query"][0].startswith("SELECT"))
+        self.assertFalse("rdf+n3" in request.get_header("Accept"))
+        self.assertTrue("sparql-results+xml" in request.get_header("Accept"))
+        self.assertFalse("a" in parameters)
+        self.assertFalse("a" in parameters)
         self.assertTrue(onlyConneg)
 
     def testSetReturnFormat(self):
         with warnings.catch_warnings(record=True) as w:
-            self.wrapper.setReturnFormat('nonexistent format')
+            self.wrapper.setReturnFormat("nonexistent format")
             self.assertEqual(1, len(w), "Warning due to non expected format")
 
         self.assertEqual(XML, self.wrapper.query().requestedFormat)
@@ -170,6 +200,7 @@ class SPARQLWrapper_Test(unittest.TestCase):
 
         try:
             import rdflib_jsonld
+
             self.wrapper.setReturnFormat(JSONLD)
             self.assertEqual(JSONLD, self.wrapper.query().requestedFormat)
         except ImportError:
@@ -184,105 +215,105 @@ class SPARQLWrapper_Test(unittest.TestCase):
         self.assertTrue(self.wrapper.supportsReturnFormat(RDFXML))
         self.assertTrue(self.wrapper.supportsReturnFormat(CSV))
         self.assertTrue(self.wrapper.supportsReturnFormat(TSV))
-        self.assertFalse(self.wrapper.supportsReturnFormat('nonexistent format'))
+        self.assertFalse(self.wrapper.supportsReturnFormat("nonexistent format"))
 
         try:
             import rdflib_jsonld
+
             self.assertTrue(self.wrapper.supportsReturnFormat(JSONLD))
         except ImportError:
             self.assertFalse(self.wrapper.supportsReturnFormat(JSONLD))
 
-
     def testAddParameter(self):
-        self.assertFalse(self.wrapper.addParameter('query', 'dummy'))
-        self.assertTrue(self.wrapper.addParameter('param1', 'value1'))
-        self.assertTrue(self.wrapper.addParameter('param1', 'value2'))
-        self.assertTrue(self.wrapper.addParameter('param2', 'value2'))
+        self.assertFalse(self.wrapper.addParameter("query", "dummy"))
+        self.assertTrue(self.wrapper.addParameter("param1", "value1"))
+        self.assertTrue(self.wrapper.addParameter("param1", "value2"))
+        self.assertTrue(self.wrapper.addParameter("param2", "value2"))
 
         pieces = self._get_request_parameters(self.wrapper)
 
-        self.assertTrue('param1' in pieces)
-        self.assertEqual(['value1', 'value2'], pieces['param1'])
-        self.assertTrue('param2' in pieces)
-        self.assertEqual(['value2'], pieces['param2'])
-        self.assertNotEqual(['dummy'], 'query')
+        self.assertTrue("param1" in pieces)
+        self.assertEqual(["value1", "value2"], pieces["param1"])
+        self.assertTrue("param2" in pieces)
+        self.assertEqual(["value2"], pieces["param2"])
+        self.assertNotEqual(["dummy"], "query")
 
     def testSetCredentials(self):
         request = self._get_request(self.wrapper)
-        self.assertFalse(request.has_header('Authorization'))
+        self.assertFalse(request.has_header("Authorization"))
 
-        self.wrapper.setCredentials('login', 'password')
+        self.wrapper.setCredentials("login", "password")
         request = self._get_request(self.wrapper)
-        self.assertTrue(request.has_header('Authorization'))
+        self.assertTrue(request.has_header("Authorization"))
 
         # expected header for login:password
         # should succeed for python 3 since pull request #72
-        self.assertEqual("Basic bG9naW46cGFzc3dvcmQ=", request.get_header('Authorization'))
+        self.assertEqual(
+            "Basic bG9naW46cGFzc3dvcmQ=", request.get_header("Authorization")
+        )
 
     def testAddCustomHttpHeader(self):
         request = self._get_request(self.wrapper)
-        self.assertFalse(request.has_header('Foo'))
+        self.assertFalse(request.has_header("Foo"))
 
         # Add new header field name
-        self.wrapper.addCustomHttpHeader('Foo', 'bar')
+        self.wrapper.addCustomHttpHeader("Foo", "bar")
         request = self._get_request(self.wrapper)
-        self.assertTrue(request.has_header('Foo'))
-        self.assertEqual("bar", request.get_header('Foo'))
+        self.assertTrue(request.has_header("Foo"))
+        self.assertEqual("bar", request.get_header("Foo"))
 
         # Override a new field name
-        self.wrapper.addCustomHttpHeader('Foo', 'bar')
+        self.wrapper.addCustomHttpHeader("Foo", "bar")
         request = self._get_request(self.wrapper)
-        self.assertTrue(request.has_header('Foo'))
-        self.assertEqual("bar", request.get_header('Foo'))
-        self.wrapper.addCustomHttpHeader('Foo', 'bar_2')
+        self.assertTrue(request.has_header("Foo"))
+        self.assertEqual("bar", request.get_header("Foo"))
+        self.wrapper.addCustomHttpHeader("Foo", "bar_2")
         request = self._get_request(self.wrapper)
-        self.assertTrue(request.has_header('Foo'))
-        self.assertEqual("bar_2", request.get_header('Foo'))
+        self.assertTrue(request.has_header("Foo"))
+        self.assertEqual("bar_2", request.get_header("Foo"))
 
         # Override header field name
-        self.wrapper.addCustomHttpHeader('User-agent', 'Another UA')
+        self.wrapper.addCustomHttpHeader("User-agent", "Another UA")
         request = self._get_request(self.wrapper)
-        self.assertEqual("Another UA", request.get_header('User-agent'))
+        self.assertEqual("Another UA", request.get_header("User-agent"))
 
     def testClearCustomHttpHeader(self):
         request = self._get_request(self.wrapper)
-        self.assertFalse(request.has_header('Foo'))
+        self.assertFalse(request.has_header("Foo"))
 
         # Add new header field name
-        self.wrapper.addCustomHttpHeader('Foo_1', 'bar_1')
-        self.wrapper.addCustomHttpHeader('Foo_2', 'bar_2')
-        self.wrapper.addCustomHttpHeader('Foo_3', 'bar_3')
+        self.wrapper.addCustomHttpHeader("Foo_1", "bar_1")
+        self.wrapper.addCustomHttpHeader("Foo_2", "bar_2")
+        self.wrapper.addCustomHttpHeader("Foo_3", "bar_3")
 
-
-        self.assertFalse(self.wrapper.clearCustomHttpHeader('Foo_4'))
-        self.assertTrue(self.wrapper.clearCustomHttpHeader('Foo_3'))
+        self.assertFalse(self.wrapper.clearCustomHttpHeader("Foo_4"))
+        self.assertTrue(self.wrapper.clearCustomHttpHeader("Foo_3"))
 
         customHttpHeaders = self.wrapper.customHttpHeaders
 
-        self.assertTrue('Foo_1' in customHttpHeaders)
-        self.assertTrue('Foo_2' in customHttpHeaders)
-        self.assertEqual('bar_1', customHttpHeaders['Foo_1'])
-        self.assertEqual('bar_2', customHttpHeaders['Foo_2'])
+        self.assertTrue("Foo_1" in customHttpHeaders)
+        self.assertTrue("Foo_2" in customHttpHeaders)
+        self.assertEqual("bar_1", customHttpHeaders["Foo_1"])
+        self.assertEqual("bar_2", customHttpHeaders["Foo_2"])
 
-        self.assertFalse(self.wrapper.clearCustomHttpHeader('Foo_3'), 'already cleaned')
-
+        self.assertFalse(self.wrapper.clearCustomHttpHeader("Foo_3"), "already cleaned")
 
     def testSetHTTPAuth(self):
         self.assertRaises(TypeError, self.wrapper.setHTTPAuth, 123)
-        self.wrapper.setCredentials('login', 'password')
+        self.wrapper.setCredentials("login", "password")
         request = self._get_request(self.wrapper)
-        self.assertTrue(request.has_header('Authorization'))
+        self.assertTrue(request.has_header("Authorization"))
         self.assertIsNone(urllib.request._opener)
 
         self.wrapper.setHTTPAuth(DIGEST)
         self.assertIsNone(urllib.request._opener)
         request = self._get_request(self.wrapper)
-        self.assertFalse(request.has_header('Authorization'))
+        self.assertFalse(request.has_header("Authorization"))
         self.assertEqual(self.wrapper.http_auth, DIGEST)
         self.assertIsInstance(urllib.request._opener, urllib.request.OpenerDirector)
 
         self.wrapper.setHTTPAuth(DIGEST)
-        self.wrapper.setCredentials('login', 'password')
+        self.wrapper.setCredentials("login", "password")
         request = self._get_request(self.wrapper)
         self.assertEqual(self.wrapper.http_auth, DIGEST)
         self.assertEqual(self.wrapper.user, "login")
@@ -291,7 +322,7 @@ class SPARQLWrapper_Test(unittest.TestCase):
         self.assertNotEqual(self.wrapper.realm, "SPARQL Endpoint")
 
         self.wrapper.setHTTPAuth(DIGEST)
-        self.wrapper.setCredentials('login', 'password', realm="SPARQL Endpoint")
+        self.wrapper.setCredentials("login", "password", realm="SPARQL Endpoint")
         request = self._get_request(self.wrapper)
         self.assertEqual(self.wrapper.http_auth, DIGEST)
         self.assertEqual(self.wrapper.user, "login")
@@ -299,31 +330,37 @@ class SPARQLWrapper_Test(unittest.TestCase):
         self.assertEqual(self.wrapper.realm, "SPARQL Endpoint")
         self.assertNotEqual(self.wrapper.realm, "SPARQL")
 
-        self.assertRaises(ValueError, self.wrapper.setHTTPAuth, 'OAuth')
+        self.assertRaises(ValueError, self.wrapper.setHTTPAuth, "OAuth")
 
         self.wrapper.http_auth = "OAuth"
         self.assertRaises(NotImplementedError, self._get_request, self.wrapper)
 
     def testSetQuery(self):
-        self.wrapper.setQuery('PREFIX example: <http://example.org/INSERT/> SELECT * WHERE {?s ?p ?v}')
+        self.wrapper.setQuery(
+            "PREFIX example: <http://example.org/INSERT/> SELECT * WHERE {?s ?p ?v}"
+        )
         self.assertEqual(SELECT, self.wrapper.queryType)
 
-        self.wrapper.setQuery('PREFIX e: <http://example.org/> INSERT {e:a e:b e:c}')
+        self.wrapper.setQuery("PREFIX e: <http://example.org/> INSERT {e:a e:b e:c}")
         self.assertEqual(INSERT, self.wrapper.queryType)
 
-        self.wrapper.setQuery("""#CONSTRUCT {?s ?p ?o}
+        self.wrapper.setQuery(
+            """#CONSTRUCT {?s ?p ?o}
                                    SELECT ?s ?p ?o
-                                   WHERE {?s ?p ?o}""")
+                                   WHERE {?s ?p ?o}"""
+        )
         self.assertEqual(SELECT, self.wrapper.queryType)
 
         with warnings.catch_warnings(record=True) as w:
-            self.wrapper.setQuery('UNKNOWN {e:a e:b e:c}')
-            self.assertEqual(SELECT, self.wrapper.queryType, 'unknown queries result in SELECT')
+            self.wrapper.setQuery("UNKNOWN {e:a e:b e:c}")
+            self.assertEqual(
+                SELECT, self.wrapper.queryType, "unknown queries result in SELECT"
+            )
 
     def testSetQueryEncodingIssues(self):
-        #further details from issue #35
+        # further details from issue #35
         query = 'INSERT DATA { <urn:michel> <urn:says> "これはテストです" }'
-        query_bytes = query.encode('utf-8')
+        query_bytes = query.encode("utf-8")
 
         self.wrapper.setMethod(POST)
         self.wrapper.setRequestMethod(POSTDIRECTLY)
@@ -340,20 +377,20 @@ class SPARQLWrapper_Test(unittest.TestCase):
 
         self.wrapper.setQuery(query)
         parameters = self._get_request_parameters_as_bytes(self.wrapper)
-        self.assertEqual(query_bytes, parameters['update'][0])
+        self.assertEqual(query_bytes, parameters["update"][0])
 
         self.wrapper.setQuery(query_bytes)
         parameters = self._get_request_parameters_as_bytes(self.wrapper)
-        self.assertEqual(query_bytes, parameters['update'][0])
+        self.assertEqual(query_bytes, parameters["update"][0])
 
         try:
-            self.wrapper.setQuery(query.encode('sjis'))
+            self.wrapper.setQuery(query.encode("sjis"))
             self.fail()
         except UnicodeDecodeError:
             self.assertTrue(True)
 
         try:
-            self.wrapper.setQuery({'foo': 'bar'})
+            self.wrapper.setQuery({"foo": "bar"})
             self.fail()
         except TypeError:
             self.assertTrue(True)
@@ -366,20 +403,20 @@ class SPARQLWrapper_Test(unittest.TestCase):
         self.assertEqual(None, self.wrapper.timeout)
 
     def testClearParameter(self):
-        self.wrapper.addParameter('param1', 'value1')
-        self.wrapper.addParameter('param1', 'value2')
-        self.wrapper.addParameter('param2', 'value2')
+        self.wrapper.addParameter("param1", "value1")
+        self.wrapper.addParameter("param1", "value2")
+        self.wrapper.addParameter("param2", "value2")
 
-        self.assertFalse(self.wrapper.clearParameter('query'))
-        self.assertTrue(self.wrapper.clearParameter('param1'))
+        self.assertFalse(self.wrapper.clearParameter("query"))
+        self.assertTrue(self.wrapper.clearParameter("param1"))
 
         pieces = self._get_request_parameters(self.wrapper)
 
-        self.assertFalse('param1' in pieces)
-        self.assertTrue('param2' in pieces)
-        self.assertEqual(['value2'], pieces['param2'])
+        self.assertFalse("param1" in pieces)
+        self.assertTrue("param2" in pieces)
+        self.assertEqual(["value2"], pieces["param2"])
 
-        self.assertFalse(self.wrapper.clearParameter('param1'), 'already cleaned')
+        self.assertFalse(self.wrapper.clearParameter("param1"), "already cleaned")
 
     def testSetMethod(self):
         self.wrapper.setMethod(POST)
@@ -399,58 +436,66 @@ class SPARQLWrapper_Test(unittest.TestCase):
         self.assertEqual(POSTDIRECTLY, self.wrapper.requestMethod)
 
     def testIsSparqlUpdateRequest(self):
-        self.wrapper.setQuery('DELETE WHERE {?s ?p ?o}')
+        self.wrapper.setQuery("DELETE WHERE {?s ?p ?o}")
         self.assertTrue(self.wrapper.isSparqlUpdateRequest())
 
-        self.wrapper.setQuery('DELETE DATA { <urn:john> <urn:likes> <urn:surfing> }')
+        self.wrapper.setQuery("DELETE DATA { <urn:john> <urn:likes> <urn:surfing> }")
         self.assertTrue(self.wrapper.isSparqlUpdateRequest())
 
-        self.wrapper.setQuery("""
+        self.wrapper.setQuery(
+            """
         PREFIX example: <http://example.org/SELECT/>
         BASE <http://example.org/SELECT>
         DELETE WHERE {?s ?p ?o}
-        """)
+        """
+        )
         self.assertTrue(self.wrapper.isSparqlUpdateRequest())
 
-        self.wrapper.setQuery('WITH <urn:graph> DELETE DATA { <urn:john> <urn:likes> <urn:surfing> }')
+        self.wrapper.setQuery(
+            "WITH <urn:graph> DELETE DATA { <urn:john> <urn:likes> <urn:surfing> }"
+        )
         self.assertTrue(self.wrapper.isSparqlUpdateRequest())
 
-        self.wrapper.setQuery('INSERT DATA { <urn:john> <urn:likes> <urn:surfing> }')
+        self.wrapper.setQuery("INSERT DATA { <urn:john> <urn:likes> <urn:surfing> }")
         self.assertTrue(self.wrapper.isSparqlUpdateRequest())
 
-        self.wrapper.setQuery('WITH <urn:graph> INSERT DATA { <urn:john> <urn:likes> <urn:surfing> }')
+        self.wrapper.setQuery(
+            "WITH <urn:graph> INSERT DATA { <urn:john> <urn:likes> <urn:surfing> }"
+        )
         self.assertTrue(self.wrapper.isSparqlUpdateRequest())
 
-        self.wrapper.setQuery('CREATE GRAPH <urn:graph>')
+        self.wrapper.setQuery("CREATE GRAPH <urn:graph>")
         self.assertTrue(self.wrapper.isSparqlUpdateRequest())
 
-        self.wrapper.setQuery('CLEAR GRAPH <urn:graph>')
+        self.wrapper.setQuery("CLEAR GRAPH <urn:graph>")
         self.assertTrue(self.wrapper.isSparqlUpdateRequest())
 
-        self.wrapper.setQuery('DROP GRAPH <urn:graph>')
+        self.wrapper.setQuery("DROP GRAPH <urn:graph>")
         self.assertTrue(self.wrapper.isSparqlUpdateRequest())
 
-        self.wrapper.setQuery('MOVE GRAPH <urn:graph1> TO GRAPH <urn:graph2>')
+        self.wrapper.setQuery("MOVE GRAPH <urn:graph1> TO GRAPH <urn:graph2>")
         self.assertTrue(self.wrapper.isSparqlUpdateRequest())
 
-        self.wrapper.setQuery('LOAD <http://localhost/file.rdf> INTO GRAPH <urn:graph>')
+        self.wrapper.setQuery("LOAD <http://localhost/file.rdf> INTO GRAPH <urn:graph>")
         self.assertTrue(self.wrapper.isSparqlUpdateRequest())
 
-        self.wrapper.setQuery('COPY <urn:graph1> TO GRAPH <urn:graph2>')
+        self.wrapper.setQuery("COPY <urn:graph1> TO GRAPH <urn:graph2>")
         self.assertTrue(self.wrapper.isSparqlUpdateRequest())
 
-        self.wrapper.setQuery('ADD <urn:graph1> TO GRAPH <urn:graph2>')
+        self.wrapper.setQuery("ADD <urn:graph1> TO GRAPH <urn:graph2>")
         self.assertTrue(self.wrapper.isSparqlUpdateRequest())
 
     def testIsSparqlQueryRequest(self):
-        self.wrapper.setQuery('SELECT * WHERE {?s ?p ?o}')
+        self.wrapper.setQuery("SELECT * WHERE {?s ?p ?o}")
         self.assertTrue(self.wrapper.isSparqlQueryRequest())
 
-        self.wrapper.setQuery("""
+        self.wrapper.setQuery(
+            """
         PREFIX example: <http://example.org/DELETE/>
         BASE <http://example.org/MODIFY>
         ASK WHERE {?s ?p ?o}
-        """)
+        """
+        )
         self.assertTrue(self.wrapper.isSparqlQueryRequest())
         self.assertFalse(self.wrapper.isSparqlUpdateRequest())
 
@@ -462,83 +507,83 @@ class SPARQLWrapper_Test(unittest.TestCase):
         self.assertTrue(isinstance(request, Request))
 
         parameters = self._get_parameters_from_request(request)
-        self.assertTrue('query' in parameters)
-        self.assertTrue('update' not in parameters)
+        self.assertTrue("query" in parameters)
+        self.assertTrue("update" not in parameters)
 
         self.wrapper.setMethod(POST)
-        self.wrapper.setQuery('PREFIX e: <http://example.org/> INSERT {e:a e:b e:c}')
+        self.wrapper.setQuery("PREFIX e: <http://example.org/> INSERT {e:a e:b e:c}")
         parameters = self._get_request_parameters(self.wrapper)
-        self.assertTrue('update' in parameters)
-        self.assertTrue('query' not in parameters)
-        #_returnFormatSetting = ["format", "output", "results"]
-        self.assertTrue('format' not in parameters)
-        self.assertTrue('output' not in parameters)
-        self.assertTrue('results' not in parameters)
+        self.assertTrue("update" in parameters)
+        self.assertTrue("query" not in parameters)
+        # _returnFormatSetting = ["format", "output", "results"]
+        self.assertTrue("format" not in parameters)
+        self.assertTrue("output" not in parameters)
+        self.assertTrue("results" not in parameters)
 
         _victim.urlopener = urlopener_error_generator(400)
         try:
             self.wrapper.query()
-            self.fail('should have raised exception')
+            self.fail("should have raised exception")
         except QueryBadFormed as e:
             #  TODO: check exception-format
             pass
         except:
-            self.fail('got wrong exception')
+            self.fail("got wrong exception")
 
         _victim.urlopener = urlopener_error_generator(401)
         try:
             self.wrapper.query()
-            self.fail('should have raised exception')
+            self.fail("should have raised exception")
         except Unauthorized as e:
             #  TODO: check exception-format
             pass
         except:
-            self.fail('got wrong exception')
+            self.fail("got wrong exception")
 
         _victim.urlopener = urlopener_error_generator(404)
         try:
             self.wrapper.query()
-            self.fail('should have raised exception')
+            self.fail("should have raised exception")
         except EndPointNotFound as e:
             #  TODO: check exception-format
             pass
         except:
-            self.fail('got wrong exception')
+            self.fail("got wrong exception")
 
         _victim.urlopener = urlopener_error_generator(414)
         try:
             self.wrapper.query()
-            self.fail('should have raised exception')
+            self.fail("should have raised exception")
         except URITooLong as e:
             #  TODO: check exception-format
             pass
         except:
-            self.fail('got wrong exception')
+            self.fail("got wrong exception")
 
         _victim.urlopener = urlopener_error_generator(500)
         try:
             self.wrapper.query()
-            self.fail('should have raised exception')
+            self.fail("should have raised exception")
         except EndPointInternalError as e:
             #  TODO: check exception-format
             pass
         except:
-            self.fail('got wrong exception')
+            self.fail("got wrong exception")
 
         _victim.urlopener = urlopener_error_generator(999)
         try:
             self.wrapper.query()
-            self.fail('should have raised exception')
+            self.fail("should have raised exception")
         except HTTPError as e:
             #  TODO: check exception-format
             pass
         except:
-            self.fail('got wrong exception')
+            self.fail("got wrong exception")
 
     def testQueryEncoding(self):
         query = 'INSERT DATA { <urn:michel> <urn:says> "é" }'
 
-        wrapper = SPARQLWrapper('http://example.com:3030/example')
+        wrapper = SPARQLWrapper("http://example.com:3030/example")
         wrapper.setMethod(POST)
         wrapper.setRequestMethod(URLENCODED)
         wrapper.setQuery(query)
@@ -565,23 +610,28 @@ class SPARQLWrapper_Test(unittest.TestCase):
 
     def testComments(self):
         # see issue #32
-        self.wrapper.setQuery("""
+        self.wrapper.setQuery(
+            """
 # this is a comment
 select * where { ?s ?p ?o }
-""")
+"""
+        )
         self.assertTrue(self.wrapper.isSparqlQueryRequest())
 
     def testHashInPrefixes(self):
         # see issue #77
-        self.wrapper.setQuery("""
+        self.wrapper.setQuery(
+            """
 PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
 select * where { ?s ?p ?o }
-""")
+"""
+        )
         self.assertTrue(self.wrapper.isSparqlQueryRequest())
 
     def testHashInPrefixComplex(self):
         # see issue #77
-        self.wrapper.setQuery("""
+        self.wrapper.setQuery(
+            """
 PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX weather: <http://hal.zamia.org/weather/>
@@ -597,7 +647,8 @@ WHERE {
   ?location weather:timezone ?timezone .
   ?location rdfs:label ?label .
 }
-""")
+"""
+        )
         self.assertTrue(self.wrapper.isSparqlQueryRequest())
 
     def testHashWithNoComments(self):
@@ -706,33 +757,48 @@ WHERE {
         self.wrapper.setQuery(query)
         request = self._get_request(self.wrapper)
         request_params = dict(parse_qsl(urlparse(request.get_full_url()).query))
-        for returnFormatSetting in ["format", "output", "results"]: # Obviously _returnFormatSetting is not accessible from SPARQLWrapper, so we copy&paste the possible values
-            self.assertTrue(returnFormatSetting in request_params, "URL parameter '%s' was not sent, and it was expected" %returnFormatSetting)
+        for returnFormatSetting in [
+            "format",
+            "output",
+            "results",
+        ]:  # Obviously _returnFormatSetting is not accessible from SPARQLWrapper, so we copy&paste the possible values
+            self.assertTrue(
+                returnFormatSetting in request_params,
+                "URL parameter '%s' was not sent, and it was expected"
+                % returnFormatSetting,
+            )
 
-        #ONLY Content Negotiation
+        # ONLY Content Negotiation
         self.wrapper.resetQuery()
         self.wrapper.setOnlyConneg(True)
         self.wrapper.setQuery(query)
         request = self._get_request(self.wrapper)
         request_params = dict(parse_qsl(urlparse(request.get_full_url()).query))
-        for returnFormatSetting in ["format", "output", "results"]: # Obviously _returnFormatSetting is not accessible from SPARQLWrapper, so we copy&paste the possible values
-            self.assertFalse(returnFormatSetting in request_params, "URL parameter '%s' was sent, and it was not expected (only Content Negotiation)" %returnFormatSetting)
+        for returnFormatSetting in [
+            "format",
+            "output",
+            "results",
+        ]:  # Obviously _returnFormatSetting is not accessible from SPARQLWrapper, so we copy&paste the possible values
+            self.assertFalse(
+                returnFormatSetting in request_params,
+                "URL parameter '%s' was sent, and it was not expected (only Content Negotiation)"
+                % returnFormatSetting,
+            )
 
 
 class QueryResult_Test(unittest.TestCase):
-
     def testConstructor(self):
-        qr = QueryResult('result')
-        self.assertEqual('result', qr.response)
+        qr = QueryResult("result")
+        self.assertEqual("result", qr.response)
         try:
             format = qr.requestedFormat
-            self.fail('format is not supposed to be set')
+            self.fail("format is not supposed to be set")
         except:
             pass
 
-        qr = QueryResult(('result', 'format'))
-        self.assertEqual('result', qr.response)
-        self.assertEqual('format', qr.requestedFormat)
+        qr = QueryResult(("result", "format"))
+        self.assertEqual("result", qr.response)
+        self.assertEqual("format", qr.requestedFormat)
 
     def testProxyingToResponse(self):
         class FakeResponse(object):
@@ -768,7 +834,9 @@ class QueryResult_Test(unittest.TestCase):
 
         info = qr.info()
         self.assertTrue(result.info_called)
-        self.assertEqual('value', info.__getitem__('KEY'), 'keys should be case-insensitive')
+        self.assertEqual(
+            "value", info.__getitem__("KEY"), "keys should be case-insensitive"
+        )
 
     def testConvert(self):
         class FakeResponse(object):
@@ -779,7 +847,7 @@ class QueryResult_Test(unittest.TestCase):
                 return {"Content-type": self.content_type}
 
             def read(self, len):
-                return ''
+                return ""
 
         def _mime_vs_type(mime, requested_type):
             """
@@ -806,11 +874,11 @@ class QueryResult_Test(unittest.TestCase):
         self.assertEqual(0, _mime_vs_type("text/n3", N3))
         self.assertEqual(0, _mime_vs_type("text/turtle", TURTLE))
         self.assertEqual(0, _mime_vs_type("application/turtle", TURTLE))
-        self.assertEqual(0, _mime_vs_type("application/ld+json", JSON)) # Warning
-        self.assertEqual(0, _mime_vs_type("application/ld+json", JSONLD)) # Warning
-        self.assertEqual(0, _mime_vs_type("application/rdf+xml", XML)) # Warning
-        self.assertEqual(0, _mime_vs_type("application/rdf+xml", RDF)) # Warning
-        self.assertEqual(0, _mime_vs_type("application/rdf+xml", RDFXML)) # Warning
+        self.assertEqual(0, _mime_vs_type("application/ld+json", JSON))  # Warning
+        self.assertEqual(0, _mime_vs_type("application/ld+json", JSONLD))  # Warning
+        self.assertEqual(0, _mime_vs_type("application/rdf+xml", XML))  # Warning
+        self.assertEqual(0, _mime_vs_type("application/rdf+xml", RDF))  # Warning
+        self.assertEqual(0, _mime_vs_type("application/rdf+xml", RDFXML))  # Warning
         self.assertEqual(0, _mime_vs_type("text/csv", CSV))
         self.assertEqual(0, _mime_vs_type("text/tab-separated-values", TSV))
         self.assertEqual(0, _mime_vs_type("application/xml", XML))
@@ -830,6 +898,7 @@ class QueryResult_Test(unittest.TestCase):
         """
         print_results() is only allowed for JSON return format.
         """
+
         class FakeResponse(object):
             def __init__(self, content_type):
                 self.content_type = content_type
@@ -838,7 +907,7 @@ class QueryResult_Test(unittest.TestCase):
                 return {"Content-type": self.content_type}
 
             def read(self, len):
-                return ''
+                return ""
 
         def _print_results(mime):
             """
@@ -883,13 +952,13 @@ class QueryResult_Test(unittest.TestCase):
 
 
 class QueryType_Time_Test(unittest.TestCase):
-
     def testQueries(self):
         sparql = SPARQLWrapper("http://example.org/sparql")
 
         queries = []
 
-        queries.append("""
+        queries.append(
+            """
     PREFIX a: <http://dbpedia.org/a>
     PREFIX b: <http://dbpedia.org/b>
     PREFIX c: <http://dbpedia.org/c>
@@ -901,9 +970,11 @@ class QueryType_Time_Test(unittest.TestCase):
     FROM <http://dbpedia.org>
     SELECT ?s ?p ?o WHERE {
         ?s ?p ?o.
-    }""")
+    }"""
+        )
 
-        queries.append("""PREFIX a: <http://dbpedia.org/a>
+        queries.append(
+            """PREFIX a: <http://dbpedia.org/a>
     PREFIX b: <http://dbpedia.org/b>
     PREFIX c: <http://dbpedia.org/c>
     PREFIX d: <http://dbpedia.org/d>
@@ -914,9 +985,11 @@ class QueryType_Time_Test(unittest.TestCase):
     FROM <http://dbpedia.org>
     SELECT ?s ?p ?o WHERE {
         ?s ?p ?o.
-    }""")
+    }"""
+        )
 
-        queries.append("""PREFIX a: <http://dbpedia.org/a>
+        queries.append(
+            """PREFIX a: <http://dbpedia.org/a>
 PREFIX b: <http://dbpedia.org/b>
 PREFIX c: <http://dbpedia.org/c>
 PREFIX d: <http://dbpedia.org/d>
@@ -927,10 +1000,11 @@ PREFIX h: <http://dbpedia.org/h>
 FROM <http://dbpedia.org>
 SELECT ?s ?p ?o WHERE {
     ?s ?p ?o.
-}""")
+}"""
+        )
 
-
-        queries.append("""PREFIX a: <http://dbpedia.org/a>
+        queries.append(
+            """PREFIX a: <http://dbpedia.org/a>
 PREFIX b: <http://dbpedia.org/b>
 PREFIX c: <http://dbpedia.org/c>
 PREFIX d: <http://dbpedia.org/d>
@@ -940,10 +1014,11 @@ PREFIX g: <http://dbpedia.org/g>
 PREFIX h: <http://dbpedia.org/h>
 SELECT ?s ?p ?o WHERE {
     ?s ?p ?o.
-}""")
+}"""
+        )
 
-
-        queries.append("""
+        queries.append(
+            """
     PREFIX a: <http://dbpedia.org/a>
     PREFIX b: <http://dbpedia.org/b>
     PREFIX c: <http://dbpedia.org/c>
@@ -954,47 +1029,20 @@ SELECT ?s ?p ?o WHERE {
     PREFIX h: <http://dbpedia.org/h>
     SELECT ?s ?p ?o WHERE {
         ?s ?p ?o.
-    }""")
+    }"""
+        )
 
-
-        queries.append("""
+        queries.append(
+            """
     FROM <http://dbpedia.org>
     SELECT ?s ?p ?o WHERE {
         ?s ?p ?o.
-    }""")
+    }"""
+        )
 
-
-        queries.append("""
+        queries.append(
+            """
     PREFIX a: <http://dbpedia.org/a>
-    PREFIX b: <http://dbpedia.org/b>
-    PREFIX c: <http://dbpedia.org/c>
-    PREFIX d: <http://dbpedia.org/d>
-    PREFIX e: <http://dbpedia.org/e>
-    PREFIX f: <http://dbpedia.org/f>
-    PREFIX g: <http://dbpedia.org/g>
-    PREFIX h: <http://dbpedia.org/h>
-    PREFIX a: <http://dbpedia.org/a>
-    PREFIX b: <http://dbpedia.org/b>
-    PREFIX c: <http://dbpedia.org/c>
-    PREFIX d: <http://dbpedia.org/d>
-    PREFIX e: <http://dbpedia.org/e>
-    PREFIX f: <http://dbpedia.org/f>
-    PREFIX g: <http://dbpedia.org/g>
-    PREFIX h: <http://dbpedia.org/h>
-    PREFIX a: <http://dbpedia.org/a>
-    PREFIX b: <http://dbpedia.org/b>
-    PREFIX c: <http://dbpedia.org/c>
-    PREFIX d: <http://dbpedia.org/d>
-    PREFIX e: <http://dbpedia.org/e>
-    PREFIX f: <http://dbpedia.org/f>
-    PREFIX g: <http://dbpedia.org/g>
-    PREFIX h: <http://dbpedia.org/h>
-    FROM <http://dbpedia.org>
-    SELECT ?s ?p ?o WHERE {
-        ?s ?p ?o.
-    }""")
-
-        queries.append("""PREFIX a: <http://dbpedia.org/a>
     PREFIX b: <http://dbpedia.org/b>
     PREFIX c: <http://dbpedia.org/c>
     PREFIX d: <http://dbpedia.org/d>
@@ -1021,12 +1069,46 @@ SELECT ?s ?p ?o WHERE {
     FROM <http://dbpedia.org>
     SELECT ?s ?p ?o WHERE {
         ?s ?p ?o.
-    }""")
+    }"""
+        )
+
+        queries.append(
+            """PREFIX a: <http://dbpedia.org/a>
+    PREFIX b: <http://dbpedia.org/b>
+    PREFIX c: <http://dbpedia.org/c>
+    PREFIX d: <http://dbpedia.org/d>
+    PREFIX e: <http://dbpedia.org/e>
+    PREFIX f: <http://dbpedia.org/f>
+    PREFIX g: <http://dbpedia.org/g>
+    PREFIX h: <http://dbpedia.org/h>
+    PREFIX a: <http://dbpedia.org/a>
+    PREFIX b: <http://dbpedia.org/b>
+    PREFIX c: <http://dbpedia.org/c>
+    PREFIX d: <http://dbpedia.org/d>
+    PREFIX e: <http://dbpedia.org/e>
+    PREFIX f: <http://dbpedia.org/f>
+    PREFIX g: <http://dbpedia.org/g>
+    PREFIX h: <http://dbpedia.org/h>
+    PREFIX a: <http://dbpedia.org/a>
+    PREFIX b: <http://dbpedia.org/b>
+    PREFIX c: <http://dbpedia.org/c>
+    PREFIX d: <http://dbpedia.org/d>
+    PREFIX e: <http://dbpedia.org/e>
+    PREFIX f: <http://dbpedia.org/f>
+    PREFIX g: <http://dbpedia.org/g>
+    PREFIX h: <http://dbpedia.org/h>
+    FROM <http://dbpedia.org>
+    SELECT ?s ?p ?o WHERE {
+        ?s ?p ?o.
+    }"""
+        )
 
         for query in queries:
             start_time = time.time()
             sparql.setQuery(query)
-            self.assertTrue((time.time()-start_time)<0.001) # less than 0.001 second
+            self.assertTrue(
+                (time.time() - start_time) < 0.001
+            )  # less than 0.001 second
 
 
 if __name__ == "__main__":

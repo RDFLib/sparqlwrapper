@@ -8,15 +8,17 @@ import unittest
 
 # prefer local copy to the one which is installed
 # hack from http://stackoverflow.com/a/6098238/280539
-_top_level_path = os.path.realpath(os.path.abspath(os.path.join(
-    os.path.split(inspect.getfile(inspect.currentframe()))[0],
-    ".."
-)))
+_top_level_path = os.path.realpath(
+    os.path.abspath(
+        os.path.join(os.path.split(inspect.getfile(inspect.currentframe()))[0], "..")
+    )
+)
 if _top_level_path not in sys.path:
     sys.path.insert(0, _top_level_path)
 # end of hack
 
 import warnings
+
 warnings.simplefilter("always")
 
 try:
@@ -24,16 +26,44 @@ try:
 except ImportError:
     from rdflib import ConjunctiveGraph
 
-from SPARQLWrapper import SPARQLWrapper, XML, RDFXML, RDF, N3, TURTLE, JSONLD, JSON, CSV, TSV, POST, GET
-from SPARQLWrapper.Wrapper import _SPARQL_XML, _SPARQL_JSON, _XML, _RDF_XML, _RDF_N3, _RDF_TURTLE, _RDF_JSONLD, _CSV, _TSV
+from SPARQLWrapper import (
+    SPARQLWrapper,
+    XML,
+    RDFXML,
+    RDF,
+    N3,
+    TURTLE,
+    JSONLD,
+    JSON,
+    CSV,
+    TSV,
+    POST,
+    GET,
+)
+from SPARQLWrapper.Wrapper import (
+    _SPARQL_XML,
+    _SPARQL_JSON,
+    _XML,
+    _RDF_XML,
+    _RDF_N3,
+    _RDF_TURTLE,
+    _RDF_JSONLD,
+    _CSV,
+    _TSV,
+)
 from SPARQLWrapper.SPARQLExceptions import QueryBadFormed
 
-_SPARQL_SELECT_ASK_POSSIBLE = _SPARQL_XML + _SPARQL_JSON + _CSV + _TSV + _XML # only used in test
-_SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE = _RDF_XML + _RDF_N3 + _XML + _RDF_JSONLD # only used in test. Same as Wrapper._RDF_POSSIBLE
+_SPARQL_SELECT_ASK_POSSIBLE = (
+    _SPARQL_XML + _SPARQL_JSON + _CSV + _TSV + _XML
+)  # only used in test
+_SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE = (
+    _RDF_XML + _RDF_N3 + _XML + _RDF_JSONLD
+)  # only used in test. Same as Wrapper._RDF_POSSIBLE
 
 from urllib.error import HTTPError
 
 import logging
+
 logging.basicConfig()
 
 endpoint = "https://agrovoc.uniroma2.it/sparql/" # Fuseki 3.6.0 (Fuseki2)
@@ -147,9 +177,11 @@ queryWithCommaInUri = """
     }
 """
 
-class SPARQLWrapperTests(unittest.TestCase):
 
-    def __generic(self, query, returnFormat, method, onlyConneg=False): # Fuseki uses URL parameters OR content negotiation.
+class SPARQLWrapperTests(unittest.TestCase):
+    def __generic(
+        self, query, returnFormat, method, onlyConneg=False
+    ):  # Fuseki uses URL parameters OR content negotiation.
         sparql = SPARQLWrapper(endpoint)
         sparql.setQuery(prefixes + query)
         sparql.setReturnFormat(returnFormat)
@@ -172,13 +204,12 @@ class SPARQLWrapperTests(unittest.TestCase):
         else:
             return result
 
+    ################################################################################
+    ################################################################################
 
-################################################################################
-################################################################################
-
-################
-#### SELECT ####
-################
+    ################
+    #### SELECT ####
+    ################
 
     def testSelectByGETinXML(self):
         result = self.__generic(selectQuery, XML, GET)
@@ -416,12 +447,12 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
-################################################################################
-################################################################################
+    ################################################################################
+    ################################################################################
 
-#############
-#### ASK ####
-#############
+    #############
+    #### ASK ####
+    #############
 
     def testAskByGETinXML(self):
         result = self.__generic(askQuery, XML, GET)
@@ -659,12 +690,12 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
-################################################################################
-################################################################################
+    ################################################################################
+    ################################################################################
 
-###################
-#### CONSTRUCT ####
-###################
+    ###################
+    #### CONSTRUCT ####
+    ###################
 
     def testConstructByGETinXML(self):
         result = self.__generic(constructQuery, XML, GET)
@@ -877,7 +908,7 @@ class SPARQLWrapperTests(unittest.TestCase):
     # Asking for an unexpected return format for CONSTRUCT queryType.
     # For a CONSTRUCT query type, the default return mimetype (if Accept: */* is sent) is text/turtle
     def testConstructByGETinJSON_Unexpected_Conneg(self):
-        result = self.__generic(constructQuery, JSON, GET , onlyConneg=True)
+        result = self.__generic(constructQuery, JSON, GET, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE]
         results = result.convert()
@@ -932,12 +963,12 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
-################################################################################
-################################################################################
+    ################################################################################
+    ################################################################################
 
-##################
-#### DESCRIBE ####
-##################
+    ##################
+    #### DESCRIBE ####
+    ##################
 
     def testDescribeByGETinXML(self):
         result = self.__generic(describeQuery, XML, GET)
@@ -1201,8 +1232,8 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
-################################################################################
-################################################################################
+    ################################################################################
+    ################################################################################
 
     def testQueryBadFormed(self):
         self.assertRaises(QueryBadFormed, self.__generic, queryBadFormed, XML, GET)
@@ -1215,7 +1246,7 @@ class SPARQLWrapperTests(unittest.TestCase):
 
     def testKeepAlive(self):
         sparql = SPARQLWrapper(endpoint)
-        sparql.setQuery('SELECT * WHERE {?s ?p ?o} LIMIT 10')
+        sparql.setQuery("SELECT * WHERE {?s ?p ?o} LIMIT 10")
         sparql.setReturnFormat(JSON)
         sparql.setMethod(GET)
         sparql.setUseKeepAlive()
@@ -1226,12 +1257,15 @@ class SPARQLWrapperTests(unittest.TestCase):
     def testQueryWithComma_1(self):
         result = self.__generic(queryWithCommaInCurie_1, XML, GET)
 
-    @unittest.skip('Fuseki Lexical error at line 8, column 45.  Encountered: ":" (58), after : "\\". See #94')
+    @unittest.skip(
+        'Fuseki Lexical error at line 8, column 45.  Encountered: ":" (58), after : "\\". See #94'
+    )
     def testQueryWithComma_2(self):
         result = self.__generic(queryWithCommaInCurie_2, XML, POST)
 
     def testQueryWithComma_3(self):
         result = self.__generic(queryWithCommaInUri, XML, GET)
+
 
 if __name__ == "__main__":
     unittest.main()

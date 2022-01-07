@@ -35,13 +35,15 @@ class Value(object):
     :vartype variable: string
     :ivar value: Value of the binding.
     :vartype value: string
-    :ivar type: Type of the binding. One of :attr:`Value.URI`, :attr:`Value.Literal`, :attr:`Value.TypedLiteral`, or :attr:`Value.BNODE`.
+    :ivar type: Type of the binding. One of :attr:`Value.URI`, :attr:`Value.Literal`, :attr:`Value.TypedLiteral`, or
+                :attr:`Value.BNODE`.
     :vartype type: string
     :ivar lang: Language tag of the binding, or ``None`` if not set.
     :vartype lang: string
     :ivar datatype: Datatype of the binding, or ``None`` if not set. It is an URI.
     :vartype datatype: string
     """
+
     URI = "uri"
     """the string denoting a URI variable."""
     Literal = "literal"
@@ -59,23 +61,24 @@ class Value(object):
         :type binding: dict
         """
         self.variable = variable
-        self.value = binding['value']
-        self.type = binding['type']
+        self.value = binding["value"]
+        self.type = binding["type"]
         self.lang = None
         self.datatype = None
         try:
-            self.lang = binding['xml:lang']
+            self.lang = binding["xml:lang"]
         except:
             # no lang is set
             pass
         try:
-            self.datatype = binding['datatype']
+            self.datatype = binding["datatype"]
         except:
             pass
 
     def __repr__(self):
         cls = self.__class__.__name__
         return "%s(%s:%r)" % (cls, self.type, self.value)
+
 
 ######################################################################################
 
@@ -87,16 +90,17 @@ class Bindings(object):
     return value and instantiates a number of attributes that can be consulted directly. See
     the list of variables.
 
-    The `Serializing SPARQL Query Results in JSON <http://www.w3.org/TR/rdf-sparql-json-res/>`_ explains the details of the
-    JSON return structures. Very succinctly: the return data has "bindings", which means a list of dictionaries. Each
-    dictionary is a possible binding of the SELECT variables to :class:`Value` instances. This structure is made a bit
-    more usable by this class.
+    The `Serializing SPARQL Query Results in JSON <http://www.w3.org/TR/rdf-sparql-json-res/>`_ explains the details of
+    the JSON return structures. Very succinctly: the return data has "bindings", which means a list of dictionaries.
+    Each dictionary is a possible binding of the SELECT variables to :class:`Value` instances. This structure is made a
+    bit more usable by this class.
 
     :ivar fullResult: The original dictionary of the results, stored for an easier reference.
     :vartype fullResult: dict
     :ivar head: Header part of the return, see the JSON return format document for details.
     :vartype head: dict
-    :ivar variables: List of unbounds (variables) of the original query. It is a list of strings. ``None`` in the case of an ASK query.
+    :ivar variables: List of unbounds (variables) of the original query. It is a list of strings. ``None`` in the case
+                        of an ASK query.
     :vartype variables: list
     :ivar bindings: The final bindings: list of dictionaries, mapping variables to :class:`Value` instances. \
     If unbound, then no value is set in the dictionary; that can be easily checked with \
@@ -105,22 +109,23 @@ class Bindings(object):
     :ivar askResult: by default, set to **False**; in case of an ASK query, the result of the query.
     :vartype askResult: bool
     """
+
     def __init__(self, retval):
         """
         :param retval: the query result.
         :type retval: :class:`QueryResult<SPARQLWrapper.Wrapper.QueryResult>`
         """
         self.fullResult = retval._convertJSON()
-        self.head = self.fullResult['head']
+        self.head = self.fullResult["head"]
         self.variables = None
         try:
-            self.variables = self.fullResult['head']['vars']
+            self.variables = self.fullResult["head"]["vars"]
         except:
             pass
 
         self.bindings = []
         try:
-            for b in self.fullResult['results']['bindings']:
+            for b in self.fullResult["results"]["bindings"]:
                 # This is a single binding. It is a dictionary per variable; each value is a dictionary again
                 # that has to be converted into a Value instance
                 newBind = {}
@@ -206,11 +211,12 @@ class Bindings(object):
         :return: list of bindings
         :rtype: array of variable -> :class:`Value`  dictionaries
         """
+
         def _checkKeys(keys):
             if len(keys) == 0:
                 return False
             for k in keys:
-                if not isinstance(k, str) or not k in self.variables:
+                if not isinstance(k, str) or k not in self.variables:
                     return False
             return True
 
@@ -245,7 +251,7 @@ class Bindings(object):
             # first check whether the 'yes' part is all there:
             if False in [k in b for k in yes_keys]:
                 continue
-            if True  in [k in b for k in no_keys]:
+            if True in [k in b for k in no_keys]:
                 continue
             # if we got that far, we should be all right!
             retval.append(b)
@@ -264,27 +270,34 @@ class Bindings(object):
         """
         return self
 
+
 ##############################################################################################################
 
 
 class SPARQLWrapper2(SPARQLWrapper.SPARQLWrapper):
-    """Subclass of :class:`~SPARQLWrapper.Wrapper.SPARQLWrapper` that works with a JSON SELECT return result only. The query result
-    is automatically set to a :class:`Bindings` instance. Makes the average query processing a bit simpler..."""
+    """Subclass of :class:`~SPARQLWrapper.Wrapper.SPARQLWrapper` that works with a JSON SELECT return result only. The
+    query result is automatically set to a :class:`Bindings` instance. Makes the average query processing a bit
+    simpler..."""
+
     def __init__(self, baseURI, defaultGraph=None):
         """
-        Class encapsulating a full SPARQL call. In contrast to the :class:`~SPARQLWrapper.Wrapper.SPARQLWrapper` superclass, the return format
-        cannot be set (it is defaulted to :attr:`~SPARQLWrapper.Wrapper.SPARQLWrapper.JSON`).
+        Class encapsulating a full SPARQL call. In contrast to the :class:`~SPARQLWrapper.Wrapper.SPARQLWrapper`
+        superclass, the return format cannot be set (it is defaulted to
+        :attr:`~SPARQLWrapper.Wrapper.SPARQLWrapper.JSON`).
 
         :param baseURI: string of the SPARQL endpoint's URI.
         :type baseURI: string
         :param defaultGraph: URI for the default graph. Default is ``None``, can be set via an explicit call, too.
         :type defaultGraph: string
         """
-        super(SPARQLWrapper2, self).__init__(baseURI, returnFormat=JSON, defaultGraph=defaultGraph)
+        super(SPARQLWrapper2, self).__init__(
+            baseURI, returnFormat=JSON, defaultGraph=defaultGraph
+        )
 
     def setReturnFormat(self, format):
         """
-        Set the return format (:meth:`overriding the inherited method <SPARQLWrapper.Wrapper.SPARQLWrapper.setReturnFormat>`).
+        Set the return format (:meth:`overriding the inherited method
+        <SPARQLWrapper.Wrapper.SPARQLWrapper.setReturnFormat>`).
 
         .. warning::
 

@@ -35,7 +35,8 @@ setup(
     name='SPARQLWrapper',
     version=version,
     description='SPARQL Endpoint interface to Python',
-    long_description='This is a wrapper around a SPARQL service. It helps in creating the query URI and, possibly, convert the result into a more manageable format.',
+    long_description='This is a wrapper around a SPARQL service. It helps in creating the query URI and, possibly, '
+                     'convert the result into a more manageable format.',
     license='W3C SOFTWARE NOTICE AND LICENSE',
     author=authors,
     url=url,

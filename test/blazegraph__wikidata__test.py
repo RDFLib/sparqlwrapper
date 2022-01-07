@@ -10,15 +10,17 @@ import unittest
 
 # prefer local copy to the one which is installed
 # hack from http://stackoverflow.com/a/6098238/280539
-_top_level_path = os.path.realpath(os.path.abspath(os.path.join(
-    os.path.split(inspect.getfile(inspect.currentframe()))[0],
-    ".."
-)))
+_top_level_path = os.path.realpath(
+    os.path.abspath(
+        os.path.join(os.path.split(inspect.getfile(inspect.currentframe()))[0], "..")
+    )
+)
 if _top_level_path not in sys.path:
     sys.path.insert(0, _top_level_path)
 # end of hack
 
 import warnings
+
 warnings.simplefilter("always")
 
 try:
@@ -26,16 +28,44 @@ try:
 except ImportError:
     from rdflib import ConjunctiveGraph
 
-from SPARQLWrapper import SPARQLWrapper, XML, RDFXML, RDF, N3, TURTLE, JSONLD, JSON, CSV, TSV, POST, GET
-from SPARQLWrapper.Wrapper import _SPARQL_XML, _SPARQL_JSON, _XML, _RDF_XML, _RDF_N3, _RDF_TURTLE, _RDF_JSONLD, _CSV, _TSV
+from SPARQLWrapper import (
+    SPARQLWrapper,
+    XML,
+    RDFXML,
+    RDF,
+    N3,
+    TURTLE,
+    JSONLD,
+    JSON,
+    CSV,
+    TSV,
+    POST,
+    GET,
+)
+from SPARQLWrapper.Wrapper import (
+    _SPARQL_XML,
+    _SPARQL_JSON,
+    _XML,
+    _RDF_XML,
+    _RDF_N3,
+    _RDF_TURTLE,
+    _RDF_JSONLD,
+    _CSV,
+    _TSV,
+)
 from SPARQLWrapper.SPARQLExceptions import QueryBadFormed
 
-_SPARQL_SELECT_ASK_POSSIBLE = _SPARQL_XML + _SPARQL_JSON + _CSV + _TSV + _XML # only used in test
-_SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE = _RDF_XML + _RDF_N3 + _XML + _RDF_JSONLD # only used in test. Same as Wrapper._RDF_POSSIBLE
+_SPARQL_SELECT_ASK_POSSIBLE = (
+    _SPARQL_XML + _SPARQL_JSON + _CSV + _TSV + _XML
+)  # only used in test
+_SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE = (
+    _RDF_XML + _RDF_N3 + _XML + _RDF_JSONLD
+)  # only used in test. Same as Wrapper._RDF_POSSIBLE
 
 from urllib.error import HTTPError
 
 import logging
+
 logging.basicConfig()
 
 endpoint = "https://query.wikidata.org/sparql"
@@ -156,16 +186,20 @@ queryWithCommaInUri = """
     }
 """
 
-class SPARQLWrapperTests(unittest.TestCase):
 
-    def __generic(self, query, returnFormat, method, onlyConneg=False): # Blazegraph uses URL parameters or content negotiation.
+class SPARQLWrapperTests(unittest.TestCase):
+    def __generic(
+        self, query, returnFormat, method, onlyConneg=False
+    ):  # Blazegraph uses URL parameters or content negotiation.
         sparql = SPARQLWrapper(endpoint)
         sparql.setQuery(prefixes + query)
         sparql.setReturnFormat(returnFormat)
         sparql.setMethod(method)
         sparql.setOnlyConneg(onlyConneg)
         try:
-            time.sleep(2.5) # sleeps for 2.5 seconds, in order to avoid disruptions in the server
+            time.sleep(
+                2.5
+            )  # sleeps for 2.5 seconds, in order to avoid disruptions in the server
             result = sparql.query()
         except HTTPError:
             # An ugly way to get the exception, but the only one that works
@@ -182,13 +216,12 @@ class SPARQLWrapperTests(unittest.TestCase):
         else:
             return result
 
+    ################################################################################
+    ################################################################################
 
-################################################################################
-################################################################################
-
-################
-#### SELECT ####
-################
+    ################
+    #### SELECT ####
+    ################
 
     def testSelectByGETinXML(self):
         result = self.__generic(selectQuery, XML, GET)
@@ -222,7 +255,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
-    @unittest.skip("Blazegraph does not support receiving unexpected 'format' values. csv is not a valid alias. Use content negotiation instead")
+    @unittest.skip(
+        "Blazegraph does not support receiving unexpected 'format' values. csv is not a valid alias. Use content negotiation instead"
+    )
     def testSelectByGETinCSV(self):
         result = self.__generic(selectQueryCSV_TSV, CSV, GET)
         ct = result.info()["content-type"]
@@ -237,7 +272,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), bytes)
 
-    @unittest.skip("Blazegraph does not support receiving unexpected 'format' values. csv is not a valid alias. Use content negotiation instead")
+    @unittest.skip(
+        "Blazegraph does not support receiving unexpected 'format' values. csv is not a valid alias. Use content negotiation instead"
+    )
     def testSelectByPOSTinCSV(self):
         result = self.__generic(selectQueryCSV_TSV, CSV, POST)
         ct = result.info()["content-type"]
@@ -252,7 +289,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), bytes)
 
-    @unittest.skip("Blazegraph does not support receiving unexpected 'format' values. tsv is not a valid alias. Use content negotiation instead")
+    @unittest.skip(
+        "Blazegraph does not support receiving unexpected 'format' values. tsv is not a valid alias. Use content negotiation instead"
+    )
     def testSelectByGETinTSV(self):
         result = self.__generic(selectQueryCSV_TSV, TSV, GET)
         ct = result.info()["content-type"]
@@ -267,7 +306,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), bytes)
 
-    @unittest.skip("Blazegraph does not support receiving unexpected 'format' values. tsv is not a valid alias. Use content negotiation instead")
+    @unittest.skip(
+        "Blazegraph does not support receiving unexpected 'format' values. tsv is not a valid alias. Use content negotiation instead"
+    )
     def testSelectByPOSTinTSV(self):
         result = self.__generic(selectQueryCSV_TSV, TSV, POST)
         ct = result.info()["content-type"]
@@ -354,7 +395,6 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
-
     # Asking for an unexpected return format for SELECT queryType (json-ld is not supported, and it is not a valid alias).
     # Set by default None (and sending */*).
     # For a SELECT query type, the default return mimetype (if Accept: */* is sent) is application/sparql-results+xml
@@ -435,12 +475,12 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
-################################################################################
-################################################################################
+    ################################################################################
+    ################################################################################
 
-#############
-#### ASK ####
-#############
+    #############
+    #### ASK ####
+    #############
 
     def testAskByGETinXML(self):
         result = self.__generic(askQuery, XML, GET)
@@ -690,12 +730,12 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
-################################################################################
-################################################################################
+    ################################################################################
+    ################################################################################
 
-###################
-#### CONSTRUCT ####
-###################
+    ###################
+    #### CONSTRUCT ####
+    ###################
 
     def testConstructByGETinXML(self):
         result = self.__generic(constructQuery, XML, GET)
@@ -758,7 +798,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), ConjunctiveGraph)
 
     # turtle is not a valid alias
-    @unittest.skip("Blazegraph does not support receiving unexpected 'format' values. turtle is not a valid alias. Use content negotiation instead")
+    @unittest.skip(
+        "Blazegraph does not support receiving unexpected 'format' values. turtle is not a valid alias. Use content negotiation instead"
+    )
     def testConstructByGETinTURTLE(self):
         result = self.__generic(constructQuery, TURTLE, GET)
         ct = result.info()["content-type"]
@@ -775,7 +817,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), bytes)
 
     # turtle is not a valid alias
-    @unittest.skip("Blazegraph does not support receiving unexpected 'format' values. turtle is not a valid alias. Use content negotiation instead")
+    @unittest.skip(
+        "Blazegraph does not support receiving unexpected 'format' values. turtle is not a valid alias. Use content negotiation instead"
+    )
     def testConstructByPOSTinTURTLE(self):
         result = self.__generic(constructQuery, TURTLE, POST)
         ct = result.info()["content-type"]
@@ -792,7 +836,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), bytes)
 
     # n3 is not a valid alias
-    @unittest.skip("Blazegraph does not support receiving unexpected 'format' values. n3 is not a valid alias. Use content negotiation instead")
+    @unittest.skip(
+        "Blazegraph does not support receiving unexpected 'format' values. n3 is not a valid alias. Use content negotiation instead"
+    )
     def testConstructByGETinN3(self):
         result = self.__generic(constructQuery, N3, GET)
         ct = result.info()["content-type"]
@@ -809,7 +855,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), bytes)
 
     # n3 is not a valid alias
-    @unittest.skip("Blazegraph does not support receiving unexpected 'format' values. n3 is not a valid alias. Use content negotiation instead")
+    @unittest.skip(
+        "Blazegraph does not support receiving unexpected 'format' values. n3 is not a valid alias. Use content negotiation instead"
+    )
     def testConstructByPOSTinN3(self):
         result = self.__generic(constructQuery, N3, POST)
         ct = result.info()["content-type"]
@@ -826,7 +874,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), bytes)
 
     # json-ld is not a valid alias. Use content negotiation instead
-    @unittest.skip("Blazegraph does not support receiving unexpected 'format' values. json-ld is not a valid alias. Use content negotiation instead")
+    @unittest.skip(
+        "Blazegraph does not support receiving unexpected 'format' values. json-ld is not a valid alias. Use content negotiation instead"
+    )
     def testConstructByGETinJSONLD(self):
         result = self.__generic(constructQuery, JSONLD, GET)
         ct = result.info()["content-type"]
@@ -843,7 +893,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), ConjunctiveGraph)
 
     # json-ld is not a valid alias. Use content negotiation instead
-    @unittest.skip("Blazegraph does not support receiving unexpected 'format' values. json-ld is not a valid alias. Use content negotiation instead")
+    @unittest.skip(
+        "Blazegraph does not support receiving unexpected 'format' values. json-ld is not a valid alias. Use content negotiation instead"
+    )
     def testConstructByPOSTinJSONLD(self):
         result = self.__generic(constructQuery, JSONLD, POST)
         ct = result.info()["content-type"]
@@ -896,7 +948,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), ConjunctiveGraph)
 
     # json is valid alias but returns application/sparql-results+json
-    @unittest.skip("Blazegraph returns application/sparql-results+json. It MUST return an RDF graph [RDF-CONCEPTS] serialized, for example, in the RDF/XML syntax [RDF-XML], or an equivalent RDF graph serialization, for SPARQL Query forms DESCRIBE and CONSTRUCT). See http://www.w3.org/TR/sparql11-protocol/#query-success")
+    @unittest.skip(
+        "Blazegraph returns application/sparql-results+json. It MUST return an RDF graph [RDF-CONCEPTS] serialized, for example, in the RDF/XML syntax [RDF-XML], or an equivalent RDF graph serialization, for SPARQL Query forms DESCRIBE and CONSTRUCT). See http://www.w3.org/TR/sparql11-protocol/#query-success"
+    )
     def testConstructByGETinJSON_Unexpected(self):
         result = self.__generic(constructQuery, JSON, GET)
         ct = result.info()["content-type"]
@@ -907,14 +961,16 @@ class SPARQLWrapperTests(unittest.TestCase):
     # Asking for an unexpected return format for CONSTRUCT queryType.
     # For a CONSTRUCT query type, the default return mimetype (if Accept: */* is sent) is application/rdf+xml
     def testConstructByGETinJSON_Unexpected_Conneg(self):
-        result = self.__generic(constructQuery, JSON, GET , onlyConneg=True)
+        result = self.__generic(constructQuery, JSON, GET, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE]
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
     # json is valid alias but returns application/sparql-results+json
-    @unittest.skip("Blazegraph returns application/sparql-results+json. It MUST return an RDF graph [RDF-CONCEPTS] serialized, for example, in the RDF/XML syntax [RDF-XML], or an equivalent RDF graph serialization, for SPARQL Query forms DESCRIBE and CONSTRUCT). See http://www.w3.org/TR/sparql11-protocol/#query-success")
+    @unittest.skip(
+        "Blazegraph returns application/sparql-results+json. It MUST return an RDF graph [RDF-CONCEPTS] serialized, for example, in the RDF/XML syntax [RDF-XML], or an equivalent RDF graph serialization, for SPARQL Query forms DESCRIBE and CONSTRUCT). See http://www.w3.org/TR/sparql11-protocol/#query-success"
+    )
     def testConstructByPOSTinJSON_Unexpected(self):
         result = self.__generic(constructQuery, JSON, POST)
         ct = result.info()["content-type"]
@@ -963,12 +1019,12 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
-################################################################################
-################################################################################
+    ################################################################################
+    ################################################################################
 
-##################
-#### DESCRIBE ####
-##################
+    ##################
+    #### DESCRIBE ####
+    ##################
 
     def testDescribeByGETinXML(self):
         result = self.__generic(describeQuery, XML, GET)
@@ -1031,7 +1087,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), ConjunctiveGraph)
 
     # turtle is not a valid alias
-    @unittest.skip("Blazegraph does not support receiving unexpected 'format' values. turtle is not a valid alias. Use content negotiation instead")
+    @unittest.skip(
+        "Blazegraph does not support receiving unexpected 'format' values. turtle is not a valid alias. Use content negotiation instead"
+    )
     def testDescribeByGETinTURTLE(self):
         result = self.__generic(describeQuery, TURTLE, GET)
         ct = result.info()["content-type"]
@@ -1048,7 +1106,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), bytes)
 
     # turtle is not a valid alias
-    @unittest.skip("Blazegraph does not support receiving unexpected 'format' values. turtle is not a valid alias. Use content negotiation instead")
+    @unittest.skip(
+        "Blazegraph does not support receiving unexpected 'format' values. turtle is not a valid alias. Use content negotiation instead"
+    )
     def testDescribeByPOSTinTURTLE(self):
         result = self.__generic(describeQuery, TURTLE, POST)
         ct = result.info()["content-type"]
@@ -1065,7 +1125,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), bytes)
 
     # n3 is not a valid alias
-    @unittest.skip("Blazegraph does not support receiving unexpected 'format' values. n3 is not a valid alias. Use content negotiation instead")
+    @unittest.skip(
+        "Blazegraph does not support receiving unexpected 'format' values. n3 is not a valid alias. Use content negotiation instead"
+    )
     def testDescribeByGETinN3(self):
         result = self.__generic(describeQuery, N3, GET)
         ct = result.info()["content-type"]
@@ -1082,7 +1144,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), bytes)
 
     # n3 is not a valid alias
-    @unittest.skip("Blazegraph does not support receiving unexpected 'format' values. n3 is not a valid alias. Use content negotiation instead")
+    @unittest.skip(
+        "Blazegraph does not support receiving unexpected 'format' values. n3 is not a valid alias. Use content negotiation instead"
+    )
     def testDescribeByPOSTinN3(self):
         result = self.__generic(describeQuery, N3, POST)
         ct = result.info()["content-type"]
@@ -1098,7 +1162,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), bytes)
 
-    @unittest.skip("Blazegraph does not support receiving unexpected 'format' values. json-ld is not a valid alias. Use content negotiation instead")
+    @unittest.skip(
+        "Blazegraph does not support receiving unexpected 'format' values. json-ld is not a valid alias. Use content negotiation instead"
+    )
     def testDescribeByGETinJSONLD(self):
         result = self.__generic(describeQuery, JSONLD, GET)
         ct = result.info()["content-type"]
@@ -1113,7 +1179,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
-    @unittest.skip("Blazegraph does not support receiving unexpected 'format' values. json-ld is not a valid alias. Use content negotiation instead")
+    @unittest.skip(
+        "Blazegraph does not support receiving unexpected 'format' values. json-ld is not a valid alias. Use content negotiation instead"
+    )
     def testDescribeByPOSTinJSONLD(self):
         result = self.__generic(describeQuery, JSONLD, POST)
         ct = result.info()["content-type"]
@@ -1166,7 +1234,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), ConjunctiveGraph)
 
     # json is valid alias but returns application/sparql-results+json
-    @unittest.skip("Blazegraph returns application/sparql-results+json. It MUST return an RDF graph [RDF-CONCEPTS] serialized, for example, in the RDF/XML syntax [RDF-XML], or an equivalent RDF graph serialization, for SPARQL Query forms DESCRIBE and CONSTRUCT). See http://www.w3.org/TR/sparql11-protocol/#query-success")
+    @unittest.skip(
+        "Blazegraph returns application/sparql-results+json. It MUST return an RDF graph [RDF-CONCEPTS] serialized, for example, in the RDF/XML syntax [RDF-XML], or an equivalent RDF graph serialization, for SPARQL Query forms DESCRIBE and CONSTRUCT). See http://www.w3.org/TR/sparql11-protocol/#query-success"
+    )
     def testDescribeByGETinJSON_Unexpected(self):
         result = self.__generic(describeQuery, JSON, GET)
         ct = result.info()["content-type"]
@@ -1184,7 +1254,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), ConjunctiveGraph)
 
     # json is valid alias but returns application/sparql-results+json
-    @unittest.skip("Blazegraph returns application/sparql-results+json. It MUST return an RDF graph [RDF-CONCEPTS] serialized, for example, in the RDF/XML syntax [RDF-XML], or an equivalent RDF graph serialization, for SPARQL Query forms DESCRIBE and CONSTRUCT). See http://www.w3.org/TR/sparql11-protocol/#query-success")
+    @unittest.skip(
+        "Blazegraph returns application/sparql-results+json. It MUST return an RDF graph [RDF-CONCEPTS] serialized, for example, in the RDF/XML syntax [RDF-XML], or an equivalent RDF graph serialization, for SPARQL Query forms DESCRIBE and CONSTRUCT). See http://www.w3.org/TR/sparql11-protocol/#query-success"
+    )
     def testDescribeByPOSTinJSON_Unexpected(self):
         result = self.__generic(describeQuery, JSON, POST)
         ct = result.info()["content-type"]
@@ -1233,8 +1305,8 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
-################################################################################
-################################################################################
+    ################################################################################
+    ################################################################################
 
     def testQueryBadFormed(self):
         self.assertRaises(QueryBadFormed, self.__generic, queryBadFormed, XML, GET)
@@ -1242,13 +1314,15 @@ class SPARQLWrapperTests(unittest.TestCase):
     def testQueryManyPrefixes(self):
         result = self.__generic(queryManyPrefixes, XML, GET)
 
-    @unittest.skip('Blazegraph. org.openrdf.query.MalformedQueryException: Multiple prefix declarations for prefix xxx')
+    @unittest.skip(
+        "Blazegraph. org.openrdf.query.MalformedQueryException: Multiple prefix declarations for prefix xxx"
+    )
     def testQueryDuplicatedPrefix(self):
         result = self.__generic(queryDuplicatedPrefix, XML, GET)
 
     def testKeepAlive(self):
         sparql = SPARQLWrapper(endpoint)
-        sparql.setQuery('SELECT * WHERE {?s ?p ?o} LIMIT 10')
+        sparql.setQuery("SELECT * WHERE {?s ?p ?o} LIMIT 10")
         sparql.setReturnFormat(JSON)
         sparql.setMethod(GET)
         sparql.setUseKeepAlive()
@@ -1259,12 +1333,15 @@ class SPARQLWrapperTests(unittest.TestCase):
     def testQueryWithComma_1(self):
         result = self.__generic(queryWithCommaInCurie_1, XML, GET)
 
-    @unittest.skip('Blazegraph. parser error: Failed to decode SPARQL ID "dbpedia:Category\". See #94')
+    @unittest.skip(
+        'Blazegraph. parser error: Failed to decode SPARQL ID "dbpedia:Category". See #94'
+    )
     def testQueryWithComma_2(self):
         result = self.__generic(queryWithCommaInCurie_2, XML, POST)
 
     def testQueryWithComma_3(self):
         result = self.__generic(queryWithCommaInUri, XML, GET)
+
 
 if __name__ == "__main__":
     unittest.main()

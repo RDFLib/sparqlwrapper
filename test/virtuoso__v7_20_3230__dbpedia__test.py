@@ -8,15 +8,17 @@ import unittest
 
 # prefer local copy to the one which is installed
 # hack from http://stackoverflow.com/a/6098238/280539
-_top_level_path = os.path.realpath(os.path.abspath(os.path.join(
-    os.path.split(inspect.getfile(inspect.currentframe()))[0],
-    ".."
-)))
+_top_level_path = os.path.realpath(
+    os.path.abspath(
+        os.path.join(os.path.split(inspect.getfile(inspect.currentframe()))[0], "..")
+    )
+)
 if _top_level_path not in sys.path:
     sys.path.insert(0, _top_level_path)
 # end of hack
 
 import warnings
+
 warnings.simplefilter("always")
 
 try:
@@ -24,16 +26,44 @@ try:
 except ImportError:
     from rdflib import ConjunctiveGraph
 
-from SPARQLWrapper import SPARQLWrapper, XML, RDFXML, RDF, N3, TURTLE, JSONLD, JSON, CSV, TSV, POST, GET
-from SPARQLWrapper.Wrapper import _SPARQL_XML, _SPARQL_JSON, _XML, _RDF_XML, _RDF_N3, _RDF_TURTLE, _RDF_JSONLD, _CSV, _TSV
+from SPARQLWrapper import (
+    SPARQLWrapper,
+    XML,
+    RDFXML,
+    RDF,
+    N3,
+    TURTLE,
+    JSONLD,
+    JSON,
+    CSV,
+    TSV,
+    POST,
+    GET,
+)
+from SPARQLWrapper.Wrapper import (
+    _SPARQL_XML,
+    _SPARQL_JSON,
+    _XML,
+    _RDF_XML,
+    _RDF_N3,
+    _RDF_TURTLE,
+    _RDF_JSONLD,
+    _CSV,
+    _TSV,
+)
 from SPARQLWrapper.SPARQLExceptions import QueryBadFormed
 
-_SPARQL_SELECT_ASK_POSSIBLE = _SPARQL_XML + _SPARQL_JSON + _CSV + _TSV + _XML # only used in test
-_SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE = _RDF_XML + _RDF_N3 + _XML + _RDF_JSONLD # only used in test. Same as Wrapper._RDF_POSSIBLE
+_SPARQL_SELECT_ASK_POSSIBLE = (
+    _SPARQL_XML + _SPARQL_JSON + _CSV + _TSV + _XML
+)  # only used in test
+_SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE = (
+    _RDF_XML + _RDF_N3 + _XML + _RDF_JSONLD
+)  # only used in test. Same as Wrapper._RDF_POSSIBLE
 
 from urllib.error import HTTPError
 
 import logging
+
 logging.basicConfig()
 
 endpoint = "http://dbpedia.org/sparql"
@@ -147,9 +177,11 @@ queryWithCommaInUri = """
     }
 """
 
-class SPARQLWrapperTests(unittest.TestCase):
 
-    def __generic(self, query, returnFormat, method, onlyConneg=False): # Virtuoso 7 uses URL parameters or content negotiation.
+class SPARQLWrapperTests(unittest.TestCase):
+    def __generic(
+        self, query, returnFormat, method, onlyConneg=False
+    ):  # Virtuoso 7 uses URL parameters or content negotiation.
         sparql = SPARQLWrapper(endpoint)
         sparql.setQuery(prefixes + query)
         sparql.setReturnFormat(returnFormat)
@@ -172,12 +204,12 @@ class SPARQLWrapperTests(unittest.TestCase):
         else:
             return result
 
-################################################################################
-################################################################################
+    ################################################################################
+    ################################################################################
 
-################
-#### SELECT ####
-################
+    ################
+    #### SELECT ####
+    ################
 
     def testSelectByGETinXML(self):
         result = self.__generic(selectQuery, XML, GET)
@@ -299,44 +331,64 @@ class SPARQLWrapperTests(unittest.TestCase):
     # Set by default None (and sending */*).
     # For a SELECT query type, the default return mimetype (if Accept: */* is sent) is application/sparql-results+xml
     # URI generated http://dbpedia.org/sparql?query=%0A++++PREFIX+rdf%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%3E%0A++++PREFIX+rdfs%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F2000%2F01%2Frdf-schema%23%3E%0A%0A++++SELECT+%3Flabel%0A++++WHERE+%7B%0A++++%3Chttp%3A%2F%2Fdbpedia.org%2Fresource%2FAsturias%3E+rdfs%3Alabel+%3Flabel+.%0A++++%7D%0A
-    @unittest.skip("Virtuoso returns text/rdf+n3. It MUST return SPARQL Results Document in XML (sparql-results+xml), JSON (sparql-results+json), or CSV/TSV (text/csv or text/tab-separated-values) see http://www.w3.org/TR/sparql11-protocol/#query-success")
+    @unittest.skip(
+        "Virtuoso returns text/rdf+n3. It MUST return SPARQL Results Document in XML (sparql-results+xml), JSON (sparql-results+json), or CSV/TSV (text/csv or text/tab-separated-values) see http://www.w3.org/TR/sparql11-protocol/#query-success"
+    )
     def testSelectByGETinN3_Unexpected(self):
         result = self.__generic(selectQuery, N3, GET)
         ct = result.info()["content-type"]
-        assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], "returned Content-Type='%s'. Expected fail due to Virtuoso configuration" %(ct)
+        assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], (
+            "returned Content-Type='%s'. Expected fail due to Virtuoso configuration"
+            % (ct)
+        )
         results = result.convert()
         self.assertEqual(type(results), bytes)
 
     # Asking for an unexpected return format for SELECT queryType (json-ld is not supported, it is not a valid alias).
     # Set by default None (and sending */*).
     # For a SELECT query type, the default return mimetype (if Accept: */* is sent) is application/sparql-results+xml
-    @unittest.skip("Virtuoso returns text/rdf+n3. It MUST return SPARQL Results Document in XML (sparql-results+xml), JSON (sparql-results+json), or CSV/TSV (text/csv or text/tab-separated-values) see http://www.w3.org/TR/sparql11-protocol/#query-success")
+    @unittest.skip(
+        "Virtuoso returns text/rdf+n3. It MUST return SPARQL Results Document in XML (sparql-results+xml), JSON (sparql-results+json), or CSV/TSV (text/csv or text/tab-separated-values) see http://www.w3.org/TR/sparql11-protocol/#query-success"
+    )
     def testSelectByGETinN3_Unexpected_Conneg(self):
         result = self.__generic(selectQuery, N3, GET, onlyConneg=True)
         ct = result.info()["content-type"]
-        assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], "returned Content-Type='%s'. Expected fail due to Virtuoso configuration" %(ct)
+        assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], (
+            "returned Content-Type='%s'. Expected fail due to Virtuoso configuration"
+            % (ct)
+        )
         results = result.convert()
         self.assertEqual(type(results), bytes)
 
     # Asking for an unexpected return format for SELECT queryType (json-ld is not supported, it is not a valid alias).
     # Set by default None (and sending */*).
     # For a SELECT query type, the default return mimetype (if Accept: */* is sent) is application/sparql-results+xml
-    @unittest.skip("Virtuoso returns text/rdf+n3. It MUST return SPARQL Results Document in XML (sparql-results+xml), JSON (sparql-results+json), or CSV/TSV (text/csv or text/tab-separated-values) see http://www.w3.org/TR/sparql11-protocol/#query-success")
+    @unittest.skip(
+        "Virtuoso returns text/rdf+n3. It MUST return SPARQL Results Document in XML (sparql-results+xml), JSON (sparql-results+json), or CSV/TSV (text/csv or text/tab-separated-values) see http://www.w3.org/TR/sparql11-protocol/#query-success"
+    )
     def testSelectByPOSTinN3_Unexpected(self):
         result = self.__generic(selectQuery, N3, POST)
         ct = result.info()["content-type"]
-        assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], "returned Content-Type='%s'. Expected fail due to Virtuoso configuration" %(ct)
+        assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], (
+            "returned Content-Type='%s'. Expected fail due to Virtuoso configuration"
+            % (ct)
+        )
         results = result.convert()
         self.assertEqual(type(results), bytes)
 
     # Asking for an unexpected return format for SELECT queryType (json-ld is not supported, it is not a valid alias).
     # Set by default None (and sending */*).
     # For a SELECT query type, the default return mimetype (if Accept: */* is sent) is application/sparql-results+xml
-    @unittest.skip("Virtuoso returns text/rdf+n3. It MUST return SPARQL Results Document in XML (sparql-results+xml), JSON (sparql-results+json), or CSV/TSV (text/csv or text/tab-separated-values) see http://www.w3.org/TR/sparql11-protocol/#query-success")
+    @unittest.skip(
+        "Virtuoso returns text/rdf+n3. It MUST return SPARQL Results Document in XML (sparql-results+xml), JSON (sparql-results+json), or CSV/TSV (text/csv or text/tab-separated-values) see http://www.w3.org/TR/sparql11-protocol/#query-success"
+    )
     def testSelectByPOSTinN3_Unexpected_Conneg(self):
         result = self.__generic(selectQuery, N3, POST, onlyConneg=True)
         ct = result.info()["content-type"]
-        assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], "returned Content-Type='%s'. Expected fail due to Virtuoso configuration" %(ct)
+        assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], (
+            "returned Content-Type='%s'. Expected fail due to Virtuoso configuration"
+            % (ct)
+        )
         results = result.convert()
         self.assertEqual(type(results), bytes)
 
@@ -420,12 +472,12 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
-################################################################################
-################################################################################
+    ################################################################################
+    ################################################################################
 
-#############
-#### ASK ####
-#############
+    #############
+    #### ASK ####
+    #############
 
     def testAskByGETinXML(self):
         result = self.__generic(askQuery, XML, GET)
@@ -546,51 +598,73 @@ class SPARQLWrapperTests(unittest.TestCase):
     # Asking for an unexpected return format for ASK queryType
     # Set by default None (and sending */*).
     # For an ASK query type, the default return mimetype (if Accept: */* is sent) is text/html
-    @unittest.skip("Virtuoso returns text/rdf+n3. It MUST return SPARQL Results Document in XML (sparql-results+xml), JSON (sparql-results+json), or CSV/TSV (text/csv or text/tab-separated-values) see http://www.w3.org/TR/sparql11-protocol/#query-success")
+    @unittest.skip(
+        "Virtuoso returns text/rdf+n3. It MUST return SPARQL Results Document in XML (sparql-results+xml), JSON (sparql-results+json), or CSV/TSV (text/csv or text/tab-separated-values) see http://www.w3.org/TR/sparql11-protocol/#query-success"
+    )
     def testAskByGETinN3_Unexpected(self):
         result = self.__generic(askQuery, N3, GET)
         ct = result.info()["content-type"]
-        assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], "returned Content-Type='%s'. Expected fail due to Virtuoso configuration" %(ct)
+        assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], (
+            "returned Content-Type='%s'. Expected fail due to Virtuoso configuration"
+            % (ct)
+        )
         results = result.convert()
         self.assertEqual(type(results), bytes)
 
     # Asking for an unexpected return format for ASK queryType
     # Set by default None (and sending */*).
     # For an ASK query type, the default return mimetype (if Accept: */* is sent) is text/html
-    @unittest.skip("Virtuoso returns text/rdf+n3. It MUST return SPARQL Results Document in XML (sparql-results+xml), JSON (sparql-results+json), or CSV/TSV (text/csv or text/tab-separated-values) see http://www.w3.org/TR/sparql11-protocol/#query-success")
+    @unittest.skip(
+        "Virtuoso returns text/rdf+n3. It MUST return SPARQL Results Document in XML (sparql-results+xml), JSON (sparql-results+json), or CSV/TSV (text/csv or text/tab-separated-values) see http://www.w3.org/TR/sparql11-protocol/#query-success"
+    )
     def testAskByGETinN3_Unexpected_Conneg(self):
         result = self.__generic(askQuery, N3, GET, onlyConneg=True)
         ct = result.info()["content-type"]
-        assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], "returned Content-Type='%s'. Expected fail due to Virtuoso configuration" %(ct)
+        assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], (
+            "returned Content-Type='%s'. Expected fail due to Virtuoso configuration"
+            % (ct)
+        )
         results = result.convert()
         self.assertEqual(type(results), bytes)
 
     # Asking for an unexpected return format for ASK queryType
     # Set by default None (and sending */*).
     # For an ASK query type, the default return mimetype (if Accept: */* is sent) is text/html
-    @unittest.skip("Virtuoso returns text/rdf+n3. It MUST return SPARQL Results Document in XML (sparql-results+xml), JSON (sparql-results+json), or CSV/TSV (text/csv or text/tab-separated-values) see http://www.w3.org/TR/sparql11-protocol/#query-success")
+    @unittest.skip(
+        "Virtuoso returns text/rdf+n3. It MUST return SPARQL Results Document in XML (sparql-results+xml), JSON (sparql-results+json), or CSV/TSV (text/csv or text/tab-separated-values) see http://www.w3.org/TR/sparql11-protocol/#query-success"
+    )
     def testAskByPOSTinN3_Unexpected(self):
         result = self.__generic(askQuery, N3, POST)
         ct = result.info()["content-type"]
-        assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], "returned Content-Type='%s'. Expected fail due to Virtuoso configuration" %(ct)
+        assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], (
+            "returned Content-Type='%s'. Expected fail due to Virtuoso configuration"
+            % (ct)
+        )
         results = result.convert()
         self.assertEqual(type(results), bytes)
 
     # Asking for an unexpected return format for ASK queryType
     # Set by default None (and sending */*).
     # For an ASK query type, the default return mimetype (if Accept: */* is sent) is text/html
-    @unittest.skip("Virtuoso returns text/rdf+n3. It MUST return SPARQL Results Document in XML (sparql-results+xml), JSON (sparql-results+json), or CSV/TSV (text/csv or text/tab-separated-values) see http://www.w3.org/TR/sparql11-protocol/#query-success")
+    @unittest.skip(
+        "Virtuoso returns text/rdf+n3. It MUST return SPARQL Results Document in XML (sparql-results+xml), JSON (sparql-results+json), or CSV/TSV (text/csv or text/tab-separated-values) see http://www.w3.org/TR/sparql11-protocol/#query-success"
+    )
     def testAskByPOSTinN3_Unexpected_Conneg(self):
         result = self.__generic(askQuery, N3, POST, onlyConneg=True)
         ct = result.info()["content-type"]
-        assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], "returned Content-Type='%s'. Expected fail due to Virtuoso configuration" %(ct)
+        assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], (
+            "returned Content-Type='%s'. Expected fail due to Virtuoso configuration"
+            % (ct)
+        )
         results = result.convert()
         self.assertEqual(type(results), bytes)
 
     # Asking for an unexpected return format for ASK queryType
     # Set by default None (and sending */*).
     # For an ASK query type, the default return mimetype (if Accept: */* is sent) is text/html
-    @unittest.skip("Virtuoso returns text/html. It MUST return SPARQL Results Document in XML (sparql-results+xml), JSON (sparql-results+json), or CSV/TSV (text/csv or text/tab-separated-values) see http://www.w3.org/TR/sparql11-protocol/#query-success")
+    @unittest.skip(
+        "Virtuoso returns text/html. It MUST return SPARQL Results Document in XML (sparql-results+xml), JSON (sparql-results+json), or CSV/TSV (text/csv or text/tab-separated-values) see http://www.w3.org/TR/sparql11-protocol/#query-success"
+    )
     def testAskByGETinJSONLD_Unexpected(self):
         result = self.__generic(askQuery, JSONLD, GET)
         ct = result.info()["content-type"]
@@ -600,7 +674,9 @@ class SPARQLWrapperTests(unittest.TestCase):
     # Asking for an unexpected return format for ASK queryType
     # Set by default None (and sending */*).
     # For an ASK query type, the default return mimetype (if Accept: */* is sent) is text/html
-    @unittest.skip("Virtuoso returns text/html. It MUST return SPARQL Results Document in XML (sparql-results+xml), JSON (sparql-results+json), or CSV/TSV (text/csv or text/tab-separated-values) see http://www.w3.org/TR/sparql11-protocol/#query-success")
+    @unittest.skip(
+        "Virtuoso returns text/html. It MUST return SPARQL Results Document in XML (sparql-results+xml), JSON (sparql-results+json), or CSV/TSV (text/csv or text/tab-separated-values) see http://www.w3.org/TR/sparql11-protocol/#query-success"
+    )
     def testAskByGETinJSONLD_Unexpected_Conneg(self):
         result = self.__generic(askQuery, JSONLD, GET, onlyConneg=True)
         ct = result.info()["content-type"]
@@ -610,7 +686,9 @@ class SPARQLWrapperTests(unittest.TestCase):
     # Asking for an unexpected return format for ASK queryType
     # Set by default None (and sending */*).
     # For an ASK query type, the default return mimetype (if Accept: */* is sent) is text/html
-    @unittest.skip("Virtuoso returns text/html. It MUST return SPARQL Results Document in XML (sparql-results+xml), JSON (sparql-results+json), or CSV/TSV (text/csv or text/tab-separated-values) see http://www.w3.org/TR/sparql11-protocol/#query-success")
+    @unittest.skip(
+        "Virtuoso returns text/html. It MUST return SPARQL Results Document in XML (sparql-results+xml), JSON (sparql-results+json), or CSV/TSV (text/csv or text/tab-separated-values) see http://www.w3.org/TR/sparql11-protocol/#query-success"
+    )
     def testAskByPOSTinJSONLD_Unexpected(self):
         result = self.__generic(askQuery, JSONLD, POST)
         ct = result.info()["content-type"]
@@ -620,7 +698,9 @@ class SPARQLWrapperTests(unittest.TestCase):
     # Asking for an unexpected return format for ASK queryType
     # Set by default None (and sending */*).
     # For an ASK query type, the default return mimetype (if Accept: */* is sent) is text/html
-    @unittest.skip("Virtuoso returns text/html. It MUST return SPARQL Results Document in XML (sparql-results+xml), JSON (sparql-results+json), or CSV/TSV (text/csv or text/tab-separated-values) see http://www.w3.org/TR/sparql11-protocol/#query-success")
+    @unittest.skip(
+        "Virtuoso returns text/html. It MUST return SPARQL Results Document in XML (sparql-results+xml), JSON (sparql-results+json), or CSV/TSV (text/csv or text/tab-separated-values) see http://www.w3.org/TR/sparql11-protocol/#query-success"
+    )
     def testAskByPOSTinJSONLD_Unexpected_Conneg(self):
         result = self.__generic(askQuery, JSONLD, POST, onlyConneg=True)
         ct = result.info()["content-type"]
@@ -663,12 +743,12 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
-###############################################################################
-################################################################################
+    ###############################################################################
+    ################################################################################
 
-###################
-#### CONSTRUCT ####
-###################
+    ###################
+    #### CONSTRUCT ####
+    ###################
 
     def testConstructByGETinXML(self):
         result = self.__generic(constructQuery, XML, GET)
@@ -789,38 +869,51 @@ class SPARQLWrapperTests(unittest.TestCase):
     def testConstructByGETinJSONLD(self):
         result = self.__generic(constructQuery, JSONLD, GET)
         ct = result.info()["content-type"]
-        assert True in [one in ct for one in _RDF_JSONLD], "returned Content-Type='%s'." %(ct)
+        assert True in [
+            one in ct for one in _RDF_JSONLD
+        ], "returned Content-Type='%s'." % (ct)
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
     def testConstructByGETinJSONLD_Conneg(self):
         result = self.__generic(constructQuery, JSONLD, GET, onlyConneg=True)
         ct = result.info()["content-type"]
-        assert True in [one in ct for one in _RDF_JSONLD], "returned Content-Type='%s'." %(ct)
+        assert True in [
+            one in ct for one in _RDF_JSONLD
+        ], "returned Content-Type='%s'." % (ct)
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
     def testConstructByPOSTinJSONLD(self):
         result = self.__generic(constructQuery, JSONLD, POST)
         ct = result.info()["content-type"]
-        assert True in [one in ct for one in _RDF_JSONLD], "returned Content-Type='%s'." %(ct)
+        assert True in [
+            one in ct for one in _RDF_JSONLD
+        ], "returned Content-Type='%s'." % (ct)
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
     def testConstructByPOSTinJSONLD_Conneg(self):
         result = self.__generic(constructQuery, JSONLD, POST, onlyConneg=True)
         ct = result.info()["content-type"]
-        assert True in [one in ct for one in _RDF_JSONLD], "returned Content-Type='%s'." %(ct)
+        assert True in [
+            one in ct for one in _RDF_JSONLD
+        ], "returned Content-Type='%s'." % (ct)
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
     # Asking for an unexpected return format for CONSTRUCT queryType.
     # For a CONSTRUCT query type, the default return mimetype (if Accept: */* is sent) is text/turtle
-    @unittest.skip("Virtuoso returns text/csv. It MUST return an RDF graph [RDF-CONCEPTS] serialized, for example, in the RDF/XML syntax [RDF-XML], or an equivalent RDF graph serialization, for SPARQL Query forms DESCRIBE and CONSTRUCT). See http://www.w3.org/TR/sparql11-protocol/#query-success")
+    @unittest.skip(
+        "Virtuoso returns text/csv. It MUST return an RDF graph [RDF-CONCEPTS] serialized, for example, in the RDF/XML syntax [RDF-XML], or an equivalent RDF graph serialization, for SPARQL Query forms DESCRIBE and CONSTRUCT). See http://www.w3.org/TR/sparql11-protocol/#query-success"
+    )
     def testConstructByGETinCSV_Unexpected(self):
         result = self.__generic(constructQuery, CSV, GET)
         ct = result.info()["content-type"]
-        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], "returned Content-Type='%s'. Expected fail due to Virtuoso configuration" %(ct)
+        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], (
+            "returned Content-Type='%s'. Expected fail due to Virtuoso configuration"
+            % (ct)
+        )
         results = result.convert()
         self.assertEqual(type(results), bytes)
 
@@ -829,17 +922,25 @@ class SPARQLWrapperTests(unittest.TestCase):
     def testConstructByGETinCSV_Unexpected_Conneg(self):
         result = self.__generic(constructQuery, CSV, GET, onlyConneg=True)
         ct = result.info()["content-type"]
-        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], "returned Content-Type='%s'. Expected fail due to Virtuoso configuration" %(ct)
+        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], (
+            "returned Content-Type='%s'. Expected fail due to Virtuoso configuration"
+            % (ct)
+        )
         results = result.convert()
         self.assertEqual(type(results), bytes)
 
     # Asking for an unexpected return format for CONSTRUCT queryType.
     # For a CONSTRUCT query type, the default return mimetype (if Accept: */* is sent) is text/turtle
-    @unittest.skip("Virtuoso returns text/csv. It MUST return an RDF graph [RDF-CONCEPTS] serialized, for example, in the RDF/XML syntax [RDF-XML], or an equivalent RDF graph serialization, for SPARQL Query forms DESCRIBE and CONSTRUCT). See http://www.w3.org/TR/sparql11-protocol/#query-success")
+    @unittest.skip(
+        "Virtuoso returns text/csv. It MUST return an RDF graph [RDF-CONCEPTS] serialized, for example, in the RDF/XML syntax [RDF-XML], or an equivalent RDF graph serialization, for SPARQL Query forms DESCRIBE and CONSTRUCT). See http://www.w3.org/TR/sparql11-protocol/#query-success"
+    )
     def testConstructByPOSTinCSV_Unexpected(self):
         result = self.__generic(constructQuery, CSV, POST)
         ct = result.info()["content-type"]
-        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], "returned Content-Type='%s'. Expected fail due to Virtuoso configuration" %(ct)
+        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], (
+            "returned Content-Type='%s'. Expected fail due to Virtuoso configuration"
+            % (ct)
+        )
         results = result.convert()
         self.assertEqual(type(results), bytes)
 
@@ -848,47 +949,70 @@ class SPARQLWrapperTests(unittest.TestCase):
     def testConstructByPOSTinCSV_Unexpected_Conneg(self):
         result = self.__generic(constructQuery, CSV, POST, onlyConneg=True)
         ct = result.info()["content-type"]
-        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], "returned Content-Type='%s'. Expected fail due to Virtuoso configuration" %(ct)
+        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], (
+            "returned Content-Type='%s'. Expected fail due to Virtuoso configuration"
+            % (ct)
+        )
         results = result.convert()
         self.assertEqual(type(results), bytes)
 
     # Asking for an unexpected return format for CONSTRUCT queryType.
     # For a CONSTRUCT query type, the default return mimetype (if Accept: */* is sent) is text/turtle
-    @unittest.skip("Virtuoso returns application/sparql-results+json. It MUST return an RDF graph [RDF-CONCEPTS] serialized, for example, in the RDF/XML syntax [RDF-XML], or an equivalent RDF graph serialization, for SPARQL Query forms DESCRIBE and CONSTRUCT). See http://www.w3.org/TR/sparql11-protocol/#query-success")
+    @unittest.skip(
+        "Virtuoso returns application/sparql-results+json. It MUST return an RDF graph [RDF-CONCEPTS] serialized, for example, in the RDF/XML syntax [RDF-XML], or an equivalent RDF graph serialization, for SPARQL Query forms DESCRIBE and CONSTRUCT). See http://www.w3.org/TR/sparql11-protocol/#query-success"
+    )
     def testConstructByGETinJSON_Unexpected(self):
         result = self.__generic(constructQuery, JSON, GET)
         ct = result.info()["content-type"]
-        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], "returned Content-Type='%s'. Expected fail due to Virtuoso configuration" %(ct)
+        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], (
+            "returned Content-Type='%s'. Expected fail due to Virtuoso configuration"
+            % (ct)
+        )
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
     # Asking for an unexpected return format for CONSTRUCT queryType.
     # For a CONSTRUCT query type, the default return mimetype (if Accept: */* is sent) is text/turtle
-    @unittest.skip("Virtuoso returns application/sparql-results+json. It MUST return an RDF graph [RDF-CONCEPTS] serialized, for example, in the RDF/XML syntax [RDF-XML], or an equivalent RDF graph serialization, for SPARQL Query forms DESCRIBE and CONSTRUCT). See http://www.w3.org/TR/sparql11-protocol/#query-success")
+    @unittest.skip(
+        "Virtuoso returns application/sparql-results+json. It MUST return an RDF graph [RDF-CONCEPTS] serialized, for example, in the RDF/XML syntax [RDF-XML], or an equivalent RDF graph serialization, for SPARQL Query forms DESCRIBE and CONSTRUCT). See http://www.w3.org/TR/sparql11-protocol/#query-success"
+    )
     def testConstructByGETinJSON_Unexpected_Conneg(self):
         result = self.__generic(constructQuery, JSON, GET, onlyConneg=True)
         ct = result.info()["content-type"]
-        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], "returned Content-Type='%s'. Expected fail due to Virtuoso configuration" %(ct)
+        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], (
+            "returned Content-Type='%s'. Expected fail due to Virtuoso configuration"
+            % (ct)
+        )
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
     # Asking for an unexpected return format for CONSTRUCT queryType.
     # For a CONSTRUCT query type, the default return mimetype (if Accept: */* is sent) is text/turtle
-    @unittest.skip("Virtuoso returns application/sparql-results+json. It MUST return an RDF graph [RDF-CONCEPTS] serialized, for example, in the RDF/XML syntax [RDF-XML], or an equivalent RDF graph serialization, for SPARQL Query forms DESCRIBE and CONSTRUCT). See http://www.w3.org/TR/sparql11-protocol/#query-success")
+    @unittest.skip(
+        "Virtuoso returns application/sparql-results+json. It MUST return an RDF graph [RDF-CONCEPTS] serialized, for example, in the RDF/XML syntax [RDF-XML], or an equivalent RDF graph serialization, for SPARQL Query forms DESCRIBE and CONSTRUCT). See http://www.w3.org/TR/sparql11-protocol/#query-success"
+    )
     def testConstructByPOSTinJSON_Unexpected(self):
         result = self.__generic(constructQuery, JSON, POST)
         ct = result.info()["content-type"]
-        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], "returned Content-Type='%s'. Expected fail due to Virtuoso configuration" %(ct)
+        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], (
+            "returned Content-Type='%s'. Expected fail due to Virtuoso configuration"
+            % (ct)
+        )
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
     # Asking for an unexpected return format for CONSTRUCT queryType.
     # For a CONSTRUCT query type, the default return mimetype (if Accept: */* is sent) is text/turtle
-    @unittest.skip("Virtuoso returns application/sparql-results+json. It MUST return an RDF graph [RDF-CONCEPTS] serialized, for example, in the RDF/XML syntax [RDF-XML], or an equivalent RDF graph serialization, for SPARQL Query forms DESCRIBE and CONSTRUCT). See http://www.w3.org/TR/sparql11-protocol/#query-success")
+    @unittest.skip(
+        "Virtuoso returns application/sparql-results+json. It MUST return an RDF graph [RDF-CONCEPTS] serialized, for example, in the RDF/XML syntax [RDF-XML], or an equivalent RDF graph serialization, for SPARQL Query forms DESCRIBE and CONSTRUCT). See http://www.w3.org/TR/sparql11-protocol/#query-success"
+    )
     def testConstructByPOSTinJSON_Unexpected_Conneg(self):
         result = self.__generic(constructQuery, JSON, POST, onlyConneg=True)
         ct = result.info()["content-type"]
-        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], "returned Content-Type='%s'. Expected fail due to Virtuoso configuration" %(ct)
+        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], (
+            "returned Content-Type='%s'. Expected fail due to Virtuoso configuration"
+            % (ct)
+        )
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
@@ -924,12 +1048,12 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
-###############################################################################
-################################################################################
+    ###############################################################################
+    ################################################################################
 
-##################
-#### DESCRIBE ####
-##################
+    ##################
+    #### DESCRIBE ####
+    ##################
 
     def testDescribeByGETinXML(self):
         result = self.__generic(describeQuery, XML, GET)
@@ -1050,38 +1174,51 @@ class SPARQLWrapperTests(unittest.TestCase):
     def testDescribeByGETinJSONLD(self):
         result = self.__generic(describeQuery, JSONLD, GET)
         ct = result.info()["content-type"]
-        assert True in [one in ct for one in _RDF_JSONLD], "returned Content-Type='%s'." %(ct)
+        assert True in [
+            one in ct for one in _RDF_JSONLD
+        ], "returned Content-Type='%s'." % (ct)
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
     def testDescribeByGETinJSONLD_Conneg(self):
         result = self.__generic(describeQuery, JSONLD, GET, onlyConneg=True)
         ct = result.info()["content-type"]
-        assert True in [one in ct for one in _RDF_JSONLD], "returned Content-Type='%s'." %(ct)
+        assert True in [
+            one in ct for one in _RDF_JSONLD
+        ], "returned Content-Type='%s'." % (ct)
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
     def testDescribeByPOSTinJSONLD(self):
         result = self.__generic(describeQuery, JSONLD, POST)
         ct = result.info()["content-type"]
-        assert True in [one in ct for one in _RDF_JSONLD], "returned Content-Type='%s'." %(ct)
+        assert True in [
+            one in ct for one in _RDF_JSONLD
+        ], "returned Content-Type='%s'." % (ct)
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
     def testDescribeByPOSTinJSONLD_Conneg(self):
         result = self.__generic(describeQuery, JSONLD, POST, onlyConneg=True)
         ct = result.info()["content-type"]
-        assert True in [one in ct for one in _RDF_JSONLD], "returned Content-Type='%s'." %(ct)
+        assert True in [
+            one in ct for one in _RDF_JSONLD
+        ], "returned Content-Type='%s'." % (ct)
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
     # Asking for an unexpected return format for DESCRIBE queryType.
     # For a DESCRIBE query type, the default return mimetype (if Accept: */* is sent) is text/turtle
-    @unittest.skip("Virtuoso returns text/csv. It MUST return an RDF graph [RDF-CONCEPTS] serialized, for example, in the RDF/XML syntax [RDF-XML], or an equivalent RDF graph serialization, for SPARQL Query forms DESCRIBE and CONSTRUCT). See http://www.w3.org/TR/sparql11-protocol/#query-success")
+    @unittest.skip(
+        "Virtuoso returns text/csv. It MUST return an RDF graph [RDF-CONCEPTS] serialized, for example, in the RDF/XML syntax [RDF-XML], or an equivalent RDF graph serialization, for SPARQL Query forms DESCRIBE and CONSTRUCT). See http://www.w3.org/TR/sparql11-protocol/#query-success"
+    )
     def testDescribeByGETinCSV_Unexpected(self):
         result = self.__generic(describeQuery, CSV, GET)
         ct = result.info()["content-type"]
-        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], "returned Content-Type='%s'. Expected fail due to Virtuoso configuration" %(ct)
+        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], (
+            "returned Content-Type='%s'. Expected fail due to Virtuoso configuration"
+            % (ct)
+        )
         results = result.convert()
         self.assertEqual(type(results), bytes)
 
@@ -1090,17 +1227,25 @@ class SPARQLWrapperTests(unittest.TestCase):
     def testDescribeByGETinCSV_Unexpected_Conneg(self):
         result = self.__generic(describeQuery, CSV, GET, onlyConneg=True)
         ct = result.info()["content-type"]
-        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], "returned Content-Type='%s'. Expected fail due to Virtuoso configuration" %(ct)
+        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], (
+            "returned Content-Type='%s'. Expected fail due to Virtuoso configuration"
+            % (ct)
+        )
         results = result.convert()
         self.assertEqual(type(results), bytes)
 
     # Asking for an unexpected return format for DESCRIBE queryType.
     # For a DESCRIBE query type, the default return mimetype (if Accept: */* is sent) is text/turtle
-    @unittest.skip("Virtuoso returns text/csv. It MUST return an RDF graph [RDF-CONCEPTS] serialized, for example, in the RDF/XML syntax [RDF-XML], or an equivalent RDF graph serialization, for SPARQL Query forms DESCRIBE and CONSTRUCT). See http://www.w3.org/TR/sparql11-protocol/#query-success")
+    @unittest.skip(
+        "Virtuoso returns text/csv. It MUST return an RDF graph [RDF-CONCEPTS] serialized, for example, in the RDF/XML syntax [RDF-XML], or an equivalent RDF graph serialization, for SPARQL Query forms DESCRIBE and CONSTRUCT). See http://www.w3.org/TR/sparql11-protocol/#query-success"
+    )
     def testDescribeByPOSTinCSV_Unexpected(self):
         result = self.__generic(describeQuery, CSV, POST)
         ct = result.info()["content-type"]
-        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], "returned Content-Type='%s'. Expected fail due to Virtuoso configuration" %(ct)
+        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], (
+            "returned Content-Type='%s'. Expected fail due to Virtuoso configuration"
+            % (ct)
+        )
         results = result.convert()
         self.assertEqual(type(results), bytes)
 
@@ -1109,46 +1254,69 @@ class SPARQLWrapperTests(unittest.TestCase):
     def testDescribeByPOSTinCSV_Unexpected_Conneg(self):
         result = self.__generic(describeQuery, CSV, POST, onlyConneg=True)
         ct = result.info()["content-type"]
-        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], "returned Content-Type='%s'. Expected fail due to Virtuoso configuration" %(ct)
+        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], (
+            "returned Content-Type='%s'. Expected fail due to Virtuoso configuration"
+            % (ct)
+        )
         results = result.convert()
         self.assertEqual(type(results), bytes)
 
     # Asking for an unexpected return format for DESCRIBE queryType.
     # For a DESCRIBE query type, the default return mimetype (if Accept: */* is sent) is text/turtle
-    @unittest.skip("Virtuoso returns application/sparql-results+json. It MUST return an RDF graph [RDF-CONCEPTS] serialized, for example, in the RDF/XML syntax [RDF-XML], or an equivalent RDF graph serialization, for SPARQL Query forms DESCRIBE and CONSTRUCT). See http://www.w3.org/TR/sparql11-protocol/#query-success")
+    @unittest.skip(
+        "Virtuoso returns application/sparql-results+json. It MUST return an RDF graph [RDF-CONCEPTS] serialized, for example, in the RDF/XML syntax [RDF-XML], or an equivalent RDF graph serialization, for SPARQL Query forms DESCRIBE and CONSTRUCT). See http://www.w3.org/TR/sparql11-protocol/#query-success"
+    )
     def testDescribeByGETinJSON_Unexpected(self):
         result = self.__generic(describeQuery, JSON, GET)
         ct = result.info()["content-type"]
-        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], "returned Content-Type='%s'. Expected fail due to Virtuoso configuration" %(ct)
+        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], (
+            "returned Content-Type='%s'. Expected fail due to Virtuoso configuration"
+            % (ct)
+        )
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
     # For a DESCRIBE query type, the default return mimetype (if Accept: */* is sent) is text/turtle
-    @unittest.skip("Virtuoso returns application/sparql-results+json. It MUST return an RDF graph [RDF-CONCEPTS] serialized, for example, in the RDF/XML syntax [RDF-XML], or an equivalent RDF graph serialization, for SPARQL Query forms DESCRIBE and CONSTRUCT). See http://www.w3.org/TR/sparql11-protocol/#query-success")
+    @unittest.skip(
+        "Virtuoso returns application/sparql-results+json. It MUST return an RDF graph [RDF-CONCEPTS] serialized, for example, in the RDF/XML syntax [RDF-XML], or an equivalent RDF graph serialization, for SPARQL Query forms DESCRIBE and CONSTRUCT). See http://www.w3.org/TR/sparql11-protocol/#query-success"
+    )
     def testDescribeByGETinJSON_Unexpected_Conneg(self):
         result = self.__generic(describeQuery, JSON, GET, onlyConneg=True)
         ct = result.info()["content-type"]
-        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], "returned Content-Type='%s'. Expected fail due to Virtuoso configuration" %(ct)
+        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], (
+            "returned Content-Type='%s'. Expected fail due to Virtuoso configuration"
+            % (ct)
+        )
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
     # Asking for an unexpected return format for DESCRIBE queryType.
     # For a DESCRIBE query type, the default return mimetype (if Accept: */* is sent) is text/turtle
-    @unittest.skip("Virtuoso returns application/sparql-results+json. It MUST return an RDF graph [RDF-CONCEPTS] serialized, for example, in the RDF/XML syntax [RDF-XML], or an equivalent RDF graph serialization, for SPARQL Query forms DESCRIBE and CONSTRUCT). See http://www.w3.org/TR/sparql11-protocol/#query-success")
+    @unittest.skip(
+        "Virtuoso returns application/sparql-results+json. It MUST return an RDF graph [RDF-CONCEPTS] serialized, for example, in the RDF/XML syntax [RDF-XML], or an equivalent RDF graph serialization, for SPARQL Query forms DESCRIBE and CONSTRUCT). See http://www.w3.org/TR/sparql11-protocol/#query-success"
+    )
     def testDescribeByPOSTinJSON_Unexpected(self):
         result = self.__generic(describeQuery, JSON, POST)
         ct = result.info()["content-type"]
-        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], "returned Content-Type='%s'. Expected fail due to Virtuoso configuration" %(ct)
+        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], (
+            "returned Content-Type='%s'. Expected fail due to Virtuoso configuration"
+            % (ct)
+        )
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
     # Asking for an unexpected return format for DESCRIBE queryType.
     # For a DESCRIBE query type, the default return mimetype (if Accept: */* is sent) is text/turtle
-    @unittest.skip("Virtuoso returns application/sparql-results+json. It MUST return an RDF graph [RDF-CONCEPTS] serialized, for example, in the RDF/XML syntax [RDF-XML], or an equivalent RDF graph serialization, for SPARQL Query forms DESCRIBE and CONSTRUCT). See http://www.w3.org/TR/sparql11-protocol/#query-success")
+    @unittest.skip(
+        "Virtuoso returns application/sparql-results+json. It MUST return an RDF graph [RDF-CONCEPTS] serialized, for example, in the RDF/XML syntax [RDF-XML], or an equivalent RDF graph serialization, for SPARQL Query forms DESCRIBE and CONSTRUCT). See http://www.w3.org/TR/sparql11-protocol/#query-success"
+    )
     def testDescribeByPOSTinJSON_Unexpected_Conneg(self):
         result = self.__generic(describeQuery, JSON, POST, onlyConneg=True)
         ct = result.info()["content-type"]
-        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], "returned Content-Type='%s'. Expected fail due to Virtuoso configuration" %(ct)
+        assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], (
+            "returned Content-Type='%s'. Expected fail due to Virtuoso configuration"
+            % (ct)
+        )
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
@@ -1184,9 +1352,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
-################################################################################
-################################################################################
-################################################################################
+    ################################################################################
+    ################################################################################
+    ################################################################################
 
     def testQueryBadFormed(self):
         self.assertRaises(QueryBadFormed, self.__generic, queryBadFormed, XML, GET)
@@ -1199,7 +1367,7 @@ class SPARQLWrapperTests(unittest.TestCase):
 
     def testKeepAlive(self):
         sparql = SPARQLWrapper(endpoint)
-        sparql.setQuery('SELECT * WHERE {?s ?p ?o} LIMIT 10')
+        sparql.setQuery("SELECT * WHERE {?s ?p ?o} LIMIT 10")
         sparql.setReturnFormat(JSON)
         sparql.setMethod(GET)
         sparql.setUseKeepAlive()
@@ -1217,6 +1385,7 @@ class SPARQLWrapperTests(unittest.TestCase):
 
     def testQueryWithComma_3(self):
         result = self.__generic(queryWithCommaInUri, XML, GET)
+
 
 if __name__ == "__main__":
     unittest.main()

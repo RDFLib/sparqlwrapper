@@ -8,15 +8,17 @@ import unittest
 
 # prefer local copy to the one which is installed
 # hack from http://stackoverflow.com/a/6098238/280539
-_top_level_path = os.path.realpath(os.path.abspath(os.path.join(
-    os.path.split(inspect.getfile(inspect.currentframe()))[0],
-    ".."
-)))
+_top_level_path = os.path.realpath(
+    os.path.abspath(
+        os.path.join(os.path.split(inspect.getfile(inspect.currentframe()))[0], "..")
+    )
+)
 if _top_level_path not in sys.path:
     sys.path.insert(0, _top_level_path)
 # end of hack
 
 import warnings
+
 warnings.simplefilter("always")
 
 try:
@@ -24,19 +26,47 @@ try:
 except ImportError:
     from rdflib import ConjunctiveGraph
 
-from SPARQLWrapper import SPARQLWrapper, XML, RDFXML, RDF, N3, TURTLE, JSONLD, JSON, CSV, TSV, POST, GET
-from SPARQLWrapper.Wrapper import _SPARQL_XML, _SPARQL_JSON, _XML, _RDF_XML, _RDF_N3, _RDF_TURTLE, _RDF_JSONLD, _CSV, _TSV
+from SPARQLWrapper import (
+    SPARQLWrapper,
+    XML,
+    RDFXML,
+    RDF,
+    N3,
+    TURTLE,
+    JSONLD,
+    JSON,
+    CSV,
+    TSV,
+    POST,
+    GET,
+)
+from SPARQLWrapper.Wrapper import (
+    _SPARQL_XML,
+    _SPARQL_JSON,
+    _XML,
+    _RDF_XML,
+    _RDF_N3,
+    _RDF_TURTLE,
+    _RDF_JSONLD,
+    _CSV,
+    _TSV,
+)
 from SPARQLWrapper.SPARQLExceptions import QueryBadFormed
 
-_SPARQL_SELECT_ASK_POSSIBLE = _SPARQL_XML + _SPARQL_JSON + _CSV + _TSV + _XML # only used in test
-_SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE = _RDF_XML + _RDF_N3 + _XML + _RDF_JSONLD # only used in test. Same as Wrapper._RDF_POSSIBLE
+_SPARQL_SELECT_ASK_POSSIBLE = (
+    _SPARQL_XML + _SPARQL_JSON + _CSV + _TSV + _XML
+)  # only used in test
+_SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE = (
+    _RDF_XML + _RDF_N3 + _XML + _RDF_JSONLD
+)  # only used in test. Same as Wrapper._RDF_POSSIBLE
 
 from urllib.error import HTTPError
 
 import logging
+
 logging.basicConfig()
 
-endpoint = "http://sparql.agroportal.lirmm.fr/sparql/" # 4store SPARQL server v1.1.5-122-g1788d29
+endpoint = "http://sparql.agroportal.lirmm.fr/sparql/"  # 4store SPARQL server v1.1.5-122-g1788d29
 
 prefixes = """
     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -146,9 +176,11 @@ queryWithCommaInUri = """
     }
 """
 
-class SPARQLWrapperTests(unittest.TestCase):
 
-    def __generic(self, query, returnFormat, method, onlyConneg=False): # 4store uses URL parameters or conneg.
+class SPARQLWrapperTests(unittest.TestCase):
+    def __generic(
+        self, query, returnFormat, method, onlyConneg=False
+    ):  # 4store uses URL parameters or conneg.
         sparql = SPARQLWrapper(endpoint)
         sparql.setQuery(prefixes + query)
         sparql.setReturnFormat(returnFormat)
@@ -171,13 +203,12 @@ class SPARQLWrapperTests(unittest.TestCase):
         else:
             return result
 
+    ################################################################################
+    ################################################################################
 
-################################################################################
-################################################################################
-
-################
-#### SELECT ####
-################
+    ################
+    #### SELECT ####
+    ################
 
     def testSelectByGETinXML(self):
         result = self.__generic(selectQuery, XML, GET)
@@ -239,7 +270,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), bytes)
 
-    @unittest.skip("4store does not support receiving unexpected output values (check Wrapper code for TSV URL generation)")
+    @unittest.skip(
+        "4store does not support receiving unexpected output values (check Wrapper code for TSV URL generation)"
+    )
     def testSelectByGETinTSV(self):
         result = self.__generic(selectQueryCSV_TSV, TSV, GET)
         ct = result.info()["content-type"]
@@ -299,7 +332,9 @@ class SPARQLWrapperTests(unittest.TestCase):
     # Asking for an unexpected return format for SELECT queryType (n3 is not supported, and it is not a valid alias).
     # Set by default None (and sending */*).
     # For a SELECT query type, the default return mimetype (if Accept: */* is sent) is application/sparql-results+xml
-    @unittest.skip("4store does not support receiving unexpected output values (n3 is not a valid alias)")
+    @unittest.skip(
+        "4store does not support receiving unexpected output values (n3 is not a valid alias)"
+    )
     def testSelectByGETinN3_Unexpected(self):
         result = self.__generic(selectQuery, N3, GET)
         ct = result.info()["content-type"]
@@ -341,7 +376,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
-    @unittest.skip("4store does not support receiving unexpected output values (json-ld is not a valid alias)")
+    @unittest.skip(
+        "4store does not support receiving unexpected output values (json-ld is not a valid alias)"
+    )
     def testSelectByGETinJSONLD_Unexpected(self):
         result = self.__generic(selectQuery, JSONLD, GET)
         ct = result.info()["content-type"]
@@ -423,12 +460,12 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
-################################################################################
-################################################################################
+    ################################################################################
+    ################################################################################
 
-#############
-#### ASK ####
-#############
+    #############
+    #### ASK ####
+    #############
 
     def testAskByGETinXML(self):
         result = self.__generic(askQuery, XML, GET)
@@ -490,7 +527,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), bytes)
 
-    @unittest.skip("TSV is supported for 4store, but it returns a text/plain instead of text/tab-separated-values")
+    @unittest.skip(
+        "TSV is supported for 4store, but it returns a text/plain instead of text/tab-separated-values"
+    )
     def testAskByGETinTSV(self):
         result = self.__generic(askQuery, TSV, GET)
         ct = result.info()["content-type"]
@@ -547,7 +586,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), dict)
 
-    @unittest.skip("4store does not support receiving unexpected output values (n3 is not a valid alias)")
+    @unittest.skip(
+        "4store does not support receiving unexpected output values (n3 is not a valid alias)"
+    )
     def testAskByGETinN3_Unexpected(self):
         result = self.__generic(askQuery, N3, GET)
         ct = result.info()["content-type"]
@@ -589,7 +630,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
-    @unittest.skip("4store does not support receiving unexpected output values (json-ld is not a valid alias)")
+    @unittest.skip(
+        "4store does not support receiving unexpected output values (json-ld is not a valid alias)"
+    )
     def testAskByGETinJSONLD_Unexpected(self):
         result = self.__generic(askQuery, JSONLD, GET)
         ct = result.info()["content-type"]
@@ -671,12 +714,12 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
-################################################################################
-################################################################################
+    ################################################################################
+    ################################################################################
 
-###################
-#### CONSTRUCT ####
-###################
+    ###################
+    #### CONSTRUCT ####
+    ###################
 
     def testConstructByGETinXML(self):
         result = self.__generic(constructQuery, XML, GET)
@@ -706,7 +749,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
-    @unittest.skip("4store does not support receiving unexpected output values (rdf+xml is not a valid alias)")
+    @unittest.skip(
+        "4store does not support receiving unexpected output values (rdf+xml is not a valid alias)"
+    )
     def testConstructByGETinRDFXML(self):
         result = self.__generic(constructQuery, RDFXML, GET)
         ct = result.info()["content-type"]
@@ -738,7 +783,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), ConjunctiveGraph)
 
     # turtle is not a valid alias ('text' is the one used)
-    @unittest.skip("4store does not support receiving unexpected output values (turtle is not a valid alias)")
+    @unittest.skip(
+        "4store does not support receiving unexpected output values (turtle is not a valid alias)"
+    )
     def testConstructByGETinTURTLE(self):
         result = self.__generic(constructQuery, TURTLE, GET)
         ct = result.info()["content-type"]
@@ -773,7 +820,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), bytes)
 
-    @unittest.skip("4store does not support receiving unexpected output values (n3 is not a valid alias)")
+    @unittest.skip(
+        "4store does not support receiving unexpected output values (n3 is not a valid alias)"
+    )
     def testConstructByGETinN3(self):
         result = self.__generic(constructQuery, N3, GET)
         ct = result.info()["content-type"]
@@ -838,7 +887,9 @@ class SPARQLWrapperTests(unittest.TestCase):
 
     # Asking for an unexpected return format for CONSTRUCT queryType.
     # For a CONSTRUCT query type, the default return mimetype (if Accept: */* is sent) is application/rdf+xml
-    @unittest.skip("4store returns text/turtle instead of the expected default application/rdf+xml")
+    @unittest.skip(
+        "4store returns text/turtle instead of the expected default application/rdf+xml"
+    )
     def testConstructByGETinCSV_Unexpected(self):
         result = self.__generic(constructQuery, CSV, GET)
         ct = result.info()["content-type"]
@@ -875,7 +926,9 @@ class SPARQLWrapperTests(unittest.TestCase):
 
     # Asking for an unexpected return format for CONSTRUCT queryType.
     # For a CONSTRUCT query type, the default return mimetype (if Accept: */* is sent) is application/rdf+xml
-    @unittest.skip("4store returns text/turtle instead of the expected default application/rdf+xml")
+    @unittest.skip(
+        "4store returns text/turtle instead of the expected default application/rdf+xml"
+    )
     def testConstructByGETinJSON_Unexpected(self):
         result = self.__generic(constructQuery, JSON, GET)
         ct = result.info()["content-type"]
@@ -884,7 +937,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), ConjunctiveGraph)
 
     def testConstructByGETinJSON_Unexpected_Conneg(self):
-        result = self.__generic(constructQuery, JSON, GET , onlyConneg=True)
+        result = self.__generic(constructQuery, JSON, GET, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE]
         results = result.convert()
@@ -944,12 +997,12 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
-################################################################################
-################################################################################
+    ################################################################################
+    ################################################################################
 
-##################
-#### DESCRIBE ####
-##################
+    ##################
+    #### DESCRIBE ####
+    ##################
 
     def testDescribeByGETinXML(self):
         result = self.__generic(describeQuery, XML, GET)
@@ -980,7 +1033,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), ConjunctiveGraph)
 
     # rdf+xml is not a valid alias
-    @unittest.skip("4store does not support receiving unexpected output values (rdf+xml is not a valid alias)")
+    @unittest.skip(
+        "4store does not support receiving unexpected output values (rdf+xml is not a valid alias)"
+    )
     def testDescribeByGETinRDFXML(self):
         result = self.__generic(describeQuery, RDFXML, GET)
         ct = result.info()["content-type"]
@@ -1013,7 +1068,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), ConjunctiveGraph)
 
     # turtle is not a valid alias ('text' is the one used)
-    @unittest.skip("4store does not support receiving unexpected output values (turtle is not a valid alias)")
+    @unittest.skip(
+        "4store does not support receiving unexpected output values (turtle is not a valid alias)"
+    )
     def testDescribeByGETinTURTLE(self):
         result = self.__generic(describeQuery, TURTLE, GET)
         ct = result.info()["content-type"]
@@ -1045,7 +1102,9 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), bytes)
 
-    @unittest.skip("4store does not support receiving unexpected output values (n3 is not a valid alias)")
+    @unittest.skip(
+        "4store does not support receiving unexpected output values (n3 is not a valid alias)"
+    )
     def testDescribeByGETinN3(self):
         result = self.__generic(describeQuery, N3, GET)
         ct = result.info()["content-type"]
@@ -1110,7 +1169,9 @@ class SPARQLWrapperTests(unittest.TestCase):
 
     # Asking for an unexpected return format for DESCRIBE queryType.
     # For a DESCRIBE query type, the default return mimetype (if Accept: */* is sent) is application/rdf+xml
-    @unittest.skip("4store returns text/csv instead of the expected default application/rdf+xml. AND the content of the response is a Turtle document. It MUST return an RDF graph [RDF-CONCEPTS] serialized, for example, in the RDF/XML syntax [RDF-XML], or an equivalent RDF graph serialization, for SPARQL Query forms DESCRIBE and CONSTRUCT). See http://www.w3.org/TR/sparql11-protocol/#query-success")
+    @unittest.skip(
+        "4store returns text/csv instead of the expected default application/rdf+xml. AND the content of the response is a Turtle document. It MUST return an RDF graph [RDF-CONCEPTS] serialized, for example, in the RDF/XML syntax [RDF-XML], or an equivalent RDF graph serialization, for SPARQL Query forms DESCRIBE and CONSTRUCT). See http://www.w3.org/TR/sparql11-protocol/#query-success"
+    )
     def testDescribeByGETinCSV_Unexpected(self):
         result = self.__generic(describeQuery, CSV, GET)
         ct = result.info()["content-type"]
@@ -1147,7 +1208,9 @@ class SPARQLWrapperTests(unittest.TestCase):
 
     # Asking for an unexpected return format for DESCRIBE queryType.
     # For a DESCRIBE query type, the default return mimetype (if Accept: */* is sent) is application/rdf+xml
-    @unittest.skip("4store returns application/sparql-results+json instead of the expected default application/rdf+xml. It MUST return an RDF graph [RDF-CONCEPTS] serialized, for example, in the RDF/XML syntax [RDF-XML], or an equivalent RDF graph serialization, for SPARQL Query forms DESCRIBE and CONSTRUCT). See http://www.w3.org/TR/sparql11-protocol/#query-success")
+    @unittest.skip(
+        "4store returns application/sparql-results+json instead of the expected default application/rdf+xml. It MUST return an RDF graph [RDF-CONCEPTS] serialized, for example, in the RDF/XML syntax [RDF-XML], or an equivalent RDF graph serialization, for SPARQL Query forms DESCRIBE and CONSTRUCT). See http://www.w3.org/TR/sparql11-protocol/#query-success"
+    )
     def testDescribeByGETinJSON_Unexpected(self):
         result = self.__generic(describeQuery, JSON, GET)
         ct = result.info()["content-type"]
@@ -1218,8 +1281,8 @@ class SPARQLWrapperTests(unittest.TestCase):
         results = result.convert()
         self.assertEqual(type(results), ConjunctiveGraph)
 
-################################################################################
-################################################################################
+    ################################################################################
+    ################################################################################
 
     def testQueryBadFormed(self):
         self.assertRaises(QueryBadFormed, self.__generic, queryBadFormed, XML, GET)
@@ -1232,7 +1295,7 @@ class SPARQLWrapperTests(unittest.TestCase):
 
     def testKeepAlive(self):
         sparql = SPARQLWrapper(endpoint)
-        sparql.setQuery('SELECT * WHERE {?s ?p ?o} LIMIT 10')
+        sparql.setQuery("SELECT * WHERE {?s ?p ?o} LIMIT 10")
         sparql.setReturnFormat(JSON)
         sparql.setMethod(GET)
         sparql.setUseKeepAlive()
@@ -1240,16 +1303,21 @@ class SPARQLWrapperTests(unittest.TestCase):
         sparql.query()
         sparql.query()
 
-    @unittest.skip('Store 4. parser error: Failed to decode SPARQL ID "dbpedia:Victoria\". See #94')
+    @unittest.skip(
+        'Store 4. parser error: Failed to decode SPARQL ID "dbpedia:Victoria". See #94'
+    )
     def testQueryWithComma_1(self):
         result = self.__generic(queryWithCommaInCurie_1, XML, GET)
 
-    @unittest.skip('Store 4. parser error: Failed to decode SPARQL ID "dbpedia:Category\". See #94')
+    @unittest.skip(
+        'Store 4. parser error: Failed to decode SPARQL ID "dbpedia:Category". See #94'
+    )
     def testQueryWithComma_2(self):
         result = self.__generic(queryWithCommaInCurie_2, XML, POST)
 
     def testQueryWithComma_3(self):
         result = self.__generic(queryWithCommaInUri, XML, GET)
+
 
 if __name__ == "__main__":
     unittest.main()
