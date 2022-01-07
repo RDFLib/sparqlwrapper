@@ -7,7 +7,7 @@ class QueryException(Exception):
     pass
 
 def get_sparql_dataframe_orig(endpoint, query):
-    """ copy pasta from: https://github.com/lawlesst/sparql-dataframe """
+    """ copy paste from: https://github.com/lawlesst/sparql-dataframe """
     # pandas inside to avoid requiring it
     import pandas as pd
     sparql = SPARQLWrapper(endpoint)
