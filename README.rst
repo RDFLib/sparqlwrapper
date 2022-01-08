@@ -432,8 +432,8 @@ Note that some combinations may not work yet with all SPARQL processors
 Hopefully, this problem will eventually disappear.
 
 
-Database management systems
-===========================
+SPRQL Endpoint Implementations
+==============================
 
 Introduction
 ------------
@@ -445,14 +445,14 @@ The response body of a successful query operation with a 2XX response is either:
 - `SELECT` and `ASK`: a SPARQL Results Document in XML, JSON, or CSV/TSV format.
 - `DESCRIBE` and `CONSTRUCT`: an **RDF graph serialized**, for example, in the RDF/XML syntax, or an equivalent RDF graph serialization.
 
-
 The fact is that the **parameter key** for the choice of the **output format** is not defined.
-Virtuoso uses `format`, joseki/fuseki uses `output`, rasqual seems to use `results`, etc...
+Virtuoso uses `format`, Fuseki uses `output`, rasqual seems to use `results`, etc...
 Also, in some cases HTTP Content Negotiation can/must be used.
 
 
 ClioPatria
 ----------
+
 :Website: `The SWI-Prolog Semantic Web Server <http://cliopatria.swi-prolog.org/home>`_
 :Documentation: Search 'sparql' in `<http://cliopatria.swi-prolog.org/help/http>`_.
 :Uses: Parameters **and** Content Negotiation.
@@ -830,7 +830,7 @@ The source distribution contains:
 Community
 =========
 
-Community support is available through the developer's discussion group `rdflib-dev <http://groups.google.com/d/forum/rdflib-dev>`_.
+Community support is available through the RDFlib developer's discussion group `rdflib-dev <http://groups.google.com/d/forum/rdflib-dev>`_.
 The `archives <http://sourceforge.net/mailarchive/forum.php?forum_name=sparql-wrapper-devel>`_. from the old mailing list are still available.
 
 Issues
