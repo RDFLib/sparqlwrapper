@@ -2,7 +2,7 @@ include *.md
 exclude Makefile
 include test/*.py
 include scripts/*.py
-include requirements.txt
+include requirements*.txt
 include LICENSE.txt
 include ChangeLog.txt
 graft docs/build/html
