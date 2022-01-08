@@ -10,14 +10,14 @@ About
 =====
 
 **SPARQLWrapper** is a simple Python wrapper around a `SPARQL <https://www.w3.org/TR/sparql11-overview/>`_ service to
-remotely execute your queries. It helps in creating the query
-invokation and, possibly, convert the result into a more manageable
+remotely execute your queries. It helps by creating the query
+invocation and, optionally, converting the result into a more manageable
 format.
 
 Installation & Distribution
 ===========================
 
-You can install SPARQLWrapper from PyPi::
+You can install SPARQLWrapper from PyPI::
 
    $ pip install sparqlwrapper
 
@@ -42,58 +42,77 @@ Documentation is included in the distribution.
 How to use
 ==========
 
+You can use SPARQLWrapper either as a Python command line script or as a Python package.
 
-First steps
------------
+Command Line Script
+-------------------
 
-The simplest usage of this module looks as follows (using the default, ie, `XML return format <http://www.w3.org/TR/rdf-sparql-XMLres/>`_, and special URI for the
-SPARQL Service)::
+To use as a command line script, you will need to install SPARQLWrapper and then
+a command line script called ``rqw`` (spaRQl Wrapper) will be available within the
+Python environment into which it is installed. run ``$ rql -h`` to see all the
+script's options.
 
- from SPARQLWrapper import SPARQLWrapper
- 
- queryString = "SELECT * WHERE { ?s ?p ?o. }"
- sparql = SPARQLWrapper("http://example.org/sparql")
- 
- sparql.setQuery(queryString)
- 
- try :
-    ret = sparql.query()
-    # ret is a stream with the results in XML, see <http://www.w3.org/TR/rdf-sparql-XMLres/>
- except :
-    deal_with_the_exception()
-
-If ``SPARQLWrapper("http://example.org/sparql",returnFormat=SPARQLWrapper.JSON)`` was used, the result would be in
-`JSON format <http://www.w3.org/TR/rdf-sparql-json-res/>`_ instead of XML.
-
-
-SELECT example
+Python package
 --------------
 
-.. code:: python
+Here are a series of examples of different queries executed via SPARQLWrapper
+as a python package.
 
-   from SPARQLWrapper import SPARQLWrapper, JSON
+SELECT examples
+^^^^^^^^^^^^^^^
 
-   sparql = SPARQLWrapper("http://dbpedia.org/sparql")
-   sparql.setQuery("""
-       PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-       SELECT ?label
-       WHERE { <http://dbpedia.org/resource/Asturias> rdfs:label ?label }
-   """)
-   sparql.setReturnFormat(JSON)
-   results = sparql.query().convert()
+Simple use of this module is as follows where a live SPARQL endpoint is given and the JSON return format is used:
 
-   for result in results["results"]["bindings"]:
-       print(result["label"]["value"])
-   
-   print('---------------------------')
-   
-   for result in results["results"]["bindings"]:
-       print('%s: %s' % (result["label"]["xml:lang"], result["label"]["value"]))
+.. code-block:: python
+
+    from SPARQLWrapper import SPARQLWrapper, JSON
+
+    sparql = SPARQLWrapper(
+        "http://vocabs.ardc.edu.au/repository/api/sparql/"
+        "csiro_international-chronostratigraphic-chart_geologic-time-scale-2020"
+    )
+    sparql.setReturnFormat(JSON)
+
+    # gets the first 3 geological ages
+    # from a Geological Timescale database,
+    # via a SPARQL endpoint
+    sparql.setQuery("""
+        PREFIX gts: <http://resource.geosciml.org/ontology/timescale/gts#>
+
+        SELECT *
+        WHERE {
+            ?a a gts:Age .
+        }
+        ORDER BY ?a
+        LIMIT 3
+        """
+    )
+
+    try:
+        ret = sparql.queryAndConvert()
+
+        for r in ret["results"]["bindings"]:
+            print(r)
+    except Exception as e:
+        print(e)
+
+
+This should print out something like this::
+
+    {'a': {'type': 'uri', 'value': 'http://resource.geosciml.org/classifier/ics/ischart/Aalenian'}}
+    {'a': {'type': 'uri', 'value': 'http://resource.geosciml.org/classifier/ics/ischart/Aeronian'}}
+    {'a': {'type': 'uri', 'value': 'http://resource.geosciml.org/classifier/ics/ischart/Albian'}}
+
+
+The above result is the response from the given endpoint, retrieved in JSON, and converted to a
+Python object, ``ret``, which is then iterated over and printed.
 
 ASK example
------------
+^^^^^^^^^^^
 
-.. code:: python
+This query gets a boolean response from DBPedia's SPARQL endpoint:
+
+.. code-block:: python
 
    from SPARQLWrapper import SPARQLWrapper, XML
 
@@ -107,102 +126,179 @@ ASK example
    results = sparql.query().convert()
    print(results.toxml())
 
+
+You should see something like:
+
+.. code-block::
+
+    <?xml version="1.0" ?>
+    <sparql
+        xmlns="http://www.w3.org/2005/sparql-results#"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.w3.org/2001/sw/DataAccess/rf1/result2.xsd">
+    <head/>
+        <boolean>true</boolean>
+    </sparql>
+
+
 CONSTRUCT example
------------------
+^^^^^^^^^^^^^^^^^
 
-.. code:: python
+CONSTRUCT queries return RDF, so ``queryAndConvert()`` here produces an
+RDFlib ``Graph`` object which is then serialized to the Turtle format
+for printing:
 
-   from SPARQLWrapper import SPARQLWrapper, RDFXML
-   from rdflib import Graph
+.. code-block:: python
 
-   sparql = SPARQLWrapper("http://dbpedia.org/sparql")
+    from SPARQLWrapper import SPARQLWrapper
 
-   sparql.setQuery("""
-       PREFIX dbo: <http://dbpedia.org/ontology/>
-       PREFIX schema: <http://schema.org/>
-       
-       CONSTRUCT {
-         ?lang a schema:Language ;
-         schema:alternateName ?iso6391Code . 
-       }
-       WHERE {
-         ?lang a dbo:Language ;
-         dbo:iso6391Code ?iso6391Code .
-         FILTER (STRLEN(?iso6391Code)=2) # to filter out non-valid values
-       }
-   """)
+    sparql = SPARQLWrapper("http://dbpedia.org/sparql")
 
-   sparql.setReturnFormat(RDFXML)
-   results = sparql.query().convert()
-   print(results.serialize(format='xml'))
+    sparql.setQuery("""
+        PREFIX dbo: <http://dbpedia.org/ontology/>
+        PREFIX sdo: <https://schema.org/>
+
+        CONSTRUCT {
+          ?lang a sdo:Language ;
+          sdo:alternateName ?iso6391Code .
+        }
+        WHERE {
+          ?lang a dbo:Language ;
+          dbo:iso6391Code ?iso6391Code .
+          FILTER (STRLEN(?iso6391Code)=2) # to filter out non-valid values
+        }
+        LIMIT 3
+    """)
+
+    results = sparql.queryAndConvert()
+    print(results.serialize())
+
+
+Results from this query should look something like this:
+
+.. code-block::
+
+    @prefix schema: <https://schema.org/> .
+
+    <http://dbpedia.org/resource/Arabic> a schema:Language ;
+        schema:alternateName "ar" .
+
+    <http://dbpedia.org/resource/Aragonese_language> a schema:Language ;
+        schema:alternateName "an" .
+
+    <http://dbpedia.org/resource/Uruguayan_Spanish> a schema:Language ;
+        schema:alternateName "es" .
+
 
 DESCRIBE example
-----------------
+^^^^^^^^^^^^^^^^
 
-.. code:: python
+Like CONSTRUCT queries, DESCRIBE queries also produce RDF results, so this
+example produces an RDFlib ``Graph`` object which is then serialized into
+the JSON-LD format and printed:
 
-   from SPARQLWrapper import SPARQLWrapper, N3
-   from rdflib import Graph
+.. code-block:: python
 
-   sparql = SPARQLWrapper("http://dbpedia.org/sparql")
+    from SPARQLWrapper import SPARQLWrapper
 
-   sparql.setQuery("""
-       DESCRIBE <http://dbpedia.org/resource/Asturias>
-   """)
+    sparql = SPARQLWrapper("http://dbpedia.org/sparql")
+    sparql.setQuery("DESCRIBE <http://dbpedia.org/resource/Asturias>")
 
-   sparql.setReturnFormat(N3)
-   results = sparql.query().convert()
-   g = Graph()
-   g.parse(data=results, format="n3")
-   print(g.serialize(format='n3'))
+    results = sparql.queryAndConvert()
+    print(results.serialize(format="json-ld"))
+
+
+The result for this example is large but starts something like this:
+
+.. code-block::
+
+    [
+        {
+            "@id": "http://dbpedia.org/resource/Mazonovo",
+            "http://dbpedia.org/ontology/subdivision": [
+                {
+                    "@id": "http://dbpedia.org/resource/Asturias"
+                }
+        ],
+    ...
 
 SPARQL UPDATE example
----------------------
+^^^^^^^^^^^^^^^^^^^^^
 
-.. code:: python
+UPDATE queries write changes to a SPARQL endpoint, so we can't easily show
+a working example here. However, if ``https://example.org/sparql`` really
+was a working SPARQL endpoint that allowed updates, the following code
+might work:
 
-   from SPARQLWrapper import SPARQLWrapper, POST, DIGEST
+.. code-block:: python
 
-   sparql = SPARQLWrapper("https://example.org/sparql-auth")
+    from SPARQLWrapper import SPARQLWrapper, POST, DIGEST
 
-   sparql.setHTTPAuth(DIGEST)
-   sparql.setCredentials("login", "password")
-   sparql.setMethod(POST)
+    sparql = SPARQLWrapper("https://example.org/sparql")
+    sparql.setHTTPAuth(DIGEST)
+    sparql.setCredentials("some-login", "some-password")
+    sparql.setMethod(POST)
 
-   sparql.setQuery("""
-   WITH <http://example.graph>
-   DELETE
-   { <http://dbpedia.org/resource/Asturias> rdfs:label "Asturies"@ast }
-   """)
+    sparql.setQuery("""
+        PREFIX dbp:  <http://dbpedia.org/resource/>
+        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-   results = sparql.query()
-   print results.response.read()
-   
+        WITH <http://example.graph>
+        DELETE {
+           dbo:Asturias rdfs:label "Asturies"@ast
+        }
+        """
+    )
+
+    results = sparql.query()
+    print results.response.read()
+
+
+If the above code really worked, it would delete the triple
+``dbo:Asturias rdfs:label "Asturies"@ast`` from the graph
+``http://example.graph``.
+
+
 SPARQLWrapper2 example
-----------------------
+^^^^^^^^^^^^^^^^^^^^^^
 
 There is also a ``SPARQLWrapper2`` class that works with JSON SELECT
 results only and wraps the results to make processing of average queries
-a bit simpler.
+even simpler.
 
-.. code:: python
+.. code-block:: python
 
-   from SPARQLWrapper import SPARQLWrapper2
+    from SPARQLWrapper import SPARQLWrapper2
 
-   sparql = SPARQLWrapper2("http://dbpedia.org/sparql")
-   sparql.setQuery("""
-       PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-       SELECT ?label
-       WHERE { <http://dbpedia.org/resource/Asturias> rdfs:label ?label }
-   """)
+    sparql = SPARQLWrapper2("http://dbpedia.org/sparql")
+    sparql.setQuery("""
+        PREFIX dbp:  <http://dbpedia.org/resource/>
+        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-   for result in sparql.query().bindings:
-       print('%s: %s' % (result["label"].lang, result["label"].value))
+        SELECT ?label
+        WHERE {
+            dbp:Asturias rdfs:label ?label
+        }
+        LIMIT 3
+        """
+                    )
+
+    for result in sparql.query().bindings:
+        print(f"{result['label'].lang}, {result['label'].value}")
+
+The above should print out something like:
+
+.. code-block::
+
+    en, Asturias
+    ar, أشتورية
+    ca, Astúries
+
 
 Return formats
-------------------------
+--------------
 
-The expected return formats differs from the query type (``SELECT``, ``ASK``, ``CONSTRUCT``, ``DESCRIBE``...).
+The expected return formats differs per query type (``SELECT``, ``ASK``, ``CONSTRUCT``, ``DESCRIBE``...).
 
 .. note:: From the `SPARQL specification <https://www.w3.org/TR/sparql11-protocol/#query-success>`_, 
   *The response body of a successful query operation with a 2XX response is either:*
@@ -211,16 +307,16 @@ The expected return formats differs from the query type (``SELECT``, ``ASK``, ``
   * ``DESCRIBE`` and ``CONSTRUCT``: an RDF graph serialized, for example, in the RDF/XML syntax, or an equivalent RDF graph serialization.
 
 The package, though it does not contain a full SPARQL parser, makes an attempt to determine the query type
-when the query is set. This should work in most of the cases (but there is a possibility to set this manually, in case something
-goes wrong).
+when the query is set. This should work in most of the cases, but there is a possibility to set this manually, in case something
+goes wrong.
 
 Automatic conversion of the results
------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 To make processing somewhat easier, the package can do some conversions automatically from the return result. These are:
 
 * for XML, the `xml.dom.minidom <http://docs.python.org/library/xml.dom.minidom.html>`_ is used to convert the result stream into a ``Python representation of a DOM tree``.
-* for JSON, the `json <https://docs.python.org/library/json.html>`_ package to generate a ``Python dictionary``. Until version 1.3.1, the `simplejson <https://pypi.python.org/pypi/simplejson>`_ package was used.
+* for JSON, the `json <https://docs.python.org/library/json.html>`_ package to generate a ``Python dictionary``.
 * for CSV or TSV, a simple ``string``.
 * For RDF/XML and JSON-LD, the `RDFLib <https://rdflib.readthedocs.io>`_ package is used to convert the result into a ``Graph`` instance.
 * For RDF Turtle/N3, a simple ``string``.
@@ -229,90 +325,109 @@ To make processing somewhat easier, the package can do some conversions automati
 There are two ways to generate this conversion:
 
 * use ``ret.convert()`` in the return result from ``sparql.query()`` in the code above
-* use ``sparql.queryAndConvert()`` to get the converted result right away if the intermediate stream is not used
+* use ``sparql.queryAndConvert()`` to get the converted result right away, if the intermediate stream is not used
 
 
-For example, in the code below::
+For example, in the code below:
 
- try :
-     sparql.setReturnFormat(SPARQLWrapper.JSON)
-     ret = sparql.query()
-     dict = ret.convert()
- except:
-     deal_with_the_exception()
+.. code-block:: python
+
+    try :
+        sparql.setReturnFormat(SPARQLWrapper.JSON)
+        ret = sparql.query()
+        d = ret.convert()
+    except Exception as e:
+        print(e)
 
 
-the value of ``dict`` is a Python dictionary of the query result, based on the `SPARQL Query Results JSON Format <http://www.w3.org/TR/rdf-sparql-json-res/>`_.
+the value of ``d`` is a Python dictionary of the query result, based on the `SPARQL Query Results JSON Format <http://www.w3.org/TR/rdf-sparql-json-res/>`_.
 
 
 Partial interpretation of the results
--------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-A further help is to offer an extra, partial interpretation of the results, again to cover
+Further help is to offer an extra, partial interpretation of the results, again to cover
 most of the practical use cases.
 Based on the `SPARQL Query Results JSON Format <http://www.w3.org/TR/rdf-sparql-json-res/>`_, the :class:`SPARQLWrapper.SmartWrapper.Bindings` class
 can perform some simple steps in decoding the JSON return results. If :class:`SPARQLWrapper.SmartWrapper.SPARQLWrapper2`
 is used instead of :class:`SPARQLWrapper.Wrapper.SPARQLWrapper`, this result format is generated. Note that this relies on a JSON format only,
 ie, it has to be checked whether the SPARQL service can return JSON or not.
 
-Here is a simple code that makes use of this feature::
+Here is a simple code that makes use of this feature:
 
- from SPARQLWrapper import SPARQLWrapper2
- 
- queryString = "SELECT ?subj ?prop WHERE { ?subj ?prop ?o. }"
- 
- sparql = SPARQLWrapper2("http://example.org/sparql")
+.. code-block:: python
 
- sparql.setQuery(queryString)
- try :
-     ret = sparql.query()
-     print ret.variables  # this is an array consisting of "subj" and "prop"
-     for binding in ret.bindings :
-         # each binding is a dictionary. Let us just print the results
-         print "%s: %s (of type %s)" % ("s",binding[u"subj"].value,binding[u"subj"].type)
-         print "%s: %s (of type %s)" % ("p",binding[u"prop"].value,binding[u"prop"].type)
- except:
-     deal_with_the_exception()
+    from SPARQLWrapper import SPARQLWrapper2
+
+    sparql = SPARQLWrapper2("http://example.org/sparql")
+    sparql.setQuery("""
+        SELECT ?subj ?prop
+        WHERE {
+            ?subj ?prop ?obj
+        }
+        """
+    )
+
+    try:
+        ret = sparql.query()
+        print(ret.variables)  # this is an array consisting of "subj" and "prop"
+        for binding in ret.bindings:
+            # each binding is a dictionary. Let us just print the results
+            print(f"{binding['subj'].value}, {binding['subj'].type}")
+            print(f"{binding['prop'].value}, {binding['prop'].type}")
+    except Exception as e:
+        print(e)
+
 
 To make this type of code even easier to realize, the ``[]`` and ``in`` operators are also implemented
 on the result of :class:`SPARQLWrapper.SmartWrapper.Bindings`. This can be used to check and find a particular binding (ie, particular row
-in the return value). This features becomes particularly useful when the ``OPTIONAL`` feature of SPARQL is used. For example::
+in the return value). This features becomes particularly useful when the ``OPTIONAL`` feature of SPARQL is used. For example:
 
- from SPARQLWrapper import SPARQLWrapper2
- 
- queryString = "SELECT ?subj ?o ?opt WHERE { ?subj <http://a.b.c> ?o. OPTIONAL { ?subj <http://d.e.f> ?opt }}"
- 
- sparql = SPARQLWrapper2("http://example.org/sparql")
+.. code-block:: python
 
- sparql.setQuery(queryString)
- try :
-     ret = sparql.query()
-     print ret.variables  # this is an array consisting of "subj", "o", "opt"
-     if (u"subj",u"prop",u"opt") in ret :
-        # there is at least one binding covering the optional "opt", too
-        bindings = ret[u"subj",u"o",u"opt"]
-        # bindings is an array of dictionaries with the full bindings
-        for b in bindings :
-            subj = b[u"subj"].value
-            o    = b[u"o"].value
-            opt  = b[u"opt"].value
-            # do something nice with subj, o, and opt
-     # another way of accessing to values for a single variable:
-     # take all the bindings of the "subj"
-     subjbind = ret.getValues(u"subj") # an array of Value instances
-     ...
- except:
-     deal_with_the_exception()
+    from SPARQLWrapper import SPARQLWrapper2
+
+    sparql = SPARQLWrapper2("http://example.org/sparql")
+    sparql.setQuery("""
+        SELECT ?subj ?obj ?opt
+        WHERE {
+            ?subj <http://a.b.c> ?obj .
+            OPTIONAL {
+                ?subj <http://d.e.f> ?opt
+            }
+        }
+        """
+    )
+
+    try:
+        ret = sparql.query()
+        print(ret.variables)  # this is an array consisting of "subj", "obj", "opt"
+        if ("subj", "prop", "opt") in ret:
+            # there is at least one binding covering the optional "opt", too
+            bindings = ret["subj", "obj", "opt"]
+            # bindings is an array of dictionaries with the full bindings
+            for b in bindings:
+                subj = b["subj"].value
+                o = b["obj"].value
+                opt = b["opt"].value
+                # do something nice with subj, o, and opt
+
+        # another way of accessing to values for a single variable:
+        # take all the bindings of the "subj"
+        subjbind = ret.getValues("subj")  # an array of Value instances
+        ...
+    except Exception as e:
+        print(e)
 
 
 GET or POST
------------
+^^^^^^^^^^^
 
 By default, all SPARQL services are invoked using HTTP **GET** verb. However, 
 **POST** might be useful if the size of the query
 extends a reasonable size; this can be set in the query instance.
 
-Note that some combination may not work yet with all SPARQL processors
+Note that some combinations may not work yet with all SPARQL processors
 (e.g., there are implementations where **POST + JSON return** does not work). 
 Hopefully, this problem will eventually disappear.
 
