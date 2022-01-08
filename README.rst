@@ -488,7 +488,7 @@ OpenLink Virtuoso
 
 Fuseki
 ------
-:Website: `Fuseki (formerly there was Joseki) <https://jena.apache.org/documentation/serving_data/>`_
+:Website: `Fuseki <https://jena.apache.org/documentation/fuseki2/>`_
 :Uses: Parameters **and** Content Negotiation.
 :Parameter key: ``format`` or ``output`` (`Fuseki 1 <https://github.com/apache/jena/blob/master/jena-fuseki1/src/main/java/org/apache/jena/fuseki/HttpNames.java>`_, `Fuseki 2 <https://github.com/apache/jena/blob/master/jena-arq/src/main/java/org/apache/jena/riot/web/HttpNames.java>`_).
 :JSON-LD (application/ld+json): supported (in CONSTRUCT and DESCRIBE).
@@ -728,7 +728,7 @@ Blazegraph
 GraphDB
 -------
 :Website: `GraphDB, formerly known as OWLIM (OWLIM-Lite, OWLIM-SE) <http://graphdb.ontotext.com/>`_
-:Documentation: `<http://graphdb.ontotext.com/documentation/free/>`_
+:Documentation: `<https://graphdb.ontotext.com/documentation/free/>`_
 :Uses: Only content negotiation (no URL parameters).
 :Note: If the Accept value is not within the expected ones, the server returns a 406 "No acceptable file format found."
 :JSON-LD (application/ld+json): supported (in CONSTRUCT and DESCRIBE).
@@ -813,7 +813,7 @@ Requirements
 
 The `RDFLib <https://rdflib.readthedocs.io>`_ package is used for RDF parsing.
 
-This package is imported in a lazy fashion, ie, only when needed. Ie, if the user never intends to use the
+This package is imported in a lazy fashion, i.e. only when needed. If the user never intends to use the
 RDF format, the RDFLib package is not imported and the user does not have to install it.
 
 Source code
