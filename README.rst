@@ -6,6 +6,13 @@ SPARQL Endpoint interface to Python
 
 |Build Status| |PyPi version|
 
+* About_
+* `Installation & Distribution`_
+* `How to use`_
+* `SPARQL Endpoint Implementations`_
+* `Development`_
+
+
 About
 =====
 
@@ -432,8 +439,8 @@ Note that some combinations may not work yet with all SPARQL processors
 Hopefully, this problem will eventually disappear.
 
 
-SPRQL Endpoint Implementations
-==============================
+SPARQL Endpoint Implementations
+===============================
 
 Introduction
 ------------
@@ -828,35 +835,33 @@ The source distribution contains:
 -  ``docs``: the documentation.
 
 Community
-=========
+---------
 
 Community support is available through the RDFlib developer's discussion group `rdflib-dev <http://groups.google.com/d/forum/rdflib-dev>`_.
 The `archives <http://sourceforge.net/mailarchive/forum.php?forum_name=sparql-wrapper-devel>`_. from the old mailing list are still available.
 
 Issues
-======
+------
 
 Please, `report any issue to github <https://github.com/RDFLib/sparqlwrapper/issues>`_.
 
 Documentation
-=============
+-------------
 
 The `SPARQLWrapper documentation is available online <https://sparqlwrapper.readthedocs.io>`_.
 
 Other interesting documents are the latest `SPARQL 1.1 Specification (W3C Recommendation 21 March 2013) <https://www.w3.org/TR/sparql11-overview/>`_
 and the initial `SPARQL Specification (W3C Recommendation 15 January 2008) <http://www.w3.org/TR/rdf-sparql-query/>`_.
 
-
 License
-=======
+-------
 
 The SPARQLWrapper package is licensed under `W3C license`_.
 
 .. _W3C license: https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document
 
-
 Acknowledgement
-===============
+---------------
 
 The package was greatly inspired by `Lee Feigenbaum's similar package for Javascript <http://thefigtrees.net/lee/blog/2006/04/sparql_calendar_demo_a_sparql.html>`_.
 
