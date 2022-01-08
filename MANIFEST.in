@@ -3,6 +3,7 @@ exclude Makefile
 include test/*.py
 include scripts/*.py
 include requirements.txt
+include requirements.development.txt
 include LICENSE.txt
 include ChangeLog.txt
 graft docs/build/html
