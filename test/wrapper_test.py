@@ -28,6 +28,7 @@ if _top_level_path not in sys.path:
 
 import warnings
 from io import StringIO
+
 # we don't want to let Wrapper do real web-requests. so, we are…
 # constructing a simple Mock!
 from urllib.error import HTTPError
@@ -35,12 +36,34 @@ from urllib.error import HTTPError
 warnings.simplefilter("always")
 
 import SPARQLWrapper.Wrapper as _victim
-from SPARQLWrapper import (BASIC, CSV, DIGEST, GET, INSERT, JSON, JSONLD, N3,
-                           POST, POSTDIRECTLY, RDF, RDFXML, SELECT, TSV,
-                           TURTLE, URLENCODED, XML, SPARQLWrapper)
-from SPARQLWrapper.Wrapper import (EndPointInternalError, EndPointNotFound,
-                                   QueryBadFormed, QueryResult, Unauthorized,
-                                   URITooLong)
+from SPARQLWrapper import (
+    BASIC,
+    CSV,
+    DIGEST,
+    GET,
+    INSERT,
+    JSON,
+    JSONLD,
+    N3,
+    POST,
+    POSTDIRECTLY,
+    RDF,
+    RDFXML,
+    SELECT,
+    TSV,
+    TURTLE,
+    URLENCODED,
+    XML,
+    SPARQLWrapper,
+)
+from SPARQLWrapper.Wrapper import (
+    EndPointInternalError,
+    EndPointNotFound,
+    QueryBadFormed,
+    QueryResult,
+    Unauthorized,
+    URITooLong,
+)
 
 
 class FakeResult(object):
