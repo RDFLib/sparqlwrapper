@@ -1,15 +1,17 @@
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 import inspect
+import logging
 import os
 import sys
-
-import logging
-
-import unittest
-import urllib.request, urllib.error, urllib.parse
-from urllib.parse import urlparse, parse_qsl, parse_qs
-from urllib.request import Request
 import time
+import unittest
+import urllib.error
+import urllib.parse
+import urllib.request
+from urllib.parse import parse_qs, parse_qsl, urlparse
+from urllib.request import Request
 
 logging.basicConfig()
 
@@ -24,43 +26,21 @@ if _top_level_path not in sys.path:
     sys.path.insert(0, _top_level_path)
 # end of hack
 
+import warnings
+from io import StringIO
 # we don't want to let Wrapper do real web-requests. so, we are…
 # constructing a simple Mock!
 from urllib.error import HTTPError
 
-from io import StringIO
-import warnings
-
 warnings.simplefilter("always")
 
 import SPARQLWrapper.Wrapper as _victim
-
-from SPARQLWrapper import SPARQLWrapper
-from SPARQLWrapper import (
-    XML,
-    GET,
-    POST,
-    JSON,
-    JSONLD,
-    N3,
-    TURTLE,
-    RDF,
-    SELECT,
-    INSERT,
-    RDFXML,
-    CSV,
-    TSV,
-)
-from SPARQLWrapper import URLENCODED, POSTDIRECTLY
-from SPARQLWrapper import BASIC, DIGEST
-from SPARQLWrapper.Wrapper import (
-    QueryResult,
-    QueryBadFormed,
-    EndPointNotFound,
-    EndPointInternalError,
-    Unauthorized,
-    URITooLong,
-)
+from SPARQLWrapper import (BASIC, CSV, DIGEST, GET, INSERT, JSON, JSONLD, N3,
+                           POST, POSTDIRECTLY, RDF, RDFXML, SELECT, TSV,
+                           TURTLE, URLENCODED, XML, SPARQLWrapper)
+from SPARQLWrapper.Wrapper import (EndPointInternalError, EndPointNotFound,
+                                   QueryBadFormed, QueryResult, Unauthorized,
+                                   URITooLong)
 
 
 class FakeResult(object):
