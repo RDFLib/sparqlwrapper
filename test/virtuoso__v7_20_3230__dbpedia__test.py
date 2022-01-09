@@ -65,7 +65,7 @@ from urllib.error import HTTPError
 
 logging.basicConfig()
 
-endpoint = "http://dbpedia.org/sparql"
+endpoint = "https://dbpedia.org/sparql"
 
 prefixes = """
     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
