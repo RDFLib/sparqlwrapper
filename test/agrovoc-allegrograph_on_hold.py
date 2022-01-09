@@ -1,5 +1,5 @@
-# -*- coding: utf-8 -*-
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 
 import inspect
 import os
@@ -26,32 +26,12 @@ try:
 except ImportError:
     from rdflib import ConjunctiveGraph
 
-from SPARQLWrapper import (
-    SPARQLWrapper,
-    XML,
-    RDFXML,
-    RDF,
-    N3,
-    TURTLE,
-    JSONLD,
-    JSON,
-    CSV,
-    TSV,
-    POST,
-    GET,
-)
-from SPARQLWrapper.Wrapper import (
-    _SPARQL_XML,
-    _SPARQL_JSON,
-    _XML,
-    _RDF_XML,
-    _RDF_N3,
-    _RDF_TURTLE,
-    _RDF_JSONLD,
-    _CSV,
-    _TSV,
-)
+from SPARQLWrapper import (CSV, GET, JSON, JSONLD, N3, POST, RDF, RDFXML, TSV,
+                           TURTLE, XML, SPARQLWrapper)
 from SPARQLWrapper.SPARQLExceptions import QueryBadFormed
+from SPARQLWrapper.Wrapper import (_CSV, _RDF_JSONLD, _RDF_N3, _RDF_TURTLE,
+                                   _RDF_XML, _SPARQL_JSON, _SPARQL_XML, _TSV,
+                                   _XML)
 
 _SPARQL_SELECT_ASK_POSSIBLE = (
     _SPARQL_XML + _SPARQL_JSON + _CSV + _TSV + _XML
@@ -60,9 +40,8 @@ _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE = (
     _RDF_XML + _RDF_N3 + _XML + _RDF_JSONLD
 )  # only used in test. Same as Wrapper._RDF_POSSIBLE
 
-from urllib.error import HTTPError
-
 import logging
+from urllib.error import HTTPError
 
 logging.basicConfig()
 
@@ -215,17 +194,14 @@ class SPARQLWrapperTests(unittest.TestCase):
         result = self.__generic(selectQuery, XML, GET)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_XML], ct
-        results = result.convert()
-        results.toxml()
-        self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
-        self.assertEqual(results.__class__.__name__, "Document")
+        results = result.convert().toxml()
+        self.assertEqual(type(results), str)
 
     def testSelectByPOSTinXML(self):
         result = self.__generic(selectQuery, XML, POST)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_XML], ct
         results = result.convert()
-        results.toxml()
         self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
         self.assertEqual(results.__class__.__name__, "Document")
 
@@ -277,9 +253,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
         results = result.convert()
-        results.toxml()
-        self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
-        self.assertEqual(results.__class__.__name__, "Document")
+        self.assertEqual(type(results), dict)
 
     # asking for an unexpected return format for SELECT queryType
     def testSelectByPOSTinN3(self):
@@ -287,9 +261,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
         results = result.convert()
-        results.toxml()
-        self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
-        self.assertEqual(results.__class__.__name__, "Document")
+        self.assertEqual(type(results), dict)
 
     # asking for an unexpected return format for SELECT queryType
     def testSelectByGETinJSONLD(self):
@@ -297,9 +269,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
         results = result.convert()
-        results.toxml()
-        self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
-        self.assertEqual(results.__class__.__name__, "Document")
+        self.assertEqual(type(results), dict)
 
     # asking for an unexpected return format for SELECT queryType
     def testSelectByPOSTinJSONLD(self):
@@ -307,9 +277,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
         results = result.convert()
-        results.toxml()
-        self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
-        self.assertEqual(results.__class__.__name__, "Document")
+        self.assertEqual(type(results), dict)
 
     # asking for an unknown return format for SELECT queryType (XML is sent)
     def testSelectByGETinUnknow(self):
@@ -364,6 +332,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _CSV], ct
         results = result.convert()
+        self.assertEqual(type(results), dict)
 
     @unittest.skip(
         "CSV (text/csv) is not supported currently for AllegroGraph for ASK query type"
@@ -373,6 +342,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _CSV], ct
         results = result.convert()
+        self.assertEqual(type(results), dict)
 
     @unittest.skip(
         "TSV (text/tab-separated-values) is not supported currently for AllegroGraph for ASK query type"
@@ -382,6 +352,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _TSV], ct
         results = result.convert()
+        self.assertEqual(type(results), dict)
 
     @unittest.skip(
         "TSV (text/tab-separated-values) is not supported currently for AllegroGraph for ASK query type"
@@ -391,6 +362,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _TSV], ct
         results = result.convert()
+        self.assertEqual(type(results), dict)
 
     def testAskByGETinJSON(self):
         result = self.__generic(askQuery, JSON, GET)
@@ -412,9 +384,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
         results = result.convert()
-        results.toxml()
-        self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
-        self.assertEqual(results.__class__.__name__, "Document")
+        self.assertEqual(type(results), dict)
 
     # asking for an unexpected return format for ASK queryType
     def testAskByPOSTinN3(self):
@@ -422,9 +392,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
         results = result.convert()
-        results.toxml()
-        self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
-        self.assertEqual(results.__class__.__name__, "Document")
+        self.assertEqual(type(results), dict)
 
     # asking for an unexpected return format for ASK queryType
     def testAskByGETinJSONLD(self):
@@ -432,9 +400,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
         results = result.convert()
-        results.toxml()
-        self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
-        self.assertEqual(results.__class__.__name__, "Document")
+        self.assertEqual(type(results), dict)
 
     # asking for an unexpected return format for ASK queryType
     def testAskByPOSTinJSONLD(self):
@@ -442,9 +408,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_SELECT_ASK_POSSIBLE], ct
         results = result.convert()
-        results.toxml()
-        self.assertEqual(results.__class__.__module__, "xml.dom.minidom")
-        self.assertEqual(results.__class__.__name__, "Document")
+        self.assertEqual(type(results), dict)
 
     # asking for an unknown return format for ASK queryType (XML is sent)
     def testAskByGETinUnknow(self):
@@ -539,7 +503,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), bytes)
 
     # asking for an unexpected return format for CONSTRUCT queryType
     def testConstructByPOSTinJSON(self):
@@ -547,7 +511,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), bytes)
 
     # asking for an unexpected return format for CONSTRUCT queryType. For a CONSTRUCT query type, the default return mimetype (if Accept: */* is sent) is application/rdf+xml
     def testConstructByGETinCSV(self):
@@ -558,7 +522,7 @@ class SPARQLWrapperTests(unittest.TestCase):
             % (ct)
         )
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), bytes)
 
     # asking for an unexpected return format for CONSTRUCT queryType.
     # For a CONSTRUCT query type, the default return mimetype (if Accept: */* is sent) is application/rdf+xml
@@ -570,7 +534,7 @@ class SPARQLWrapperTests(unittest.TestCase):
             % (ct)
         )
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), bytes)
 
     # asking for an unknown return format for CONSTRUCT queryType (XML is sent)
     def testConstructByGETinUnknow(self):
@@ -644,7 +608,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_JSONLD], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), bytes)
 
     # JSON-LD is not supported currently for AllegroGraph
     @unittest.skip("JSON-LD is not supported currently for AllegroGraph")
@@ -653,7 +617,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_JSONLD], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), bytes)
 
     # asking for an unexpected return format for DESCRIBE queryType
     def testDescribeByGETinJSON(self):
@@ -661,7 +625,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), bytes)
 
     # asking for an unexpected return format for DESCRIBE queryType
     def testDescribeByPOSTinJSON(self):
@@ -669,7 +633,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), bytes)
 
     # asking for an unexpected return format for DESCRIBE queryType.
     # For a DESCRIBE query type, the default return mimetype (if Accept: */* is sent) is application/rdf+xml
@@ -681,7 +645,7 @@ class SPARQLWrapperTests(unittest.TestCase):
             % (ct)
         )
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), bytes)
 
     # asking for an unexpected return format for DESCRIBE queryType.
     # For a DESCRIBE query type, the default return mimetype (if Accept: */* is sent) is application/rdf+xml
@@ -693,7 +657,7 @@ class SPARQLWrapperTests(unittest.TestCase):
             % (ct)
         )
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), bytes)
 
     # asking for an unknown return format for DESCRIBE queryType (XML is sent)
     def testDescribeByGETinUnknow(self):

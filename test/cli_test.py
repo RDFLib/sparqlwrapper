@@ -1,4 +1,6 @@
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 import inspect
 import io
 import os
@@ -20,7 +22,8 @@ if _top_level_path not in sys.path:
 from SPARQLWrapper.main import main, parse_args
 
 endpoint = "http://ja.dbpedia.org/sparql"
-testfile = os.path.join(os.path.dirname(__file__), 'test.rq')
+testfile = os.path.join(os.path.dirname(__file__), "test.rq")
+
 
 class SPARQLWrapperCLI_Test_Base(unittest.TestCase):
     def setUp(self):
@@ -75,7 +78,7 @@ class SPARQLWrapperCLIParser_Test(SPARQLWrapperCLI_Test_Base):
         self.assertEqual(cm.exception.code, 2)
         self.assertEqual(
             sys.stderr.getvalue().split("\n")[1],
-            "rqw: error: argument -F/--format: invalid choice: 'jjssoonn' (choose from 'json', 'xml', 'turtle', 'n3', 'rdf', 'rdf+xml', 'csv', 'tsv')",
+            "rqw: error: argument -F/--format: invalid choice: 'jjssoonn' (choose from 'json', 'xml', 'turtle', 'n3', 'rdf', 'rdf+xml', 'csv', 'tsv', 'json-ld')",
         )
 
     def testInvalidFile(self):
