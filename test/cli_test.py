@@ -244,7 +244,7 @@ class SPARQLWrapperCLI_Test(SPARQLWrapperCLI_Test_Base):
             """
             ),
         )
-    @unittest.expectedFailure
+    @unittest.expectedFailure # rdflib.exceptions.ParserError
     def testQueryWithFileRDF(self):
         main(["-f", testfile, "-e", endpoint, "-F", "rdf"])
 
