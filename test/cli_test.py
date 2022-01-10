@@ -244,16 +244,17 @@ class SPARQLWrapperCLI_Test(SPARQLWrapperCLI_Test_Base):
             """
             ),
         )
+    @unittest.expectedFailure
+    def testQueryWithFileRDF(self):
+        main(["-f", testfile, "-e", endpoint, "-F", "rdf"])
 
-    # def testQueryWithFileRDF(self):
-    #     main(["-f", testfile, "-e", endpoint, "-F", "rdf"])
-    #
-    #     self.assertEqual(
-    #         sys.stdout.getvalue(),
-    #         textwrap.dedent(
-    #             """\
-    #         """)
-    #     )
+        self.assertEqual(
+            sys.stdout.getvalue(),
+            textwrap.dedent(
+                """\
+
+            """)
+        )
 
     def testQueryWithFileRDFXML(self):
         main(["-f", testfile, "-e", endpoint, "-F", "rdf+xml"])
@@ -604,9 +605,8 @@ class SPARQLWrapperCLI_Test(SPARQLWrapperCLI_Test_Base):
             ),
         )
 
-    @unittest.skip("this endpoint is too slow and unstable")
     def testQueryTo4store(self):
-        main([ '-e', 'http://sparql.agroportal.lirmm.fr/sparql/', '-Q', testquery])
+        main([ '-e', 'http://rdf.chise.org/sparql', '-Q', testquery])
         self.assertEqual(
             sys.stdout.getvalue(),
             textwrap.dedent(
@@ -621,8 +621,8 @@ class SPARQLWrapperCLI_Test(SPARQLWrapperCLI_Test_Base):
                     "bindings": [
                         {
                             "x": {
-                                "type": "uri",
-                                "value": "http://purl.bioontology.org/ontology/NCBITAXON/2491102"
+                                "type": "bnode",
+                                "value": "b1f4d352f000000fc"
                             }
                         }
                     ]
