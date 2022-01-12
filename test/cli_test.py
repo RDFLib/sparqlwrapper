@@ -251,7 +251,16 @@ class SPARQLWrapperCLI_Test(SPARQLWrapperCLI_Test_Base):
             sys.stdout.getvalue(),
             textwrap.dedent(
                 """\
-            [a rdflib:ConjunctiveGraph;rdflib:storage [a rdflib:Store;rdfs:label 'Memory']]
+            @prefix dc: <http://purl.org/dc/elements/1.1/> .
+            @prefix foaf: <http://xmlns.com/foaf/0.1/> .
+
+            <http://ja.dbpedia.org/resource/SPARQL> foaf:isPrimaryTopicOf <http://ja.wikipedia.org/wiki/SPARQL> .
+
+            <http://ja.wikipedia.org/wiki/SPARQL> a foaf:Document ;
+                dc:language "ja" ;
+                foaf:primaryTopic <http://ja.dbpedia.org/resource/SPARQL> .
+
+
             """
             ),
         )
