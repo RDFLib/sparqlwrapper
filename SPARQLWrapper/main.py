@@ -152,7 +152,7 @@ def main(test=None):
             print(results.decode("utf-8"))
     elif ct is rdflib.graph.ConjunctiveGraph:
         # "rdf"
-        print(results)
+        print(results.serialize())
     else:
         # unknown type
         raise TypeError(ct)
