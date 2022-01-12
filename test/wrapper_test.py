@@ -856,6 +856,9 @@ class QueryResult_Test(unittest.TestCase):
                 except:
                     pass
 
+                # if len(w) > 0: print(w[0].message) # FOR DEBUG
+                # if len(w) > 1: print(w[1].message) # FOR DEBUG
+
                 return len(w)
 
         # In the cases of "application/ld+json" and "application/rdf+xml", the
@@ -867,11 +870,14 @@ class QueryResult_Test(unittest.TestCase):
         self.assertEqual(0, _mime_vs_type("text/n3", N3))
         self.assertEqual(0, _mime_vs_type("text/turtle", TURTLE))
         self.assertEqual(0, _mime_vs_type("application/turtle", TURTLE))
-        self.assertEqual(0, _mime_vs_type("application/ld+json", JSON))  # Warning
-        self.assertEqual(0, _mime_vs_type("application/ld+json", JSONLD))  # Warning
-        self.assertEqual(0, _mime_vs_type("application/rdf+xml", XML))  # Warning
-        self.assertEqual(0, _mime_vs_type("application/rdf+xml", RDF))  # Warning
-        self.assertEqual(0, _mime_vs_type("application/rdf+xml", RDFXML))  # Warning
+        self.assertEqual(0, _mime_vs_type("application/json", JSON))  # Warning
+
+        # graph.load() is deprecated, it will be removed in rdflib 6.0.0. Please use graph.parse() instead.
+        self.assertEqual(1, _mime_vs_type("application/ld+json", JSONLD))  # Warning
+        self.assertEqual(1, _mime_vs_type("application/rdf+xml", XML))  # Warning
+        self.assertEqual(1, _mime_vs_type("application/rdf+xml", RDF))  # Warning
+        self.assertEqual(1, _mime_vs_type("application/rdf+xml", RDFXML))  # Warning
+
         self.assertEqual(0, _mime_vs_type("text/csv", CSV))
         self.assertEqual(0, _mime_vs_type("text/tab-separated-values", TSV))
         self.assertEqual(0, _mime_vs_type("application/xml", XML))
@@ -882,10 +888,13 @@ class QueryResult_Test(unittest.TestCase):
         self.assertEqual(1, _mime_vs_type("application/sparql-results+json", XML))
         self.assertEqual(1, _mime_vs_type("text/n3", JSON))
         self.assertEqual(1, _mime_vs_type("text/turtle", XML))
-        self.assertEqual(1, _mime_vs_type("application/ld+json", XML))  # Warning
-        self.assertEqual(1, _mime_vs_type("application/ld+json", N3))  # Warning
-        self.assertEqual(1, _mime_vs_type("application/rdf+xml", JSON))  # Warning
-        self.assertEqual(1, _mime_vs_type("application/rdf+xml", N3))  # Warning
+
+        # Format requested was xxx, but yyy (zzz) has been returned by the endpoint
+        # graph.load() is deprecated, it will be removed in rdflib 6.0.0. Please use graph.parse() instead.
+        self.assertEqual(2, _mime_vs_type("application/ld+json", XML))  # Warning
+        self.assertEqual(2, _mime_vs_type("application/ld+json", N3))  # Warning
+        self.assertEqual(2, _mime_vs_type("application/rdf+xml", JSON))  # Warning
+        self.assertEqual(2, _mime_vs_type("application/rdf+xml", N3))  # Warning
 
     def testPrint_results(self):
         """
