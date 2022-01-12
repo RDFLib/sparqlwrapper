@@ -1066,7 +1066,7 @@ class QueryResult(object):
         except ImportError:
             from rdflib import ConjunctiveGraph
         retval = ConjunctiveGraph()
-        retval.parse(self.response)
+        retval.parse(self.response, format=XML)
         return retval
 
     def _convertN3(self):
