@@ -1,5 +1,5 @@
-# -*- coding: utf-8 -*-
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 
 import inspect
 import os
@@ -27,31 +27,31 @@ except ImportError:
     from rdflib import ConjunctiveGraph
 
 from SPARQLWrapper import (
-    SPARQLWrapper,
-    XML,
-    RDFXML,
-    RDF,
-    N3,
-    TURTLE,
-    JSONLD,
-    JSON,
     CSV,
-    TSV,
-    POST,
     GET,
-)
-from SPARQLWrapper.Wrapper import (
-    _SPARQL_XML,
-    _SPARQL_JSON,
-    _XML,
-    _RDF_XML,
-    _RDF_N3,
-    _RDF_TURTLE,
-    _RDF_JSONLD,
-    _CSV,
-    _TSV,
+    JSON,
+    JSONLD,
+    N3,
+    POST,
+    RDF,
+    RDFXML,
+    TSV,
+    TURTLE,
+    XML,
+    SPARQLWrapper,
 )
 from SPARQLWrapper.SPARQLExceptions import QueryBadFormed
+from SPARQLWrapper.Wrapper import (
+    _CSV,
+    _RDF_JSONLD,
+    _RDF_N3,
+    _RDF_TURTLE,
+    _RDF_XML,
+    _SPARQL_JSON,
+    _SPARQL_XML,
+    _TSV,
+    _XML,
+)
 
 _SPARQL_SELECT_ASK_POSSIBLE = (
     _SPARQL_XML + _SPARQL_JSON + _CSV + _TSV + _XML
@@ -60,13 +60,12 @@ _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE = (
     _RDF_XML + _RDF_N3 + _XML + _RDF_JSONLD
 )  # only used in test. Same as Wrapper._RDF_POSSIBLE
 
-from urllib.error import HTTPError
-
 import logging
+from urllib.error import HTTPError
 
 logging.basicConfig()
 
-endpoint = "https://agrovoc.uniroma2.it/sparql/" # Fuseki 3.6.0 (Fuseki2)
+endpoint = "https://agrovoc.uniroma2.it/sparql/"  # Fuseki 3.6.0 (Fuseki2)
 
 prefixes = """
     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
