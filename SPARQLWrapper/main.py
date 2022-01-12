@@ -83,7 +83,7 @@ def parse_args(test=None):
         default="http://dbpedia.org/sparql",
     )
     parser.add_argument(
-        "-m", "--method", default=GET, metavar="METHOD", choices=_allowedRequests, help="request method"
+        "-m", "--method", metavar="METHOD", choices=_allowedRequests, help="request method"
     )
     parser.add_argument(
         "-a", "--auth", metavar="AUTH", choices=_allowedAuth ,help="HTTP auth"
@@ -130,7 +130,8 @@ def main(test=None):
     if args.auth is not None:
         sparql.setHTTPAuth(args.auth)
         sparql.setCredentials(args.username, args.password)
-    sparql.setMethod(args.method)
+    if args.method is not None:
+        sparql.setMethod(args.method)
     sparql.setQuery(q)
     sparql.setReturnFormat(args.format)
     results = sparql.query().convert()
