@@ -1,15 +1,17 @@
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 import inspect
+import logging
 import os
 import sys
-
-import logging
-
-import unittest
-import urllib.request, urllib.error, urllib.parse
-from urllib.parse import urlparse, parse_qsl, parse_qs
-from urllib.request import Request
 import time
+import unittest
+import urllib.error
+import urllib.parse
+import urllib.request
+from urllib.parse import parse_qs, parse_qsl, urlparse
+from urllib.request import Request
 
 logging.basicConfig()
 
@@ -24,40 +26,41 @@ if _top_level_path not in sys.path:
     sys.path.insert(0, _top_level_path)
 # end of hack
 
+import warnings
+from io import StringIO
+
 # we don't want to let Wrapper do real web-requests. so, we are…
 # constructing a simple Mock!
 from urllib.error import HTTPError
 
-from io import StringIO
-import warnings
-
 warnings.simplefilter("always")
 
 import SPARQLWrapper.Wrapper as _victim
-
-from SPARQLWrapper import SPARQLWrapper
 from SPARQLWrapper import (
-    XML,
+    BASIC,
+    CSV,
+    DIGEST,
     GET,
-    POST,
+    INSERT,
     JSON,
     JSONLD,
     N3,
-    TURTLE,
+    POST,
+    POSTDIRECTLY,
     RDF,
-    SELECT,
-    INSERT,
     RDFXML,
-    CSV,
+    SELECT,
     TSV,
+    TURTLE,
+    URLENCODED,
+    XML,
+    SPARQLWrapper,
 )
-from SPARQLWrapper import URLENCODED, POSTDIRECTLY
-from SPARQLWrapper import BASIC, DIGEST
 from SPARQLWrapper.Wrapper import (
-    QueryResult,
-    QueryBadFormed,
-    EndPointNotFound,
     EndPointInternalError,
+    EndPointNotFound,
+    QueryBadFormed,
+    QueryResult,
     Unauthorized,
     URITooLong,
 )
@@ -198,13 +201,8 @@ class SPARQLWrapper_Test(unittest.TestCase):
         self.wrapper.setReturnFormat(JSON)
         self.assertEqual(JSON, self.wrapper.query().requestedFormat)
 
-        try:
-            import rdflib_jsonld
-
-            self.wrapper.setReturnFormat(JSONLD)
-            self.assertEqual(JSONLD, self.wrapper.query().requestedFormat)
-        except ImportError:
-            self.assertRaises(ValueError, self.wrapper.setReturnFormat, JSONLD)
+        self.wrapper.setReturnFormat(JSONLD)
+        self.assertEqual(JSONLD, self.wrapper.query().requestedFormat)
 
     def testsSupportsReturnFormat(self):
         self.assertTrue(self.wrapper.supportsReturnFormat(XML))
@@ -217,12 +215,7 @@ class SPARQLWrapper_Test(unittest.TestCase):
         self.assertTrue(self.wrapper.supportsReturnFormat(TSV))
         self.assertFalse(self.wrapper.supportsReturnFormat("nonexistent format"))
 
-        try:
-            import rdflib_jsonld
-
-            self.assertTrue(self.wrapper.supportsReturnFormat(JSONLD))
-        except ImportError:
-            self.assertFalse(self.wrapper.supportsReturnFormat(JSONLD))
+        self.assertTrue(self.wrapper.supportsReturnFormat(JSONLD))
 
     def testAddParameter(self):
         self.assertFalse(self.wrapper.addParameter("query", "dummy"))
@@ -844,7 +837,7 @@ class QueryResult_Test(unittest.TestCase):
                 self.content_type = content_type
 
             def info(self):
-                return {"Content-type": self.content_type}
+                return {"content-type": self.content_type}
 
             def read(self, len):
                 return ""
@@ -863,6 +856,9 @@ class QueryResult_Test(unittest.TestCase):
                 except:
                     pass
 
+                # if len(w) > 0: print(w[0].message) # FOR DEBUG
+                # if len(w) > 1: print(w[1].message) # FOR DEBUG
+
                 return len(w)
 
         # In the cases of "application/ld+json" and "application/rdf+xml", the
@@ -874,11 +870,14 @@ class QueryResult_Test(unittest.TestCase):
         self.assertEqual(0, _mime_vs_type("text/n3", N3))
         self.assertEqual(0, _mime_vs_type("text/turtle", TURTLE))
         self.assertEqual(0, _mime_vs_type("application/turtle", TURTLE))
-        self.assertEqual(0, _mime_vs_type("application/ld+json", JSON))  # Warning
-        self.assertEqual(0, _mime_vs_type("application/ld+json", JSONLD))  # Warning
-        self.assertEqual(0, _mime_vs_type("application/rdf+xml", XML))  # Warning
-        self.assertEqual(0, _mime_vs_type("application/rdf+xml", RDF))  # Warning
-        self.assertEqual(0, _mime_vs_type("application/rdf+xml", RDFXML))  # Warning
+        self.assertEqual(0, _mime_vs_type("application/json", JSON))  # Warning
+
+        # graph.load() is deprecated, it will be removed in rdflib 6.0.0. Please use graph.parse() instead.
+        self.assertEqual(1, _mime_vs_type("application/ld+json", JSONLD))  # Warning
+        self.assertEqual(1, _mime_vs_type("application/rdf+xml", XML))  # Warning
+        self.assertEqual(1, _mime_vs_type("application/rdf+xml", RDF))  # Warning
+        self.assertEqual(1, _mime_vs_type("application/rdf+xml", RDFXML))  # Warning
+
         self.assertEqual(0, _mime_vs_type("text/csv", CSV))
         self.assertEqual(0, _mime_vs_type("text/tab-separated-values", TSV))
         self.assertEqual(0, _mime_vs_type("application/xml", XML))
@@ -889,10 +888,13 @@ class QueryResult_Test(unittest.TestCase):
         self.assertEqual(1, _mime_vs_type("application/sparql-results+json", XML))
         self.assertEqual(1, _mime_vs_type("text/n3", JSON))
         self.assertEqual(1, _mime_vs_type("text/turtle", XML))
-        self.assertEqual(1, _mime_vs_type("application/ld+json", XML))  # Warning
-        self.assertEqual(1, _mime_vs_type("application/ld+json", N3))  # Warning
-        self.assertEqual(1, _mime_vs_type("application/rdf+xml", JSON))  # Warning
-        self.assertEqual(1, _mime_vs_type("application/rdf+xml", N3))  # Warning
+
+        # Format requested was xxx, but yyy (zzz) has been returned by the endpoint
+        # graph.load() is deprecated, it will be removed in rdflib 6.0.0. Please use graph.parse() instead.
+        self.assertEqual(2, _mime_vs_type("application/ld+json", XML))  # Warning
+        self.assertEqual(2, _mime_vs_type("application/ld+json", N3))  # Warning
+        self.assertEqual(2, _mime_vs_type("application/rdf+xml", JSON))  # Warning
+        self.assertEqual(2, _mime_vs_type("application/rdf+xml", N3))  # Warning
 
     def testPrint_results(self):
         """
@@ -904,7 +906,7 @@ class QueryResult_Test(unittest.TestCase):
                 self.content_type = content_type
 
             def info(self):
-                return {"Content-type": self.content_type}
+                return {"content-type": self.content_type}
 
             def read(self, len):
                 return ""
