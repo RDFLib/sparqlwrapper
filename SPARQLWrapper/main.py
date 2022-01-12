@@ -11,7 +11,7 @@ from shutil import get_terminal_size
 import rdflib  # type: ignore
 
 from . import __version__
-from .Wrapper import SPARQLWrapper, _allowedFormats
+from .Wrapper import SPARQLWrapper, _allowedFormats, _allowedRequests, _allowedAuth, GET
 
 
 class SPARQLWrapperFormatter(
@@ -30,7 +30,16 @@ def check_file(v):
 
 
 def choicesDescriptions():
-    return "\n  - ".join(["allowed formats:"] + _allowedFormats)
+    d = "\n  - ".join(
+        ["allowed FORMAT:"] + _allowedFormats
+    )
+    d += "\n  - ".join(
+        ["\n\nallowed METHOD:"] + _allowedRequests
+    )
+    d += "\n  - ".join(
+        ["\n\nallowed AUTH:"] + _allowedAuth
+    )
+    return d
 
 
 def parse_args(test=None):
@@ -73,6 +82,18 @@ def parse_args(test=None):
         help="sparql endpoint",
         default="http://dbpedia.org/sparql",
     )
+    parser.add_argument(
+        "-m", "--method", metavar="METHOD", choices=_allowedRequests, help="request method"
+    )
+    parser.add_argument(
+        "-a", "--auth", metavar="AUTH", choices=_allowedAuth ,help="HTTP auth"
+    )
+    parser.add_argument(
+        "-u", "--username", metavar='ID', default='guest', help="username for auth"
+    )
+    parser.add_argument(
+        "-p", "--password", metavar='PW', default='', help="password for auth"
+    )
     parser.add_argument("-q", "--quiet", action="store_true", help="supress warnings")
     parser.add_argument(
         "-V", "--version", action="version", version="%(prog)s {}".format(__version__)
@@ -106,6 +127,11 @@ def main(test=None):
             "Chrome/96.0.4664.110 Safari/537.36"
         ),
     )
+    if args.auth is not None:
+        sparql.setHTTPAuth(args.auth)
+        sparql.setCredentials(args.username, args.password)
+    if args.method is not None:
+        sparql.setMethod(args.method)
     sparql.setQuery(q)
     sparql.setReturnFormat(args.format)
     results = sparql.query().convert()

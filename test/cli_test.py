@@ -20,9 +20,11 @@ if _top_level_path not in sys.path:
 # end of hack
 
 from SPARQLWrapper.main import main, parse_args
+from SPARQLWrapper import POST
 
 endpoint = "http://ja.dbpedia.org/sparql"
 testfile = os.path.join(os.path.dirname(__file__), "test.rq")
+testquery = "SELECT DISTINCT ?x WHERE { ?x ?y ?z . } LIMIT 1"
 
 
 class SPARQLWrapperCLI_Test_Base(unittest.TestCase):
@@ -61,7 +63,7 @@ class SPARQLWrapperCLIParser_Test(SPARQLWrapperCLI_Test_Base):
 
     def testQueryAndFile(self):
         with self.assertRaises(SystemExit) as cm:
-            parse_args(["-Q", "SELECT ?s WHERE { ?s ?p ?o. } limit 1", "-f", "-"])
+            parse_args(["-Q", testquery, "-f", "-"])
 
         self.assertEqual(cm.exception.code, 2)
         self.assertEqual(
@@ -71,9 +73,7 @@ class SPARQLWrapperCLIParser_Test(SPARQLWrapperCLI_Test_Base):
 
     def testInvalidFormat(self):
         with self.assertRaises(SystemExit) as cm:
-            parse_args(
-                ["-Q", "SELECT ?s WHERE { ?s ?p ?o. } limit 1", "-F", "jjssoonn"]
-            )
+            parse_args(["-Q", testquery, "-F", "jjssoonn"])
 
         self.assertEqual(cm.exception.code, 2)
         self.assertEqual(
@@ -97,7 +97,7 @@ class SPARQLWrapperCLI_Test(SPARQLWrapperCLI_Test_Base):
         main(
             [
                 "-Q",
-                "SELECT ?s WHERE { ?s ?p ?o. } limit 1",
+                testquery,
                 "-e",
                 endpoint,
             ]
@@ -111,7 +111,7 @@ class SPARQLWrapperCLI_Test(SPARQLWrapperCLI_Test_Base):
                 "head": {
                     "link": [],
                     "vars": [
-                        "s"
+                        "x"
                     ]
                 },
                 "results": {
@@ -119,7 +119,7 @@ class SPARQLWrapperCLI_Test(SPARQLWrapperCLI_Test_Base):
                     "ordered": true,
                     "bindings": [
                         {
-                            "s": {
+                            "x": {
                                 "type": "uri",
                                 "value": "http://www.openlinksw.com/virtrdf-data-formats#default-iid"
                             }
@@ -244,15 +244,18 @@ class SPARQLWrapperCLI_Test(SPARQLWrapperCLI_Test_Base):
             ),
         )
 
-    # def testQueryWithFileRDF(self):
-    #     main(["-f", testfile, "-e", endpoint, "-F", "rdf"])
-    #
-    #     self.assertEqual(
-    #         sys.stdout.getvalue(),
-    #         textwrap.dedent(
-    #             """\
-    #         """)
-    #     )
+    @unittest.expectedFailure  # rdflib.exceptions.ParserError
+    def testQueryWithFileRDF(self):
+        main(["-f", testfile, "-e", endpoint, "-F", "rdf"])
+
+        self.assertEqual(
+            sys.stdout.getvalue(),
+            textwrap.dedent(
+                """\
+
+            """
+            ),
+        )
 
     def testQueryWithFileRDFXML(self):
         main(["-f", testfile, "-e", endpoint, "-F", "rdf+xml"])
@@ -297,6 +300,343 @@ class SPARQLWrapperCLI_Test(SPARQLWrapperCLI_Test_Base):
                 """\
                 "pllabel"
                 "PARLOG"\n
+            """
+            ),
+        )
+
+    def testQueryToLovFuseki(self):
+        main(["-e", "https://lov.linkeddata.es/dataset/lov/sparql/", "-Q", testquery])
+        self.assertEqual(
+            sys.stdout.getvalue(),
+            textwrap.dedent(
+                """\
+            {
+                "head": {
+                    "vars": [
+                        "x"
+                    ]
+                },
+                "results": {
+                    "bindings": [
+                        {
+                            "x": {
+                                "type": "uri",
+                                "value": "http://www.w3.org/2002/07/owl#someValuesFrom"
+                            }
+                        }
+                    ]
+                }
+            }
+            """
+            ),
+        )
+
+    def testQueryToRDF4J(self):
+        main(
+            [
+                "-e",
+                "http://vocabs.ands.org.au/repository/api/sparql/csiro_international-chronostratigraphic-chart_2018-revised-corrected",
+                "-Q",
+                testquery,
+            ]
+        )
+        self.assertEqual(
+            sys.stdout.getvalue(),
+            textwrap.dedent(
+                """\
+            {
+                "head": {
+                    "vars": [
+                        "x"
+                    ]
+                },
+                "results": {
+                    "bindings": [
+                        {
+                            "x": {
+                                "type": "uri",
+                                "value": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
+                            }
+                        }
+                    ]
+                }
+            }
+            """
+            ),
+        )
+
+    def testQueryToAllegroGraph(self):
+        main(["-e", "https://mmisw.org/sparql", "-Q", testquery])
+        self.assertEqual(
+            sys.stdout.getvalue(),
+            textwrap.dedent(
+                """\
+            {
+                "head": {
+                    "vars": [
+                        "x"
+                    ]
+                },
+                "results": {
+                    "bindings": [
+                        {
+                            "x": {
+                                "type": "uri",
+                                "value": "https://mmisw.org/ont/~mjuckes/cmip_variables_alpha/rsdcs4co2"
+                            }
+                        }
+                    ]
+                }
+            }
+            """
+            ),
+        )
+
+    def testQueryToGraphDBEnterprise(self):
+        main(["-e", "http://factforge.net/repositories/ff-news", "-Q", testquery])
+        self.assertEqual(
+            sys.stdout.getvalue(),
+            textwrap.dedent(
+                """\
+            {
+                "head": {
+                    "vars": [
+                        "x"
+                    ]
+                },
+                "results": {
+                    "bindings": [
+                        {
+                            "x": {
+                                "type": "uri",
+                                "value": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
+                            }
+                        }
+                    ]
+                }
+            }
+            """
+            ),
+        )
+
+    def testQueryToStardog(self):
+        main(["-e", "https://lindas.admin.ch/query", "-Q", testquery, "-m", POST])
+        self.assertEqual(
+            sys.stdout.getvalue(),
+            textwrap.dedent(
+                """\
+            {
+                "head": {
+                    "vars": [
+                        "x"
+                    ]
+                },
+                "results": {
+                    "bindings": [
+                        {
+                            "x": {
+                                "type": "uri",
+                                "value": "http://classifications.data.admin.ch/canton/bl"
+                            }
+                        }
+                    ]
+                }
+            }
+            """
+            ),
+        )
+
+    def testQueryToAgrovoc_AllegroGraph(self):
+        main(["-e", "https://agrovoc.fao.org/sparql", "-Q", testquery])
+        self.assertEqual(
+            sys.stdout.getvalue(),
+            textwrap.dedent(
+                """\
+            {
+                "head": {
+                    "vars": [
+                        "x"
+                    ]
+                },
+                "results": {
+                    "bindings": [
+                        {
+                            "x": {
+                                "type": "uri",
+                                "value": "http://aims.fao.org/aos/agrovoc/"
+                            }
+                        }
+                    ]
+                }
+            }
+            """
+            ),
+        )
+
+    def testQueryToVirtuosoV8(self):
+        main(["-e", "http://dbpedia-live.openlinksw.com/sparql", "-Q", testquery])
+        self.assertEqual(
+            sys.stdout.getvalue(),
+            textwrap.dedent(
+                """\
+            {
+                "head": {
+                    "link": [],
+                    "vars": [
+                        "x"
+                    ]
+                },
+                "results": {
+                    "distinct": false,
+                    "ordered": true,
+                    "bindings": [
+                        {
+                            "x": {
+                                "type": "uri",
+                                "value": "http://www.openlinksw.com/virtrdf-data-formats#default-iid"
+                            }
+                        }
+                    ]
+                }
+            }
+            """
+            ),
+        )
+
+    def testQueryToVirtuosoV7(self):
+        main(["-e", "http://dbpedia.org/sparql", "-Q", testquery])
+        self.assertEqual(
+            sys.stdout.getvalue(),
+            textwrap.dedent(
+                """\
+            {
+                "head": {
+                    "link": [],
+                    "vars": [
+                        "x"
+                    ]
+                },
+                "results": {
+                    "distinct": false,
+                    "ordered": true,
+                    "bindings": [
+                        {
+                            "x": {
+                                "type": "uri",
+                                "value": "http://www.openlinksw.com/virtrdf-data-formats#default-iid"
+                            }
+                        }
+                    ]
+                }
+            }
+            """
+            ),
+        )
+
+    def testQueryToBrazeGraph(self):
+        main(["-e", "https://query.wikidata.org/sparql", "-Q", testquery])
+        self.assertEqual(
+            sys.stdout.getvalue(),
+            textwrap.dedent(
+                """\
+            {
+                "head": {
+                    "vars": [
+                        "x"
+                    ]
+                },
+                "results": {
+                    "bindings": [
+                        {
+                            "x": {
+                                "type": "uri",
+                                "value": "http://wikiba.se/ontology#Dump"
+                            }
+                        }
+                    ]
+                }
+            }
+            """
+            ),
+        )
+
+    def testQueryToFuseki2V3_6(self):
+        main(["-e", "https://agrovoc.uniroma2.it/sparql/", "-Q", testquery])
+        self.assertEqual(
+            sys.stdout.getvalue(),
+            textwrap.dedent(
+                """\
+            {
+                "head": {
+                    "vars": [
+                        "x"
+                    ]
+                },
+                "results": {
+                    "bindings": [
+                        {
+                            "x": {
+                                "type": "uri",
+                                "value": "http://aims.fao.org/aos/agrovoc/"
+                            }
+                        }
+                    ]
+                }
+            }
+            """
+            ),
+        )
+
+    def testQueryToFuseki2V3_8(self):
+        main(["-e", "http://zbw.eu/beta/sparql/stw/query", "-Q", testquery])
+        self.assertEqual(
+            sys.stdout.getvalue(),
+            textwrap.dedent(
+                """\
+            {
+                "head": {
+                    "vars": [
+                        "x"
+                    ]
+                },
+                "results": {
+                    "bindings": [
+                        {
+                            "x": {
+                                "type": "uri",
+                                "value": "http://www.w3.org/2004/02/skos/core"
+                            }
+                        }
+                    ]
+                }
+            }
+            """
+            ),
+        )
+
+    def testQueryTo4store(self):
+        main(["-e", "http://rdf.chise.org/sparql", "-Q", testquery])
+        self.assertEqual(
+            sys.stdout.getvalue(),
+            textwrap.dedent(
+                """\
+            {
+                "head": {
+                    "vars": [
+                        "x"
+                    ]
+                },
+                "results": {
+                    "bindings": [
+                        {
+                            "x": {
+                                "type": "bnode",
+                                "value": "b1f4d352f000000fc"
+                            }
+                        }
+                    ]
+                }
+            }
             """
             ),
         )
