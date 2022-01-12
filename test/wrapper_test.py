@@ -837,7 +837,7 @@ class QueryResult_Test(unittest.TestCase):
                 self.content_type = content_type
 
             def info(self):
-                return {"Content-type": self.content_type}
+                return {"content-type": self.content_type}
 
             def read(self, len):
                 return ""
@@ -897,7 +897,7 @@ class QueryResult_Test(unittest.TestCase):
                 self.content_type = content_type
 
             def info(self):
-                return {"Content-type": self.content_type}
+                return {"content-type": self.content_type}
 
             def read(self, len):
                 return ""
