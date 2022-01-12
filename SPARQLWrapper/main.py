@@ -5,8 +5,8 @@
 import argparse
 import json
 import os
-import sys
 import shutil
+import sys
 import xml
 
 import rdflib  # type: ignore
