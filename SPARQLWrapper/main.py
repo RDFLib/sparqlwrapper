@@ -6,12 +6,13 @@ import argparse
 import json
 import os
 import sys
-from shutil import get_terminal_size
+import shutil
+import xml
 
 import rdflib  # type: ignore
 
 from . import __version__
-from .Wrapper import SPARQLWrapper, _allowedFormats, _allowedRequests, _allowedAuth, GET
+from .Wrapper import GET, SPARQLWrapper, _allowedAuth, _allowedFormats, _allowedRequests
 
 
 class SPARQLWrapperFormatter(
@@ -30,15 +31,9 @@ def check_file(v):
 
 
 def choicesDescriptions():
-    d = "\n  - ".join(
-        ["allowed FORMAT:"] + _allowedFormats
-    )
-    d += "\n  - ".join(
-        ["\n\nallowed METHOD:"] + _allowedRequests
-    )
-    d += "\n  - ".join(
-        ["\n\nallowed AUTH:"] + _allowedAuth
-    )
+    d = "\n  - ".join(["allowed FORMAT:"] + _allowedFormats)
+    d += "\n  - ".join(["\n\nallowed METHOD:"] + _allowedRequests)
+    d += "\n  - ".join(["\n\nallowed AUTH:"] + _allowedAuth)
     return d
 
 
@@ -50,7 +45,7 @@ def parse_args(test=None):
             lambda prog: SPARQLWrapperFormatter(
                 prog,
                 **{
-                    "width": get_terminal_size(fallback=(120, 50)).columns,
+                    "width": shutil.get_terminal_size(fallback=(120, 50)).columns,
                     "max_help_position": 30,
                 },
             )
@@ -83,16 +78,20 @@ def parse_args(test=None):
         default="http://dbpedia.org/sparql",
     )
     parser.add_argument(
-        "-m", "--method", metavar="METHOD", choices=_allowedRequests, help="request method"
+        "-m",
+        "--method",
+        metavar="METHOD",
+        choices=_allowedRequests,
+        help="request method",
     )
     parser.add_argument(
-        "-a", "--auth", metavar="AUTH", choices=_allowedAuth ,help="HTTP auth"
+        "-a", "--auth", metavar="AUTH", choices=_allowedAuth, help="HTTP auth"
     )
     parser.add_argument(
-        "-u", "--username", metavar='ID', default='guest', help="username for auth"
+        "-u", "--username", metavar="ID", default="guest", help="username for auth"
     )
     parser.add_argument(
-        "-p", "--password", metavar='PW', default='', help="password for auth"
+        "-p", "--password", metavar="PW", default="", help="password for auth"
     )
     parser.add_argument("-q", "--quiet", action="store_true", help="supress warnings")
     parser.add_argument(
@@ -136,18 +135,27 @@ def main(test=None):
     sparql.setReturnFormat(args.format)
     results = sparql.query().convert()
 
-    if args.format == "json":
+    ct = type(results)
+    if ct is dict:
+        # "json"
         print(json.dumps(results, indent=4))
-    elif args.format in ("xml", "rdf+xml", "json-ld"):
-        print(results.toxml())  # type: ignore
-    elif args.format == "n3":
-        g = rdflib.Graph()
-        g.parse(data=results, format="n3")  # type: ignore
-        print(g.serialize(format="n3"))
-    elif args.format in ("csv", "tsv", "turtle"):
-        print(results.decode("utf-8"))  # type: ignore
-    else:
+    elif ct is xml.dom.minidom.Document:
+        # "xml", "rdf+xml", "json-ld"
+        print(results.toxml())
+    elif ct is bytes:
+        if args.format == "n3":
+            g = rdflib.Graph()
+            g.parse(data=results, format="n3")
+            print(g.serialize(format="n3"))
+        else:
+            # "csv", "tsv", "turtle"
+            print(results.decode("utf-8"))
+    elif ct is rdflib.graph.ConjunctiveGraph:
+        # "rdf"
         print(results)
+    else:
+        # unknown type
+        raise TypeError(ct)
 
 
 if __name__ == "__main__":

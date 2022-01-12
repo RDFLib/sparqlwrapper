@@ -244,15 +244,14 @@ class SPARQLWrapperCLI_Test(SPARQLWrapperCLI_Test_Base):
             ),
         )
 
-    @unittest.expectedFailure  # rdflib.exceptions.ParserError
-    def testQueryWithFileRDF(self):
-        main(["-f", testfile, "-e", endpoint, "-F", "rdf"])
+    def testQueryRDF(self):
+        main(["-Q", "DESCRIBE <http://ja.wikipedia.org/wiki/SPARQL>", "-e", endpoint, "-F", "rdf"])
 
         self.assertEqual(
             sys.stdout.getvalue(),
             textwrap.dedent(
                 """\
-
+            [a rdflib:ConjunctiveGraph;rdflib:storage [a rdflib:Store;rdfs:label 'Memory']]
             """
             ),
         )
