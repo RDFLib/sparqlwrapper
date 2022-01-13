@@ -24,6 +24,9 @@ jobs:
       run: |
         pip install -U pip
         pip install -e '.[dev]'
-    - name: Test
+    - name: Test [wrapper]
+      run: |
+        python -m unittest -v test/test_wrapper.py
+    - name: Test [all]
       run: |
         python -m unittest test/*.py
