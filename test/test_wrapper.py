@@ -194,6 +194,7 @@ class SPARQLWrapper_Test(unittest.TestCase):
     def testSetReturnFormat(self):
         with warnings.catch_warnings(record=True) as w:
             self.wrapper.setReturnFormat("nonexistent format")
+            # Ignore format 'nonexistent format'; current instance supports: ...
             self.assertEqual(1, len(w), "Warning due to non expected format")
 
         self.assertEqual(XML, self.wrapper.query().requestedFormat)
@@ -881,8 +882,10 @@ class QueryResult_Test(unittest.TestCase):
         self.assertEqual(0, _mime_vs_type("text/tab-separated-values", TSV))
         self.assertEqual(0, _mime_vs_type("application/xml", XML))
 
+        # unknown response content type 'application/x-foo-bar' returning raw response...
         self.assertEqual(1, _mime_vs_type("application/x-foo-bar", XML), "invalid mime")
 
+        # Format requested was xxx, but yyy (zzz) has been returned by the endpoint
         self.assertEqual(1, _mime_vs_type("application/sparql-results+xml", N3))
         self.assertEqual(1, _mime_vs_type("application/sparql-results+json", XML))
         self.assertEqual(1, _mime_vs_type("text/n3", JSON))
@@ -921,6 +924,7 @@ class QueryResult_Test(unittest.TestCase):
                     qr.print_results()
                 except:
                     pass
+                if len(w) > 1: print(w[1].message) # FOR DEBUG
 
                 return len(w)
 
@@ -929,6 +933,7 @@ class QueryResult_Test(unittest.TestCase):
         self.assertEqual(0, _print_results("text/javascript"))
         self.assertEqual(0, _print_results("application/javascript"))
 
+        # Format return was xxx, but yyy was expected. No printing.
         self.assertEqual(1, _print_results("application/sparql-results+xml"))
         self.assertEqual(1, _print_results("application/xml"))
         self.assertEqual(1, _print_results("application/rdf+xml"))
@@ -948,6 +953,8 @@ class QueryResult_Test(unittest.TestCase):
         self.assertEqual(1, _print_results("application/ld+json"))
         self.assertEqual(1, _print_results("application/x-json+ld"))
 
+        # Unknown response content type. Returning raw content-type ('application/x-foo-bar').
+        # Format return was application/x-foo-bar, but JSON was expected. No printing.
         self.assertEqual(2, _print_results("application/x-foo-bar"))
 
 
