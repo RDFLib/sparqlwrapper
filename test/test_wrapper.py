@@ -924,7 +924,8 @@ class QueryResult_Test(unittest.TestCase):
                     qr.print_results()
                 except:
                     pass
-                if len(w) > 1: print(w[1].message) # FOR DEBUG
+
+                # if len(w) > 1: print(w[1].message) # FOR DEBUG
 
                 return len(w)
 
