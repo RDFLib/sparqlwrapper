@@ -35,5 +35,6 @@ jobs:
         if [ "$(grep 'test.test_wrapper' fails.txt | wc -l)" -ne "$(wc -l < fails.txt)" ]; then
           exit 1
         else
-          echo 'All of the above failures are maybe false error. See: #192'
+          echo 'All of the above failures are maybe false errors.'
+          echo 'See: https://github.com/RDFLib/sparqlwrapper/issues/192'
         fi
