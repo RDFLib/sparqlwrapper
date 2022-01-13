@@ -870,13 +870,12 @@ class QueryResult_Test(unittest.TestCase):
         self.assertEqual(0, _mime_vs_type("text/n3", N3))
         self.assertEqual(0, _mime_vs_type("text/turtle", TURTLE))
         self.assertEqual(0, _mime_vs_type("application/turtle", TURTLE))
-        self.assertEqual(0, _mime_vs_type("application/json", JSON))  # Warning
+        self.assertEqual(0, _mime_vs_type("application/json", JSON))
 
-        # graph.load() is deprecated, it will be removed in rdflib 6.0.0. Please use graph.parse() instead.
-        self.assertEqual(1, _mime_vs_type("application/ld+json", JSONLD))  # Warning
-        self.assertEqual(1, _mime_vs_type("application/rdf+xml", XML))  # Warning
-        self.assertEqual(1, _mime_vs_type("application/rdf+xml", RDF))  # Warning
-        self.assertEqual(1, _mime_vs_type("application/rdf+xml", RDFXML))  # Warning
+        self.assertEqual(0, _mime_vs_type("application/ld+json", JSONLD))
+        self.assertEqual(0, _mime_vs_type("application/rdf+xml", XML))
+        self.assertEqual(0, _mime_vs_type("application/rdf+xml", RDF))
+        self.assertEqual(0, _mime_vs_type("application/rdf+xml", RDFXML))
 
         self.assertEqual(0, _mime_vs_type("text/csv", CSV))
         self.assertEqual(0, _mime_vs_type("text/tab-separated-values", TSV))
@@ -890,11 +889,10 @@ class QueryResult_Test(unittest.TestCase):
         self.assertEqual(1, _mime_vs_type("text/turtle", XML))
 
         # Format requested was xxx, but yyy (zzz) has been returned by the endpoint
-        # graph.load() is deprecated, it will be removed in rdflib 6.0.0. Please use graph.parse() instead.
-        self.assertEqual(2, _mime_vs_type("application/ld+json", XML))  # Warning
-        self.assertEqual(2, _mime_vs_type("application/ld+json", N3))  # Warning
-        self.assertEqual(2, _mime_vs_type("application/rdf+xml", JSON))  # Warning
-        self.assertEqual(2, _mime_vs_type("application/rdf+xml", N3))  # Warning
+        self.assertEqual(1, _mime_vs_type("application/ld+json", XML))  # Warning
+        self.assertEqual(1, _mime_vs_type("application/ld+json", N3))  # Warning
+        self.assertEqual(1, _mime_vs_type("application/rdf+xml", JSON))  # Warning
+        self.assertEqual(1, _mime_vs_type("application/rdf+xml", N3))  # Warning
 
     def testPrint_results(self):
         """
