@@ -141,7 +141,7 @@ def main(test=None):
     elif isinstance(result, xml.dom.minidom.Document):
         # "xml", "rdf+xml", "json-ld"
         print(results.toxml())
-    elif insinstance(result, bytes):
+    elif isinstance(result, bytes):
         if args.format == "n3":
             g = rdflib.ConjunctiveGraph()
             g.parse(data=results, format="n3")
