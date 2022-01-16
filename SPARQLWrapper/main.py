@@ -139,7 +139,7 @@ def main(test=None):
         # "json"
         print(json.dumps(results, indent=4))
     elif isinstance(results, xml.dom.minidom.Document):
-        # "xml", "rdf+xml", "json-ld"
+        # "xml"
         print(results.toxml())
     elif isinstance(results, bytes):
             # "csv", "tsv", "turtle", "n3"
