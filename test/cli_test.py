@@ -235,11 +235,12 @@ class SPARQLWrapperCLI_Test(SPARQLWrapperCLI_Test_Base):
             sys.stdout.getvalue(),
             textwrap.dedent(
                 """\
-            @prefix res: <http://www.w3.org/2005/sparql-results#> .\n
-            [] a res:ResultSet ;
-                res:resultVariable "pllabel" ;
-                res:solution [ res:binding [ res:value "PARLOG"@ja ;
-                                res:variable "pllabel" ] ] .\n\n
+            @prefix res: <http://www.w3.org/2005/sparql-results#> .
+            @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+            _:_ a res:ResultSet .
+            _:_ res:resultVariable "pllabel" .
+            _:_ res:solution [
+                  res:binding [ res:variable "pllabel" ; res:value "PARLOG"@ja ] ] .\n
             """
             ),
         )
