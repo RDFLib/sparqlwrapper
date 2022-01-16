@@ -143,7 +143,7 @@ def main(test=None):
         print(results.toxml())
     elif insinstance(result, bytes):
         if args.format == "n3":
-            g = rdflib.Graph()
+            g = rdflib.ConjunctiveGraph()
             g.parse(data=results, format="n3")
             print(g.serialize(format="n3"))
         else:
