@@ -135,26 +135,25 @@ def main(test=None):
     sparql.setReturnFormat(args.format)
     results = sparql.query().convert()
 
-    if isinstance(result, dict):
+    if isinstance(results, dict):
         # "json"
         print(json.dumps(results, indent=4))
-    elif isinstance(result, xml.dom.minidom.Document):
+    elif isinstance(results, xml.dom.minidom.Document):
         # "xml", "rdf+xml", "json-ld"
         print(results.toxml())
-    elif isinstance(result, bytes):
+    elif isinstance(results, bytes):
         if args.format == "n3":
             g = rdflib.ConjunctiveGraph()
-            g.parse(data=results, format="n3")
-            print(g.serialize(format="n3"))
+            print(g.parse(data=results, format="n3"))
         else:
             # "csv", "tsv", "turtle"
             print(results.decode("utf-8"))
-    elif isinstance(result, rdflib.graph.ConjunctiveGraph):
+    elif isinstance(results, rdflib.graph.ConjunctiveGraph):
         # "rdf"
         print(results.serialize())
     else:
         # unknown type
-        raise TypeError(f"Unsupported result of type {type(result)}: {result!r}")
+        raise TypeError(f"Unsupported result of type {type(results)}: {results!r}")
 
 
 if __name__ == "__main__":
