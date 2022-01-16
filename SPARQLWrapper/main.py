@@ -135,8 +135,7 @@ def main(test=None):
     sparql.setReturnFormat(args.format)
     results = sparql.query().convert()
 
-    ct = type(results)
-    if ct is dict:
+    if isinstance(result, dict):
         # "json"
         print(json.dumps(results, indent=4))
     elif ct is xml.dom.minidom.Document:
