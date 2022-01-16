@@ -138,7 +138,7 @@ def main(test=None):
     if isinstance(result, dict):
         # "json"
         print(json.dumps(results, indent=4))
-    elif ct is xml.dom.minidom.Document:
+    elif isinstance(result, xml.dom.minidom.Document):
         # "xml", "rdf+xml", "json-ld"
         print(results.toxml())
     elif ct is bytes:
