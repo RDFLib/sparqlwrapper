@@ -235,23 +235,32 @@ class SPARQLWrapperCLI_Test(SPARQLWrapperCLI_Test_Base):
             sys.stdout.getvalue(),
             textwrap.dedent(
                 """\
-            @prefix res: <http://www.w3.org/2005/sparql-results#> .\n
-            [] a res:ResultSet ;
-                res:resultVariable "pllabel" ;
-                res:solution [ res:binding [ res:value "PARLOG"@ja ;
-                                res:variable "pllabel" ] ] .\n\n
+            @prefix res: <http://www.w3.org/2005/sparql-results#> .
+            @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+            _:_ a res:ResultSet .
+            _:_ res:resultVariable "pllabel" .
+            _:_ res:solution [
+                  res:binding [ res:variable "pllabel" ; res:value "PARLOG"@ja ] ] .\n
             """
             ),
         )
 
-    @unittest.expectedFailure  # rdflib.exceptions.ParserError
-    def testQueryWithFileRDF(self):
-        main(["-f", testfile, "-e", endpoint, "-F", "rdf"])
+    def testQueryRDF(self):
+        main(["-Q", "DESCRIBE <http://ja.wikipedia.org/wiki/SPARQL>", "-e", endpoint, "-F", "rdf"])
 
         self.assertEqual(
             sys.stdout.getvalue(),
             textwrap.dedent(
                 """\
+            @prefix dc: <http://purl.org/dc/elements/1.1/> .
+            @prefix foaf: <http://xmlns.com/foaf/0.1/> .
+
+            <http://ja.dbpedia.org/resource/SPARQL> foaf:isPrimaryTopicOf <http://ja.wikipedia.org/wiki/SPARQL> .
+
+            <http://ja.wikipedia.org/wiki/SPARQL> a foaf:Document ;
+                dc:language "ja" ;
+                foaf:primaryTopic <http://ja.dbpedia.org/resource/SPARQL> .
+
 
             """
             ),
