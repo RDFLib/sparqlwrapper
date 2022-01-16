@@ -142,11 +142,7 @@ def main(test=None):
         # "xml", "rdf+xml", "json-ld"
         print(results.toxml())
     elif isinstance(results, bytes):
-        if args.format == "n3":
-            g = rdflib.ConjunctiveGraph()
-            print(g.parse(data=results, format="n3"))
-        else:
-            # "csv", "tsv", "turtle"
+            # "csv", "tsv", "turtle", "n3"
             print(results.decode("utf-8"))
     elif isinstance(results, rdflib.graph.ConjunctiveGraph):
         # "rdf"
