@@ -149,7 +149,7 @@ def main(test=None):
         else:
             # "csv", "tsv", "turtle"
             print(results.decode("utf-8"))
-    elif ct is rdflib.graph.ConjunctiveGraph:
+    elif isinstance(result, rdflib.graph.ConjunctiveGraph):
         # "rdf"
         print(results.serialize())
     else:
