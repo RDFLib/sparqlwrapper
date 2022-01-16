@@ -154,7 +154,7 @@ def main(test=None):
         print(results.serialize())
     else:
         # unknown type
-        raise TypeError(ct)
+        raise TypeError(f"Unsupported result of type {type(result)}: {result!r}")
 
 
 if __name__ == "__main__":
