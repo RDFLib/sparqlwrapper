@@ -19,36 +19,34 @@ A simple implementation of a key case-insensitive dictionary.
   :license: `W3C® Software notice and license <http://www.w3.org/Consortium/Legal/copyright-software>`_
 """
 
-from collections import UserDict
-from collections.abc import Mapping
-from typing import TypeVar
+from typing import TypeVar, Dict, MutableMapping
 
 K = str
 V = TypeVar("V")
 
 
-class KeyCaseInsensitiveDict(UserDict[K, V]):
+class KeyCaseInsensitiveDict(MutableMapping[K, V]):
     """
     A simple implementation of a key case-insensitive dictionary
     """
 
-    def __init__(self, initdict: Mapping[K, V] = {}) -> None:
+    def __init__(self, d: Dict[K, V] = {}) -> None:
         """
         :param dict d: The source dictionary.
         """
-        super().__init__(initdict)
+        self.data: Dict[K, V] = d
 
     def __setitem__(self, key: K, value: V) -> None:
         if isinstance(key, str):
             key = key.lower()
-        super().__setitem__(key, value)
+        self.data[key] = value
 
     def __getitem__(self, key: K) -> V:
         if isinstance(key, str):
             key = key.lower()
-        return super().__getitem__(key)
+        return self.data[key]
 
     def __delitem__(self, key: K) -> None:
         if isinstance(key, str):
             key = key.lower()
-        super().__delitem__(key)
+        del self.data[key]
