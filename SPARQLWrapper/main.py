@@ -28,9 +28,7 @@ def check_file(v: str) -> str:
     elif v == "-":
         return "-"  # stdin
     else:
-        raise argparse.ArgumentError(
-            argument=None, message="file '%s' is not found" % v
-        )
+        raise argparse.ArgumentTypeError("file '%s' is not found" % v)
 
 
 def choicesDescriptions() -> str:

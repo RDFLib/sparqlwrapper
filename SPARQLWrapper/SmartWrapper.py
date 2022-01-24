@@ -275,7 +275,7 @@ class Bindings(object):
             raise IndexError
         return retval
 
-    def convert(self) -> Bindings:
+    def convert(self) -> "Bindings":
         """This is just a convenience method, returns ``self``.
 
         Although :class:`SPARQLWrapper2.Bindings` is not a subclass of

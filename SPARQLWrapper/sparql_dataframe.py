@@ -7,8 +7,8 @@ from typing import Dict, List, Union
 import pandas as pd
 import rdflib.term
 
-from SPARQLWrapper import CSV, SELECT, SPARQLWrapper, SPARQLWrapper2
-from SPARQLWrapper.SmartWrapper import Bindings, Value
+from SPARQLWrapper.SmartWrapper import Bindings, SPARQLWrapper2, Value
+from SPARQLWrapper.Wrapper import CSV, SELECT, SPARQLWrapper
 
 
 class QueryException(Exception):

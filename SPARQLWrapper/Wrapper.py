@@ -974,9 +974,9 @@ class SPARQLWrapper(object):
         :type query: string
         :raises TypeError: If the :attr:`query` parameter is not an unicode-string or utf-8 encoded byte-string.
         """
-        if isinstance(query, str):
-            pass
-        else:
+        if not isinstance(query, (str, bytes)):
+            raise TypeError(type(query))
+        elif isinstance(query, bytes):
             query = query.decode("utf-8")
 
         self.queryString = query
@@ -1311,9 +1311,7 @@ class SPARQLWrapper(object):
             return response, self.returnFormat
         except urllib.error.HTTPError as e:
             e_res = e.read()
-            if type(e_res) is not bytes:
-                raise TypeError(type(e_res))
-            elif e.code == 400:
+            if e.code == 400:
                 raise QueryBadFormed(e_res)
             elif e.code == 404:
                 raise EndPointNotFound(e_res)
