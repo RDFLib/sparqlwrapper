@@ -22,8 +22,7 @@
 
 from typing import Any, Dict, List, Optional, Tuple, Union
 
-from SPARQLWrapper import QueryResult
-from SPARQLWrapper.Wrapper import JSON, SELECT
+from SPARQLWrapper.Wrapper import JSON, SELECT, QueryResult
 from SPARQLWrapper.Wrapper import SPARQLWrapper as SW
 
 ######################################################################################
@@ -192,7 +191,7 @@ class Bindings(object):
                     return True
             return False
 
-    def __getitem__(self, key: Union[slice, List[str]]) -> List[Dict[str, Value]]:
+    def __getitem__(self, key: Union[slice, str, List[str]]) -> List[Dict[str, Value]]:
         """Emulation of the ``obj[key]`` operator.  Slice notation is also available.
         The goal is to choose the right bindings among the available ones. The return values are always
         arrays  of bindings, ie, arrays of dictionaries mapping variable keys to :class:`Value` instances.
@@ -212,7 +211,7 @@ class Bindings(object):
         :rtype: array of variable -> :class:`Value`  dictionaries
         """
 
-        def _checkKeys(keys: List[Any]) -> bool:
+        def _checkKeys(keys: Union[List[Any], Tuple[Any, ...]]) -> bool:
             if len(keys) == 0:
                 return False
             for k in keys:
@@ -224,19 +223,30 @@ class Bindings(object):
                     return False
             return True
 
-        def _nonSliceCase(key: Any) -> Tuple[bool, Union[List[str], Any]]:
-            ct = type(key)
-            if ct is str and key != "" and key in self.variables:
-                # unicode or string:
-                return True, [key]
-            elif ct is list or ct is tuple:
+        def _nonSliceCase(
+            key: Union[
+                str,
+                slice,
+                List[Any],
+                Tuple[Any],
+            ]
+        ) -> Tuple[bool, Union[List[Any], str]]:
+            if isinstance(key, str):
+                if key != "" and self.variables is not None and key in self.variables:
+                    # unicode or string:
+                    return True, [key]
+            elif isinstance(key, list):
                 if _checkKeys(key):
-                    return key
-            return False, ct
+                    return True, key
+            elif isinstance(key, tuple):
+                if _checkKeys(key):
+                    return True, list(key)
+
+            return False, str(type(key))
 
         # The arguments should be reduced to arrays of variables, ie, unicode strings
-        yes_keys = []
-        no_keys = []
+        yes_keys: Union[List[Any], str] = []
+        no_keys: Union[List[Any], str] = []
         if type(key) is slice:
             # Note: None for start or stop is all right
             if key.start:
@@ -248,7 +258,7 @@ class Bindings(object):
                 if not is_ok:
                     raise TypeError(no_keys)
         else:
-            yes_keys = _nonSliceCase(key)
+            is_ok, yes_keys = _nonSliceCase(key)
 
         # got it right, now get the right binding line with the constraints
         retval: List[Dict[str, Value]] = []
@@ -265,7 +275,7 @@ class Bindings(object):
             raise IndexError
         return retval
 
-    def convert(self):
+    def convert(self) -> Bindings:
         """This is just a convenience method, returns ``self``.
 
         Although :class:`SPARQLWrapper2.Bindings` is not a subclass of
@@ -318,7 +328,7 @@ class SPARQLWrapper2(SW):
         """
         pass
 
-    def query(self) -> Union[Bindings, QueryResult]:
+    def query(self) -> Union[Bindings, QueryResult]:  # type: ignore[override]
         """
         Execute the query and do an automatic conversion.
 
@@ -338,7 +348,7 @@ class SPARQLWrapper2(SW):
         else:
             return res
 
-    def queryAndConvert(
+    def queryAndConvert(  # type: ignore[override]
         self,
     ) -> Union[Union[Bindings, QueryResult], QueryResult.ConvertResult]:
         """This is here to override the inherited method; it is equivalent to :class:`query`.

@@ -2,10 +2,10 @@
 Query a SPARQL endpoint and return results as a Pandas dataframe.
 """
 import io
-from typing import Union
+from typing import Dict, List, Union
 
-import pandas as pd  # type: ignore
-import rdflib.term  # type: ignore
+import pandas as pd
+import rdflib.term
 
 from SPARQLWrapper import CSV, SELECT, SPARQLWrapper, SPARQLWrapper2
 from SPARQLWrapper.SmartWrapper import Bindings, Value
@@ -51,7 +51,7 @@ def get_sparql_typed_dict(
         row = {}
         for k in x:
             v = x[k]
-            vv = rdflib.term.Literal(v.value, datatype=v.datatype).toPython()
+            vv = rdflib.term.Literal(v.value, datatype=v.datatype).toPython()  # type: ignore[no-untyped-call]
             row[k] = vv
         d.append(row)
     return d

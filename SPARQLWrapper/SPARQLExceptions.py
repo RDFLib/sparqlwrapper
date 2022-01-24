@@ -37,7 +37,7 @@ class SPARQLWrapperException(Exception):
         if response is None:
             formatted_msg = "%s: %s." % (self.__class__.__name__, self.msg)
         else:
-            formatted_msg = "%s: %s. \n\nResponse:\n%s" % (
+            formatted_msg = "%s: %s. \n\nResponse:\n%r" % (
                 self.__class__.__name__,
                 self.msg,
                 response,

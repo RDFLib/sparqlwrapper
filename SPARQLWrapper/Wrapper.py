@@ -36,7 +36,7 @@ from urllib.request import (
 )  # don't change the name: tests override it
 from xml.dom.minidom import Document, parse
 
-from rdflib import ConjunctiveGraph, Graph  # type: ignore
+from rdflib import ConjunctiveGraph, Graph
 
 from SPARQLWrapper import __agent__
 
@@ -208,7 +208,7 @@ class QueryResult(object):
 
     """
 
-    ConvertResult = Union[bytes, str, Graph, Document, None]
+    ConvertResult = Union[bytes, str, Dict[Any, Any], Graph, Document, None]
 
     def __init__(self, result: Union[HTTPResponse, Tuple[HTTPResponse, str]]) -> None:
         """
@@ -229,7 +229,7 @@ class QueryResult(object):
         """
         return self.response.geturl()
 
-    def info(self) -> KeyCaseInsensitiveDict[str, str]:
+    def info(self) -> KeyCaseInsensitiveDict[str]:
         """Return the meta-information of the HTTP result.
 
         :return: meta-information of the HTTP result.
@@ -255,7 +255,11 @@ class QueryResult(object):
         :return: converted result.
         :rtype: dict
         """
-        return json.loads(self.response.read().decode("utf-8"))
+        json_str = json.loads(self.response.read().decode("utf-8"))
+        if isinstance(json_str, dict):
+            return json_str
+        else:
+            raise TypeError(type(json_str))
 
     def _convertXML(self) -> Document:
         """
@@ -265,7 +269,7 @@ class QueryResult(object):
         :return: converted result.
         :rtype: :class:`xml.dom.minidom.Document`
         """
-        doc = parse(self.response)  # type: ignore
+        doc = parse(self.response)
         rdoc = cast(Document, doc)
         return rdoc
 
@@ -279,7 +283,7 @@ class QueryResult(object):
         """
 
         retval = ConjunctiveGraph()
-        retval.parse(self.response, format="xml")
+        retval.parse(self.response, format="xml")  # type: ignore[no-untyped-call]
         r_retval = cast(Graph, retval)
         return r_retval
 
@@ -322,7 +326,7 @@ class QueryResult(object):
         :rtype: :class:`rdflib.graph.Graph`
         """
         retval = ConjunctiveGraph()
-        retval.parse(self.response, format="json-ld")
+        retval.parse(self.response, format="json-ld")  # type: ignore[no-untyped-call]
         r_retval = cast(Graph, retval)
         return r_retval
 
@@ -516,7 +520,9 @@ class QueryResult(object):
                 index += 1
             print()
 
-    def __get_results_width(self, results: Dict[Any, Any], minWidth: int = 2):
+    def __get_results_width(
+        self, results: Dict[Any, Any], minWidth: int = 2
+    ) -> List[int]:
         width: List[int] = []
         for var in results["head"]["vars"]:
             width.append(max(minWidth, len(var) + 1))
@@ -530,8 +536,12 @@ class QueryResult(object):
                 index += 1
         return width
 
-    def __get_prettyprint_string_sparql_var_result(self, result: Dict[Any, Any]) -> str:
+    def __get_prettyprint_string_sparql_var_result(self, result: Dict[str, str]) -> str:
+        if "value" not in result:
+            return ""
         value = result["value"]
+        if not isinstance(value, str):
+            raise TypeError(type(value))
         lang = result.get("xml:lang", None)
         datatype = result.get("datatype", None)
         if lang is not None:
@@ -658,7 +668,7 @@ class SPARQLWrapper(object):
         updateEndpoint: Optional[str] = None,
         returnFormat: str = XML,
         defaultGraph: Optional[str] = None,
-        agent: str = __agent__,
+        agent: Optional[str] = None,
     ) -> None:
         """
         Class encapsulating a full SPARQL call.
@@ -684,14 +694,15 @@ class SPARQLWrapper(object):
         :type agent: string
         """
         self.endpoint = endpoint
-        self.updateEndpoint = updateEndpoint if updateEndpoint else endpoint
-        self.agent = agent
-        self.user = None
-        self.passwd = None
+        self.updateEndpoint = updateEndpoint if updateEndpoint is not None else endpoint
+        self.agent = agent if agent is not None else __agent__
+        self.user: Optional[str] = None
+        self.passwd: Optional[str] = None
         self.http_auth = BASIC
         self._defaultGraph = defaultGraph
         self.onlyConneg = False  # Only Content Negotiation
         self.customHttpHeaders: Dict[str, str] = {}
+        self.timeout: Optional[int] = None
 
         if returnFormat in _allowedFormats:
             self._defaultReturnFormat = returnFormat
@@ -750,7 +761,7 @@ class SPARQLWrapper(object):
         :param timeout: Timeout in seconds.
         :type timeout: int
         """
-        self.timeout = int(timeout)
+        self.timeout = timeout
 
     def setOnlyConneg(self, onlyConneg: bool) -> None:
         """Set this option for allowing (or not) only HTTP Content Negotiation (so dismiss the use of HTTP parameters).
@@ -912,7 +923,9 @@ class SPARQLWrapper(object):
             except KeyError:
                 return False
 
-    def setCredentials(self, user: str, passwd: str, realm: str = "SPARQL") -> None:
+    def setCredentials(
+        self, user: Optional[str], passwd: Optional[str], realm: str = "SPARQL"
+    ) -> None:
         """
         Set the credentials for querying the current endpoint.
 
@@ -940,7 +953,7 @@ class SPARQLWrapper(object):
         :raises ValueError: If the :attr:`auth` parameter has not one of the valid values: :class:`BASIC` or
         :class:`DIGEST`.
         """
-        if not isinstance(auth, str):  # type: ignore
+        if not isinstance(auth, str):
             raise TypeError("setHTTPAuth takes a string")
         elif auth.upper() in _allowedAuth:
             self.http_auth = auth.upper()
@@ -1019,10 +1032,10 @@ class SPARQLWrapper(object):
         :raises ImportError: when could not be imported ``keepalive.HTTPHandler``.
         """
         try:
-            from keepalive import HTTPHandler  # type: ignore
+            from keepalive import HTTPHandler  # type: ignore[import]
 
-            if urllib.request._opener and any(
-                isinstance(h, HTTPHandler) for h in urllib.request._opener.handlers
+            if urllib.request._opener and any(  # type: ignore[attr-defined]
+                isinstance(h, HTTPHandler) for h in urllib.request._opener.handlers  # type: ignore[attr-defined]
             ):
                 # already installed
                 return
@@ -1072,7 +1085,9 @@ class SPARQLWrapper(object):
         """
         return re.sub(self.comments_pattern, "\n\n", query)
 
-    def _getRequestEncodedParameters(self, query: Optional[Tuple[str, str]] = None):
+    def _getRequestEncodedParameters(
+        self, query: Optional[Tuple[str, str]] = None
+    ) -> str:
         """ Internal method for getting the request encoded parameters.
 
         :param query: a tuple of two items. The first item can be the string \
@@ -1289,7 +1304,7 @@ class SPARQLWrapper(object):
         request = self._createRequest()
 
         try:
-            if self.timeout:
+            if self.timeout is not None:
                 response = urlopener(request, timeout=self.timeout)
             else:
                 response = urlopener(request)
@@ -1339,7 +1354,7 @@ class SPARQLWrapper(object):
         res = self.query()
         return res.convert()
 
-    def __str__(self):
+    def __str__(self) -> str:
         """This method returns the string representation of a :class:`SPARQLWrapper` object.
 
         .. versionadded:: 1.8.3

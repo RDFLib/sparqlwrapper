@@ -20,10 +20,10 @@ A simple implementation of a key case-insensitive dictionary.
 """
 
 from collections import UserDict
-from collections.abc import Hashable, Mapping
+from collections.abc import Mapping
 from typing import TypeVar
 
-K = TypeVar("K", bound=Hashable)
+K = str
 V = TypeVar("V")
 
 

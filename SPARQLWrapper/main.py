@@ -10,7 +10,7 @@ import sys
 import xml
 from typing import List, Optional
 
-import rdflib  # type: ignore
+import rdflib
 
 from . import __version__
 from .Wrapper import SPARQLWrapper, _allowedAuth, _allowedFormats, _allowedRequests
@@ -40,7 +40,7 @@ def choicesDescriptions() -> str:
     return d
 
 
-def parse_args(test: Optional[List[str]] = None):
+def parse_args(test: Optional[List[str]] = None) -> argparse.Namespace:
     """Parse arguments."""
     parser = argparse.ArgumentParser(
         prog="rqw",
