@@ -194,6 +194,7 @@ class SPARQLWrapper_Test(unittest.TestCase):
     def testSetReturnFormat(self):
         with warnings.catch_warnings(record=True) as w:
             self.wrapper.setReturnFormat("nonexistent format")
+            # Ignore format 'nonexistent format'; current instance supports: ...
             self.assertEqual(1, len(w), "Warning due to non expected format")
 
         self.assertEqual(XML, self.wrapper.query().requestedFormat)
@@ -870,31 +871,31 @@ class QueryResult_Test(unittest.TestCase):
         self.assertEqual(0, _mime_vs_type("text/n3", N3))
         self.assertEqual(0, _mime_vs_type("text/turtle", TURTLE))
         self.assertEqual(0, _mime_vs_type("application/turtle", TURTLE))
-        self.assertEqual(0, _mime_vs_type("application/json", JSON))  # Warning
+        self.assertEqual(0, _mime_vs_type("application/json", JSON))
 
-        # graph.load() is deprecated, it will be removed in rdflib 6.0.0. Please use graph.parse() instead.
-        self.assertEqual(1, _mime_vs_type("application/ld+json", JSONLD))  # Warning
-        self.assertEqual(1, _mime_vs_type("application/rdf+xml", XML))  # Warning
-        self.assertEqual(1, _mime_vs_type("application/rdf+xml", RDF))  # Warning
-        self.assertEqual(1, _mime_vs_type("application/rdf+xml", RDFXML))  # Warning
+        self.assertEqual(0, _mime_vs_type("application/ld+json", JSONLD))
+        self.assertEqual(0, _mime_vs_type("application/rdf+xml", XML))
+        self.assertEqual(0, _mime_vs_type("application/rdf+xml", RDF))
+        self.assertEqual(0, _mime_vs_type("application/rdf+xml", RDFXML))
 
         self.assertEqual(0, _mime_vs_type("text/csv", CSV))
         self.assertEqual(0, _mime_vs_type("text/tab-separated-values", TSV))
         self.assertEqual(0, _mime_vs_type("application/xml", XML))
 
+        # unknown response content type 'application/x-foo-bar' returning raw response...
         self.assertEqual(1, _mime_vs_type("application/x-foo-bar", XML), "invalid mime")
 
+        # Format requested was xxx, but yyy (zzz) has been returned by the endpoint
         self.assertEqual(1, _mime_vs_type("application/sparql-results+xml", N3))
         self.assertEqual(1, _mime_vs_type("application/sparql-results+json", XML))
         self.assertEqual(1, _mime_vs_type("text/n3", JSON))
         self.assertEqual(1, _mime_vs_type("text/turtle", XML))
 
         # Format requested was xxx, but yyy (zzz) has been returned by the endpoint
-        # graph.load() is deprecated, it will be removed in rdflib 6.0.0. Please use graph.parse() instead.
-        self.assertEqual(2, _mime_vs_type("application/ld+json", XML))  # Warning
-        self.assertEqual(2, _mime_vs_type("application/ld+json", N3))  # Warning
-        self.assertEqual(2, _mime_vs_type("application/rdf+xml", JSON))  # Warning
-        self.assertEqual(2, _mime_vs_type("application/rdf+xml", N3))  # Warning
+        self.assertEqual(1, _mime_vs_type("application/ld+json", XML))  # Warning
+        self.assertEqual(1, _mime_vs_type("application/ld+json", N3))  # Warning
+        self.assertEqual(1, _mime_vs_type("application/rdf+xml", JSON))  # Warning
+        self.assertEqual(1, _mime_vs_type("application/rdf+xml", N3))  # Warning
 
     def testPrint_results(self):
         """
@@ -924,6 +925,8 @@ class QueryResult_Test(unittest.TestCase):
                 except:
                     pass
 
+                # if len(w) > 1: print(w[1].message) # FOR DEBUG
+
                 return len(w)
 
         self.assertEqual(0, _print_results("application/sparql-results+json"))
@@ -931,6 +934,7 @@ class QueryResult_Test(unittest.TestCase):
         self.assertEqual(0, _print_results("text/javascript"))
         self.assertEqual(0, _print_results("application/javascript"))
 
+        # Format return was xxx, but yyy was expected. No printing.
         self.assertEqual(1, _print_results("application/sparql-results+xml"))
         self.assertEqual(1, _print_results("application/xml"))
         self.assertEqual(1, _print_results("application/rdf+xml"))
@@ -950,6 +954,8 @@ class QueryResult_Test(unittest.TestCase):
         self.assertEqual(1, _print_results("application/ld+json"))
         self.assertEqual(1, _print_results("application/x-json+ld"))
 
+        # Unknown response content type. Returning raw content-type ('application/x-foo-bar').
+        # Format return was application/x-foo-bar, but JSON was expected. No printing.
         self.assertEqual(2, _print_results("application/x-foo-bar"))
 
 
