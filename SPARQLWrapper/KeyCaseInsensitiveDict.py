@@ -14,40 +14,34 @@ A simple implementation of a key case-insensitive dictionary.
   :license: `W3C® Software notice and license <http://www.w3.org/Consortium/Legal/copyright-software>`_
 """
 
-from typing import Dict, Iterator, MutableMapping, TypeVar
+from typing import Dict, TypeVar
 
 K = str
 V = TypeVar("V")
 
-
-class KeyCaseInsensitiveDict(MutableMapping[K, V]):
+class KeyCaseInsensitiveDict(Dict[K, V]):
     """
     A simple implementation of a key case-insensitive dictionary
     """
 
-    def __init__(self, d: Dict[K, V] = {}) -> None:
+    def __init__(self, d: Dict[K, V]={}) -> None:
         """
         :param dict d: The source dictionary.
         """
-        self.data: Dict[K, V] = d
+        for k, v in d.items():
+            self[k] = v
 
     def __setitem__(self, key: K, value: V) -> None:
-        if isinstance(key, str):
+        if hasattr(key, "lower"):
             key = key.lower()
-        self.data[key] = value
+        dict.__setitem__(self, key, value)
 
     def __getitem__(self, key: K) -> V:
-        if isinstance(key, str):
+        if hasattr(key, "lower"):
             key = key.lower()
-        return self.data[key]
+        return dict.__getitem__(self, key)
 
     def __delitem__(self, key: K) -> None:
-        if isinstance(key, str):
+        if hasattr(key, "lower"):
             key = key.lower()
-        del self.data[key]
-
-    def __len__(self) -> int:
-        return len(self.data)
-
-    def __iter__(self) -> Iterator[K]:
-        return iter(self.data)
+        dict.__delitem__(self, key)
