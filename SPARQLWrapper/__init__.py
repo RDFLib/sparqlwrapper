@@ -9,6 +9,34 @@ format.
 
 """
 
+from .SmartWrapper import SPARQLWrapper2
+from .sparql_dataframe import get_sparql_dataframe
+from .Wrapper import (
+    ASK,
+    BASIC,
+    CONSTRUCT,
+    CSV,
+    DELETE,
+    DESCRIBE,
+    DIGEST,
+    GET,
+    INSERT,
+    JSON,
+    JSONLD,
+    N3,
+    POST,
+    POSTDIRECTLY,
+    RDF,
+    RDFXML,
+    SELECT,
+    TSV,
+    TURTLE,
+    URLENCODED,
+    XML,
+    QueryResult,
+    SPARQLWrapper,
+)
+
 __version__ = "1.9.0.dev0"
 """The version of SPARQLWrapper"""
 
@@ -29,12 +57,30 @@ __date__ = "2019-04-18"
 
 __agent__ = "sparqlwrapper %s (rdflib.github.io/sparqlwrapper)" % __version__
 
-
-from .Wrapper import SPARQLWrapper
-from .Wrapper import XML, JSON, TURTLE, N3, JSONLD, RDF, RDFXML, CSV, TSV
-from .Wrapper import GET, POST
-from .Wrapper import SELECT, CONSTRUCT, ASK, DESCRIBE, INSERT, DELETE
-from .Wrapper import URLENCODED, POSTDIRECTLY
-from .Wrapper import BASIC, DIGEST
-from .SmartWrapper import SPARQLWrapper2
-from .sparql_dataframe import get_sparql_dataframe
+__all__ = [
+    "SPARQLWrapper2",
+    "get_sparql_dataframe",
+    "ASK",
+    "BASIC",
+    "CONSTRUCT",
+    "CSV",
+    "DELETE",
+    "DESCRIBE",
+    "DIGEST",
+    "GET",
+    "INSERT",
+    "JSON",
+    "JSONLD",
+    "N3",
+    "POST",
+    "POSTDIRECTLY",
+    "RDF",
+    "RDFXML",
+    "SELECT",
+    "TSV",
+    "TURTLE",
+    "URLENCODED",
+    "XML",
+    "QueryResult",
+    "SPARQLWrapper",
+]

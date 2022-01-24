@@ -19,30 +19,36 @@ A simple implementation of a key case-insensitive dictionary.
   :license: `W3C® Software notice and license <http://www.w3.org/Consortium/Legal/copyright-software>`_
 """
 
+from collections import UserDict
+from collections.abc import Hashable, Mapping
+from typing import TypeVar
 
-class KeyCaseInsensitiveDict(dict):
+K = TypeVar("K", bound=Hashable)
+V = TypeVar("V")
+
+
+class KeyCaseInsensitiveDict(UserDict[K, V]):
     """
     A simple implementation of a key case-insensitive dictionary
     """
 
-    def __init__(self, d={}):
+    def __init__(self, initdict: Mapping[K, V] = {}) -> None:
         """
         :param dict d: The source dictionary.
         """
-        for k, v in d.items():
-            self[k] = v
+        super().__init__(initdict)
 
-    def __setitem__(self, key, value):
-        if hasattr(key, "lower"):
+    def __setitem__(self, key: K, value: V) -> None:
+        if isinstance(key, str):
             key = key.lower()
-        dict.__setitem__(self, key, value)
+        super().__setitem__(key, value)
 
-    def __getitem__(self, key):
-        if hasattr(key, "lower"):
+    def __getitem__(self, key: K) -> V:
+        if isinstance(key, str):
             key = key.lower()
-        return dict.__getitem__(self, key)
+        return super().__getitem__(key)
 
-    def __delitem__(self, key):
-        if hasattr(key, "lower"):
+    def __delitem__(self, key: K) -> None:
+        if isinstance(key, str):
             key = key.lower()
-        dict.__delitem__(self, key)
+        super().__delitem__(key)

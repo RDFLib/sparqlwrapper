@@ -19,10 +19,12 @@
   :requires: `RDFLib <https://rdflib.readthedocs.io>`_ package.
 """
 
-import urllib.request, urllib.error, urllib.parse
-from types import *
-import SPARQLWrapper
+
+from typing import Any, Dict, List, Optional, Tuple, Union
+
+from SPARQLWrapper import QueryResult
 from SPARQLWrapper.Wrapper import JSON, SELECT
+from SPARQLWrapper.Wrapper import SPARQLWrapper as SW
 
 ######################################################################################
 
@@ -53,7 +55,7 @@ class Value(object):
     BNODE = "bnode"
     """the string denoting a blank node variable."""
 
-    def __init__(self, variable, binding):
+    def __init__(self, variable: str, binding: Dict[str, str]) -> None:
         """
         :param variable: the variable for that binding. Stored for an easier reference.
         :type variable: string
@@ -67,15 +69,15 @@ class Value(object):
         self.datatype = None
         try:
             self.lang = binding["xml:lang"]
-        except:
+        except KeyError:
             # no lang is set
             pass
         try:
             self.datatype = binding["datatype"]
-        except:
+        except KeyError:
             pass
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         cls = self.__class__.__name__
         return "%s(%s:%r)" % (cls, self.type, self.value)
 
@@ -110,40 +112,37 @@ class Bindings(object):
     :vartype askResult: bool
     """
 
-    def __init__(self, retval):
+    def __init__(self, retval: QueryResult):
         """
         :param retval: the query result.
         :type retval: :class:`QueryResult<SPARQLWrapper.Wrapper.QueryResult>`
         """
         self.fullResult = retval._convertJSON()
         self.head = self.fullResult["head"]
-        self.variables = None
+        self.variables: Optional[List[str]]
         try:
             self.variables = self.fullResult["head"]["vars"]
-        except:
-            pass
+        except KeyError:
+            self.variables = None
 
-        self.bindings = []
-        try:
+        self.bindings: List[Dict[str, Value]] = []
+        if self.variables is not None:
             for b in self.fullResult["results"]["bindings"]:
                 # This is a single binding. It is a dictionary per variable; each value is a dictionary again
                 # that has to be converted into a Value instance
-                newBind = {}
+                newBind: Dict[Any, Value] = {}
                 for key in self.variables:
                     if key in b:
                         # there is a real binding for this key
                         newBind[key] = Value(key, b[key])
                 self.bindings.append(newBind)
-        except:
-            pass
 
-        self.askResult = False
         try:
             self.askResult = self.fullResult["boolean"]
-        except:
-            pass
+        except KeyError:
+            self.askResult = False
 
-    def getValues(self, key):
+    def getValues(self, key: str) -> Optional[List[Value]]:
         """A shorthand for the retrieval of all bindings for a single key. It is
         equivalent to ``[b[key] for b in self[key]]``
 
@@ -153,11 +152,12 @@ class Bindings(object):
         :rtype: list
         """
         try:
-            return [b[key] for b in self[key]]
-        except:
-            return []
+            vals = self[key]
+            return [val[key] for val in vals]
+        except Exception:
+            return None
 
-    def __contains__(self, key):
+    def __contains__(self, key: Union[str, List[str], Tuple[str]]) -> bool:
         """Emulation of the "``key in obj``" operator. Key can be a string for a variable or an array/tuple
         of strings.
 
@@ -169,7 +169,7 @@ class Bindings(object):
         :return: whether there is a binding of the variable in the return
         :rtype: Boolean
         """
-        if len(self.bindings) == 0:
+        if len(self.bindings) == 0 or self.variables is None:
             return False
         if type(key) is list or type(key) is tuple:
             # check first whether they are all really variables
@@ -192,7 +192,7 @@ class Bindings(object):
                     return True
             return False
 
-    def __getitem__(self, key):
+    def __getitem__(self, key: Union[slice, List[str]]) -> List[Dict[str, Value]]:
         """Emulation of the ``obj[key]`` operator.  Slice notation is also available.
         The goal is to choose the right bindings among the available ones. The return values are always
         arrays  of bindings, ie, arrays of dictionaries mapping variable keys to :class:`Value` instances.
@@ -212,22 +212,27 @@ class Bindings(object):
         :rtype: array of variable -> :class:`Value`  dictionaries
         """
 
-        def _checkKeys(keys):
+        def _checkKeys(keys: List[Any]) -> bool:
             if len(keys) == 0:
                 return False
             for k in keys:
-                if not isinstance(k, str) or k not in self.variables:
+                if (
+                    not isinstance(k, str)
+                    or self.variables is None
+                    or k not in self.variables
+                ):
                     return False
             return True
 
-        def _nonSliceCase(key):
-            if isinstance(key, str) and key != "" and key in self.variables:
+        def _nonSliceCase(key: Any) -> Tuple[bool, Union[List[str], Any]]:
+            ct = type(key)
+            if ct is str and key != "" and key in self.variables:
                 # unicode or string:
-                return [key]
-            elif type(key) is list or type(key) is tuple:
+                return True, [key]
+            elif ct is list or ct is tuple:
                 if _checkKeys(key):
                     return key
-            return False
+            return False, ct
 
         # The arguments should be reduced to arrays of variables, ie, unicode strings
         yes_keys = []
@@ -235,18 +240,18 @@ class Bindings(object):
         if type(key) is slice:
             # Note: None for start or stop is all right
             if key.start:
-                yes_keys = _nonSliceCase(key.start)
-                if not yes_keys:
-                    raise TypeError
+                is_ok, yes_keys = _nonSliceCase(key.start)
+                if not is_ok:
+                    raise TypeError(yes_keys)
             if key.stop:
-                no_keys = _nonSliceCase(key.stop)
-                if not no_keys:
-                    raise TypeError
+                is_ok, no_keys = _nonSliceCase(key.stop)
+                if not is_ok:
+                    raise TypeError(no_keys)
         else:
             yes_keys = _nonSliceCase(key)
 
         # got it right, now get the right binding line with the constraints
-        retval = []
+        retval: List[Dict[str, Value]] = []
         for b in self.bindings:
             # first check whether the 'yes' part is all there:
             if False in [k in b for k in yes_keys]:
@@ -263,10 +268,13 @@ class Bindings(object):
     def convert(self):
         """This is just a convenience method, returns ``self``.
 
-        Although :class:`SPARQLWrapper2.Bindings` is not a subclass of :class:`SPARQLWrapper.QueryResult<SPARQLWrapper.Wrapper.QueryResult>`, it is returned as a result by
+        Although :class:`SPARQLWrapper2.Bindings` is not a subclass of
+        :class:`SPARQLWrapper.QueryResult<SPARQLWrapper.Wrapper.QueryResult>`, it is returned as a result by
         :func:`SPARQLWrapper2.query`, just like :class:`QueryResult<SPARQLWrapper.Wrapper.QueryResult>` is returned by
         :func:`SPARQLWrapper.query()<SPARQLWrapper.Wrapper.SPARQLWrapper.query>`. Consequently,
-        having an empty :func:`convert` method to imitate :class:`QueryResult's convert() method<SPARQLWrapper.Wrapper.QueryResult.convert>` may avoid unnecessary problems.
+        having an empty :func:`convert` method to imitate
+        :class:`QueryResult's convert() method<SPARQLWrapper.Wrapper.QueryResult.convert>`
+        may avoid unnecessary problems.
         """
         return self
 
@@ -274,12 +282,12 @@ class Bindings(object):
 ##############################################################################################################
 
 
-class SPARQLWrapper2(SPARQLWrapper.SPARQLWrapper):
+class SPARQLWrapper2(SW):
     """Subclass of :class:`~SPARQLWrapper.Wrapper.SPARQLWrapper` that works with a JSON SELECT return result only. The
     query result is automatically set to a :class:`Bindings` instance. Makes the average query processing a bit
     simpler..."""
 
-    def __init__(self, baseURI, defaultGraph=None):
+    def __init__(self, baseURI: str, defaultGraph: Optional[str] = None):
         """
         Class encapsulating a full SPARQL call. In contrast to the :class:`~SPARQLWrapper.Wrapper.SPARQLWrapper`
         superclass, the return format cannot be set (it is defaulted to
@@ -294,7 +302,7 @@ class SPARQLWrapper2(SPARQLWrapper.SPARQLWrapper):
             baseURI, returnFormat=JSON, defaultGraph=defaultGraph
         )
 
-    def setReturnFormat(self, format):
+    def setReturnFormat(self, format: Optional[str]) -> None:
         """
         Set the return format (:meth:`overriding the inherited method
         <SPARQLWrapper.Wrapper.SPARQLWrapper.setReturnFormat>`).
@@ -310,18 +318,18 @@ class SPARQLWrapper2(SPARQLWrapper.SPARQLWrapper):
         """
         pass
 
-    def query(self):
+    def query(self) -> Union[Bindings, QueryResult]:
         """
-            Execute the query and do an automatic conversion.
+        Execute the query and do an automatic conversion.
 
-            Exceptions can be raised if either the URI is wrong or the HTTP sends back an error.
-            The usual urllib2 exceptions are raised, which cover possible SPARQL errors, too.
+        Exceptions can be raised if either the URI is wrong or the HTTP sends back an error.
+        The usual urllib2 exceptions are raised, which cover possible SPARQL errors, too.
 
-            If the query type is *not* SELECT, the method falls back to the
-            :meth:`corresponding method in the superclass<SPARQLWrapper.Wrapper.SPARQLWrapper.query>`.
+        If the query type is *not* SELECT, the method falls back to the
+        :meth:`corresponding method in the superclass<SPARQLWrapper.Wrapper.SPARQLWrapper.query>`.
 
-            :return: query result
-            :rtype: :class:`Bindings` instance
+        :return: query result
+        :rtype: :class:`Bindings` instance
         """
         res = super(SPARQLWrapper2, self).query()
 
@@ -330,7 +338,9 @@ class SPARQLWrapper2(SPARQLWrapper.SPARQLWrapper):
         else:
             return res
 
-    def queryAndConvert(self):
+    def queryAndConvert(
+        self,
+    ) -> Union[Union[Bindings, QueryResult], QueryResult.ConvertResult]:
         """This is here to override the inherited method; it is equivalent to :class:`query`.
 
         If the query type is *not* SELECT, the method falls back to the
