@@ -2,24 +2,19 @@
 
 """
 A simple implementation of a key case-insensitive dictionary.
-
 ..
   Developers involved:
-
   * Ivan Herman <http://www.ivan-herman.net>
   * Sergio Fernández <http://www.wikier.org>
   * Carlos Tejo Alonso <http://www.dayures.net>
   * Alexey Zakhlestin <https://indeyets.ru/>
-
   Organizations involved:
-
   * `World Wide Web Consortium <http://www.w3.org>`_
   * `Foundation CTIC <http://www.fundacionctic.org/>`_
-
   :license: `W3C® Software notice and license <http://www.w3.org/Consortium/Legal/copyright-software>`_
 """
 
-from typing import TypeVar, Dict, MutableMapping
+from typing import Dict, Iterator, MutableMapping, TypeVar
 
 K = str
 V = TypeVar("V")
@@ -50,3 +45,9 @@ class KeyCaseInsensitiveDict(MutableMapping[K, V]):
         if isinstance(key, str):
             key = key.lower()
         del self.data[key]
+
+    def __len__(self) -> int:
+        return len(self.data)
+
+    def __iter__(self) -> Iterator[K]:
+        return iter(self.data)
