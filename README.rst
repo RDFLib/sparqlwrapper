@@ -825,10 +825,9 @@ The source distribution contains:
    somewhere into your PYTHONPATH. Alternatively, you can also run
    the distutils scripts: ``python setup.py install``
 
--  ``test``: some unit and integrations tests. In order to run the tests 
-   some packages have to be installed before. So please install the packages 
-   listed in requirements.development.txt:
-   ``pip install -r requirements.development.txt``
+-  ``test``: some unit and integrations tests. In order to run the tests
+   some packages have to be installed before. So please install the dev packages:
+   ``pip install '.[dev]'``
 
 -  ``scripts``: some scripts to run the package against some SPARQL endpoints.
 
