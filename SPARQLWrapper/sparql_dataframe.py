@@ -2,7 +2,7 @@
 Query a SPARQL endpoint and return results as a Pandas dataframe.
 """
 import io
-from typing import Dict, List, Union
+from typing import Any, Dict, List, Union
 
 import rdflib.term
 
@@ -14,7 +14,7 @@ class QueryException(Exception):
     pass
 
 
-def get_sparql_dataframe_orig(endpoint: str, query: Union[str, bytes]) -> pd.DataFrame:
+def get_sparql_dataframe_orig(endpoint: str, query: Union[str, bytes]) -> Any: # -> pd.DataFrame:
     """copy paste from: https://github.com/lawlesst/sparql-dataframe"""
     # pandas inside to avoid requiring it
     import pandas as pd
@@ -60,7 +60,7 @@ def get_sparql_typed_dict(
     return d
 
 
-def get_sparql_dataframe(endpoint: str, query: Union[str, bytes]) -> pd.DataFrame:
+def get_sparql_dataframe(endpoint: str, query: Union[str, bytes]) -> Any: # -> pd.DataFrame:
     # pandas inside to avoid requiring it
     import pandas as pd
 
