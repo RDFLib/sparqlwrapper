@@ -4,7 +4,6 @@ Query a SPARQL endpoint and return results as a Pandas dataframe.
 import io
 from typing import Dict, List, Union
 
-import pandas as pd
 import rdflib.term
 
 from SPARQLWrapper.SmartWrapper import Bindings, SPARQLWrapper2, Value
@@ -17,6 +16,9 @@ class QueryException(Exception):
 
 def get_sparql_dataframe_orig(endpoint: str, query: Union[str, bytes]) -> pd.DataFrame:
     """copy paste from: https://github.com/lawlesst/sparql-dataframe"""
+    # pandas inside to avoid requiring it
+    import pandas as pd
+
     sparql = SPARQLWrapper(endpoint)
     sparql.setQuery(query)
     if sparql.queryType != SELECT:
@@ -34,6 +36,9 @@ def get_sparql_typed_dict(
     endpoint: str, query: Union[str, bytes]
 ) -> List[Dict[str, Value]]:
     """modified from: https://github.com/lawlesst/sparql-dataframe"""
+    # pandas inside to avoid requiring it
+    import pandas as pd
+
     sparql = SPARQLWrapper2(endpoint)
     sparql.setQuery(query)
     if sparql.queryType != SELECT:
@@ -56,6 +61,9 @@ def get_sparql_typed_dict(
 
 
 def get_sparql_dataframe(endpoint: str, query: Union[str, bytes]) -> pd.DataFrame:
+    # pandas inside to avoid requiring it
+    import pandas as pd
+
     d = get_sparql_typed_dict(endpoint, query)
     # TODO: will nan fill somehow, make more strict if there is way of getting the nan types from rdflib
     df = pd.DataFrame(d)
