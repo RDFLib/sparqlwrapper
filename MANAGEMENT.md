@@ -21,7 +21,7 @@ Then you have to [create a release](https://github.com/blog/1547-release-your-so
 
 And then upload the release to pypi:
 
-    python setup.py register sdist --formats=gztar,zip bdist_egg upload
+    python setup.py sdist && twine upload dist/*
 
 Please, don't forget to increment to the next module (`SPARQLWrapper/__init__.py` file).
 
