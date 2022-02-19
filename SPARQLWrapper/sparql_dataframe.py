@@ -19,7 +19,7 @@ class QueryException(Exception):
 def get_sparql_dataframe_orig(endpoint: str, query: Union[str, bytes]) -> "pd.DataFrame":
     """copy paste from: https://github.com/lawlesst/sparql-dataframe"""
     # pandas inside to avoid requiring it
-    import pandas as pd
+    import pandas as pd  # type: ignore[import]
 
     sparql = SPARQLWrapper(endpoint)
     sparql.setQuery(query)
