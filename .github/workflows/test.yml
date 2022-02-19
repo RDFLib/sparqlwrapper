@@ -38,3 +38,6 @@ jobs:
           echo 'All of the above failures are maybe false errors.'
           echo 'See: https://github.com/RDFLib/sparqlwrapper/issues/192'
         fi
+    - name: Mypy
+      run: |
+        mypy -p SPARQLWrapper
