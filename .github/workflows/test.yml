@@ -23,7 +23,7 @@ jobs:
     - name: Install dependencies
       run: |
         pip install -U pip
-        pip install -e '.[dev]'
+        pip install '.[dev]'
     - name: Test [wrapper]
       run: |
         python -m unittest test/test_wrapper.py -v

@@ -1,2 +1,4 @@
 setuptools>=3.7.1
 mypy>=0.931
+-r requirements.optional.txt
+-r requirements.txt
