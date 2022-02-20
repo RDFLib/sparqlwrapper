@@ -30,15 +30,16 @@ import urllib.parse
 import urllib.request
 import warnings
 from http.client import HTTPResponse
-from typing import Any, Dict, Iterator, List, Optional, Tuple, Union, cast
+from typing import TYPE_CHECKING, Any, Dict, Iterator, List, Optional, Tuple, Union, cast
 from urllib.request import (
     urlopen as urlopener,
 )  # don't change the name: tests override it
 from xml.dom.minidom import Document, parse
 
-from rdflib import ConjunctiveGraph, Graph
-
 from SPARQLWrapper import __agent__
+
+if TYPE_CHECKING:
+    from rdflib import Graph
 
 
 
@@ -1008,7 +1009,7 @@ class QueryResult(object):
 
     """
 
-    ConvertResult = Union[bytes, str, Dict[Any, Any], Graph, Document, None]
+    ConvertResult = Union[bytes, str, Dict[Any, Any], "Graph", Document, None]
 
     def __init__(self, result: Union[HTTPResponse, Tuple[HTTPResponse, str]]) -> None:
         """
@@ -1073,7 +1074,7 @@ class QueryResult(object):
         rdoc = cast(Document, doc)
         return rdoc
 
-    def _convertRDF(self) -> Graph:
+    def _convertRDF(self) -> "Graph":
         """
         Convert a RDF/XML result into an RDFLib Graph. This method can be overwritten
         in a subclass for a different conversion method.
@@ -1081,7 +1082,7 @@ class QueryResult(object):
         :return: converted result.
         :rtype: :class:`rdflib.graph.Graph`
         """
-
+        from rdflib import ConjunctiveGraph
         retval = ConjunctiveGraph()
         retval.parse(self.response, format="xml")  # type: ignore[no-untyped-call]
         return retval
@@ -1116,7 +1117,7 @@ class QueryResult(object):
         """
         return self.response.read()
 
-    def _convertJSONLD(self) -> Graph:
+    def _convertJSONLD(self) -> "Graph":
         """
         Convert a RDF JSON-LD result into an RDFLib Graph. This method can be overwritten
         in a subclass for a different conversion method.
@@ -1124,6 +1125,8 @@ class QueryResult(object):
         :return: converted result
         :rtype: :class:`rdflib.graph.Graph`
         """
+        from rdflib import ConjunctiveGraph
+
         retval = ConjunctiveGraph()
         retval.parse(self.response, format="json-ld")  # type: ignore[no-untyped-call]
         return retval
