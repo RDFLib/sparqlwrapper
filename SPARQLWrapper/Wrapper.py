@@ -1328,8 +1328,6 @@ class QueryResult(object):
         return width
 
     def __get_prettyprint_string_sparql_var_result(self, result: Dict[str, str]) -> str:
-        if "value" not in result:
-            return ""
         value = result["value"]
         if not isinstance(value, str):
             raise TypeError(type(value))
