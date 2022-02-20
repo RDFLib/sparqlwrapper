@@ -28,6 +28,7 @@ jobs:
       run: |
         mypy -p SPARQLWrapper
     - name: Test [wrapper]
+      if: ${{ always() }}
       run: |
         python -m unittest test/test_wrapper.py -v
     - name: Test [all]
