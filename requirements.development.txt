@@ -1,4 +1,5 @@
 setuptools>=3.7.1
 mypy>=0.931
+pandas-stubs>=1.2.0.48
 -r requirements.optional.txt
 -r requirements.txt
