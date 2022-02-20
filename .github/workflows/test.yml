@@ -26,7 +26,7 @@ jobs:
         pip install '.[dev]'
     - name: Mypy
       run: |
-        mypy -p SPARQLWrapper
+        mypy --show-error-context --show-error-codes
     - name: Test [wrapper]
       if: ${{ always() }}
       run: |
