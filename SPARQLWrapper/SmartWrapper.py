@@ -68,12 +68,12 @@ class Value(object):
         self.datatype = None
         try:
             self.lang = binding["xml:lang"]
-        except KeyError:
+        except:
             # no lang is set
             pass
         try:
             self.datatype = binding["datatype"]
-        except KeyError:
+        except:
             pass
 
     def __repr__(self) -> str:
@@ -121,26 +121,28 @@ class Bindings(object):
         self.variables: Optional[List[str]]
         try:
             self.variables = self.fullResult["head"]["vars"]
-        except KeyError:
-            self.variables = None
+        except:
+            pass
 
         self.bindings: List[Dict[str, Value]] = []
-        if self.variables is not None:
+        try:
             for b in self.fullResult["results"]["bindings"]:
                 # This is a single binding. It is a dictionary per variable; each value is a dictionary again
                 # that has to be converted into a Value instance
-                newBind: Dict[Any, Value] = {}
+                newBind = {}
                 for key in self.variables:
                     if key in b:
                         # there is a real binding for this key
                         newBind[key] = Value(key, b[key])
                 self.bindings.append(newBind)
+        except:
+            pass
 
+        self.askResult = False
         try:
             self.askResult = self.fullResult["boolean"]
-        except KeyError:
-            self.askResult = False
-
+        except:
+            pass
     def getValues(self, key: str) -> Optional[List[Value]]:
         """A shorthand for the retrieval of all bindings for a single key. It is
         equivalent to ``[b[key] for b in self[key]]``
@@ -151,10 +153,9 @@ class Bindings(object):
         :rtype: list
         """
         try:
-            vals = self[key]
-            return [val[key] for val in vals]
-        except Exception:
-            return None
+            return [b[key] for b in self[key]]
+        except:
+            return []
 
     def __contains__(self, key: Union[str, List[str], Tuple[str]]) -> bool:
         """Emulation of the "``key in obj``" operator. Key can be a string for a variable or an array/tuple
@@ -168,7 +169,7 @@ class Bindings(object):
         :return: whether there is a binding of the variable in the return
         :rtype: Boolean
         """
-        if len(self.bindings) == 0 or self.variables is None:
+        if len(self.bindings) == 0:
             return False
         if type(key) is list or type(key) is tuple:
             # check first whether they are all really variables
@@ -217,7 +218,6 @@ class Bindings(object):
             for k in keys:
                 if (
                     not isinstance(k, str)
-                    or self.variables is None
                     or k not in self.variables
                 ):
                     return False
@@ -230,19 +230,14 @@ class Bindings(object):
                 List[Any],
                 Tuple[Any],
             ]
-        ) -> Tuple[bool, Union[List[Any], str]]:
-            if isinstance(key, str):
-                if key != "" and self.variables is not None and key in self.variables:
-                    # unicode or string:
-                    return True, [key]
-            elif isinstance(key, list):
+        ) -> Union[List[str], str, bool, Tuple[bool, Union[List[Any], str]]]:
+            if isinstance(key, str) and key != "" and key in self.variables:
+                # unicode or string:
+                return [key]
+            elif type(key) is list or type(key) is tuple:
                 if _checkKeys(key):
-                    return True, key
-            elif isinstance(key, tuple):
-                if _checkKeys(key):
-                    return True, list(key)
-
-            return False, str(type(key))
+                    return key
+            return False
 
         # The arguments should be reduced to arrays of variables, ie, unicode strings
         yes_keys: Union[List[Any], str] = []

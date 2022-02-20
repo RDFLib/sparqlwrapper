@@ -579,10 +579,14 @@ class SPARQLWrapper(object):
         :type query: string
         :raises TypeError: If the :attr:`query` parameter is not an unicode-string or utf-8 encoded byte-string.
         """
-        if not isinstance(query, (str, bytes)):
-            raise TypeError(type(query))
+        if isinstance(query, str):
+            pass
         elif isinstance(query, bytes):
             query = query.decode("utf-8")
+        else:
+            raise TypeError(
+                "setQuery takes either unicode-strings or utf-8 encoded byte-strings"
+            )
 
         self.queryString = query
         self.queryType = self._parseQueryType(query)
@@ -615,7 +619,7 @@ class SPARQLWrapper(object):
         else:
             r_queryType = m.group("queryType").upper()
 
-        if isinstance(r_queryType, str) and r_queryType in _allowedQueryTypes:
+        if r_queryType in _allowedQueryTypes:
             return r_queryType
         else:
             # raise Exception("Illegal SPARQL Query; must be one of SELECT, ASK, DESCRIBE, or CONSTRUCT")
@@ -706,7 +710,7 @@ class SPARQLWrapper(object):
         query_parameters = self.parameters.copy()
 
         # in case of query = tuple("query"/"update", queryString)
-        if query and len(query) == 2:
+        if query and isinstance(query, tuple) and len(query) == 2:
             query_parameters[query[0]] = [query[1]]
 
         if not self.isSparqlUpdateRequest():
@@ -909,7 +913,7 @@ class SPARQLWrapper(object):
         request = self._createRequest()
 
         try:
-            if self.timeout is not None:
+            if self.timeout:
                 response = urlopener(request, timeout=self.timeout)
             else:
                 response = urlopener(request)
@@ -1172,9 +1176,7 @@ class QueryResult(object):
 
         # TODO. In order to compare properly, the requested QueryType (SPARQL Query Form) is needed. For instance,
         # the unexpected N3 requested for a SELECT would return XML
-        if "content-type" not in self.info():
-            return self.response.read()
-        else:
+        if "content-type" in self.info():
             ct = self.info()["content-type"]  # returned Content-Type value
 
             if _content_type_in_list(ct, _SPARQL_XML):
@@ -1209,7 +1211,7 @@ class QueryResult(object):
                     % (ct),
                     RuntimeWarning,
                 )
-                return None
+                return self.response.read()
 
     def _get_responseFormat(self) -> Optional[str]:
         """
@@ -1238,9 +1240,7 @@ class QueryResult(object):
             """
             return True in [real.find(mime) != -1 for mime in expected]
 
-        if "content-type" not in self.info():
-            return None
-        else:
+        if "content-type" in self.info():
             ct = self.info()["content-type"]  # returned Content-Type value
 
             if _content_type_in_list(ct, _SPARQL_XML):
@@ -1285,7 +1285,7 @@ class QueryResult(object):
             return None
 
         results = self._convertJSON()
-        if isinstance(minWidth, int):
+        if minWidth:
             width = self.__get_results_width(results, minWidth)
         else:
             width = self.__get_results_width(results)
@@ -1329,8 +1329,6 @@ class QueryResult(object):
 
     def __get_prettyprint_string_sparql_var_result(self, result: Dict[str, str]) -> str:
         value = result["value"]
-        if not isinstance(value, str):
-            raise TypeError(type(value))
         lang = result.get("xml:lang", None)
         datatype = result.get("datatype", None)
         if lang is not None:
