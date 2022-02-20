@@ -24,6 +24,9 @@ jobs:
       run: |
         pip install -U pip
         pip install '.[dev]'
+    - name: Mypy
+      run: |
+        mypy -p SPARQLWrapper
     - name: Test [wrapper]
       run: |
         python -m unittest test/test_wrapper.py -v
@@ -38,6 +41,3 @@ jobs:
           echo 'All of the above failures are maybe false errors.'
           echo 'See: https://github.com/RDFLib/sparqlwrapper/issues/192'
         fi
-    - name: Mypy
-      run: |
-        mypy -p SPARQLWrapper
