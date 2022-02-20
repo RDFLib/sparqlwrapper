@@ -16,32 +16,31 @@ A simple implementation of a key case-insensitive dictionary.
 
 from typing import Dict, TypeVar
 
-K = str
-V = TypeVar("V")
+_V = TypeVar("_V")
 
-class KeyCaseInsensitiveDict(Dict[K, V]):
+class KeyCaseInsensitiveDict(Dict[str, _V]):
     """
     A simple implementation of a key case-insensitive dictionary
     """
 
-    def __init__(self, d: Dict[K, V]={}) -> None:
+    def __init__(self, d: Dict[str, _V]={}) -> None:
         """
         :param dict d: The source dictionary.
         """
         for k, v in d.items():
             self[k] = v
 
-    def __setitem__(self, key: K, value: V) -> None:
+    def __setitem__(self, key: str, value: _V) -> None:
         if hasattr(key, "lower"):
             key = key.lower()
         dict.__setitem__(self, key, value)
 
-    def __getitem__(self, key: K) -> V:
+    def __getitem__(self, key: str) -> _V:
         if hasattr(key, "lower"):
             key = key.lower()
         return dict.__getitem__(self, key)
 
-    def __delitem__(self, key: K) -> None:
+    def __delitem__(self, key: str) -> None:
         if hasattr(key, "lower"):
             key = key.lower()
         dict.__delitem__(self, key)
