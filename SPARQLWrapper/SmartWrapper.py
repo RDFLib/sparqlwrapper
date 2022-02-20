@@ -118,7 +118,7 @@ class Bindings(object):
         """
         self.fullResult = retval._convertJSON()
         self.head = self.fullResult["head"]
-        self.variables: Optional[List[str]]
+        self.variables: Optional[List[str]] = None
         try:
             self.variables = self.fullResult["head"]["vars"]
         except:
@@ -130,7 +130,8 @@ class Bindings(object):
                 # This is a single binding. It is a dictionary per variable; each value is a dictionary again
                 # that has to be converted into a Value instance
                 newBind = {}
-                for key in self.variables:
+                # type error: Item "None" of "Union[List[str], Any, None]" has no attribute "__iter__" (not iterable)
+                for key in self.variables:  # type: ignore [union-attr]
                     if key in b:
                         # there is a real binding for this key
                         newBind[key] = Value(key, b[key])
@@ -143,6 +144,7 @@ class Bindings(object):
             self.askResult = self.fullResult["boolean"]
         except:
             pass
+
     def getValues(self, key: str) -> Optional[List[Value]]:
         """A shorthand for the retrieval of all bindings for a single key. It is
         equivalent to ``[b[key] for b in self[key]]``
@@ -173,7 +175,8 @@ class Bindings(object):
             return False
         if type(key) is list or type(key) is tuple:
             # check first whether they are all really variables
-            if False in [k in self.variables for k in key]:
+            # type error: Unsupported right operand type for in ("Optional[List[str]]")
+            if False in [k in self.variables for k in key]:  # type: ignore [operator]
                 return False
             for b in self.bindings:
                 # try to find a binding where all key elements are present
@@ -185,7 +188,8 @@ class Bindings(object):
                     return True
             return False
         else:
-            if key not in self.variables:
+            # type error: Unsupported right operand type for in ("Optional[List[str]]")
+            if key not in self.variables:  # type: ignore [operator]
                 return False
             for b in self.bindings:
                 if key in b:
@@ -216,9 +220,10 @@ class Bindings(object):
             if len(keys) == 0:
                 return False
             for k in keys:
+                # type error: Unsupported right operand type for in ("Optional[List[str]]")
                 if (
                     not isinstance(k, str)
-                    or k not in self.variables
+                    or k not in self.variables  # type: ignore [operator]
                 ):
                     return False
             return True
@@ -226,12 +231,12 @@ class Bindings(object):
         def _nonSliceCase(
             key: Union[
                 str,
-                slice,
                 List[Any],
                 Tuple[Any],
             ]
-        ) -> Union[List[str], str, bool, Tuple[bool, Union[List[Any], str]]]:
-            if isinstance(key, str) and key != "" and key in self.variables:
+        ) -> Union[List[Any], bool, Tuple[Any]]:
+            # type error: Unsupported right operand type for in ("Optional[List[str]]")
+            if isinstance(key, str) and key != "" and key in self.variables:  # type: ignore[operator]
                 # unicode or string:
                 return [key]
             elif type(key) is list or type(key) is tuple:
@@ -240,28 +245,30 @@ class Bindings(object):
             return False
 
         # The arguments should be reduced to arrays of variables, ie, unicode strings
-        yes_keys: Union[List[Any], str] = []
-        no_keys: Union[List[Any], str] = []
+        yes_keys: Union[List[Any], bool, Tuple[Any]] = []
+        no_keys: Union[List[Any], bool, Tuple[Any]] = []
         if type(key) is slice:
             # Note: None for start or stop is all right
             if key.start:
-                is_ok, yes_keys = _nonSliceCase(key.start)
-                if not is_ok:
-                    raise TypeError(yes_keys)
+                yes_keys = _nonSliceCase(key.start)
+                if not yes_keys:
+                    raise TypeError
             if key.stop:
-                is_ok, no_keys = _nonSliceCase(key.stop)
-                if not is_ok:
-                    raise TypeError(no_keys)
+                no_keys = _nonSliceCase(key.stop)
+                if not no_keys:
+                    raise TypeError
         else:
-            is_ok, yes_keys = _nonSliceCase(key)
+            yes_keys = _nonSliceCase(key)
 
         # got it right, now get the right binding line with the constraints
         retval: List[Dict[str, Value]] = []
         for b in self.bindings:
             # first check whether the 'yes' part is all there:
-            if False in [k in b for k in yes_keys]:
+            # type error: Item "bool" of "Union[List[Any], bool, Tuple[Any]]" has no attribute "__iter__" (not iterable)
+            if False in [k in b for k in yes_keys]:  # type: ignore[union-attr]
                 continue
-            if True in [k in b for k in no_keys]:
+            # type error: Item "bool" of "Union[List[Any], bool, Tuple[Any]]" has no attribute "__iter__" (not iterable)
+            if True in [k in b for k in no_keys]:  # type: ignore[union-attr]
                 continue
             # if we got that far, we should be all right!
             retval.append(b)

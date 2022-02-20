@@ -40,6 +40,8 @@ from rdflib import ConjunctiveGraph, Graph
 
 from SPARQLWrapper import __agent__
 
+
+
 from .KeyCaseInsensitiveDict import KeyCaseInsensitiveDict
 from .SPARQLExceptions import (
     EndPointInternalError,
@@ -52,7 +54,7 @@ from .SPARQLExceptions import (
 # alias
 
 XML = "xml"
-"""to be used to set the return format to ``XML`` (``SPARQL Query Results XML`` format or ``RDF/XML``, depending on the 
+"""to be used to set the return format to ``XML`` (``SPARQL Query Results XML`` format or ``RDF/XML``, depending on the
 query type). **This is the default**."""
 JSON = "json"
 """to be used to set the return format to ``JSON``."""
@@ -273,7 +275,7 @@ class SPARQLWrapper(object):
         updateEndpoint: Optional[str] = None,
         returnFormat: str = XML,
         defaultGraph: Optional[str] = None,
-        agent: Optional[str] = None,
+        agent: str = __agent__,
     ) -> None:
         """
         Class encapsulating a full SPARQL call.
@@ -299,15 +301,15 @@ class SPARQLWrapper(object):
         :type agent: string
         """
         self.endpoint = endpoint
-        self.updateEndpoint = updateEndpoint if updateEndpoint is not None else endpoint
-        self.agent = agent if agent is not None else __agent__
+        self.updateEndpoint = updateEndpoint if updateEndpoint else endpoint
+        self.agent = agent
         self.user: Optional[str] = None
         self.passwd: Optional[str] = None
         self.http_auth = BASIC
         self._defaultGraph = defaultGraph
         self.onlyConneg = False  # Only Content Negotiation
         self.customHttpHeaders: Dict[str, str] = {}
-        self.timeout: Optional[int] = None
+        self.timeout: Optional[int]
 
         if returnFormat in _allowedFormats:
             self._defaultReturnFormat = returnFormat
@@ -366,7 +368,7 @@ class SPARQLWrapper(object):
         :param timeout: Timeout in seconds.
         :type timeout: int
         """
-        self.timeout = timeout
+        self.timeout = int(timeout)
 
     def setOnlyConneg(self, onlyConneg: bool) -> None:
         """Set this option for allowing (or not) only HTTP Content Negotiation (so dismiss the use of HTTP parameters).
@@ -591,7 +593,7 @@ class SPARQLWrapper(object):
         self.queryString = query
         self.queryType = self._parseQueryType(query)
 
-    def _parseQueryType(self, query: Union[str, bytes]) -> Optional[str]:
+    def _parseQueryType(self, query: str) -> Optional[str]:
         """
         Internal method for parsing the SPARQL query and return its type (ie, :data:`SELECT`, :data:`ASK`, etc).
 
@@ -606,18 +608,22 @@ class SPARQLWrapper(object):
         :return: the type of SPARQL query (aka SPARQL query form).
         :rtype: string
         """
-        query = query if isinstance(query, str) else query.decode("utf-8")
-        query = self._cleanComments(query)
-        query_for_queryType = re.sub(self.prefix_pattern, "", query.strip())
-        m = self.pattern.search(query_for_queryType)
-        if m is None:
+        try:
+            query = (
+                query if (isinstance(query, str)) else query.encode("ascii", "ignore")
+            )
+            query = self._cleanComments(query)
+            query_for_queryType = re.sub(self.prefix_pattern, "", query.strip())
+            # type error: Item "None" of "Optional[Match[str]]" has no attribute "group"
+            r_queryType = (
+                self.pattern.search(query_for_queryType).group("queryType").upper()  # type: ignore[union-attr]
+            )
+        except AttributeError:
             warnings.warn(
-                "not detected query type for query '%s'" % query.replace("\n", " "),
+                "not detected query type for query '%r'" % query.replace("\n", " "),
                 RuntimeWarning,
             )
             r_queryType = None
-        else:
-            r_queryType = m.group("queryType").upper()
 
         if r_queryType in _allowedQueryTypes:
             return r_queryType
@@ -919,17 +925,16 @@ class SPARQLWrapper(object):
                 response = urlopener(request)
             return response, self.returnFormat
         except urllib.error.HTTPError as e:
-            e_res = e.read()
             if e.code == 400:
-                raise QueryBadFormed(e_res)
+                raise QueryBadFormed(e.read())
             elif e.code == 404:
-                raise EndPointNotFound(e_res)
+                raise EndPointNotFound(e.read())
             elif e.code == 401:
-                raise Unauthorized(e_res)
+                raise Unauthorized(e.read())
             elif e.code == 414:
-                raise URITooLong(e_res)
+                raise URITooLong(e.read())
             elif e.code == 500:
-                raise EndPointInternalError(e_res)
+                raise EndPointInternalError(e.read())
             else:
                 raise e
 
@@ -1079,8 +1084,7 @@ class QueryResult(object):
 
         retval = ConjunctiveGraph()
         retval.parse(self.response, format="xml")  # type: ignore[no-untyped-call]
-        r_retval = cast(Graph, retval)
-        return r_retval
+        return retval
 
     def _convertN3(self) -> bytes:
         """
@@ -1122,8 +1126,7 @@ class QueryResult(object):
         """
         retval = ConjunctiveGraph()
         retval.parse(self.response, format="json-ld")  # type: ignore[no-untyped-call]
-        r_retval = cast(Graph, retval)
-        return r_retval
+        return retval
 
     def convert(self) -> ConvertResult:
         """
@@ -1211,7 +1214,7 @@ class QueryResult(object):
                     % (ct),
                     RuntimeWarning,
                 )
-                return self.response.read()
+        return self.response.read()
 
     def _get_responseFormat(self) -> Optional[str]:
         """
@@ -1268,6 +1271,7 @@ class QueryResult(object):
                     RuntimeWarning,
                 )
                 return ct
+        return None
 
     def print_results(self, minWidth: Optional[int] = None) -> None:
         """This method prints a representation of a :class:`QueryResult` object that MUST has as response format
