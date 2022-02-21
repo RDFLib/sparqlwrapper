@@ -23,8 +23,12 @@ jobs:
     - name: Install dependencies
       run: |
         pip install -U pip
-        pip install -e '.[dev]'
+        pip install '.[dev]'
+    - name: Mypy
+      run: |
+        mypy --show-error-context --show-error-codes
     - name: Test [wrapper]
+      if: ${{ always() }}
       run: |
         python -m unittest test/test_wrapper.py -v
     - name: Test [all]

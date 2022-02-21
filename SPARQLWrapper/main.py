@@ -8,11 +8,12 @@ import os
 import shutil
 import sys
 import xml
+from typing import List, Optional
 
-import rdflib  # type: ignore
+import rdflib
 
 from . import __version__
-from .Wrapper import GET, SPARQLWrapper, _allowedAuth, _allowedFormats, _allowedRequests
+from .Wrapper import SPARQLWrapper, _allowedAuth, _allowedFormats, _allowedRequests
 
 
 class SPARQLWrapperFormatter(
@@ -21,23 +22,24 @@ class SPARQLWrapperFormatter(
     pass
 
 
-def check_file(v):
+def check_file(v: str) -> str:
     if os.path.isfile(v):
         return v
     elif v == "-":
         return "-"  # stdin
     else:
-        raise argparse.ArgumentError("file '%s' is not found" % v)
+        # type error: Argument 1 to "ArgumentError" has incompatible type "str"; expected "Optional[Action]"
+        raise argparse.ArgumentError("file '%s' is not found" % v)  # type: ignore[arg-type, call-arg]
 
 
-def choicesDescriptions():
+def choicesDescriptions() -> str:
     d = "\n  - ".join(["allowed FORMAT:"] + _allowedFormats)
     d += "\n  - ".join(["\n\nallowed METHOD:"] + _allowedRequests)
     d += "\n  - ".join(["\n\nallowed AUTH:"] + _allowedAuth)
     return d
 
 
-def parse_args(test=None):
+def parse_args(test: Optional[List[str]] = None) -> argparse.Namespace:
     """Parse arguments."""
     parser = argparse.ArgumentParser(
         prog="rqw",
@@ -103,7 +105,7 @@ def parse_args(test=None):
         return parser.parse_args(test)
 
 
-def main(test=None):
+def main(test: Optional[List[str]] = None) -> None:
     args = parse_args(test)
     if args.quiet:
         import warnings
@@ -142,8 +144,8 @@ def main(test=None):
         # "xml"
         print(results.toxml())
     elif isinstance(results, bytes):
-            # "csv", "tsv", "turtle", "n3"
-            print(results.decode("utf-8"))
+        # "csv", "tsv", "turtle", "n3"
+        print(results.decode("utf-8"))
     elif isinstance(results, rdflib.graph.ConjunctiveGraph):
         # "rdf"
         print(results.serialize())

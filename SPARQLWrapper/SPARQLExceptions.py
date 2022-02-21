@@ -20,6 +20,8 @@ SPARQL Wrapper exceptions
 
 """
 
+from typing import Optional
+
 
 class SPARQLWrapperException(Exception):
     """
@@ -28,12 +30,12 @@ class SPARQLWrapperException(Exception):
 
     msg = "an exception has occurred"
 
-    def __init__(self, response=None):
+    def __init__(self, response: Optional[bytes] = None):
         """
         :param string response: The server response
         """
         if response:
-            formatted_msg = "%s: %s. \n\nResponse:\n%s" % (
+            formatted_msg = "%s: %s. \n\nResponse:\n%r" % (
                 self.__class__.__name__,
                 self.msg,
                 response,
@@ -65,9 +67,7 @@ class EndPointNotFound(SPARQLWrapperException):
     End Point Not Found exception. Usually HTTP response status code ``404``.
     """
 
-    msg = (
-        "It was not possible to connect to the given endpoint: check it is correct"
-    )
+    msg = "It was not possible to connect to the given endpoint: check it is correct"
 
 
 class Unauthorized(SPARQLWrapperException):
