@@ -28,8 +28,7 @@ def check_file(v: str) -> str:
     elif v == "-":
         return "-"  # stdin
     else:
-        # type error: Argument 1 to "ArgumentError" has incompatible type "str"; expected "Optional[Action]"
-        raise argparse.ArgumentTypeError("file '%s' is not found" % v)  # type: ignore[arg-type, call-arg]
+        raise argparse.ArgumentTypeError("file '%s' is not found" % v)
 
 
 def choicesDescriptions() -> str:
