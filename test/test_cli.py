@@ -88,7 +88,7 @@ class SPARQLWrapperCLIParser_Test(SPARQLWrapperCLI_Test_Base):
         self.assertEqual(cm.exception.code, 2)
         self.assertEqual(
             sys.stderr.getvalue().split("\n")[1],
-            "rqw: error: argument -f/--file: invalid check_file value: '440044.rq'",
+            "rqw: error: argument -f/--file: file '440044.rq' is not found",
         )
 
 
