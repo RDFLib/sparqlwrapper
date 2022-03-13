@@ -1,6 +1,10 @@
 SPARQLWrapper's changelog
 =========================
 
+YYYY-MM-DD  X.Y.Z
+-----------------
+- TODO
+
 2022-03-14  2.0.0
 -----------------
 - Ported codebase to Python 3. Dropped support for Python 2
