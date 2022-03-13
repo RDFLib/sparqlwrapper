@@ -9,7 +9,7 @@ format.
 
 """
 
-__version__ = "1.9.0.dev0"
+__version__ = "2.0.0"
 """The version of SPARQLWrapper"""
 
 __agent__: str = f"sparqlwrapper {__version__} (rdflib.github.io/sparqlwrapper)"

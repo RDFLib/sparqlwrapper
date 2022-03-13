@@ -1,10 +1,16 @@
 SPARQLWrapper's changelog
 =========================
 
-2020-XX-XX  1.9.0
+2022-03-14  2.0.0
 -----------------
-- Port codebase to Python 3. Drop support for Python 2
-- XXX
+- Ported codebase to Python 3. Dropped support for Python 2
+- Removed nosetest in favour of unittest
+- Added a CLI: ``rqw``
+- Updated for RDFLib >= 6.1.1
+- Added type hints
+
+Special thanks to `@eggplants <https://github.com/eggplants>`_ for making this release happen.
+
 
 2019-12-22  1.8.5
 -----------------
