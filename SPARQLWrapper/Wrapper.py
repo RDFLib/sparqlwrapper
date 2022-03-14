@@ -30,10 +30,20 @@ import urllib.parse
 import urllib.request
 import warnings
 from http.client import HTTPResponse
-from typing import (TYPE_CHECKING, Any, Dict, Iterator, List, Optional, Tuple,
-                    Union, cast)
-from urllib.request import \
-    urlopen as urlopener  # don't change the name: tests override it
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    Dict,
+    Iterator,
+    List,
+    Optional,
+    Tuple,
+    Union,
+    cast,
+)
+from urllib.request import (
+    urlopen as urlopener,
+)  # don't change the name: tests override it
 from xml.dom.minidom import Document, parse
 
 from rdflib.plugins.sparql import parser
@@ -44,8 +54,13 @@ if TYPE_CHECKING:
     from rdflib import Graph
 
 from .KeyCaseInsensitiveDict import KeyCaseInsensitiveDict
-from .SPARQLExceptions import (EndPointInternalError, EndPointNotFound,
-                               QueryBadFormed, Unauthorized, URITooLong)
+from .SPARQLExceptions import (
+    EndPointInternalError,
+    EndPointNotFound,
+    QueryBadFormed,
+    Unauthorized,
+    URITooLong,
+)
 
 # alias
 
@@ -243,6 +258,8 @@ class SPARQLWrapper(object):
     subsequent queries.
     :vartype _defaultReturnFormat: string
     """
+
+    comments_pattern = re.compile(r"(^|\n)\s*#.*?\n")
 
     def __init__(
         self,
@@ -584,15 +601,45 @@ class SPARQLWrapper(object):
         :rtype: string
         """
         query = query if (isinstance(query, str)) else query.encode("ascii", "ignore")
-        tokens = parser.parseQuery(query)  # type: ignore[no-untyped-call]
-        r_queryTypes: List[str] = [
-            token.name.upper().replace("QUERY", "")
-            for token in tokens
-            if any([t in token.name for t in _allowedQueryTypes])
-        ]
+        tokens = None
+        r_queryTypes = []
+        try:
+            tokens = [
+                token.name.upper().replace("QUERY", "")
+                for token in parser.parseQuery(query)
+            ]  # type: ignore[no-untyped-call]
+            r_queryTypes = [
+                token
+                for token in tokens
+                if any([t == token for t in _allowedQueryTypes])
+            ]
+        except Exception:
+            try:
+                tokens = [
+                    token.name.upper()
+                    .replace("DATA", "")
+                    .replace("WHERE", "")
+                    .replace("CLAUSE", "")
+                    for token in parser.parseUpdate(query).get("request", [])
+                ]  # type: ignore[no-untyped-call]
+                r_queryTypes = [
+                    token
+                    for token in tokens
+                    if any([t == token for t in _allowedQueryTypes])
+                ]
+
+            except Exception as e:
+                warnings.warn(
+                    (
+                        "not detected query type for query '%r' "
+                        % query.replace("\n", " ")
+                        + "(%s)" % e
+                    ),
+                    RuntimeWarning,
+                )
 
         if len(r_queryTypes) > 0:
-            return r_queryTypes[0]
+            return str(r_queryTypes[0])
         else:
             # raise Exception("Illegal SPARQL Query; must be one of SELECT, ASK, DESCRIBE, or CONSTRUCT")
             warnings.warn(
@@ -656,6 +703,16 @@ class SPARQLWrapper(object):
         :rtype: bool
         """
         return not self.isSparqlUpdateRequest()
+
+    def _cleanComments(self, query: str) -> str:
+        """Internal method for returning the query after all occurrence of singleline comments are removed
+        (issues #32 and #77).
+        :param query: The query.
+        :type query: string
+        :return: the query after all occurrence of singleline comments are removed.
+        :rtype: string
+        """
+        return re.sub(self.comments_pattern, "\n\n", query)
 
     def _getRequestEncodedParameters(
         self, query: Optional[Tuple[str, str]] = None
