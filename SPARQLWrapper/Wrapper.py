@@ -30,27 +30,22 @@ import urllib.parse
 import urllib.request
 import warnings
 from http.client import HTTPResponse
-from typing import TYPE_CHECKING, Any, Dict, Iterator, List, Optional, Tuple, Union, cast
-from urllib.request import (
-    urlopen as urlopener,
-)  # don't change the name: tests override it
+from typing import (TYPE_CHECKING, Any, Dict, Iterator, List, Optional, Tuple,
+                    Union, cast)
+from urllib.request import \
+    urlopen as urlopener  # don't change the name: tests override it
 from xml.dom.minidom import Document, parse
+
+from rdflib.plugins.sparql import parser
 
 from SPARQLWrapper import __agent__
 
 if TYPE_CHECKING:
     from rdflib import Graph
 
-
-
 from .KeyCaseInsensitiveDict import KeyCaseInsensitiveDict
-from .SPARQLExceptions import (
-    EndPointInternalError,
-    EndPointNotFound,
-    QueryBadFormed,
-    Unauthorized,
-    URITooLong,
-)
+from .SPARQLExceptions import (EndPointInternalError, EndPointNotFound,
+                               QueryBadFormed, Unauthorized, URITooLong)
 
 # alias
 
@@ -131,7 +126,6 @@ _allowedQueryTypes = [
     MOVE,
     ADD,
 ]
-
 # Possible methods to perform requests
 URLENCODED = "urlencoded"
 """to be used to set **URL encode** as the encoding method for the request.
@@ -248,27 +242,7 @@ class SPARQLWrapper(object):
     :ivar _defaultReturnFormat: The default return format. It is used in case the same class instance is reused for
     subsequent queries.
     :vartype _defaultReturnFormat: string
-
-    :cvar prefix_pattern: regular expression used to remove base/prefixes in the process of determining the query type.
-    :vartype prefix_pattern: :class:`re.RegexObject`, a compiled regular expression. See the :mod:`re` module of Python
-    :cvar pattern: regular expression used to determine whether a query (without base/prefixes) is of type
-    :data:`CONSTRUCT`, :data:`SELECT`, :data:`ASK`, :data:`DESCRIBE`, :data:`INSERT`, :data:`DELETE`, :data:`CREATE`,
-    :data:`CLEAR`, :data:`DROP`, :data:`LOAD`, :data:`COPY`, :data:`MOVE` or :data:`ADD`.
-    :vartype pattern: :class:`re.RegexObject`, a compiled regular expression. See the :mod:`re` module of Python
-    :cvar comments_pattern: regular expression used to remove comments from a query.
-    :vartype comments_pattern: :class:`re.RegexObject`, a compiled regular expression. See the :mod:`re` module of
-    Python
     """
-
-    prefix_pattern = re.compile(
-        r"((?P<base>(\s*BASE\s*<.*?>)\s*)|(?P<prefixes>(\s*PREFIX\s+.+:\s*<.*?>)\s*))*"
-    )
-    # Maybe the future name could be queryType_pattern
-    pattern = re.compile(
-        r"(?P<queryType>(CONSTRUCT|SELECT|ASK|DESCRIBE|INSERT|DELETE|CREATE|CLEAR|DROP|LOAD|COPY|MOVE|ADD))",
-        re.VERBOSE | re.IGNORECASE,
-    )
-    comments_pattern = re.compile(r"(^|\n)\s*#.*?\n")
 
     def __init__(
         self,
@@ -594,7 +568,7 @@ class SPARQLWrapper(object):
         self.queryString = query
         self.queryType = self._parseQueryType(query)
 
-    def _parseQueryType(self, query: str) -> Optional[str]:
+    def _parseQueryType(self, query: str) -> str:
         """
         Internal method for parsing the SPARQL query and return its type (ie, :data:`SELECT`, :data:`ASK`, etc).
 
@@ -609,28 +583,21 @@ class SPARQLWrapper(object):
         :return: the type of SPARQL query (aka SPARQL query form).
         :rtype: string
         """
-        try:
-            query = (
-                query if (isinstance(query, str)) else query.encode("ascii", "ignore")
-            )
-            query = self._cleanComments(query)
-            query_for_queryType = re.sub(self.prefix_pattern, "", query.strip())
-            # type error: Item "None" of "Optional[Match[str]]" has no attribute "group"
-            r_queryType = (
-                self.pattern.search(query_for_queryType).group("queryType").upper()  # type: ignore[union-attr]
-            )
-        except AttributeError:
-            warnings.warn(
-                "not detected query type for query '%r'" % query.replace("\n", " "),
-                RuntimeWarning,
-            )
-            r_queryType = None
+        query = query if (isinstance(query, str)) else query.encode("ascii", "ignore")
+        tokens = parser.parseQuery(query)  # type: ignore[no-untyped-call]
+        r_queryTypes: List[str] = [
+            token.name.upper().replace("QUERY", "")
+            for token in tokens
+            if any([t in token.name for t in _allowedQueryTypes])
+        ]
 
-        if r_queryType in _allowedQueryTypes:
-            return r_queryType
+        if len(r_queryTypes) > 0:
+            return r_queryTypes[0]
         else:
             # raise Exception("Illegal SPARQL Query; must be one of SELECT, ASK, DESCRIBE, or CONSTRUCT")
-            warnings.warn("unknown query type '%s'" % r_queryType, RuntimeWarning)
+            warnings.warn(
+                "query type is not allowed or cannot be detected", RuntimeWarning
+            )
             return SELECT
 
     def setMethod(self, method: str) -> None:
@@ -689,17 +656,6 @@ class SPARQLWrapper(object):
         :rtype: bool
         """
         return not self.isSparqlUpdateRequest()
-
-    def _cleanComments(self, query: str) -> str:
-        """Internal method for returning the query after all occurrence of singleline comments are removed
-        (issues #32 and #77).
-
-        :param query: The query.
-        :type query: string
-        :return: the query after all occurrence of singleline comments are removed.
-        :rtype: string
-        """
-        return re.sub(self.comments_pattern, "\n\n", query)
 
     def _getRequestEncodedParameters(
         self, query: Optional[Tuple[str, str]] = None
@@ -1083,6 +1039,7 @@ class QueryResult(object):
         :rtype: :class:`rdflib.graph.Graph`
         """
         from rdflib import ConjunctiveGraph
+
         retval = ConjunctiveGraph()
         retval.parse(self.response, format="xml")  # type: ignore[no-untyped-call]
         return retval
