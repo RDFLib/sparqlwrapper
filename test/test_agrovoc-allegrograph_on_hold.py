@@ -210,7 +210,7 @@ class SPARQLWrapperTests(unittest.TestCase):
     #### SELECT ####
     ################
 
-    @unittest.expectedFailure # returned type has changed
+    @unittest.expectedFailure  # returned type has changed
     def testSelectByGETinXML(self):
         result = self.__generic(selectQuery, XML, GET)
         ct = result.info()["content-type"]
@@ -271,7 +271,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), dict)
 
     # asking for an unexpected return format for SELECT queryType
-    @unittest.expectedFailure # returned type has changed
+    @unittest.expectedFailure  # returned type has changed
     def testSelectByGETinN3(self):
         result = self.__generic(selectQuery, N3, GET)
         ct = result.info()["content-type"]
@@ -282,7 +282,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         # self.assertEqual(type(results), dict)
 
     # asking for an unexpected return format for SELECT queryType
-    @unittest.expectedFailure # returned type has changed
+    @unittest.expectedFailure  # returned type has changed
     def testSelectByPOSTinN3(self):
         result = self.__generic(selectQuery, N3, POST)
         ct = result.info()["content-type"]
@@ -293,7 +293,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         # self.assertEqual(type(results), dict)
 
     # asking for an unexpected return format for SELECT queryType
-    @unittest.expectedFailure # returned type has changed
+    @unittest.expectedFailure  # returned type has changed
     def testSelectByGETinJSONLD(self):
         result = self.__generic(selectQuery, JSONLD, GET)
         ct = result.info()["content-type"]
@@ -304,7 +304,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         # self.assertEqual(type(results), dict)
 
     # asking for an unexpected return format for SELECT queryType
-    @unittest.expectedFailure # returned type has changed
+    @unittest.expectedFailure  # returned type has changed
     def testSelectByPOSTinJSONLD(self):
         result = self.__generic(selectQuery, JSONLD, POST)
         ct = result.info()["content-type"]
@@ -414,7 +414,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), dict)
 
     # asking for an unexpected return format for ASK queryType
-    @unittest.expectedFailure # returned type has changed
+    @unittest.expectedFailure  # returned type has changed
     def testAskByGETinN3(self):
         result = self.__generic(askQuery, N3, GET)
         ct = result.info()["content-type"]
@@ -425,7 +425,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         # self.assertEqual(type(results), dict)
 
     # asking for an unexpected return format for ASK queryType
-    @unittest.expectedFailure # returned type has changed
+    @unittest.expectedFailure  # returned type has changed
     def testAskByPOSTinN3(self):
         result = self.__generic(askQuery, N3, POST)
         ct = result.info()["content-type"]
@@ -436,7 +436,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         # self.assertEqual(type(results), dict)
 
     # asking for an unexpected return format for ASK queryType
-    @unittest.expectedFailure # returned type has changed
+    @unittest.expectedFailure  # returned type has changed
     def testAskByGETinJSONLD(self):
         result = self.__generic(askQuery, JSONLD, GET)
         ct = result.info()["content-type"]
@@ -542,7 +542,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), ConjunctiveGraph)
 
     # asking for an unexpected return format for CONSTRUCT queryType
-    @unittest.expectedFailure # returned type has changed
+    @unittest.expectedFailure  # returned type has changed
     def testConstructByGETinJSON(self):
         result = self.__generic(constructQuery, JSON, GET)
         ct = result.info()["content-type"]
@@ -552,7 +552,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         # self.assertEqual(type(results), bytes)
 
     # asking for an unexpected return format for CONSTRUCT queryType
-    @unittest.expectedFailure # returned type has changed
+    @unittest.expectedFailure  # returned type has changed
     def testConstructByPOSTinJSON(self):
         result = self.__generic(constructQuery, JSON, POST)
         ct = result.info()["content-type"]
@@ -562,7 +562,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         # self.assertEqual(type(results), bytes)
 
     # asking for an unexpected return format for CONSTRUCT queryType. For a CONSTRUCT query type, the default return mimetype (if Accept: */* is sent) is application/rdf+xml
-    @unittest.expectedFailure # returned type has changed
+    @unittest.expectedFailure  # returned type has changed
     def testConstructByGETinCSV(self):
         result = self.__generic(constructQuery, CSV, GET, onlyConneg=True)
         ct = result.info()["content-type"]
@@ -576,7 +576,7 @@ class SPARQLWrapperTests(unittest.TestCase):
 
     # asking for an unexpected return format for CONSTRUCT queryType.
     # For a CONSTRUCT query type, the default return mimetype (if Accept: */* is sent) is application/rdf+xml
-    @unittest.expectedFailure # returned type has changed
+    @unittest.expectedFailure  # returned type has changed
     def testConstructByPOSTinCSV(self):
         result = self.__generic(constructQuery, CSV, POST, onlyConneg=True)
         ct = result.info()["content-type"]
@@ -672,7 +672,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         self.assertEqual(type(results), ConjunctiveGraph)
 
     # asking for an unexpected return format for DESCRIBE queryType
-    @unittest.expectedFailure # returned type has changed
+    @unittest.expectedFailure  # returned type has changed
     def testDescribeByGETinJSON(self):
         result = self.__generic(describeQuery, JSON, GET)
         ct = result.info()["content-type"]
@@ -682,7 +682,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         # self.assertEqual(type(results), bytes)
 
     # asking for an unexpected return format for DESCRIBE queryType
-    @unittest.expectedFailure # returned type has changed
+    @unittest.expectedFailure  # returned type has changed
     def testDescribeByPOSTinJSON(self):
         result = self.__generic(describeQuery, JSON, POST)
         ct = result.info()["content-type"]
@@ -693,7 +693,7 @@ class SPARQLWrapperTests(unittest.TestCase):
 
     # asking for an unexpected return format for DESCRIBE queryType.
     # For a DESCRIBE query type, the default return mimetype (if Accept: */* is sent) is application/rdf+xml
-    @unittest.expectedFailure # returned type has changed
+    @unittest.expectedFailure  # returned type has changed
     def testDescribeByGETinCSV(self):
         result = self.__generic(describeQuery, CSV, GET, onlyConneg=True)
         ct = result.info()["content-type"]
@@ -707,7 +707,7 @@ class SPARQLWrapperTests(unittest.TestCase):
 
     # asking for an unexpected return format for DESCRIBE queryType.
     # For a DESCRIBE query type, the default return mimetype (if Accept: */* is sent) is application/rdf+xml
-    @unittest.expectedFailure # returned type has changed
+    @unittest.expectedFailure  # returned type has changed
     def testDescribeByPOSTinCSV(self):
         result = self.__generic(describeQuery, CSV, POST, onlyConneg=True)
         ct = result.info()["content-type"]

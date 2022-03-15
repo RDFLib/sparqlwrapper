@@ -30,7 +30,17 @@ import urllib.parse
 import urllib.request
 import warnings
 from http.client import HTTPResponse
-from typing import TYPE_CHECKING, Any, Dict, Iterator, List, Optional, Tuple, Union, cast
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    Dict,
+    Iterator,
+    List,
+    Optional,
+    Tuple,
+    Union,
+    cast,
+)
 from urllib.request import (
     urlopen as urlopener,
 )  # don't change the name: tests override it
@@ -40,7 +50,6 @@ from SPARQLWrapper import __agent__
 
 if TYPE_CHECKING:
     from rdflib import Graph
-
 
 
 from .KeyCaseInsensitiveDict import KeyCaseInsensitiveDict
@@ -1083,6 +1092,7 @@ class QueryResult(object):
         :rtype: :class:`rdflib.graph.Graph`
         """
         from rdflib import ConjunctiveGraph
+
         retval = ConjunctiveGraph()
         retval.parse(self.response, format="xml")  # type: ignore[no-untyped-call]
         return retval

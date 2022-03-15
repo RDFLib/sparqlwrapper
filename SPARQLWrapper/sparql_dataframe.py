@@ -41,8 +41,10 @@ def get_sparql_typed_dict(
     """modified from: https://github.com/lawlesst/sparql-dataframe"""
     # pandas inside to avoid requiring it
     import pandas as pd
+
     # rdflib in here because there is some meta stuff in the setup.py and Travis fails because rdflib is installed later
     import rdflib.term
+
     sparql = SPARQLWrapper2(endpoint)
     sparql.setQuery(query)
     if sparql.queryType != SELECT:

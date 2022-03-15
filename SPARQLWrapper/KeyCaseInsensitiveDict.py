@@ -18,12 +18,13 @@ from typing import Dict, Mapping, TypeVar
 
 _V = TypeVar("_V")
 
+
 class KeyCaseInsensitiveDict(Dict[str, _V]):
     """
     A simple implementation of a key case-insensitive dictionary
     """
 
-    def __init__(self, d: Mapping[str, _V]={}) -> None:
+    def __init__(self, d: Mapping[str, _V] = {}) -> None:
         """
         :param dict d: The source dictionary.
         """

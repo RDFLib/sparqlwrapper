@@ -246,7 +246,16 @@ class SPARQLWrapperCLI_Test(SPARQLWrapperCLI_Test_Base):
         )
 
     def testQueryRDF(self):
-        main(["-Q", "DESCRIBE <http://ja.wikipedia.org/wiki/SPARQL>", "-e", endpoint, "-F", "rdf"])
+        main(
+            [
+                "-Q",
+                "DESCRIBE <http://ja.wikipedia.org/wiki/SPARQL>",
+                "-e",
+                endpoint,
+                "-F",
+                "rdf",
+            ]
+        )
 
         self.assertEqual(
             sys.stdout.getvalue(),

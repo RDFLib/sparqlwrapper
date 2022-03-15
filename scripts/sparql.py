@@ -8,6 +8,7 @@ from SPARQLWrapper import SPARQLWrapper2
 localSparqler = "http://localhost:2020/sparql"
 localVirtuoso = "http://localhost:8890/sparql"
 
+
 def main(server, query, sponge=False):
     sparql = SPARQLWrapper2(server)
     if sponge:
@@ -34,9 +35,8 @@ def main(server, query, sponge=False):
             except KeyError:
                 # no binding to that one...
                 str = "%s: <<None>>" % v
-            print(str.encode('utf-8'))
+            print(str.encode("utf-8"))
         print()
-
 
 
 # -------------------------------------------------------------------------------------------------------------
@@ -50,11 +50,14 @@ usagetxt = """%s [-s] [-u url] [file]
 -p:      issue an extra sponge for virtuoso
 file: sparql query file
 """
+
+
 def usage():
     print(usagetxt % sys.argv[0])
     sys.exit(1)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     if len(sys.argv) == 1:
         usage()
     try:
