@@ -41,9 +41,11 @@ from typing import (
     Union,
     cast,
 )
-from urllib.request import (
-    urlopen as urlopener,
-)  # don't change the name: tests override it
+
+# -- don't change the name: tests override it
+from urllib.request import urlopen as urlopener
+# -- don't change the name: tests override it
+
 from xml.dom.minidom import Document, parse
 
 from rdflib.plugins.sparql import parser
@@ -608,11 +610,7 @@ class SPARQLWrapper(object):
                 token.name.upper().replace("QUERY", "")
                 for token in parser.parseQuery(query)
             ]  # type: ignore[no-untyped-call]
-            r_queryTypes = [
-                token
-                for token in tokens
-                if any([t == token for t in _allowedQueryTypes])
-            ]
+            r_queryTypes = [token for token in tokens if token in _allowedQueryTypes]
         except Exception:
             try:
                 tokens = [
@@ -623,9 +621,7 @@ class SPARQLWrapper(object):
                     for token in parser.parseUpdate(query).get("request", [])
                 ]  # type: ignore[no-untyped-call]
                 r_queryTypes = [
-                    token
-                    for token in tokens
-                    if any([t == token for t in _allowedQueryTypes])
+                    token for token in tokens if token in _allowedQueryTypes
                 ]
 
             except Exception as e:
