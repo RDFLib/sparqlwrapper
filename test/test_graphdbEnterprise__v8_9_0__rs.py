@@ -1,5 +1,4 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
 
 import inspect
 import os
@@ -173,7 +172,7 @@ queryWithCommaInCurie_1 = """
     }
 """
 
-queryWithCommaInCurie_2 = """
+queryWithCommaInCurie_2 = r"""
     PREFIX dbpedia: <http://dbpedia.org/resource/>
     SELECT ?article ?title WHERE {
         ?article ?relation dbpedia:Category\:Victoria\,\_British\_Columbia .

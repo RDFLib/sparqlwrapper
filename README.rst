@@ -35,13 +35,13 @@ You can install SPARQLWrapper from GitHub::
 You can install SPARQLWrapper from Debian::
 
    $ sudo apt-get install python-sparqlwrapper
-   
+
 .. note::
 
    Be aware that there could be a gap between the latest version of SPARQLWrapper
    and the version available as Debian package.
 
-Also, the source code of the package can be downloaded 
+Also, the source code of the package can be downloaded
 in ``.zip`` and ``.tar.gz`` formats from `GitHub SPARQLWrapper releases <https://github.com/RDFLib/sparqlwrapper/releases>`_.
 Documentation is included in the distribution.
 
@@ -125,9 +125,9 @@ This query gets a boolean response from DBPedia's SPARQL endpoint:
 
    sparql = SPARQLWrapper("http://dbpedia.org/sparql")
    sparql.setQuery("""
-       ASK WHERE { 
+       ASK WHERE {
            <http://dbpedia.org/resource/Asturias> rdfs:label "Asturias"@es
-       }    
+       }
    """)
    sparql.setReturnFormat(XML)
    results = sparql.query().convert()
@@ -307,7 +307,7 @@ Return formats
 
 The expected return formats differs per query type (``SELECT``, ``ASK``, ``CONSTRUCT``, ``DESCRIBE``...).
 
-.. note:: From the `SPARQL specification <https://www.w3.org/TR/sparql11-protocol/#query-success>`_, 
+.. note:: From the `SPARQL specification <https://www.w3.org/TR/sparql11-protocol/#query-success>`_,
   *The response body of a successful query operation with a 2XX response is either:*
 
   * ``SELECT`` and ``ASK``: a SPARQL Results Document in XML, JSON, or CSV/TSV format.
@@ -430,12 +430,12 @@ in the return value). This features becomes particularly useful when the ``OPTIO
 GET or POST
 ^^^^^^^^^^^
 
-By default, all SPARQL services are invoked using HTTP **GET** verb. However, 
+By default, all SPARQL services are invoked using HTTP **GET** verb. However,
 **POST** might be useful if the size of the query
 extends a reasonable size; this can be set in the query instance.
 
 Note that some combinations may not work yet with all SPARQL processors
-(e.g., there are implementations where **POST + JSON return** does not work). 
+(e.g., there are implementations where **POST + JSON return** does not work).
 Hopefully, this problem will eventually disappear.
 
 

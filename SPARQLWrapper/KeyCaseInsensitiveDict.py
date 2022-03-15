@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 A simple implementation of a key case-insensitive dictionary.
 ..

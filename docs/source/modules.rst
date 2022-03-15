@@ -7,4 +7,3 @@ SPARQLWrapper package
    SPARQLWrapper.SmartWrapper
    SPARQLWrapper.SPARQLExceptions
    SPARQLWrapper.KeyCaseInsensitiveDict
-

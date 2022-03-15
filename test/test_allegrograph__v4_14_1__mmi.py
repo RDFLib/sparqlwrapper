@@ -1,5 +1,4 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
 
 import inspect
 import os
@@ -72,12 +71,12 @@ prefixes = """
     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
     PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
     PREFIX ioosCat: <http://mmisw.org/ont/ioos/category/>
-    PREFIX ioosPlat: <http://mmisw.org/ont/ioos/platform/>    
+    PREFIX ioosPlat: <http://mmisw.org/ont/ioos/platform/>
 """
 
 selectQuery = """
-    SELECT ?p 
-    WHERE { ?p a ioosCat:Category } 
+    SELECT ?p
+    WHERE { ?p a ioosCat:Category }
     ORDER BY ?p
 """
 
@@ -87,7 +86,7 @@ selectQueryCSV_TSV = """
       ?platform a ioosPlat:Platform .
       ?platform ioosPlat:Definition ?definition .
       ?cat skos:narrowMatch ?platform .
-    } 
+    }
     ORDER BY ?cat ?platform
 """
 askQuery = """
@@ -116,7 +115,7 @@ queryBadFormed = """
     WHERE {
         res:Budapest prop:latitude ?lat;
         prop:longitude ?long.
-    }      
+    }
 """
 
 queryManyPrefixes = """
@@ -160,7 +159,7 @@ queryWithCommaInCurie_1 = """
     }
 """
 
-queryWithCommaInCurie_2 = """
+queryWithCommaInCurie_2 = r"""
     PREFIX dbpedia: <http://dbpedia.org/resource/>
     SELECT ?article ?title WHERE {
         ?article ?relation dbpedia:Category\:Victoria\,\_British\_Columbia .

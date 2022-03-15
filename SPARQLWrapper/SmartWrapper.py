@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 
 ..
@@ -28,7 +26,7 @@ from SPARQLWrapper.Wrapper import SPARQLWrapper as SW
 ######################################################################################
 
 
-class Value(object):
+class Value:
     """
     Class encapsulating a single binding for a variable.
 
@@ -78,13 +76,13 @@ class Value(object):
 
     def __repr__(self) -> str:
         cls = self.__class__.__name__
-        return "%s(%s:%r)" % (cls, self.type, self.value)
+        return f"{cls}({self.type}:{self.value!r})"
 
 
 ######################################################################################
 
 
-class Bindings(object):
+class Bindings:
     """
     Class encapsulating one query result, based on the JSON return format. It decodes the
     return values to make it a bit more usable for a standard usage. The class consumes the
@@ -310,9 +308,7 @@ class SPARQLWrapper2(SW):
         :param defaultGraph: URI for the default graph. Default is ``None``, can be set via an explicit call, too.
         :type defaultGraph: string
         """
-        super(SPARQLWrapper2, self).__init__(
-            baseURI, returnFormat=JSON, defaultGraph=defaultGraph
-        )
+        super().__init__(baseURI, returnFormat=JSON, defaultGraph=defaultGraph)
 
     def setReturnFormat(self, format: Optional[str]) -> None:
         """
@@ -343,7 +339,7 @@ class SPARQLWrapper2(SW):
         :return: query result
         :rtype: :class:`Bindings` instance
         """
-        res = super(SPARQLWrapper2, self).query()
+        res = super().query()
 
         if self.queryType == SELECT:
             return Bindings(res)
@@ -363,4 +359,4 @@ class SPARQLWrapper2(SW):
         if self.queryType == SELECT:
             return self.query()
         else:
-            return super(SPARQLWrapper2, self).queryAndConvert()
+            return super().queryAndConvert()

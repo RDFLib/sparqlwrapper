@@ -1,5 +1,4 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
 
 import inspect
 import logging
@@ -66,7 +65,7 @@ from SPARQLWrapper.Wrapper import (
 )
 
 
-class FakeResult(object):
+class FakeResult:
     def __init__(self, request):
         self.request = request
 
@@ -588,7 +587,7 @@ class SPARQLWrapper_Test(unittest.TestCase):
     def testQueryAndConvert(self):
         _oldQueryResult = _victim.QueryResult
 
-        class FakeQueryResult(object):
+        class FakeQueryResult:
             def __init__(self, result):
                 pass
 
@@ -629,11 +628,11 @@ select * where { ?s ?p ?o }
 PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX weather: <http://hal.zamia.org/weather/>
-PREFIX dbo:     <http://dbpedia.org/ontology/> 
-PREFIX dbr:     <http://dbpedia.org/resource/> 
-PREFIX dbp:     <http://dbpedia.org/property/> 
-PREFIX xml:     <http://www.w3.org/XML/1998/namespace> 
-PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#> 
+PREFIX dbo:     <http://dbpedia.org/ontology/>
+PREFIX dbr:     <http://dbpedia.org/resource/>
+PREFIX dbp:     <http://dbpedia.org/property/>
+PREFIX xml:     <http://www.w3.org/XML/1998/namespace>
+PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
 
 SELECT DISTINCT ?location ?cityid ?timezone ?label
 WHERE {
@@ -795,7 +794,7 @@ class QueryResult_Test(unittest.TestCase):
         self.assertEqual("format", qr.requestedFormat)
 
     def testProxyingToResponse(self):
-        class FakeResponse(object):
+        class FakeResponse:
             def __init__(self):
                 self.geturl_called = False
                 self.info_called = False
@@ -833,7 +832,7 @@ class QueryResult_Test(unittest.TestCase):
         )
 
     def testConvert(self):
-        class FakeResponse(object):
+        class FakeResponse:
             def __init__(self, content_type):
                 self.content_type = content_type
 
@@ -902,7 +901,7 @@ class QueryResult_Test(unittest.TestCase):
         print_results() is only allowed for JSON return format.
         """
 
-        class FakeResponse(object):
+        class FakeResponse:
             def __init__(self, content_type):
                 self.content_type = content_type
 

@@ -12,4 +12,3 @@ clean:
 	$(MAKE) -C ${DOCDIR}  clean
 	rm -rf build
 	find . -name "*.pyc" -delete
-

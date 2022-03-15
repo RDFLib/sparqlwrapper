@@ -1,5 +1,3 @@
-# -*- coding: utf8 -*-
-
 """
 
 **SPARQLWrapper** is a simple Python wrapper around a `SPARQL <https://www.w3.org/TR/sparql11-overview/>`_ service to

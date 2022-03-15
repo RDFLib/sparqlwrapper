@@ -1,5 +1,4 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
 
 from SPARQLWrapper import CSV, JSON, N3, RDF, TSV, XML, SPARQLWrapper
 

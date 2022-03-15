@@ -72,4 +72,3 @@ repos:
             scripts/.*|
             dist/.*
           )$
-

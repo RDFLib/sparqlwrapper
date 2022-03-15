@@ -1,5 +1,4 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
 
 import inspect
 import os
@@ -72,7 +71,7 @@ prefixes = """
     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
     PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-    PREFIX entity: <http://www.wikidata.org/entity/>    
+    PREFIX entity: <http://www.wikidata.org/entity/>
 """
 
 selectQuery = """
@@ -97,7 +96,7 @@ constructQuery = """
     }
     WHERE {
         <http://www.wikidata.org/entity/Q3934> rdfs:label ?label .
-        FILTER langMatches( lang(?label), "es" ) 
+        FILTER langMatches( lang(?label), "es" )
     }
 """
 
@@ -113,14 +112,14 @@ queryBadFormed = """
     WHERE {
         res:Budapest prop:latitude ?lat;
         prop:longitude ?long.
-    }      
+    }
 """
 queryDuplicatedPrefix = """
     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
     PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-    PREFIX entity: <http://www.wikidata.org/entity/>    
+    PREFIX entity: <http://www.wikidata.org/entity/>
 
     SELECT ?predicate ?object WHERE {
         entity:Q3934 ?predicate ?object .
@@ -169,7 +168,7 @@ queryWithCommaInCurie_1 = """
     }
 """
 
-queryWithCommaInCurie_2 = """
+queryWithCommaInCurie_2 = r"""
     PREFIX dbpedia: <http://dbpedia.org/resource/>
     SELECT ?article ?title WHERE {
         ?article ?relation dbpedia:Category\:Victoria\,\_British\_Columbia .

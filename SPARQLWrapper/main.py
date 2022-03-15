@@ -96,7 +96,7 @@ def parse_args(test: Optional[List[str]] = None) -> argparse.Namespace:
     )
     parser.add_argument("-q", "--quiet", action="store_true", help="supress warnings")
     parser.add_argument(
-        "-V", "--version", action="version", version="%(prog)s {}".format(__version__)
+        "-V", "--version", action="version", version=f"%(prog)s {__version__}"
     )
     if test is None:
         return parser.parse_args()
@@ -117,7 +117,7 @@ def main(test: Optional[List[str]] = None) -> None:
     elif args.file == "-":
         q = sys.stdin.read()
     else:
-        q = open(args.file, "r").read()
+        q = open(args.file).read()
 
     sparql = SPARQLWrapper(
         args.endpoint,

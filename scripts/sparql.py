@@ -1,5 +1,4 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
 
 import getopt
 import sys
@@ -28,11 +27,11 @@ def main(server, query, sponge=False):
             try:
                 val = b[v]
                 if val.lang:
-                    str = "%s: %s@%s" % (v, val.value, val.lang)
+                    str = f"{v}: {val.value}@{val.lang}"
                 elif val.datatype:
-                    str = "%s: %s^^%s" % (v, val.value, val.datatype)
+                    str = f"{v}: {val.value}^^{val.datatype}"
                 else:
-                    str = "%s: %s" % (v, val.value)
+                    str = f"{v}: {val.value}"
             except KeyError:
                 # no binding to that one...
                 str = "%s: <<None>>" % v

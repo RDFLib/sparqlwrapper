@@ -15,7 +15,7 @@ format.
    :caption: Basic steps
 
    main
-   
+
 .. toctree::
    :hidden:
    :caption: Python Package

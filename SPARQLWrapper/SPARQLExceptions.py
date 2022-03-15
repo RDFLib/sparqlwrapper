@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 SPARQL Wrapper exceptions
 
@@ -35,15 +33,15 @@ class SPARQLWrapperException(Exception):
         :param string response: The server response
         """
         if response:
-            formatted_msg = "%s: %s. \n\nResponse:\n%r" % (
+            formatted_msg = "{}: {}. \n\nResponse:\n{!r}".format(
                 self.__class__.__name__,
                 self.msg,
                 response,
             )
         else:
-            formatted_msg = "%s: %s." % (self.__class__.__name__, self.msg)
+            formatted_msg = f"{self.__class__.__name__}: {self.msg}."
 
-        super(SPARQLWrapperException, self).__init__(formatted_msg)
+        super().__init__(formatted_msg)
 
 
 class EndPointInternalError(SPARQLWrapperException):
