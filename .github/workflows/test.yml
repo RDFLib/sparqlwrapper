@@ -25,18 +25,9 @@ jobs:
         pip install -U pip
         pip install '.[dev]'
     - uses: pre-commit/action@v2.0.3
-    - name: Test [wrapper]
-      if: ${{ always() }}
-      run: |
-        pytest test/test_wrapper.py
     - name: Test [all]
       run: |
         pytest |& tee log.txt
-        grep '^FAILED:' log.txt > fails.txt
-        # if all failures is not raised in `test.test_wrapper`:
-        if [ "$(grep 'test/test_wrapper' fails.txt | wc -l)" -ne "$(wc -l < fails.txt)" ]; then
+        if tail -1 log.txt | grep -q ' failed'; then
           exit 1
-        else
-          echo 'All of the above failures are maybe false errors.'
-          echo 'See: https://github.com/RDFLib/sparqlwrapper/issues/192'
         fi
