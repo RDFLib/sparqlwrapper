@@ -4,6 +4,7 @@ repos:
     hooks:
       - id: pyupgrade
         args: [--py37-plus]
+
   - repo: https://github.com/pycqa/flake8
     rev: 4.0.1
     hooks:
@@ -14,7 +15,8 @@ repos:
             __pycache__/.*|
             docs/.*|
             build/.*|
-            dist/.*
+            dist/.*|
+            test/.*
           )$
 
   - repo: https://github.com/pre-commit/pygrep-hooks
@@ -61,6 +63,8 @@ repos:
     rev: v0.940
     hooks:
       - id: mypy
+        args: ['--no-warn-unused-ignores']
+        additional_dependencies: ['rdflib', 'types-setuptools', 'pandas-stubs']
         exclude: |
           (?x)^(
             \.git/.*|
