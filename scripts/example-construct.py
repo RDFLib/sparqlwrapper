@@ -1,8 +1,9 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from SPARQLWrapper import SPARQLWrapper, XML, N3, TURTLE, JSONLD
 from rdflib import Graph
+
+from SPARQLWrapper import JSONLD, N3, TURTLE, XML, SPARQLWrapper
 
 sparql = SPARQLWrapper("http://dbpedia.org/sparql")
 

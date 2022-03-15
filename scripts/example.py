@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from SPARQLWrapper import SPARQLWrapper, JSON, XML, N3, RDF, CSV, TSV
+from SPARQLWrapper import CSV, JSON, N3, RDF, TSV, XML, SPARQLWrapper
 
 sparql = SPARQLWrapper("http://dbpedia.org/sparql")
 sparql.setQuery(

@@ -1,8 +1,9 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import sys
 import getopt
+import sys
+
 from SPARQLWrapper import SPARQLWrapper2
 
 localSparqler = "http://localhost:2020/sparql"

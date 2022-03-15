@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from SPARQLWrapper import SPARQLWrapper, JSON
+from SPARQLWrapper import JSON, SPARQLWrapper
 
 sparql = SPARQLWrapper("http://agrovoc.uniroma2.it:3030/agrovoc/sparql")
 

@@ -1,4 +1,4 @@
-from SPARQLWrapper import SPARQLWrapper, POST, DIGEST
+from SPARQLWrapper import DIGEST, POST, SPARQLWrapper
 
 sparql = SPARQLWrapper("https://example.org/sparql-auth")
 

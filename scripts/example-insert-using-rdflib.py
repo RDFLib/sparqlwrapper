@@ -1,4 +1,4 @@
-from rdflib import Graph, URIRef, Literal
+from rdflib import Graph, Literal, URIRef
 from rdflib.namespace import RDFS
 
 g = Graph()
@@ -20,7 +20,7 @@ INSERT {"""
 )
 ###############################################################################
 
-from SPARQLWrapper import SPARQLWrapper, POST, DIGEST
+from SPARQLWrapper import DIGEST, POST, SPARQLWrapper
 
 sparql = SPARQLWrapper("https://example.org/sparql-auth")
 sparql.setHTTPAuth(DIGEST)

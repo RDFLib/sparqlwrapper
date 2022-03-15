@@ -1,5 +1,6 @@
-from SPARQLWrapper import SPARQLWrapper, RDFXML, N3, TURTLE, JSONLD
 from rdflib import Graph
+
+from SPARQLWrapper import JSONLD, N3, RDFXML, TURTLE, SPARQLWrapper
 
 sparql = SPARQLWrapper("http://dbpedia.org/sparql")
 

@@ -42,15 +42,14 @@ from typing import (
     cast,
 )
 from urllib.request import (
-    urlopen as urlopener,
-)  # don't change the name: tests override it
+    urlopen as urlopener,  # don't change the name: tests override it
+)
 from xml.dom.minidom import Document, parse
 
 from SPARQLWrapper import __agent__
 
 if TYPE_CHECKING:
     from rdflib import Graph
-
 
 from .KeyCaseInsensitiveDict import KeyCaseInsensitiveDict
 from .SPARQLExceptions import (

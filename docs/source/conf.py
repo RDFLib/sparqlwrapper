@@ -22,7 +22,6 @@ sys.path.insert(
 
 from SPARQLWrapper import __version__
 
-
 # -- Project information -----------------------------------------------------
 
 project = "SPARQLWrapper"
