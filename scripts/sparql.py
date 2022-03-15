@@ -77,11 +77,11 @@ if __name__ == "__main__":
             elif o == "-p":
                 sponge = True
         if query == "" and len(args) > 0:
-            inp = file(args[0])
+            inp = open(args[0])
             query = ""
-            for l in inp:
-                query += l
-    except:
+            for line in inp:
+                query += line
+    except Exception:
         usage()
     if query == "":
         usage()

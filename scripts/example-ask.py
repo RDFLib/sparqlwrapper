@@ -6,9 +6,9 @@ from SPARQLWrapper import CSV, JSON, TSV, XML, SPARQLWrapper
 sparql = SPARQLWrapper("http://dbpedia.org/sparql")
 sparql.setQuery(
     """
-    ASK WHERE { 
+    ASK WHERE {
         <http://dbpedia.org/resource/Asturias> rdfs:label "Asturias"@es
-    }    
+    }
 """
 )
 

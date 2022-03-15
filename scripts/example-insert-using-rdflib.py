@@ -1,6 +1,8 @@
 from rdflib import Graph, Literal, URIRef
 from rdflib.namespace import RDFS
 
+from SPARQLWrapper import DIGEST, POST, SPARQLWrapper
+
 g = Graph()
 asturias = URIRef("http://dbpedia.org/resource/Asturias")
 g.add((asturias, RDFS.label, Literal("Asturies", lang="ast")))
@@ -19,9 +21,6 @@ INSERT {"""
     + """}"""
 )
 ###############################################################################
-
-from SPARQLWrapper import DIGEST, POST, SPARQLWrapper
-
 sparql = SPARQLWrapper("https://example.org/sparql-auth")
 sparql.setHTTPAuth(DIGEST)
 sparql.setCredentials("login", "password")

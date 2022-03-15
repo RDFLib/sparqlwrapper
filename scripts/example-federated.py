@@ -16,10 +16,10 @@ WHERE {
                     skos:inScheme <http://voc.landportal.info/landterms> .
     FILTER (lang(?label) = 'en')
 
-    SERVICE <http://semantic.eea.europa.eu/sparql> { 
-            ?conceptGEMET skos:prefLabel ?label ; 
+    SERVICE <http://semantic.eea.europa.eu/sparql> {
+            ?conceptGEMET skos:prefLabel ?label ;
             skos:inScheme <http://www.eionet.europa.eu/gemet/gemetThesaurus> .
-    } 
+    }
 }
 """
 sparql.setQuery(query)

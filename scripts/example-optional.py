@@ -8,7 +8,7 @@ sparql.setQuery(
     """
     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
     SELECT ?person ?party
-    WHERE { ?person <http://dbpedia.org/ontology/birthPlace> <http://dbpedia.org/resource/Asturias> 
+    WHERE { ?person <http://dbpedia.org/ontology/birthPlace> <http://dbpedia.org/resource/Asturias>
             OPTIONAL { ?person <http://dbpedia.org/property/party> ?party }
 
    }

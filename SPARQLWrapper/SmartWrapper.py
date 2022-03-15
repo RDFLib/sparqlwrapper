@@ -68,12 +68,12 @@ class Value(object):
         self.datatype = None
         try:
             self.lang = binding["xml:lang"]
-        except:
+        except Exception:
             # no lang is set
             pass
         try:
             self.datatype = binding["datatype"]
-        except:
+        except Exception:
             pass
 
     def __repr__(self) -> str:
@@ -121,7 +121,7 @@ class Bindings(object):
         self.variables: Optional[List[str]] = None
         try:
             self.variables = self.fullResult["head"]["vars"]
-        except:
+        except Exception:
             pass
 
         self.bindings: List[Dict[str, Value]] = []
@@ -136,13 +136,13 @@ class Bindings(object):
                         # there is a real binding for this key
                         newBind[key] = Value(key, b[key])
                 self.bindings.append(newBind)
-        except:
+        except Exception:
             pass
 
         self.askResult = False
         try:
             self.askResult = self.fullResult["boolean"]
-        except:
+        except Exception:
             pass
 
     def getValues(self, key: str) -> Optional[List[Value]]:
@@ -156,7 +156,7 @@ class Bindings(object):
         """
         try:
             return [b[key] for b in self[key]]
-        except:
+        except Exception:
             return []
 
     def __contains__(self, key: Union[str, List[str], Tuple[str]]) -> bool:
