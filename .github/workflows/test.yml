@@ -24,19 +24,17 @@ jobs:
       run: |
         pip install -U pip
         pip install '.[dev]'
-    - name: Mypy
-      run: |
-        mypy --show-error-context --show-error-codes
+    - uses: pre-commit/action@v2.0.3
     - name: Test [wrapper]
       if: ${{ always() }}
       run: |
-        python -m unittest test/test_wrapper.py -v
+        pytest test/test_wrapper.py
     - name: Test [all]
       run: |
-        python -m unittest -v |& tee log.txt
-        grep '^FAIL:' log.txt > fails.txt
+        pytest |& tee log.txt
+        grep '^FAILED:' log.txt > fails.txt
         # if all failures is not raised in `test.test_wrapper`:
-        if [ "$(grep 'test.test_wrapper' fails.txt | wc -l)" -ne "$(wc -l < fails.txt)" ]; then
+        if [ "$(grep 'test/test_wrapper' fails.txt | wc -l)" -ne "$(wc -l < fails.txt)" ]; then
           exit 1
         else
           echo 'All of the above failures are maybe false errors.'
