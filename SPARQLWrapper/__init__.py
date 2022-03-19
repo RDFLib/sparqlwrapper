@@ -12,7 +12,7 @@ format.
 __version__ = "2.0.1a0"
 """The version of SPARQLWrapper"""
 
-__agent__: str = f"sparqlwrapper {__version__} (rdflib.github.io/sparqlwrapper)"
+__agent__: str = f"sparqlwrapper/{__version__} (rdflib.github.io/sparqlwrapper)"
 
 
 from .SmartWrapper import SPARQLWrapper2
