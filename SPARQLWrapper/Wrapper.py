@@ -1187,7 +1187,6 @@ class QueryResult(object):
         # the unexpected N3 requested for a SELECT would return XML
         if "content-type" in self.info():
             ct = self.info()["content-type"]  # returned Content-Type value
-            
             if _content_type_in_list(ct, _SPARQL_XML):
                 _validate_format("XML", [XML], ct, self.requestedFormat)
                 return self._convertXML()
@@ -1197,12 +1196,6 @@ class QueryResult(object):
             elif _content_type_in_list(ct, _SPARQL_JSON):
                 _validate_format("JSON", [JSON], ct, self.requestedFormat)
                 return self._convertJSON()
-            elif _content_type_in_list(ct, _RDF_XML):
-                #Ananya: This has to be altered
-                _validate_format(
-                    "RDF/XML", [RDF, XML, RDFXML], ct, self.requestedFormat
-                )
-                return self._convertRDF()
             elif _content_type_in_list(ct, _RDF_N3):
                 _validate_format("N3", [N3, TURTLE], ct, self.requestedFormat)
                 return self._convertN3()
