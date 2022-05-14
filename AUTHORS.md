@@ -28,6 +28,7 @@ See https://github.com/RDFLib/sparqlwrapper/graphs/contributors
 * Trevor Andersen ([@trevorandersen](https://github.com/trevorandersen): patches for Python 3.x
 * Carlos Martinez-Ortiz ([@cmartinez](https://github.com/cmartinez): improves support for return format HTTP parameter
 * Christian Amsüss ([@chrysn](https://github.com/chrysn)): dependecy fixes
+* Ananya Jain([@ananya2711](https://github.com/ananya2711):Value Error of invalid select query return format)
 * Chris Lamb ([@lamby](https://github.com/lamby)): typo
 * Hugo van Kemenade ([@hugovk](https://github.com/hugovk)): update classifiers (Python 3.6)
 * Edward Betts ([@EdwardBetts](https://github.com/EdwardBetts)): Correct spelling mistakes

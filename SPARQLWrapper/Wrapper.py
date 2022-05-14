@@ -582,6 +582,7 @@ class SPARQLWrapper(object):
         :type query: string
         :raises TypeError: If the :attr:`query` parameter is not an unicode-string or utf-8 encoded byte-string.
         """
+
         if isinstance(query, str):
             pass
         elif isinstance(query, bytes):
@@ -773,6 +774,8 @@ class SPARQLWrapper(object):
             ):  # Allowed for SELECT and ASK (https://www.w3.org/TR/2013/REC-sparql11-protocol-20130321/#query-success)
                 # but only described for SELECT (https://www.w3.org/TR/sparql11-results-csv-tsv/)
                 acceptHeader = ",".join(_TSV)
+            elif self.returnFormat == RDF:
+                    raise ValueError("A SPARQL SELECT query doesn't return RDF, so RDF here is not a valid selection for a return type. Return types of JSON & XML are valid.")
             else:
                 acceptHeader = ",".join(_ALL)
                 warnings.warn(
@@ -1146,6 +1149,7 @@ class QueryResult(object):
         :return: the converted query result. See the conversion methods for more details.
         """
 
+
         def _content_type_in_list(real: str, expected: List[str]) -> bool:
             """Internal method for checking if the content-type header received matches any of the content types of
             the expected list.
@@ -1179,12 +1183,10 @@ class QueryResult(object):
                 warnings.warn(
                     message % (requested.upper(), format_name, mime), RuntimeWarning
                 )
-
         # TODO. In order to compare properly, the requested QueryType (SPARQL Query Form) is needed. For instance,
         # the unexpected N3 requested for a SELECT would return XML
         if "content-type" in self.info():
             ct = self.info()["content-type"]  # returned Content-Type value
-
             if _content_type_in_list(ct, _SPARQL_XML):
                 _validate_format("XML", [XML], ct, self.requestedFormat)
                 return self._convertXML()
@@ -1194,11 +1196,6 @@ class QueryResult(object):
             elif _content_type_in_list(ct, _SPARQL_JSON):
                 _validate_format("JSON", [JSON], ct, self.requestedFormat)
                 return self._convertJSON()
-            elif _content_type_in_list(ct, _RDF_XML):
-                _validate_format(
-                    "RDF/XML", [RDF, XML, RDFXML], ct, self.requestedFormat
-                )
-                return self._convertRDF()
             elif _content_type_in_list(ct, _RDF_N3):
                 _validate_format("N3", [N3, TURTLE], ct, self.requestedFormat)
                 return self._convertN3()
@@ -1211,6 +1208,11 @@ class QueryResult(object):
             elif _content_type_in_list(ct, _RDF_JSONLD):
                 _validate_format("JSON(-LD)", [JSONLD, JSON], ct, self.requestedFormat)
                 return self._convertJSONLD()
+            elif _content_type_in_list(ct, _RDF_XML):
+                _validate_format(
+                    "RDF/XML", [RDF, XML, RDFXML], ct, self.requestedFormat
+                )
+                return self._convertRDF()
             else:
                 warnings.warn(
                     "unknown response content type '%s' returning raw response..."
