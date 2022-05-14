@@ -1208,6 +1208,11 @@ class QueryResult(object):
             elif _content_type_in_list(ct, _RDF_JSONLD):
                 _validate_format("JSON(-LD)", [JSONLD, JSON], ct, self.requestedFormat)
                 return self._convertJSONLD()
+            elif _content_type_in_list(ct, _RDF_XML):
+                _validate_format(
+                    "RDF/XML", [RDF, XML, RDFXML], ct, self.requestedFormat
+                )
+                return self._convertRDF()
             else:
                 warnings.warn(
                     "unknown response content type '%s' returning raw response..."

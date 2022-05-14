@@ -877,6 +877,11 @@ class QueryResult_Test(unittest.TestCase):
         self.assertEqual(0, _mime_vs_type("text/csv", CSV))
         self.assertEqual(0, _mime_vs_type("text/tab-separated-values", TSV))
         self.assertEqual(0, _mime_vs_type("application/xml", XML))
+        self.assertEqual(0, _mime_vs_type("application/rdf+xml", XML)) # Warning
+        self.assertEqual(0, _mime_vs_type("application/rdf+xml", RDFXML)) # Warning
+
+        #Invalid return format, RDF (issue 190)
+        self.assertEqual(0, _mime_vs_type("application/rdf+xml", RDF))
 
         # unknown response content type 'application/x-foo-bar' returning raw response...
         self.assertEqual(1, _mime_vs_type("application/x-foo-bar", XML), "invalid mime")
@@ -892,11 +897,9 @@ class QueryResult_Test(unittest.TestCase):
         self.assertEqual(1, _mime_vs_type("application/ld+json", N3))  # Warning
         self.assertEqual(1, _mime_vs_type("application/rdf+xml", JSON))  # Warning
         self.assertEqual(1, _mime_vs_type("application/rdf+xml", N3))  # Warning
-        self.assertEqual(1, _mime_vs_type("application/rdf+xml", XML)) # Warning
-        self.assertEqual(1, _mime_vs_type("application/rdf+xml", RDFXML)) # Warning
 
-        #Invalid return format, RDF (issue 190)
-        self.assertEqual(1, _mime_vs_type("application/rdf+xml", RDF))
+
+
 
     def testPrint_results(self):
         """
