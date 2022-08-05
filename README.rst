@@ -56,7 +56,7 @@ Command Line Script
 
 To use as a command line script, you will need to install SPARQLWrapper and then
 a command line script called ``rqw`` (spaRQl Wrapper) will be available within the
-Python environment into which it is installed. run ``$ rql -h`` to see all the
+Python environment into which it is installed. run ``$ rqw -h`` to see all the
 script's options.
 
 Python package
