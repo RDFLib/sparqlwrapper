@@ -276,7 +276,7 @@ class SPARQLWrapper(object):
         updateEndpoint: Optional[str] = None,
         returnFormat: str = XML,
         defaultGraph: Optional[str] = None,
-        agent: str = __agent__,
+        agent: str = None,
     ) -> None:
         """
         Class encapsulating a full SPARQL call.
@@ -303,7 +303,7 @@ class SPARQLWrapper(object):
         """
         self.endpoint = endpoint
         self.updateEndpoint = updateEndpoint if updateEndpoint else endpoint
-        self.agent = agent
+        self.agent = agent if agent else __agent__
         self.user: Optional[str] = None
         self.passwd: Optional[str] = None
         self.http_auth = BASIC
