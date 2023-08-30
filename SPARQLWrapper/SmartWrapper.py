@@ -20,10 +20,12 @@
 """
 
 
+import contextlib
 from typing import Any, Dict, List, Optional, Tuple, Union
 
 from SPARQLWrapper.Wrapper import JSON, SELECT, QueryResult
 from SPARQLWrapper.Wrapper import SPARQLWrapper as SW
+
 
 ######################################################################################
 
@@ -66,15 +68,10 @@ class Value(object):
         self.type = binding["type"]
         self.lang = None
         self.datatype = None
-        try:
+        with contextlib.suppress(Exception):
             self.lang = binding["xml:lang"]
-        except:
-            # no lang is set
-            pass
-        try:
+        with contextlib.suppress(Exception):
             self.datatype = binding["datatype"]
-        except:
-            pass
 
     def __repr__(self) -> str:
         cls = self.__class__.__name__
@@ -119,31 +116,16 @@ class Bindings(object):
         self.fullResult = retval._convertJSON()
         self.head = self.fullResult["head"]
         self.variables: Optional[List[str]] = None
-        try:
+        with contextlib.suppress(Exception):
             self.variables = self.fullResult["head"]["vars"]
-        except:
-            pass
-
         self.bindings: List[Dict[str, Value]] = []
-        try:
+        with contextlib.suppress(Exception):
             for b in self.fullResult["results"]["bindings"]:
-                # This is a single binding. It is a dictionary per variable; each value is a dictionary again
-                # that has to be converted into a Value instance
-                newBind = {}
-                # type error: Item "None" of "Union[List[str], Any, None]" has no attribute "__iter__" (not iterable)
-                for key in self.variables:  # type: ignore [union-attr]
-                    if key in b:
-                        # there is a real binding for this key
-                        newBind[key] = Value(key, b[key])
+                newBind = {key: Value(key, b[key]) for key in self.variables if key in b}
                 self.bindings.append(newBind)
-        except:
-            pass
-
         self.askResult = False
-        try:
+        with contextlib.suppress(Exception):
             self.askResult = self.fullResult["boolean"]
-        except:
-            pass
 
     def getValues(self, key: str) -> Optional[List[Value]]:
         """A shorthand for the retrieval of all bindings for a single key. It is
@@ -156,7 +138,7 @@ class Bindings(object):
         """
         try:
             return [b[key] for b in self[key]]
-        except:
+        except Exception:
             return []
 
     def __contains__(self, key: Union[str, List[str], Tuple[str]]) -> bool:
@@ -180,13 +162,9 @@ class Bindings(object):
                 return False
             for b in self.bindings:
                 # try to find a binding where all key elements are present
-                if False in [k in b for k in key]:
-                    # this is not a binding for the key combination, move on...
-                    continue
-                else:
+                if False not in [k in b for k in key]:
                     # yep, this one is good!
                     return True
-            return False
         else:
             # type error: Unsupported right operand type for in ("Optional[List[str]]")
             if key not in self.variables:  # type: ignore [operator]
@@ -194,7 +172,7 @@ class Bindings(object):
             for b in self.bindings:
                 if key in b:
                     return True
-            return False
+        return False
 
     def __getitem__(self, key: Union[slice, str, List[str]]) -> List[Dict[str, Value]]:
         """Emulation of the ``obj[key]`` operator.  Slice notation is also available.
@@ -222,18 +200,18 @@ class Bindings(object):
             for k in keys:
                 # type error: Unsupported right operand type for in ("Optional[List[str]]")
                 if (
-                    not isinstance(k, str)
-                    or k not in self.variables  # type: ignore [operator]
+                        not isinstance(k, str)
+                        or k not in self.variables  # type: ignore [operator]
                 ):
                     return False
             return True
 
         def _nonSliceCase(
-            key: Union[
-                str,
-                List[Any],
-                Tuple[Any],
-            ]
+                key: Union[
+                    str,
+                    List[Any],
+                    Tuple[Any],
+                ]
         ) -> Union[List[Any], bool, Tuple[Any]]:
             # type error: Unsupported right operand type for in ("Optional[List[str]]")
             if isinstance(key, str) and key != "" and key in self.variables:  # type: ignore[operator]
@@ -273,7 +251,7 @@ class Bindings(object):
             # if we got that far, we should be all right!
             retval.append(b)
         # if retval is of zero length, no hit; an exception should be raised to stay within the python style
-        if len(retval) == 0:
+        if not retval:
             raise IndexError
         return retval
 
@@ -330,7 +308,7 @@ class SPARQLWrapper2(SW):
         """
         pass
 
-    def query(self) -> Union[Bindings, QueryResult]:  # type: ignore[override]
+    def query(self) -> Union[Bindings, QueryResult]:    # type: ignore[override]
         """
         Execute the query and do an automatic conversion.
 
@@ -345,13 +323,10 @@ class SPARQLWrapper2(SW):
         """
         res = super(SPARQLWrapper2, self).query()
 
-        if self.queryType == SELECT:
-            return Bindings(res)
-        else:
-            return res
+        return Bindings(res) if self.queryType == SELECT else res
 
     def queryAndConvert(  # type: ignore[override]
-        self,
+            self,
     ) -> Union[Union[Bindings, QueryResult], QueryResult.ConvertResult]:
         """This is here to override the inherited method; it is equivalent to :class:`query`.
 

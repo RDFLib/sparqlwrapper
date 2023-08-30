@@ -16,7 +16,7 @@ class QueryException(Exception):
 
 
 def get_sparql_dataframe_orig(
-    endpoint: str, query: Union[str, bytes]
+        endpoint: str, query: Union[str, bytes]
 ) -> "pd.DataFrame":
     """copy paste from: https://github.com/lawlesst/sparql-dataframe"""
     # pandas inside to avoid requiring it
@@ -28,15 +28,17 @@ def get_sparql_dataframe_orig(
         raise QueryException("Only SPARQL SELECT queries are supported.")
     sparql.setReturnFormat(CSV)
     results = sparql.query().convert()
-    if isinstance(results, bytes):
-        _csv = io.StringIO(results.decode("utf-8"))
-        return pd.read_csv(_csv, sep=",")
-    else:
+
+    if not isinstance(results, bytes):
         raise TypeError(type(results))
+
+    _csv = io.StringIO(results.decode("utf-8"))
+
+    return pd.read_csv(_csv, sep=",")
 
 
 def get_sparql_typed_dict(
-    endpoint: str, query: Union[str, bytes]
+        endpoint: str, query: Union[str, bytes]
 ) -> List[Dict[str, Value]]:
     """modified from: https://github.com/lawlesst/sparql-dataframe"""
     # pandas inside to avoid requiring it
@@ -70,5 +72,4 @@ def get_sparql_dataframe(endpoint: str, query: Union[str, bytes]) -> "pd.DataFra
 
     d = get_sparql_typed_dict(endpoint, query)
     # TODO: will nan fill somehow, make more strict if there is way of getting the nan types from rdflib
-    df = pd.DataFrame(d)
-    return df
+    return pd.DataFrame(d)
