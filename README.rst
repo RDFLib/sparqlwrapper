@@ -804,6 +804,43 @@ Stardog
   - application/ld+json
   - Other acceptable values: application/n-triples, application/x-turtle, application/trig, application/trix, application/n-quads
 
+Ontop
+-------
+:Website: `Ontop VKG <https://ontop-vkg.org>`_
+:Documentation: `<https://ontop-vkg.org/guide/>`
+:Uses: Only content negotiation (no URL parameters).
+:Parameter key: If an unexpected parameter is used, the server ignores it.
+
+
+- SELECT
+
+  - application/sparql-results+json (DEFAULT if Accept: */* is sent)
+  - application/sparql-results+xml
+  - text/csv (versions before Ontop 5.2 returned text/sparql-results+csv)
+  - text/tab-separated-values (versions before Ontop 5.2 returned text/sparql-results+tsv)
+
+- ASK
+
+  - application/sparql-results+json (DEFAULT if Accept: */* is sent)
+  - application/sparql-results+xml
+  - Other values: text/boolean
+
+- CONSTRUCT
+
+  - text/turtle (DEFAULT if Accept: */* is sent)
+  - application/rdf+xml
+  - text/n3
+  - application/ld+json
+  - Other acceptable values: application/n-triples, application/n-quads, rdf+json, rdf+xml
+
+- DESCRIBE
+
+  - text/turtle (DEFAULT if Accept: */* is sent)
+  - application/rdf+xml
+  - application/rdf+json
+  - text/n3
+  - application/ld+json
+  - Other acceptable values: application/n-triples, application/n-quads
 
 Development
 ===========
