@@ -153,6 +153,7 @@ _REQUEST_METHODS = [URLENCODED, POSTDIRECTLY]
 _SPARQL_DEFAULT = ["application/sparql-results+xml", "application/rdf+xml", "*/*"]
 _SPARQL_XML = ["application/sparql-results+xml"]
 _SPARQL_JSON = [
+    "application/x-sparqlstar-results+json", # prevents serialization of quoted/embedded triples in GraphDB, see https://graphdb.ontotext.com/documentation/10.7/rdf-sparql-star.html
     "application/sparql-results+json",
     "application/json",
     "text/javascript",
