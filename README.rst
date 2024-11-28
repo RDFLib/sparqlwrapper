@@ -302,6 +302,39 @@ The above should print out something like:
     ca, Astúries
 
 
+Proxy example
+^^^^^^^^^^^^^^^^^^^^^^
+
+How to use a proxy to query data:
+
+.. code-block:: python
+
+    import urllib.request
+   
+    HTTP_PROXIES = {
+      'http': f'http://{PROXY_USER}:{PROXY_PASSWORD}@{PROXY_HOST}:{PROXY_PORT}',
+      'https': f'https: //{PROXY_USER}:{PROXY_PASSWORD}@{PROXY_HOST}:{PROXY_PORT}'}
+
+    proxy_support = urllib.request.ProxyHandler(HTTP_PROXIES)
+    opener = urllib.request.build_opener(proxy_support)
+    urllib.request.install_opener(opener)
+
+    sparql = SPARQLWrapper("http://dbpedia.org/sparql")
+    sparql.setQuery("""
+        PREFIX dbp:  <http://dbpedia.org/resource/>
+        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+        SELECT ?label
+        WHERE {
+            dbp:Asturias rdfs:label ?label
+        }
+        LIMIT 3
+        """
+                    )
+
+    for result in sparql.query().bindings:
+        print(f"{result['label'].lang}, {result['label'].value}")
+
 Return formats
 --------------
 
