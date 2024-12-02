@@ -35,13 +35,9 @@ class SPARQLWrapperException(Exception):
         :param string response: The server response
         """
         if response:
-            formatted_msg = "%s: %s. \n\nResponse:\n%r" % (
-                self.__class__.__name__,
-                self.msg,
-                response,
-            )
+            formatted_msg = f"{self.__class__.__name__}: {self.msg}. \n\nResponse:\n{response}"
         else:
-            formatted_msg = "%s: %s." % (self.__class__.__name__, self.msg)
+            formatted_msg = f"{self.__class__.__name__}: {self.msg}."
 
         super(SPARQLWrapperException, self).__init__(formatted_msg)
 
