@@ -958,6 +958,11 @@ class SPARQLWrapper(object):
         :return: query result
         :rtype: :class:`QueryResult` instance
         """
+        
+        # Solving issue-190
+        unsupportedReturnTypesForSelectQueries = [RDF, RDFXML, XML]
+        if self.queryType == SELECT and self.returnFormat in [RDF, RDFXML, XML]:
+            raise ValueError(self.returnFormat.upper() + " is not a valid return format for SELECT queries. Supported formats include: %s" % ", ".join([i for i in _allowedFormats if i not in unsupportedReturnTypesForSelectQueries]))
         return QueryResult(self._query())
 
     def queryAndConvert(self) -> "QueryResult.ConvertResult":
