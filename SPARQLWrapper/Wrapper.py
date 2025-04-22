@@ -39,7 +39,7 @@ from xml.dom.minidom import Document, parse
 from SPARQLWrapper import __agent__
 
 if TYPE_CHECKING:
-    from rdflib import Graph
+    from rdflib import Dataset, Graph
 
 
 
@@ -649,7 +649,7 @@ class SPARQLWrapper(object):
         :raises ImportError: when could not be imported ``keepalive.HTTPHandler``.
         """
         try:
-            from keepalive import HTTPHandler  # type: ignore[import]
+            from keepalive import HTTPHandler  # type: ignore[import-not-found]
 
             if urllib.request._opener and any(  # type: ignore[attr-defined]
                 isinstance(h, HTTPHandler) for h in urllib.request._opener.handlers  # type: ignore[attr-defined]
@@ -1071,11 +1071,11 @@ class QueryResult(object):
         :return: converted result.
         :rtype: :class:`xml.dom.minidom.Document`
         """
-        doc = parse(self.response)
+        doc: Any = parse(self.response)
         rdoc = cast(Document, doc)
         return rdoc
 
-    def _convertRDF(self) -> "Graph":
+    def _convertRDF(self) -> "Dataset":
         """
         Convert a RDF/XML result into an RDFLib Graph. This method can be overwritten
         in a subclass for a different conversion method.
@@ -1083,9 +1083,9 @@ class QueryResult(object):
         :return: converted result.
         :rtype: :class:`rdflib.graph.Graph`
         """
-        from rdflib import ConjunctiveGraph
-        retval = ConjunctiveGraph()
-        retval.parse(self.response, format="xml")  # type: ignore[no-untyped-call]
+        from rdflib import Dataset
+        retval = Dataset()
+        retval.parse(self.response, format="xml")
         return retval
 
     def _convertN3(self) -> bytes:
@@ -1118,7 +1118,7 @@ class QueryResult(object):
         """
         return self.response.read()
 
-    def _convertJSONLD(self) -> "Graph":
+    def _convertJSONLD(self) -> "Dataset":
         """
         Convert a RDF JSON-LD result into an RDFLib Graph. This method can be overwritten
         in a subclass for a different conversion method.
@@ -1126,10 +1126,10 @@ class QueryResult(object):
         :return: converted result
         :rtype: :class:`rdflib.graph.Graph`
         """
-        from rdflib import ConjunctiveGraph
+        from rdflib import Dataset
 
-        retval = ConjunctiveGraph()
-        retval.parse(self.response, format="json-ld")  # type: ignore[no-untyped-call]
+        retval = Dataset()
+        retval.parse(self.response, format="json-ld")
         return retval
 
     def convert(self) -> ConvertResult:

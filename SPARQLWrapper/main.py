@@ -145,7 +145,7 @@ def main(test: Optional[List[str]] = None) -> None:
     elif isinstance(results, bytes):
         # "csv", "tsv", "turtle", "n3"
         print(results.decode("utf-8"))
-    elif isinstance(results, rdflib.graph.ConjunctiveGraph):
+    elif isinstance(results, rdflib.graph.Dataset):
         # "rdf"
         print(results.serialize())
     else:

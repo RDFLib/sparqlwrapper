@@ -193,8 +193,11 @@ class SPARQLWrapper_Test(unittest.TestCase):
 
     def testSetReturnFormat(self):
         with warnings.catch_warnings(record=True) as w:
+            warnings.resetwarnings()
             self.wrapper.setReturnFormat("nonexistent format")
-            # Ignore format 'nonexistent format'; current instance supports: ...
+            # Print warnings for debugging
+            # for warning in w:
+            #     print(warning.message)
             self.assertEqual(1, len(w), "Warning due to non expected format")
 
         self.assertEqual(XML, self.wrapper.query().requestedFormat)
@@ -629,11 +632,11 @@ select * where { ?s ?p ?o }
 PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX weather: <http://hal.zamia.org/weather/>
-PREFIX dbo:     <http://dbpedia.org/ontology/> 
-PREFIX dbr:     <http://dbpedia.org/resource/> 
-PREFIX dbp:     <http://dbpedia.org/property/> 
-PREFIX xml:     <http://www.w3.org/XML/1998/namespace> 
-PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#> 
+PREFIX dbo:     <http://dbpedia.org/ontology/>
+PREFIX dbr:     <http://dbpedia.org/resource/>
+PREFIX dbp:     <http://dbpedia.org/property/>
+PREFIX xml:     <http://www.w3.org/XML/1998/namespace>
+PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
 
 SELECT DISTINCT ?location ?cityid ?timezone ?label
 WHERE {
@@ -850,6 +853,7 @@ class QueryResult_Test(unittest.TestCase):
             :return: number of warnings produced by combo
             """
             with warnings.catch_warnings(record=True) as w:
+                warnings.resetwarnings()
                 qr = QueryResult((FakeResponse(mime), requested_type))
 
                 try:
@@ -918,6 +922,8 @@ class QueryResult_Test(unittest.TestCase):
             :return: number of warnings produced by combo
             """
             with warnings.catch_warnings(record=True) as w:
+                # Reset warning registry to fix https://github.com/RDFLib/sparqlwrapper/issues/192
+                warnings.resetwarnings()
                 qr = QueryResult(FakeResponse(mime))
 
                 try:
@@ -925,7 +931,9 @@ class QueryResult_Test(unittest.TestCase):
                 except:
                     pass
 
-                # if len(w) > 1: print(w[1].message) # FOR DEBUG
+                # # Print warnings for debugging
+                # for warning in w:
+                #     print(mime, warning.message)
 
                 return len(w)
 

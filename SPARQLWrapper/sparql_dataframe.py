@@ -58,7 +58,7 @@ def get_sparql_typed_dict(
         row = {}
         for k in x:
             v = x[k]
-            vv = rdflib.term.Literal(v.value, datatype=v.datatype).toPython()  # type: ignore[no-untyped-call]
+            vv = rdflib.term.Literal(v.value, datatype=v.datatype).toPython()
             row[k] = vv
         d.append(row)
     return d

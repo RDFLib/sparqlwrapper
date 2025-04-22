@@ -22,9 +22,9 @@ import warnings
 warnings.simplefilter("always")
 
 try:
-    from rdflib.graph import ConjunctiveGraph
+    from rdflib.graph import Dataset
 except ImportError:
-    from rdflib import ConjunctiveGraph
+    from rdflib import Dataset
 
 from SPARQLWrapper import (
     CSV,
@@ -756,14 +756,14 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_XML], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     def testConstructByGETinXML_Conneg(self):
         result = self.__generic(constructQuery, XML, GET, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_XML], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     @unittest.skip("Stardog supports only Content Negotiation")
     def testConstructByPOSTinXML(self):
@@ -771,14 +771,14 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_XML], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     def testConstructByPOSTinXML_Conneg(self):
         result = self.__generic(constructQuery, XML, POST, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_XML], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     @unittest.skip("Stardog supports only Content Negotiation")
     def testConstructByGETinRDFXML(self):
@@ -786,14 +786,14 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_XML], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     def testConstructByGETinRDFXML_Conneg(self):
         result = self.__generic(constructQuery, RDFXML, GET, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_XML], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     @unittest.skip("Stardog supports only Content Negotiation")
     def testConstructByPOSTinRDFXML(self):
@@ -801,14 +801,14 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_XML], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     def testConstructByPOSTinRDFXML_Conneg(self):
         result = self.__generic(constructQuery, RDFXML, POST, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_XML], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     @unittest.skip("Stardog supports only Content Negotiation")
     def testConstructByGETinTURTLE(self):
@@ -876,14 +876,14 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_JSONLD], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     def testConstructByGETinJSONLD_Conneg(self):
         result = self.__generic(constructQuery, JSONLD, GET, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_JSONLD], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     @unittest.skip("Stardog supports only Content Negotiation")
     def testConstructByPOSTinJSONLD(self):
@@ -891,14 +891,14 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_JSONLD], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     def testConstructByPOSTinJSONLD_Conneg(self):
         result = self.__generic(constructQuery, JSONLD, POST, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_JSONLD], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     # Asking for an unexpected return format for CONSTRUCT queryType.
     # For a CONSTRUCT query type, the default return mimetype (if Accept: */* is sent) is text/turtle
@@ -983,7 +983,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     # Asking for an unknown return format for CONSTRUCT queryType (XML is sent)
     def testConstructByGETinUnknow_Conneg(self):
@@ -991,7 +991,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     # Asking for an unknown return format for CONSTRUCT queryType (XML is sent)
     @unittest.skip("Stardog supports only Content Negotiation")
@@ -1000,7 +1000,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     # Asking for an unknown return format for CONSTRUCT queryType (XML is sent)
     def testConstructByPOSTinUnknow_Conneg(self):
@@ -1008,7 +1008,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     ###############################################################################
     ###############################################################################
@@ -1023,14 +1023,14 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_XML], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     def testDescribeByGETinXML_Conneg(self):
         result = self.__generic(describeQuery, XML, GET, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_XML], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     @unittest.skip("Stardog supports only Content Negotiation")
     def testDescribeByPOSTinXML(self):
@@ -1038,14 +1038,14 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_XML], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     def testDescribeByPOSTinXML_Conneg(self):
         result = self.__generic(describeQuery, XML, POST, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_XML], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     @unittest.skip("Stardog supports only Content Negotiation")
     def testDescribeByGETinRDFXML(self):
@@ -1053,14 +1053,14 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_XML], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     def testDescribeByGETinRDFXML_Conneg(self):
         result = self.__generic(describeQuery, RDFXML, GET, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_XML], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     @unittest.skip("Stardog supports only Content Negotiation")
     def testDescribeByPOSTinRDFXML(self):
@@ -1068,14 +1068,14 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_XML], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     def testDescribeByPOSTinRDFXML_Conneg(self):
         result = self.__generic(describeQuery, RDFXML, POST, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_XML], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     @unittest.skip("Stardog supports only Content Negotiation")
     def testDescribeByGETinTURTLE(self):
@@ -1143,14 +1143,14 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_JSONLD], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     def testDescribeByGETinJSONLD_Conneg(self):
         result = self.__generic(describeQuery, JSONLD, GET, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_JSONLD], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     @unittest.skip("Stardog supports only Content Negotiation")
     def testDescribeByPOSTinJSONLD(self):
@@ -1158,14 +1158,14 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_JSONLD], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     def testDescribeByPOSTinJSONLD_Conneg(self):
         result = self.__generic(describeQuery, JSONLD, POST, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_JSONLD], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     # Asking for an unexpected return format for DESCRIBE queryType.
     # For a DESCRIBE query type, the default return mimetype (if Accept: */* is sent) text/turtle
@@ -1250,7 +1250,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     # Asking for an unknown return format for DESCRIBE queryType (XML is sent)
     def testDescribeByGETinUnknow_Conneg(self):
@@ -1258,7 +1258,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     # Asking for an unknown return format for DESCRIBE queryType (XML is sent)
     @unittest.skip("Stardog supports only Content Negotiation")
@@ -1267,7 +1267,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     # Asking for an unknown return format for DESCRIBE queryType (XML is sent)
     def testDescribeByPOSTinUnknow_Conneg(self):
@@ -1275,7 +1275,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     ################################################################################
     ################################################################################

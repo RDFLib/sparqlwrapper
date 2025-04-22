@@ -22,9 +22,9 @@ import warnings
 warnings.simplefilter("always")
 
 try:
-    from rdflib.graph import ConjunctiveGraph
+    from rdflib.graph import Dataset
 except ImportError:
-    from rdflib import ConjunctiveGraph
+    from rdflib import Dataset
 
 from SPARQLWrapper import (
     CSV,
@@ -116,7 +116,7 @@ queryBadFormed = """
     WHERE {
         res:Budapest prop:latitude ?lat;
         prop:longitude ?long.
-    }      
+    }
 """
 
 queryManyPrefixes = """
@@ -780,14 +780,14 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_XML], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     def testConstructByGETinXML_Conneg(self):
         result = self.__generic(constructQuery, XML, GET, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_XML], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     @unittest.skip(
         "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
@@ -797,7 +797,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_XML], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     @unittest.skip(
         "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
@@ -807,7 +807,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_XML], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     # rdf+xml is not a valid alias
     def testConstructByGETinRDFXML(self):
@@ -815,7 +815,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_XML], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     # rdf+xml is not a valid alias
     def testConstructByGETinRDFXML_Conneg(self):
@@ -823,7 +823,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_XML], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     # rdf+xml is not a valid alias
     @unittest.skip(
@@ -834,7 +834,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_XML], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     # rdf+xml is not a valid alias
     @unittest.skip(
@@ -845,7 +845,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_XML], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     # turtle is not a valid alias
     def testConstructByGETinTURTLE(self):
@@ -929,7 +929,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_JSONLD], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     # json-ld is not a valid alias. Use content negotiation instead
     def testConstructByGETinJSONLD_Conneg(self):
@@ -937,7 +937,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_JSONLD], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     # json-ld is not a valid alias. Use content negotiation instead
     @unittest.skip(
@@ -948,7 +948,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_JSONLD], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     # json-ld is not a valid alias. Use content negotiation instead
     @unittest.skip(
@@ -959,7 +959,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_JSONLD], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     # Asking for an unexpected return format for CONSTRUCT queryType.
     # For a CONSTRUCT query type, the default return mimetype (if Accept: */* is sent) is text/turtle
@@ -1033,7 +1033,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     # Asking for an unexpected return format for CONSTRUCT queryType.
     # For a CONSTRUCT query type, the default return mimetype (if Accept: */* is sent) is text/turtle
@@ -1053,7 +1053,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     # Asking for an unknown return format for CONSTRUCT queryType (XML is sent)
     def testConstructByGETinUnknow_Conneg(self):
@@ -1061,7 +1061,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     # Asking for an unknown return format for CONSTRUCT queryType (XML is sent)
     @unittest.skip(
@@ -1072,7 +1072,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     # Asking for an unknown return format for CONSTRUCT queryType (XML is sent)
     @unittest.skip(
@@ -1083,7 +1083,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     ################################################################################
     ################################################################################
@@ -1097,14 +1097,14 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_XML], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     def testDescribeByGETinXML_Conneg(self):
         result = self.__generic(describeQuery, XML, GET, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_XML], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     @unittest.skip(
         "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
@@ -1114,7 +1114,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_XML], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     @unittest.skip(
         "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
@@ -1124,7 +1124,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_XML], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     # rdf+xml is not a valid alias
     def testDescribeByGETinRDFXML(self):
@@ -1132,7 +1132,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_XML], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     # rdf+xml is not a valid alias
     def testDescribeByGETinRDFXML_Conneg(self):
@@ -1140,7 +1140,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_XML], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     # rdf+xml is not a valid alias
     @unittest.skip(
@@ -1151,7 +1151,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_XML], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     # rdf+xml is not a valid alias
     @unittest.skip(
@@ -1162,7 +1162,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_XML], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     # turtle is not a valid alias
     def testDescribeByGETinTURTLE(self):
@@ -1245,14 +1245,14 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_JSONLD], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     def testDescribeByGETinJSONLD_Conneg(self):
         result = self.__generic(describeQuery, JSONLD, GET, onlyConneg=True)
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_JSONLD], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     @unittest.skip(
         "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
@@ -1262,7 +1262,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_JSONLD], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     @unittest.skip(
         "The current SPARQL endpoint returns 500 on POST requests. Maybe it is not an issue of Fuseki"
@@ -1272,7 +1272,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _RDF_JSONLD], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     # Asking for an unexpected return format for DESCRIBE queryType.
     # For a DESCRIBE query type, the default return mimetype (if Accept: */* is sent) is text/turtle
@@ -1302,7 +1302,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE]
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     # Asking for an unexpected return format for DESCRIBE queryType.
     # For a DESCRIBE query type, the default return mimetype (if Accept: */* is sent) is text/turtle
@@ -1346,7 +1346,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE]
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     # Asking for an unexpected return format for DESCRIBE queryType.
     # For a DESCRIBE query type, the default return mimetype (if Accept: */* is sent) is text/turtle
@@ -1366,7 +1366,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     # Asking for an unknown return format for DESCRIBE queryType (XML is sent)
     def testDescribeByGETinUnknow_Conneg(self):
@@ -1374,7 +1374,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     # Asking for an unknown return format for DESCRIBE queryType (XML is sent)
     @unittest.skip(
@@ -1385,7 +1385,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     # Asking for an unknown return format for DESCRIBE queryType (XML is sent)
     @unittest.skip(
@@ -1396,7 +1396,7 @@ class SPARQLWrapperTests(unittest.TestCase):
         ct = result.info()["content-type"]
         assert True in [one in ct for one in _SPARQL_DESCRIBE_CONSTRUCT_POSSIBLE], ct
         results = result.convert()
-        self.assertEqual(type(results), ConjunctiveGraph)
+        self.assertEqual(type(results), Dataset)
 
     ################################################################################
     ################################################################################

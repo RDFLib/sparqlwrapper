@@ -11,3 +11,4 @@ doc
 .settings/
 .venv/
 .tox/
+.coverage

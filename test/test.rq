@@ -5,5 +5,5 @@ WHERE {
   ?pl
     a dbo:ProgrammingLanguage;
     rdfs:label ?pllabel.
-  FILTER(SUBSTR(STR(?pllabel), 1, 1) = "P")
+  FILTER(SUBSTR(STR(?pllabel), 1, 5) = "PARLO")
 } ORDER BY ?pllabel LIMIT 1
