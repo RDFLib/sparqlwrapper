@@ -1,5 +1,4 @@
 name: Test
-
 on:
   push:
     branches: ["master"]
@@ -20,25 +19,18 @@ jobs:
       uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
+
     - name: Install dependencies
       run: |
         pip install -U pip
         pip install '.[dev]'
+
     - name: Mypy
-      run: |
-        mypy --show-error-context
+      run: mypy --show-error-context
+
     - name: Test [wrapper]
       if: ${{ always() }}
-      run: |
-        pytest test/test_wrapper.py
+      run: pytest test/test_wrapper.py
+
     - name: Test [all]
-      run: |
-        pytest |& tee log.txt
-        grep '^FAIL:' log.txt > fails.txt
-        # if all failures is not raised in `test.test_wrapper`:
-        if [ "$(grep 'test.test_wrapper' fails.txt | wc -l)" -ne "$(wc -l < fails.txt)" ]; then
-          exit 1
-        else
-          echo 'All of the above failures are maybe false errors.'
-          echo 'See: https://github.com/RDFLib/sparqlwrapper/issues/192'
-        fi
+      run: pytest
