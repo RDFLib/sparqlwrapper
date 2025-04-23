@@ -30,10 +30,10 @@ jobs:
     - name: Test [wrapper]
       if: ${{ always() }}
       run: |
-        python -m unittest test/test_wrapper.py -v
+        pytest test/test_wrapper.py
     - name: Test [all]
       run: |
-        python -m unittest -v |& tee log.txt
+        pytest |& tee log.txt
         grep '^FAIL:' log.txt > fails.txt
         # if all failures is not raised in `test.test_wrapper`:
         if [ "$(grep 'test.test_wrapper' fails.txt | wc -l)" -ne "$(wc -l < fails.txt)" ]; then
