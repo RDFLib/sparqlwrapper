@@ -2,7 +2,7 @@
 Query a SPARQL endpoint and return results as a Pandas dataframe.
 """
 import io
-from typing import TYPE_CHECKING, Any, Dict, List, Union
+from typing import TYPE_CHECKING, Dict, List, Union
 
 from SPARQLWrapper.SmartWrapper import Bindings, SPARQLWrapper2, Value
 from SPARQLWrapper.Wrapper import CSV, SELECT, SPARQLWrapper
@@ -39,8 +39,6 @@ def get_sparql_typed_dict(
     endpoint: str, query: Union[str, bytes]
 ) -> List[Dict[str, Value]]:
     """modified from: https://github.com/lawlesst/sparql-dataframe"""
-    # pandas inside to avoid requiring it
-    import pandas as pd
     # rdflib in here because there is some meta stuff in the setup.py and Travis fails because rdflib is installed later
     import rdflib.term
     sparql = SPARQLWrapper2(endpoint)
