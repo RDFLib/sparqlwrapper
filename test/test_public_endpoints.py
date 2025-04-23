@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import logging
-from typing import Literal
+from typing import Literal, Union
 import pytest
 from urllib.error import HTTPError
 
@@ -478,7 +478,7 @@ def describe_query(endpoint_config):
     return endpoint_config["describe_query"]
 
 
-def query_sparql(endpoint_url, query, return_format, method, only_conneg=False) -> QueryResult | Literal[False]:
+def query_sparql(endpoint_url, query, return_format, method, only_conneg=False) -> Union[QueryResult, Literal[False]]:
     """Generic function to make a SPARQL request and return the result"""
     sparql = SPARQLWrapper(endpoint_url)
     sparql.setQuery(query)
