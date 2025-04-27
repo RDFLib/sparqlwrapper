@@ -18,8 +18,8 @@ About
 
 **SPARQLWrapper** is a simple Python wrapper around a `SPARQL <https://www.w3.org/TR/sparql11-overview/>`_ service to
 remotely execute your queries. It helps by creating the query
-invocation and, optionally, converting the result into a more manageable
-format.
+invocation and, optionally, converting the result into more manageable
+formats.
 
 Installation & Distribution
 ===========================
