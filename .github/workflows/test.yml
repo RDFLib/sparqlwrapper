@@ -1,5 +1,4 @@
 name: Test
-
 on:
   push:
     branches: ["master"]
@@ -13,32 +12,25 @@ jobs:
         fail-fast: false
         max-parallel: 1
         matrix:
-            python-version: ["3.7", "3.8", "3.9", "3.10"]
+            python-version: ["3.8", "3.9", "3.10", "3.11", "3.12", "3.13"]
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
+
     - name: Install dependencies
       run: |
         pip install -U pip
         pip install '.[dev]'
+
     - name: Mypy
-      run: |
-        mypy --show-error-context --show-error-codes
+      run: mypy --show-error-context
+
     - name: Test [wrapper]
       if: ${{ always() }}
-      run: |
-        python -m unittest test/test_wrapper.py -v
+      run: pytest test/test_wrapper.py
+
     - name: Test [all]
-      run: |
-        python -m unittest -v |& tee log.txt
-        grep '^FAIL:' log.txt > fails.txt
-        # if all failures is not raised in `test.test_wrapper`:
-        if [ "$(grep 'test.test_wrapper' fails.txt | wc -l)" -ne "$(wc -l < fails.txt)" ]; then
-          exit 1
-        else
-          echo 'All of the above failures are maybe false errors.'
-          echo 'See: https://github.com/RDFLib/sparqlwrapper/issues/192'
-        fi
+      run: pytest

@@ -1,3 +1,25 @@
 [build-system]
 requires = ["wheel", "setuptools"]
 build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+addopts = [
+    "--cov=SPARQLWrapper",
+    "--cov-report=term-missing",
+    "--durations=3", # Show slowest tests durations
+]
+
+[tool.mypy]
+files = ["SPARQLWrapper"]
+exclude = ["test"]
+python_version = "3.7"
+show_error_codes = true
+strict = true
+pretty = true
+warn_unused_configs = true
+warn_unused_ignores = true
+warn_unreachable = true
+
+# [[tool.mypy.overrides]]
+# module = "tests.*"
+# disallow_untyped_defs = false
