@@ -2,8 +2,5 @@ PREFIX dbo: <http://dbpedia.org/ontology/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 SELECT DISTINCT ?pllabel
 WHERE {
-  ?pl
-    a dbo:ProgrammingLanguage;
-    rdfs:label ?pllabel.
-  FILTER(SUBSTR(STR(?pllabel), 1, 5) = "PARLO")
-} ORDER BY ?pllabel LIMIT 1
+  ?pl rdfs:label ?pllabel.
+} LIMIT 3
