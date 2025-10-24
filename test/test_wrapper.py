@@ -205,6 +205,8 @@ class SPARQLWrapper_Test(unittest.TestCase):
         self.wrapper.setReturnFormat(JSON)
         self.assertEqual(JSON, self.wrapper.query().requestedFormat)
 
+        # JSONLD is not supported for SELECT queries, so we need to use a different query type
+        self.wrapper.setQuery("CONSTRUCT WHERE { ?s ?p ?o }")
         self.wrapper.setReturnFormat(JSONLD)
         self.assertEqual(JSONLD, self.wrapper.query().requestedFormat)
 
@@ -220,6 +222,46 @@ class SPARQLWrapper_Test(unittest.TestCase):
         self.assertFalse(self.wrapper.supportsReturnFormat("nonexistent format"))
 
         self.assertTrue(self.wrapper.supportsReturnFormat(JSONLD))
+
+    def testSelectQueryWithRDFFormatsRaisesValueError(self):
+        """Test that SELECT queries with RDF formats raise ValueError"""
+        # Set up a SELECT query
+        self.wrapper.setQuery("SELECT * WHERE { ?s ?p ?o }")
+        
+        # Test that RDF formats raise ValueError for SELECT queries
+        rdf_formats = [RDF, RDFXML, TURTLE, N3, JSONLD]
+        
+        for format_type in rdf_formats:
+            with self.subTest(format=format_type):
+                self.wrapper.setReturnFormat(format_type)
+                # The error should be raised when trying to get the accept header
+                with self.assertRaises(ValueError) as context:
+                    self._get_request(self.wrapper)
+                
+                # Verify the error message contains the format name and mentions SELECT queries
+                error_message = str(context.exception)
+                print(error_message)
+                self.assertIn(format_type.upper(), error_message)
+                self.assertIn("SELECT queries", error_message)
+                self.assertIn("not a valid return format", error_message)
+
+    def testSelectQueryWithValidFormatsWorks(self):
+        """Test that SELECT queries with valid formats work correctly"""
+        # Set up a SELECT query
+        self.wrapper.setQuery("SELECT * WHERE { ?s ?p ?o }")
+        
+        # Test that valid formats for SELECT queries work
+        valid_formats = [XML, JSON, CSV, TSV]
+        
+        for format_type in valid_formats:
+            with self.subTest(format=format_type):
+                self.wrapper.setReturnFormat(format_type)
+                # This should not raise an error
+                try:
+                    request = self._get_request(self.wrapper)
+                    self.assertIsNotNone(request)
+                except ValueError:
+                    self.fail(f"Valid format {format_type} should not raise ValueError for SELECT queries")
 
     def testAddParameter(self):
         self.assertFalse(self.wrapper.addParameter("query", "dummy"))
