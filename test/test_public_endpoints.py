@@ -54,7 +54,6 @@ RDF4J_GEOSCIML = "http://vocabs.ands.org.au/repository/api/sparql/csiro_internat
 ALLEGROGRAPH_AGROVOC = "https://agrovoc.fao.org/sparql"
 ALLEGROGRAPH_4_14_1_MMI = "https://mmisw.org/sparql"  # AllegroServe/1.3.28 http://mmisw.org:10035/doc/release-notes.html
 FUSEKI_LOV = "https://lov.linkeddata.es/dataset/lov/sparql"  # Fuseki - version 1.1.1 (Build date: 2014-10-02T16:36:17+0100)
-FUSEKI2_3_8_0_STW = "http://zbw.eu/beta/sparql/stw/query"  # Fuseki 3.8.0 (Fuseki2)
 STARDOG_LINDAS = "https://lindas.admin.ch/query"  # human UI https://lindas.admin.ch/sparql/
 STORE4_1_1_4_CHISE = "http://rdf.chise.org/sparql"  # 4store SPARQL server v1.1.4
 
@@ -66,7 +65,6 @@ STORE4_1_1_4_CHISE = "http://rdf.chise.org/sparql"  # 4store SPARQL server v1.1.
     ALLEGROGRAPH_AGROVOC,
     ALLEGROGRAPH_4_14_1_MMI,
     FUSEKI_LOV,
-    FUSEKI2_3_8_0_STW,
     STARDOG_LINDAS,
     STORE4_1_1_4_CHISE
 ])
@@ -335,41 +333,6 @@ def endpoint_config(endpoint):
 """
         }
 
-    elif endpoint == FUSEKI2_3_8_0_STW:
-        return {
-            "prefixes": """
-    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-    PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-    PREFIX stw: <http://zbw.eu/stw/>
-""",
-            "select_query": """
-    SELECT ?subject ?predicate ?object WHERE {
-        ?subject ?predicate ?object .
-    } LIMIT 10
-""",
-            "select_query_csv_tsv": """
-    SELECT ?subject ?predicate ?object WHERE {
-        ?subject ?predicate ?object .
-    } LIMIT 10
-""",
-            "ask_query": """
-    ASK { <http://zbw.eu/stw/resource/Example> a ?type }
-""",
-            "construct_query": """
-    CONSTRUCT {
-        _:v skos:prefLabel ?label .
-        _:v rdfs:comment "this is only a mock node to test library"
-    }
-    WHERE {
-        <http://zbw.eu/stw/resource/Example> rdfs:label ?label .
-    }
-""",
-            "describe_query": """
-    DESCRIBE <http://zbw.eu/stw/resource/Example>
-"""
-        }
-
     else:
         return {
             "prefixes": """
@@ -474,13 +437,13 @@ def test_select_query(endpoint, prefixes, select_query, select_query_csv_tsv, re
         pytest.skip("Stardog fails when query params with XML return type")
     if endpoint in [STARDOG_LINDAS] and return_format == JSONLD:
         pytest.skip("Stardog now returns CSV for SELECT+JSONLD, which no longer matches this test's fallback expectation")
-    if endpoint in [ALLEGROGRAPH_AGROVOC, FUSEKI_LOV, FUSEKI2_3_8_0_STW] and return_format == JSONLD:
+    if endpoint in [ALLEGROGRAPH_AGROVOC, FUSEKI_LOV] and return_format == JSONLD:
         pytest.skip(f"{endpoint} does not support unexpected format for SELECT query type")
-    if endpoint in [STORE4_1_1_4_CHISE, FUSEKI2_3_8_0_STW] and method == GET and return_format in ["foo", TSV, XML, JSONLD]:
+    if endpoint in [STORE4_1_1_4_CHISE] and method == GET and return_format in ["foo", TSV, XML, JSONLD]:
         pytest.skip("HTTP Error 500: SPARQL protocol error, or does not support receiving unexpected output values")
     if endpoint in [RDF4J_GEOSCIML] and method == POST:
         pytest.skip(f"{endpoint} currently rejects POST requests with 400 'Missing parameter: query'")
-    if endpoint in [STORE4_1_1_4_CHISE, FUSEKI2_3_8_0_STW] and method == POST:
+    if endpoint in [STORE4_1_1_4_CHISE] and method == POST:
         pytest.skip(f"{endpoint} fails with POST requests")
         # 4store EndPointInternalError: The endpoint returned the HTTP status code 500
         # Fuseki2 EndPointNotFound: EndPointNotFound: It was not possible to connect to the given endpoint: check it is correct.
@@ -535,13 +498,13 @@ def test_ask_query(endpoint, prefixes, ask_query, return_format, method, only_co
         pytest.skip("Stardog fails when query params with unknown return type")
     if endpoint in [STARDOG_LINDAS] and return_format == N3:
         pytest.skip("Stardog now returns JSON for ASK+N3, which no longer matches this test's fallback expectation")
-    if endpoint in [VIRTUOSO_8_03_3334_dbpedia, ALLEGROGRAPH_AGROVOC, FUSEKI_LOV, STORE4_1_1_4_CHISE, FUSEKI2_3_8_0_STW] and return_format in [N3]:
+    if endpoint in [VIRTUOSO_8_03_3334_dbpedia, ALLEGROGRAPH_AGROVOC, FUSEKI_LOV, STORE4_1_1_4_CHISE] and return_format in [N3]:
         pytest.skip("{endpoint} fails when unexpected return type")
     if endpoint in [STORE4_1_1_4_CHISE] and method == GET and return_format in ["foo", TSV, XML]:
         pytest.skip("HTTP Error 500: SPARQL protocol error, or does not support receiving unexpected output values")
     if endpoint in [RDF4J_GEOSCIML] and method == POST:
         pytest.skip(f"{endpoint} currently rejects POST requests with 400 'Missing parameter: query'")
-    if endpoint in [STORE4_1_1_4_CHISE, FUSEKI2_3_8_0_STW] and (method == POST or return_format == N3):
+    if endpoint in [STORE4_1_1_4_CHISE] and (method == POST or return_format == N3):
         pytest.skip(f"{endpoint} fails with POST requests")
         # 4store EndPointInternalError: The endpoint returned the HTTP status code 500
         # Fuseki2 EndPointNotFound: EndPointNotFound: It was not possible to connect to the given endpoint: check it is correct.
@@ -591,7 +554,7 @@ def test_construct_query(endpoint, prefixes, construct_query, return_format, met
         pytest.skip(f"{endpoint} JSON-LD is not supported currently")
     if endpoint in [BLAZEGRAPH_WIKIDATA] and not only_conneg and return_format in [TURTLE, JSONLD, N3]:
         pytest.skip(f"{endpoint} Blazegraph does not support receiving unexpected 'format' values. Use content negotiation instead")
-    if endpoint in [BLAZEGRAPH_WIKIDATA, ALLEGROGRAPH_AGROVOC, STORE4_1_1_4_CHISE, FUSEKI2_3_8_0_STW] and not only_conneg and return_format in [N3, RDFXML]:
+    if endpoint in [BLAZEGRAPH_WIKIDATA, ALLEGROGRAPH_AGROVOC, STORE4_1_1_4_CHISE] and not only_conneg and return_format in [N3, RDFXML]:
         pytest.skip(f"{endpoint} Allegrograph fails when query params with unexpected N3 or RDFXML return type")
     if endpoint in [STORE4_1_1_4_CHISE] and method == GET and return_format in ["foo", TSV, XML, TURTLE]:
         pytest.skip("HTTP Error 500: SPARQL protocol error, or does not support receiving unexpected output values")
@@ -599,7 +562,7 @@ def test_construct_query(endpoint, prefixes, construct_query, return_format, met
         pytest.skip("4store do not stupport JSON-LD")
     if endpoint in [RDF4J_GEOSCIML] and method == POST:
         pytest.skip(f"{endpoint} currently rejects POST requests with 400 'Missing parameter: query'")
-    if endpoint in [STORE4_1_1_4_CHISE, FUSEKI2_3_8_0_STW] and method == POST:
+    if endpoint in [STORE4_1_1_4_CHISE] and method == POST:
         pytest.skip(f"{endpoint} fails with POST requests")
         # 4store EndPointInternalError: The endpoint returned the HTTP status code 500
         # Fuseki2 EndPointNotFound: EndPointNotFound: It was not possible to connect to the given endpoint: check it is correct.
@@ -652,19 +615,17 @@ def test_describe_query(endpoint, prefixes, describe_query, return_format, metho
         pytest.skip("4store only works with RDFXML when using GET with describe apparently")
     if endpoint in [VIRTUOSO_8_03_3334_dbpedia] and return_format in [JSONLD] and method == POST and not only_conneg:
         pytest.skip("{endpoint} fails when asked for JSON-LD + POST + query params")
-    if endpoint in [FUSEKI2_3_8_0_STW, STORE4_1_1_4_CHISE] and return_format in [RDFXML] and method == GET and not only_conneg:
+    if endpoint in [STORE4_1_1_4_CHISE] and return_format in [RDFXML] and method == GET and not only_conneg:
         pytest.skip("{endpoint} fails when asked for RDFXML + GET + query params")
     if endpoint in [ALLEGROGRAPH_AGROVOC] and return_format in [N3, RDFXML] and not only_conneg:
         pytest.skip("{endpoint} fails when asked for RDFXML/N3 + query params")
-    if endpoint in [FUSEKI2_3_8_0_STW] and return_format in [N3]:
-        pytest.skip("{endpoint} Fuseki2 fails when n3 asked")
     if endpoint in [RDF4J_GEOSCIML] and method == POST:
         pytest.skip(f"{endpoint} currently rejects POST requests with 400 'Missing parameter: query'")
-    if endpoint in [STORE4_1_1_4_CHISE, FUSEKI2_3_8_0_STW] and method == POST:
+    if endpoint in [STORE4_1_1_4_CHISE] and method == POST:
         pytest.skip(f"{endpoint} fails with POST requests")
         # 4store EndPointInternalError: The endpoint returned the HTTP status code 500
         # Fuseki2 EndPointNotFound: EndPointNotFound: It was not possible to connect to the given endpoint: check it is correct.
-    if endpoint in [VIRTUOSO_8_03_3334_dbpedia, ALLEGROGRAPH_AGROVOC, FUSEKI_LOV, RDF4J_GEOSCIML, STARDOG_LINDAS, STORE4_1_1_4_CHISE, FUSEKI2_3_8_0_STW] and return_format in [CSV]:
+    if endpoint in [VIRTUOSO_8_03_3334_dbpedia, ALLEGROGRAPH_AGROVOC, FUSEKI_LOV, RDF4J_GEOSCIML, STARDOG_LINDAS, STORE4_1_1_4_CHISE] and return_format in [CSV]:
         # TODO: is it all of them?
         pytest.skip("{endpoint} fails when unexpected return type")
 
@@ -797,7 +758,7 @@ def test_query_with_comma_in_uri(endpoint):
 # Skipped by all endpoints anyway
 # def test_query_with_comma_in_curie_2(endpoint):
 #     """Tests queries with commas in CURIEs with colons"""
-#     if endpoint in [VIRTUOSO_8_03_3334_dbpedia, ALLEGROGRAPH_ON_HOLD_AGROVOC, ALLEGROGRAPH_4_14_1_MMI, BLAZEGRAPH_WIKIDATA, RDF4J_GEOSCIML, STARDOG_LINDAS, STORE4_1_1_4_CHISE, FUSEKI2_3_8_0_STW]:
+#     if endpoint in [VIRTUOSO_8_03_3334_dbpedia, ALLEGROGRAPH_ON_HOLD_AGROVOC, ALLEGROGRAPH_4_14_1_MMI, BLAZEGRAPH_WIKIDATA, RDF4J_GEOSCIML, STARDOG_LINDAS, STORE4_1_1_4_CHISE]:
 #         pytest.skip(f"Skipping test for {endpoint}. Returns a QueryBadFormed Error. See #94")
 #     result = query_sparql(endpoint, """
 #     PREFIX dbpedia: <http://dbpedia.org/resource/>
