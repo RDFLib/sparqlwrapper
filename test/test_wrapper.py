@@ -854,6 +854,11 @@ class QueryResult_Test(unittest.TestCase):
             """
             with warnings.catch_warnings(record=True) as w:
                 warnings.resetwarnings()
+                warnings.filterwarnings(
+                    "ignore",
+                    message=r"Dataset\.default_context is deprecated, use Dataset\.default_graph instead\.",
+                    category=DeprecationWarning,
+                )
                 qr = QueryResult((FakeResponse(mime), requested_type))
 
                 try:
