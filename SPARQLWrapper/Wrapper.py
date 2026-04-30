@@ -760,6 +760,7 @@ class SPARQLWrapper(object):
         <https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.1>`_
         """
         if self.queryType in [SELECT, ASK]:
+            unsupportedReturnTypesForSelectQueries = [RDF, RDFXML, TURTLE, N3, JSONLD]
             if self.returnFormat == XML:
                 acceptHeader = ",".join(_SPARQL_XML)
             elif self.returnFormat == JSON:
@@ -774,6 +775,8 @@ class SPARQLWrapper(object):
             ):  # Allowed for SELECT and ASK (https://www.w3.org/TR/2013/REC-sparql11-protocol-20130321/#query-success)
                 # but only described for SELECT (https://www.w3.org/TR/sparql11-results-csv-tsv/)
                 acceptHeader = ",".join(_TSV)
+            elif (self.queryType == SELECT and  self.returnFormat in unsupportedReturnTypesForSelectQueries):
+                raise ValueError(self.returnFormat.upper() + " is not a valid return format for SELECT queries. Supported formats include: %s" % ", ".join([i for i in _allowedFormats if i not in unsupportedReturnTypesForSelectQueries]))
             else:
                 acceptHeader = ",".join(_ALL)
                 warnings.warn(
